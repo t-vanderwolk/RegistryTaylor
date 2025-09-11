@@ -26,7 +26,7 @@ nav a.active {
 }
 
 /* ===========================
-   HERO SECTION
+   HERO SECTION (optional fallback)
    =========================== */
 .hero {
   background: black;
@@ -47,23 +47,12 @@ nav a.active {
   font-style: italic;
 }
 
-.hero .intro {
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  font-size: 1.1rem;
-  color: #eee;
-}
-
 /* ===========================
-   GENERAL SECTIONS
+   GENERAL RESET
    =========================== */
 section {
   padding: 5rem 2rem;
-  /* text-align: center; */
-}
-
-section:nth-child(even) {
-  background: #f9f9f9;
+  /* Alignment now handled by Tailwind */
 }
 
 h1, h2, h3 {
@@ -71,31 +60,7 @@ h1, h2, h3 {
 }
 
 /* ===========================
-   SERVICES
-   =========================== */
-.services-list {
-  list-style: none;
-  margin-top: 2rem;
-  padding: 0;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.services-list li {
-  margin: 0.5rem 0;
-}
-
-/* ===========================
-   HOW IT WORKS
-   =========================== */
-.how-it-works {
-  max-width: 700px;
-  margin: 2rem auto;
-  text-align: left;
-}
-
-/* ===========================
-   TESTIMONIALS
+   BLOCKQUOTE
    =========================== */
 blockquote {
   font-style: italic;
@@ -104,15 +69,6 @@ blockquote {
   border-left: 4px solid #000;
   padding-left: 1rem;
   color: #444;
-}
-
-/* ===========================
-   FAQ PREVIEW (on homepage)
-   =========================== */
-.faq-preview {
-  max-width: 700px;
-  margin: 2rem auto;
-  text-align: left;
 }
 
 /* ===========================
@@ -185,46 +141,4 @@ footer {
 footer a {
   color: white;
   text-decoration: underline;
-}
-
-/* Services Snapshot Grid */
-.services-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  margin: 3rem auto;
-  max-width: 800px;
-  text-align: left;
-}
-
-.services-list h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Mid-page CTA */
-.mid-cta {
-  background: #111;
-  color: white;
-  padding: 4rem 2rem;
-  text-align: center;
-}
-
-.mid-cta h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-/* About Preview */
-.about-preview {
-  max-width: 700px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* Footer CTA */
-.footer-cta {
-  background: #f9f9f9;
-  padding: 3rem 2rem;
-  text-align: center;
 }

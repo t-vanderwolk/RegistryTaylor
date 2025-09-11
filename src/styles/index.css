@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fade-in animation */
+/* ===========================
+   ANIMATIONS
+   =========================== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -18,12 +20,9 @@
   animation: fadeIn 1s ease forwards;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* ===========================
+   GLOBAL TYPOGRAPHY
+   =========================== */
 body {
   font-family: "Montserrat", sans-serif;
   background: #fff;
@@ -38,27 +37,25 @@ h1, h2, h3 {
   letter-spacing: 0.5px;
 }
 
-/* Links */
+/* ===========================
+   LINKS
+   =========================== */
 a {
   text-decoration: none;
   color: inherit;
   transition: color 0.3s ease;
 }
 
-/* Buttons */
-button, .btn {
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
-  border: 1px solid #111;
-  border-radius: 30px;
-  background: white;
-  color: black;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+/* ===========================
+   BUTTONS
+   =========================== */
+button,
+.btn {
+  @apply px-6 py-3 text-base font-semibold rounded-full border border-black bg-white text-black transition transform;
 }
 
-button:hover, .btn:hover {
+button:hover,
+.btn:hover {
   background: black;
   color: white;
   transform: translateY(-3px);

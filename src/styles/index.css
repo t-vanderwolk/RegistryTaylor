@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease forwards;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #fff;
+  color: #111;
+  line-height: 1.7;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+/* Buttons */
+button, .btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border: 1px solid #111;
+  border-radius: 30px;
+  background: white;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+  background: black;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.btn.dark {
+  background: black;
+  color: white;
+}
+
+.btn.dark:hover {
+  background: #333;
+}

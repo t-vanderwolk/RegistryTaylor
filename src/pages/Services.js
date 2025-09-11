@@ -1,36 +1,42 @@
 import React from "react";
+import Section from "../components/UI/Section";
 
 const Services = () => {
+  const services = [
+    {
+      title: "Registry Curation",
+      desc: "A customized registry that fits your lifestyle, values, and priorities — no cookie-cutter lists here."
+    },
+    {
+      title: "Personal Shopping",
+      desc: "Honest, expert guidance on strollers, car seats, and nursery furniture — with recommendations that actually make sense for your family."
+    },
+    {
+      title: "Nursery Design",
+      desc: "From floor plans to finishing touches, I help you create a space that’s safe, stylish, and functional."
+    },
+    {
+      title: "In-Law Interface",
+      desc: "Let me handle the delicate art of coordinating family gifts and smoothing expectations, so everyone feels included without the stress."
+    },
+    {
+      title: "Baby Shower Planning",
+      desc: "From themes to thank-yous, I’ll help you plan a celebration that feels joyful and effortless."
+    }
+  ];
+
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Our Services</h1>
-      <p>
-        At <strong>The Registry Taylor</strong>, I handle the details so you can
-        focus on enjoying the journey.
-      </p>
-      <ul>
-        <li>
-          <strong>Registry Curation:</strong> A customized registry that fits your
-          lifestyle, values, and priorities — no cookie-cutter lists here.
-        </li>
-        <li>
-          <strong>Personal Shopping:</strong> Honest, expert guidance on
-          strollers, car seats, and nursery furniture — with recommendations
-          that actually make sense for your family.
-        </li>
-        <li>
-          <strong>Nursery Design:</strong> From floor plans to finishing touches,
-          I help you create a space that’s safe, stylish, and functional.
-        </li>
-        <li>
-          <strong>In-Law Interface:</strong> Let me handle the delicate art of
-          coordinating family gifts and smoothing expectations.
-        </li>
-        <li>
-          <strong>Baby Shower Planning:</strong> From themes to thank-yous, I’ll
-          help you plan a celebration that feels joyful and effortless.
-        </li>
-      </ul>
+    <div>
+      <Section title="Services">
+        <div className="grid gap-6 md:grid-cols-2">
+          {services.map((service, index) => (
+            <div key={index} className="cc-card text-left">
+              <h3 className="font-serif mb-2">{service.title}</h3>
+              <p>{service.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";              // ✅ lowercase aq matches filename
-
+import "./styles/App.css";
 const App = () => {
   return (
     <Router>
@@ -23,3 +23,12 @@ const App = () => {
 };
 
 export default App;
+
+// import React from "react";
+// import TestTailwind from "./components/TestTailwind";
+
+// function App() {
+//   return <TestTailwind />;
+// }
+
+// export default App;

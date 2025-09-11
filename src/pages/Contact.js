@@ -1,22 +1,17 @@
 import React from "react";
+import Section from "../components/UI/Section";
 
 const Contact = () => {
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Contact / Booking</h1>
-      <p>
-        Ready to get started? Let’s make baby prep simple, stress-free, and
-        Taylored just for you.
-      </p>
-      <p>
-        Email:{" "}
-        <a href="mailto:TheRegistryTaylor@gmail.com">
-          TheRegistryTaylor@gmail.com
-        </a>
-      </p>
-      <button style={{ padding: "1rem 2rem", fontSize: "1.2rem" }}>
-        Book Your Consultation
-      </button>
+    <div>
+      <Section title="Contact / Booking">
+        <p className="max-w-xl mx-auto">
+          Ready to get started? Let’s make baby prep simple, stress-free, and
+          Taylor-Made just for you.
+        </p>
+        <p className="mt-4">📧 Email: RegistryTaylor@gmail.com</p>
+        <button className="mt-6 btn btn-primary">Book Your Consultation</button>
+      </Section>
     </div>
   );
 };

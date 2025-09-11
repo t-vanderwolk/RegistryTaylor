@@ -1,142 +1,176 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Section from "../components/UI/Section";
 
 const Home = () => {
   return (
     <div>
-      {/* Hero Section */}
-      <section
-        style={{
-          textAlign: "center",
-          padding: "5rem 2rem",
-          background: "#f4f4f4",
-        }}
-      >
-        <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>
-          The Registry Taylor
+
+      {/* =======================
+          HERO SECTION (Centered)
+      ======================= */}
+      <Section center>
+        <h1 className="font-serif text-5xl md:text-6xl mb-4">
+          ✨ The Registry Taylor ✨
         </h1>
-       <p style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>
-  From registry to nursery — every detail, Taylor-maid for you.
-</p>
-        <p style={{ maxWidth: "700px", margin: "0 auto 2rem" }}>
-          Preparing for a baby should feel exciting, not overwhelming. That’s
-          where I come in. At <strong>The Registry Taylor</strong>, I help
-          parents navigate every step of baby prep with ease — from personalized
-          registry curation and gear shopping to nursery design, family
-          coordination, and even baby shower planning.
+        <p className="text-lg md:text-xl text-neutral-600">
+          From registry to nursery — every detail Taylor-Made for you.
         </p>
         <Link to="/contact">
-          <button
-            style={{
-              padding: "1rem 2rem",
-              fontSize: "1.2rem",
-              background: "#ff6699",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
+          <button className="mt-6 px-6 py-3 rounded-full bg-black text-white hover:bg-neutral-800 transition">
             Book Your Consultation
           </button>
         </Link>
-      </section>
+      </Section>
 
-      {/* Services Preview */}
-      <section style={{ padding: "4rem 2rem", textAlign: "center" }}>
-        <h2>Services at a Glance</h2>
-        <p>
-          I handle the details so you can focus on enjoying the journey. Here’s
-          a peek at what I offer:
+      {/* =======================
+          INTRO / VALUE (Left)
+      ======================= */}
+      <Section>
+        <p className="cc-lead max-w-2xl">
+          Preparing for a baby should feel exciting, not overwhelming. At{" "}
+          <span className="font-serif">The Registry Taylor</span>, I guide you
+          through every step of baby prep — from registries and strollers to
+          nursery design, showers, and family dynamics.
         </p>
-        <ul style={{ listStyle: "none", padding: 0, marginTop: "2rem" }}>
-          <li>✔️ Registry Curation</li>
-          <li>✔️ Personal Shopping</li>
-          <li>✔️ Nursery Design</li>
-          <li>✔️ In-Law Interface</li>
-          <li>✔️ Baby Shower Planning</li>
-        </ul>
-        <Link to="/services">
-          <button
-            style={{
-              marginTop: "2rem",
-              padding: "1rem 2rem",
-              fontSize: "1.1rem",
-              background: "#333",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            See All Services
-          </button>
-        </Link>
-      </section>
+        <p className="mt-6 max-w-2xl">
+          With my <em>Taylor-Made</em> approach, you’ll feel supported,
+          confident, and ready to welcome your little one with ease.
+        </p>
+      </Section>
 
-      {/* How It Works */}
-      <section style={{ padding: "4rem 2rem", background: "#f9f9f9" }}>
-        <h2 style={{ textAlign: "center" }}>How It Works</h2>
-        <ol style={{ maxWidth: "600px", margin: "2rem auto" }}>
-          <li><strong>Book Your Consultation</strong> — Start with a quick call or virtual meeting.</li>
-          <li><strong>Share Your Vision</strong> — Tell me your must-haves, worries, and wish list.</li>
-          <li><strong>Get Your Plan</strong> — Receive a curated registry, personalized shopping list, or nursery design plan.</li>
-          <li><strong>Enjoy the Journey</strong> — Focus on welcoming your baby with confidence.</li>
-        </ol>
-        <div style={{ textAlign: "center" }}>
-          <Link to="/contact">
-            <button
-              style={{
-                padding: "1rem 2rem",
-                fontSize: "1.2rem",
-                background: "#ff6699",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Let’s Get Started
-            </button>
+      {/* =======================
+          SERVICES SNAPSHOT (Left)
+      ======================= */}
+      <Section title="Services Snapshot — Taylor-Made for You">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="font-serif text-xl mb-2">Taylor-Made Registry</h3>
+            <p>Custom registries designed around your lifestyle and values.</p>
+          </div>
+          <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="font-serif text-xl mb-2">Taylor-Made Gear</h3>
+            <p>Honest advice on strollers, car seats, and baby gear.</p>
+          </div>
+          <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="font-serif text-xl mb-2">Taylor-Made Nursery</h3>
+            <p>
+              From layout to décor — spaces that are safe, stylish, and
+              functional.
+            </p>
+          </div>
+          <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="font-serif text-xl mb-2">Taylor-Made Showers</h3>
+            <p>Planning made simple, from themes to thank-yous.</p>
+          </div>
+          <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
+            <h3 className="font-serif text-xl mb-2">Taylor-Made Support</h3>
+            <p>
+              Yes, even in-law diplomacy — I’ll help keep everyone on the same
+              page.
+            </p>
+          </div>
+        </div>
+        <div className="mt-8">
+          <Link to="/services" className="btn btn-outline">
+            Explore All Services →
           </Link>
         </div>
-      </section>
+      </Section>
 
-      {/* Testimonials */}
-      <section style={{ padding: "4rem 2rem", textAlign: "center" }}>
-        <h2>What Parents Are Saying</h2>
-        <blockquote>
-          “Taylor made our registry so simple — no stress, no second-guessing. I
-          felt completely supported!” — Jenna M.
-        </blockquote>
-        <blockquote>
-          “She helped us pick a stroller that actually works for our lifestyle.
-          Best decision ever.” — Rachel &amp; Matt K.
-        </blockquote>
-        <blockquote>
-          “Our nursery turned out better than I ever dreamed — stylish,
-          functional, and ready for baby.” — Amanda S.
-        </blockquote>
-      </section>
+      {/* =======================
+          HOW IT WORKS (Left)
+      ======================= */}
+      <Section title="How It Works">
+        <ol className="mt-6 space-y-6 max-w-2xl text-left">
+          <li>
+            <strong>Book Your Consultation</strong> — Start with a quick call or
+            virtual meeting.
+          </li>
+          <li>
+            <strong>Share Your Vision</strong> — Tell me your must-haves,
+            worries, and style.
+          </li>
+          <li>
+            <strong>Get Your Plan</strong> — Receive a personalized registry,
+            gear guide, or nursery design plan.
+          </li>
+          <li>
+            <strong>Enjoy the Journey</strong> — With the details handled, you
+            can focus on the moments that matter.
+          </li>
+        </ol>
+      </Section>
 
-      {/* Blog Section */}
-      <section style={{ padding: "4rem 2rem", background: "#f4f4f4" }}>
-        <h2 style={{ textAlign: "center" }}>Tips, Taylored</h2>
-        <p style={{ textAlign: "center" }}>
-          Quick guides and expert advice to make baby prep easier, from registry
-          must-haves to stroller shopping tips.
-        </p>
-      </section>
-
-      {/* FAQ */}
-      <section style={{ padding: "4rem 2rem" }}>
-        <h2 style={{ textAlign: "center" }}>FAQ</h2>
-        <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
-          <p><strong>Do you work virtually?</strong> Yes! I work with parents nationwide through virtual consultations.</p>
-          <p><strong>Can you help me even if I’ve already started my registry?</strong> Absolutely — I can refine, reorganize, or fill in the gaps.</p>
-          <p><strong>Do you only work with luxury products?</strong> Not at all. I help you find what fits your lifestyle and budget.</p>
+      {/* =======================
+          TESTIMONIALS (Left)
+      ======================= */}
+      <Section title="Testimonials">
+        <div className="space-y-6 max-w-2xl">
+          <blockquote className="italic">
+            “Taylor made our registry feel effortless — no stress, no
+            second-guessing.” — Jenna M.
+          </blockquote>
+          <blockquote className="italic">
+            “She helped us choose a stroller that truly works for our
+            lifestyle. Game-changer!” — Rachel &amp; Matt K.
+          </blockquote>
+          <blockquote className="italic">
+            “Our nursery turned out better than I ever imagined — polished,
+            functional, and ready for baby.” — Amanda S.
+          </blockquote>
         </div>
-      </section>
+      </Section>
+
+      {/* =======================
+          MID-PAGE CTA (Centered)
+      ======================= */}
+      <Section center className="bg-neutral-50">
+        <h2 className="font-serif text-2xl">✨ Ready to start planning? ✨</h2>
+        <p className="mt-4">
+          Book your consultation today — baby prep made simple, personal, and
+          stress-free.
+        </p>
+        <Link to="/contact">
+          <button className="mt-6 btn btn-primary">Let’s Get Started →</button>
+        </Link>
+      </Section>
+
+      {/* =======================
+          ABOUT PREVIEW (Left)
+      ======================= */}
+      <Section title="About Me">
+        <p className="max-w-2xl">
+          Hi, I’m Taylor! Think of me as your go-to guide (and maybe your new
+          best friend) for all things baby prep. I’ve spent years helping
+          families navigate the overwhelming world of strollers, car seats,
+          nurseries, and registries.
+        </p>
+        <p className="mt-6 max-w-2xl">
+          Now, I bring that experience to you in a warm, personalized way that
+          takes away the stress and leaves you excited, prepared, and confident.
+        </p>
+        <div className="mt-6">
+          <Link to="/about" className="btn btn-outline">
+            Learn More About Me →
+          </Link>
+        </div>
+      </Section>
+
+      {/* =======================
+          FOOTER CONTACT (Centered)
+      ======================= */}
+      <Section center className="bg-neutral-100">
+        <h2 className="font-serif text-2xl">
+          Let’s make baby prep easy — and even fun.
+        </h2>
+        <p className="mt-4">📧 Email: RegistryTaylor@gmail.com</p>
+        <Link to="/contact">
+          <button className="mt-6 btn btn-primary">
+            Book Your Consultation
+          </button>
+        </Link>
+      </Section>
     </div>
   );
 };

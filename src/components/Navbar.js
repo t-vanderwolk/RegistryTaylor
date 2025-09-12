@@ -1,7 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const { authorized, memberName, setAuthorized, setMemberName, setDueDate, setMonthsPregnant, setOriginalDueDate } = useAuth();
+  const logout = () => {
+    setAuthorized(false);
+    setMemberName("");
+    setDueDate("");
+    setMonthsPregnant(null);
+    setOriginalDueDate("");
+    navigate("/");
+  };
   return (
     <nav
       style={{
@@ -27,6 +38,26 @@ const NavBar = () => {
       <Link to="/faq" style={{ color: "white", textDecoration: "none" }}>
         FAQ
       </Link>
+      {authorized && (
+        <>
+          <span style={{ color: "white" }}>
+            Welcome, <span className="font-cursive">{memberName}</span>
+          </span>
+          <button
+            onClick={logout}
+            style={{
+              color: "white",
+              background: "transparent",
+              border: "1px solid white",
+              padding: "0.25rem 0.75rem",
+              borderRadius: "9999px",
+              cursor: "pointer",
+            }}
+          >
+            Log out
+          </button>
+        </>
+      )}
     </nav>
   );
 };

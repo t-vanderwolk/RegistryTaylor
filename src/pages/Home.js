@@ -1,48 +1,235 @@
 // src/pages/Home.js
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Section from "../components/UI/Section";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
-  const sections = [
-    {
-      center: true,
-      content: (
+  const navigate = useNavigate();
+  const { setAuthorized, setMemberName, setDueDate, setMonthsPregnant, originalDueDate, setOriginalDueDate, gender, setGender, username, passwordHash } = useAuth();
+  const CODE_MAP = {
+    // CODE: { name, monthsPregnant, gender }
+    Tay123: { name: "Madelyn & Nicholas", monthsPregnant: 8, gender: 'boy' },
+    Tay345: { name: "Jordan & Anthony", monthsPregnant: 3, gender: 'girl' },
+  };
+  const [code, setCode] = useState("");
+  const [codeStatus, setCodeStatus] = useState("idle");
+  const [showLogin, setShowLogin] = useState(false);
+  const [loginUser, setLoginUser] = useState("");
+  const [loginPass, setLoginPass] = useState("");
+  const [loginErr, setLoginErr] = useState("");
+
+  const [parent1, setParent1] = useState("");
+  const [parent2, setParent2] = useState("");
+  const [email, setEmail] = useState("");
+  const [due, setDue] = useState("");
+  const [message, setMessage] = useState("");
+  const [selGender, setSelGender] = useState(gender || "");
+
+  const hash = (s) => {
+    try { return btoa(unescape(encodeURIComponent(s))); } catch { return ""; }
+  };
+
+  const submitCode = (e) => {
+    e.preventDefault();
+    const c = code.trim();
+    const match = CODE_MAP[c];
+    const valid = Boolean(match);
+    setCodeStatus(valid ? "valid" : "invalid");
+    if (valid) {
+      setAuthorized(true);
+      setMemberName(match.name);
+      setMonthsPregnant(match.monthsPregnant);
+      if (match.gender) setGender(match.gender);
+      // Prefer original due date captured during access request; otherwise compute
+      const addMonths = (date, m) => {
+        const d = new Date(date.getTime());
+        const day = d.getDate();
+        d.setMonth(d.getMonth() + m);
+        if (d.getDate() < day) d.setDate(0);
+        return d;
+      };
+      let dueISO = originalDueDate;
+      if (!dueISO) {
+        const monthsToDue = Math.max(0, 9 - match.monthsPregnant);
+        const due = addMonths(new Date(), monthsToDue);
+        dueISO = due.toISOString();
+        setOriginalDueDate(dueISO);
+      }
+      setDueDate(dueISO);
+      setTimeout(() => navigate("/welcome"), 600);
+    }
+  };
+
+  const requestAccess = (e) => {
+    e.preventDefault();
+    const subject = encodeURIComponent("Access Request: Taylor-Made Baby Planning");
+    const combinedName = parent2 ? `${parent1} & ${parent2}` : parent1;
+    const body = encodeURIComponent(
+      `Parent 1: ${parent1}\nParent 2: ${parent2}\nCombined: ${combinedName}\nEmail: ${email}\nDue date: ${due}\nGender: ${selGender || 'unspecified'}\n\nMessage:\n${message}`
+    );
+    // Persist originally entered due date locally for later correlation
+    if (due) {
+      try {
+        const iso = new Date(due).toISOString();
+        setOriginalDueDate(iso);
+      } catch {}
+    }
+    if (selGender) setGender(selGender);
+    window.location.href = `mailto:RegistryTaylor@gmail.com?subject=${subject}&body=${body}`;
+  };
+
+  const submitLogin = (e) => {
+    e.preventDefault();
+    setLoginErr("");
+    if (!username || !passwordHash) {
+      setLoginErr("No account found. Use your invite code first, then create a login in Profile.");
+      return;
+    }
+    if (loginUser !== username || hash(loginPass) !== passwordHash) {
+      setLoginErr("Invalid username or password.");
+      return;
+    }
+    setAuthorized(true);
+    navigate("/welcome");
+  };
+
+  return (
+    <div className="bg-accent min-h-screen">
+      <Section center>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center px-6 py-20"
+          className="text-center px-6 py-16"
         >
-          <h1 className="font-serif text-5xl md:text-6xl mb-4 text-black">
-             Taylor-Made <span className="font-cursive text-primary">Baby Planning</span> 
+          <h1 className="font-serif text-5xl md:text-6xl mb-6 text-black">
+            Taylor-Made <span className="font-cursive text-primary">Baby Planning</span>
           </h1>
           <p className="text-lg md:text-xl text-black/70 max-w-2xl mx-auto">
-            From registry to nursery — every detail Taylor‑Made for you.
+            Invite-only services for expecting families. Enter your code or request access below.
           </p>
-          <Link to="/contact">
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="mt-8 px-6 py-3 rounded-lg bg-primary text-white font-medium transition-shadow shadow-lg hover:shadow-xl"
-            >
-              Book Your Consultation
-            </motion.button>
-          </Link>
         </motion.div>
-      ),
-    },
-    {
-      title: "Introduction",
-      content: (
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="px-6 py-16 max-w-3xl mx-auto text-black/80"
-        >
+      </Section>
+
+      <Section title="Enter Authorization Code">
+        <form onSubmit={submitCode} className="max-w-md mx-auto space-y-4">
+          <label className="block text-left text-black font-medium">Authorization Code</label>
+          <input
+            type="text"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Enter your invite code"
+            className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+          />
+          <button type="submit" className="w-full btn btn-primary">Continue</button>
+          <button type="button" onClick={() => setShowLogin((v) => !v)} className="w-full underline text-black/70">
+            or log in
+          </button>
+          {codeStatus === "invalid" && (
+            <p className="text-sm text-red-600">Invalid code. Please try again or request access.</p>
+          )}
+          {codeStatus === "valid" && (
+            <p className="text-sm text-green-700">Code accepted. Redirecting…</p>
+          )}
+        </form>
+        {showLogin && (
+          <form onSubmit={submitLogin} className="max-w-md mx-auto mt-6 space-y-3 text-left">
+            <label className="block text-black font-medium">Username</label>
+            <input
+              type="text"
+              value={loginUser}
+              onChange={(e) => setLoginUser(e.target.value)}
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 bg-white"
+            />
+            <label className="block text-black font-medium">Password</label>
+            <input
+              type="password"
+              value={loginPass}
+              onChange={(e) => setLoginPass(e.target.value)}
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 bg-white"
+            />
+            {loginErr && <p className="text-sm text-red-600">{loginErr}</p>}
+            <button type="submit" className="w-full btn btn-primary">Log in</button>
+          </form>
+        )}
+      </Section>
+
+      <Section title="Request Access" center>
+        <form onSubmit={requestAccess} className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+          <div className="col-span-1">
+            <label className="block text-black font-medium">Parent 1 Name</label>
+            <input
+              type="text"
+              value={parent1}
+              onChange={(e) => setParent1(e.target.value)}
+              placeholder="First parent name"
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+              required
+            />
+          </div>
+          <div className="col-span-1">
+            <label className="block text-black font-medium">Parent 2 Name (optional)</label>
+            <input
+              type="text"
+              value={parent2}
+              onChange={(e) => setParent2(e.target.value)}
+              placeholder="Second parent name"
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+            />
+          </div>
+          <div className="col-span-1">
+            <label className="block text-black font-medium">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+              required
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-black font-medium">Due Date (optional)</label>
+            <input
+              type="date"
+              value={due}
+              onChange={(e) => setDue(e.target.value)}
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-black font-medium">Baby's Gender (optional)</label>
+            <select
+              value={selGender}
+              onChange={(e) => setSelGender(e.target.value)}
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 bg-white"
+            >
+              <option value="">Prefer not to say</option>
+              <option value="girl">Girl</option>
+              <option value="boy">Boy</option>
+            </select>
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-black font-medium">Message</label>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows="5"
+              placeholder="Tell me a bit about your family and needs…"
+              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <button type="submit" className="w-full md:w-auto btn btn-primary">Request Access</button>
+          </div>
+        </form>
+      </Section>
+
+      {/* Public information sections */}
+      <Section title="Introduction">
+        <div className="px-6 py-4 max-w-3xl mx-auto text-black/80">
           <p className="cc-lead font-serif text-xl">
             Preparing for a baby should feel exciting, not overwhelming. At
             <span className="font-serif font-bold"> Taylor-Made Baby Planning</span>, I guide you
@@ -50,166 +237,43 @@ const Home = () => {
             nursery design, showers, and family dynamics.
           </p>
           <p className="mt-6 text-lg leading-relaxed">
-            With my <em>Taylor‑Made</em> approach, you’ll feel supported,
-            confident, and ready to welcome your little one with ease.
+            With my Taylor‑Made approach, you’ll feel supported, confident, and ready to welcome your little one with ease.
           </p>
-        </motion.div>
-      ),
-    },
-    {
-      title: "Services Snapshot — Taylor‑Made for You",
-      content: (
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="px-6 py-16"
-        >
+        </div>
+      </Section>
+
+      <Section title="Services Snapshot — Taylor‑Made for You">
+        <div className="px-6 py-4">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Taylor‑Made Registry",
-                desc: "Custom registries designed around your lifestyle and values.",
-              },
-              {
-                title: "Taylor‑Made Gear",
-                desc: "Honest advice on strollers, car seats, and baby gear.",
-              },
-              {
-                title: "Taylor‑Made Nursery",
-                desc: "From layout to décor — spaces that are safe, stylish, and functional.",
-              },
-              {
-                title: "Taylor‑Made Showers",
-                desc: "Planning made simple, from themes to thank‑yous.",
-              },
-              {
-                title: "Taylor‑Made Support",
-                desc: "Yes, even in‑law diplomacy — I’ll help keep everyone on the same page.",
-              },
+            {[ 
+              { title: 'Taylor‑Made Registry', desc: 'Custom registries designed around your lifestyle and values.' },
+              { title: 'Taylor‑Made Gear', desc: 'Honest advice on strollers, car seats, and baby gear.' },
+              { title: 'Taylor‑Made Nursery', desc: 'From layout to décor — safe, stylish, and functional.' },
+              { title: 'Taylor‑Made Showers', desc: 'Planning made simple, from themes to thank‑yous.' },
+              { title: 'Taylor‑Made Support', desc: 'I’ll help keep everyone on the same page.' },
             ].map((service, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02 }}
-                className="p-6 border border-black/20 rounded-xl shadow bg-white transition-shadow duration-300"
-              >
-                <h3 className="font-serif text-2xl mb-2 text-black">
-                  {service.title}
-                </h3>
+              <div key={i} className="p-6 border border-black/20 rounded-xl shadow bg-white">
+                <h3 className="font-serif text-2xl mb-2 text-black">{service.title}</h3>
                 <p className="text-black/70">{service.desc}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-          <div className="mt-8 text-center">
-            <Link to="/services">
-              <motion.a
-                whileHover={{ scale: 1.03 }}
-                className="btn px-6 py-3 bg-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-shadow"
-              >
-                Explore All Services →
-              </motion.a>
-            </Link>
-          </div>
-        </motion.div>
-      ),
-    },
-    {
-      title: "How It Works",
-      content: (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="px-6 py-16 max-w-3xl mx-auto text-black/80"
-        >
-          <ol className="space-y-6 list-decimal list-inside text-lg">
-            <li>
-              <strong>Book Your Consultation</strong> — Start with a quick call or
-              virtual meeting.
-            </li>
-            <li>
-              <strong>Share Your Vision</strong> — Tell me your must‑haves,
-              worries, and style.
-            </li>
-            <li>
-              <strong>Get Your Plan</strong> — Receive a personalized registry,
-              gear guide, or nursery design plan.
-            </li>
-            <li>
-              <strong>Enjoy the Journey</strong> — With the details handled, you
-              can focus on the moments that matter.
-            </li>
-          </ol>
-        </motion.div>
-      ),
-    },
-    {
-      title: "Testimonials",
-      center: true,
-      content: (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="px-6 py-16 max-w-2xl mx-auto space-y-6 text-black/80"
-        >
+        </div>
+      </Section>
+
+      <Section title="Testimonials" center>
+        <div className="px-6 py-4 max-w-2xl mx-auto space-y-6 text-black/80">
           <blockquote className="italic border-l-4 border-primary pl-4">
-            “Taylor made our registry feel effortless — no stress, no
-            second‑guessing.” — Jenna M.
+            “Taylor made our registry feel effortless — no stress, no second‑guessing.” — Jenna M.
           </blockquote>
           <blockquote className="italic border-l-4 border-primary pl-4">
-            “She helped us choose a stroller that truly works for our lifestyle.
-            Game‑changer!” — Rachel &amp; Matt K.
+            “She helped us choose a stroller that truly works for our lifestyle. Game‑changer!” — Rachel & Matt K.
           </blockquote>
-          <blockquote className="italic border-l-4 border-primary pl-4">
-            “Our nursery turned out better than I ever imagined — polished,
-            functional, and ready for baby.” — Amanda S.
-          </blockquote>
-        </motion.div>
-      ),
-    },
-    {
-      center: true,
-      content: (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center px-6 py-20"
-        >
-          <h2 className="font-serif text-2xl md:text-3xl text-black">
-            ✨ Ready to start planning? ✨
-          </h2>
-          <p className="mt-4 text-lg text-black/70">
-            Book your consultation today — baby prep made simple, personal, and
-            stress‑free.
-          </p>
-          <Link to="/contact">
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="mt-8 px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg hover:shadow-xl transition-shadow"
-            >
-              Let’s Get Started →
-            </motion.button>
-          </Link>
-        </motion.div>
-      ),
-    },
-    {
-      title: "About Me",
-      content: (
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="px-6 py-16 max-w-3xl mx-auto text-black/80"
-        >
+        </div>
+      </Section>
+
+      <Section title="About Me">
+        <div className="px-6 py-4 max-w-3xl mx-auto text-black/80">
           <p className="max-w-2xl">
             Hi, I’m Taylor! Think of me as your go‑to guide (and maybe your new
             best friend) for all things baby prep. I’ve spent years helping
@@ -221,52 +285,8 @@ const Home = () => {
             that takes away the stress and leaves you excited, prepared, and
             confident.
           </p>
-          <div className="mt-8 text-center">
-            <Link to="/about">
-              <motion.a
-                whileHover={{ scale: 1.03 }}
-                className="btn px-6 py-3 bg-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-shadow"
-              >
-                Learn More About Me →
-              </motion.a>
-            </Link>
-          </div>
-        </motion.div>
-      ),
-    },
-    {
-      center: true,
-      content: (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center px-6 py-20 text-black/80"
-        >
-          <h2 className="font-serif text-2xl md:text-3xl">Let’s make baby prep easy — and even fun.</h2>
-          <p className="mt-4">📧 Email: RegistryTaylor@gmail.com</p>
-          <Link to="/contact">
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="mt-6 px-6 py-3 rounded-lg bg-primary text-white font-medium shadow-lg hover:shadow-xl transition-shadow"
-            >
-              Book Your Consultation
-            </motion.button>
-          </Link>
-        </motion.div>
-      ),
-    },
-  ];
-
-  return (
-    <div className="bg-accent min-h-screen">
-      {sections.map((section, i) => (
-        <Section key={i} index={i} center={section.center} title={section.title}>
-          {section.content}
-        </Section>
-      ))}
+        </div>
+      </Section>
     </div>
   );
 };

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Section from "../components/UI/Section";
+import SectionDivider from "../components/UI/SectionDivider";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 
@@ -58,7 +59,7 @@ const Home = () => {
         setOriginalDueDate(dueISO);
       }
       setDueDate(dueISO);
-      setTimeout(() => navigate("/welcome"), 600);
+      setTimeout(() => navigate("/create-profile"), 400);
     }
   };
 
@@ -97,7 +98,20 @@ const Home = () => {
 
   return (
     <div className="bg-accent min-h-screen">
-      <Section center>
+      {/* Top-right login button */}
+      <button
+        onClick={() => {
+          const el = document.getElementById('auth');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Defer to let scroll start
+          setTimeout(() => setShowLogin(true), 50);
+        }}
+        className="fixed top-4 right-4 z-20 px-4 py-2 rounded-full border border-black bg-white text-black shadow hover:shadow-md"
+      >
+        Log in
+      </button>
+      <SectionDivider className="pt-4" />
+      <Section center tightTop>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -105,14 +119,16 @@ const Home = () => {
           className="text-center px-6 py-16"
         >
           <h1 className="font-serif text-5xl md:text-6xl mb-6 text-black">
-            Taylor-Made <span className="font-cursive text-primary">Baby Planning</span>
+            Taylor-Made <span className="font-cursive text-gold">Baby Planning</span>
           </h1>
           <p className="text-lg md:text-xl text-black/70 max-w-2xl mx-auto">
             Invite-only services for expecting families. Enter your code or request access below.
           </p>
         </motion.div>
       </Section>
+      <SectionDivider />
 
+      <div id="auth">
       <Section title="Enter Authorization Code">
         <form onSubmit={submitCode} className="max-w-md mx-auto space-y-4">
           <label className="block text-left text-black font-medium">Authorization Code</label>
@@ -121,7 +137,7 @@ const Home = () => {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder="Enter your invite code"
-            className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+            className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
           />
           <button type="submit" className="w-full btn btn-primary">Continue</button>
           <button type="button" onClick={() => setShowLogin((v) => !v)} className="w-full underline text-black/70">
@@ -155,6 +171,7 @@ const Home = () => {
           </form>
         )}
       </Section>
+      <SectionDivider />
 
       <Section title="Request Access" center>
         <form onSubmit={requestAccess} className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
@@ -165,7 +182,7 @@ const Home = () => {
               value={parent1}
               onChange={(e) => setParent1(e.target.value)}
               placeholder="First parent name"
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
               required
             />
           </div>
@@ -176,7 +193,7 @@ const Home = () => {
               value={parent2}
               onChange={(e) => setParent2(e.target.value)}
               placeholder="Second parent name"
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
             />
           </div>
           <div className="col-span-1">
@@ -186,7 +203,7 @@ const Home = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
               required
             />
           </div>
@@ -204,7 +221,7 @@ const Home = () => {
             <select
               value={selGender}
               onChange={(e) => setSelGender(e.target.value)}
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 bg-white"
+              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 bg-white"
             >
               <option value="">Prefer not to say</option>
               <option value="girl">Girl</option>
@@ -218,7 +235,7 @@ const Home = () => {
               onChange={(e) => setMessage(e.target.value)}
               rows="5"
               placeholder="Tell me a bit about your family and needs…"
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
+              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
             />
           </div>
           <div className="md:col-span-2">
@@ -226,21 +243,33 @@ const Home = () => {
           </div>
         </form>
       </Section>
+      </div>
+      <SectionDivider />
 
       {/* Public information sections */}
       <Section title="Introduction">
-        <div className="px-6 py-4 max-w-3xl mx-auto text-black/80">
-          <p className="cc-lead font-serif text-xl">
-            Preparing for a baby should feel exciting, not overwhelming. At
-            <span className="font-serif font-bold"> Taylor-Made Baby Planning</span>, I guide you
-            through every step of baby prep — from registries and strollers to
-            nursery design, showers, and family dynamics.
-          </p>
-          <p className="mt-6 text-lg leading-relaxed">
-            With my Taylor‑Made approach, you’ll feel supported, confident, and ready to welcome your little one with ease.
-          </p>
+        <div className="px-6 py-4 max-w-3xl mx-auto text-black/80 space-y-6">
+          <div>
+            <h3 className="font-serif text-2xl text-black mb-2">The Problem</h3>
+            <p className="leading-relaxed text-lg">
+              Preparing for a baby is supposed to feel exciting — but too often it’s overwhelming. Between endless stroller options, registry decisions, nursery planning, family expectations, and shower details, parents are left feeling stressed instead of supported.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-serif text-2xl text-black mb-2">The Solution</h3>
+            <p className="leading-relaxed text-lg">
+              Taylor-Made Baby Planning takes the pressure off your shoulders. From personalized registries and gear guidance to nursery design, shower planning, and even smoothing family dynamics, I handle the details so you don’t have to.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-serif text-2xl text-black mb-2">The Benefit</h3>
+            <p className="leading-relaxed text-lg">
+              With my Taylor-Made approach, you’ll feel calm, confident, and fully prepared to welcome your little one. Baby prep becomes simple, stress-free, and even fun — just the way it should be.
+            </p>
+          </div>
         </div>
       </Section>
+      <SectionDivider />
 
       <Section title="Services Snapshot — Taylor‑Made for You">
         <div className="px-6 py-4">
@@ -260,6 +289,7 @@ const Home = () => {
           </div>
         </div>
       </Section>
+      <SectionDivider />
 
       <Section title="Testimonials" center>
         <div className="px-6 py-4 max-w-2xl mx-auto space-y-6 text-black/80">
@@ -271,6 +301,7 @@ const Home = () => {
           </blockquote>
         </div>
       </Section>
+      <SectionDivider />
 
       <Section title="About Me">
         <div className="px-6 py-4 max-w-3xl mx-auto text-black/80">

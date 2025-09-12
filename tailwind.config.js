@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         primary: "#000000", // black
         accent: "#F7EAF2",  // light powder pink
+        gold: "#D4AF37",    // warm gold
       },
       fontFamily: {
         serif: ["Playfair Display", "serif"],

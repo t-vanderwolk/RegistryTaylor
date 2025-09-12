@@ -10,14 +10,14 @@ import React from "react";
  * - center: boolean -> center-align text (Hero, CTA, etc.)
  * - index: number -> auto alternates layout
  */
-const Section = ({ title, children, className = "", center = false, index = 0 }) => {
+const Section = ({ title, children, className = "", center = false, index = 0, tightTop = false }) => {
   const isReversed = index % 2 === 1 && !center; // alternate only if not a centered section
 
   return (
-    <section className="cc-container my-20 md:my-28">
+    <section className={`cc-container ${tightTop ? "my-10 md:my-16" : "my-20 md:my-28"}`}>
       <div
         className={`
-          relative rounded-2xl border-2 border-black/10
+          relative rounded-2xl border-2 border-gold/30
           bg-white shadow-md hover:shadow-2xl hover:-translate-y-1 
           transform transition duration-700 ease-in-out 
           ${className}
@@ -38,6 +38,9 @@ const Section = ({ title, children, className = "", center = false, index = 0 })
               >
                 {title}
               </h2>
+            )}
+            {title && (
+              <div className={`${center ? 'mx-auto' : ''} h-0.5 bg-gold w-16 mb-6`} />
             )}
             <div className="text-black/80 leading-relaxed">{children}</div>
           </div>

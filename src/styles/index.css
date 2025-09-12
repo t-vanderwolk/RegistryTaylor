@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: theme('fontFamily.sans');
+  }
+}
+
 /* ===========================
    ANIMATIONS
    =========================== */
@@ -68,4 +74,28 @@ button:hover,
 
 .btn.dark:hover {
   background: #333;
+}
+
+/* ===========================
+   CUSTOM COMPONENTS (Tailwind @apply)
+   =========================== */
+@layer components {
+  .cc-container {
+    @apply container mx-auto;
+  }
+
+  .cc-card {
+    @apply p-6 border border-black/20 rounded-xl shadow bg-white transition-shadow duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white;
+  }
+}
+
+/* Page background helpers */
+@layer utilities {
+  .bg-accent {
+    background-color: theme('colors.accent');
+  }
 }

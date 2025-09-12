@@ -17,7 +17,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #aaa;
+  color: #F7EAF2; /* powder pink */
 }
 
 nav a.active {
@@ -68,7 +68,7 @@ blockquote {
   max-width: 700px;
   border-left: 4px solid #000;
   padding-left: 1rem;
-  color: #444;
+  color: rgba(0,0,0,0.8);
 }
 
 /* ===========================

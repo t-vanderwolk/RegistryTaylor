@@ -26,14 +26,14 @@ const Faq = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border-b border-neutral-300 py-4 cursor-pointer"
+              className="border-b border-black/20 py-4 cursor-pointer"
               onClick={() =>
                 setOpenIndex(openIndex === index ? null : index)
               }
             >
               <h3 className="font-serif text-lg">{faq.q}</h3>
               <p
-                className={`mt-2 text-neutral-700 transition-all duration-300 ${
+                className={`mt-2 text-black/80 transition-all duration-300 ${
                   openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
                 }`}
               >

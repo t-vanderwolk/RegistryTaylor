@@ -28,11 +28,11 @@ const Services = () => {
   return (
     <div>
       <Section title="Services">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2">
           {services.map((service, index) => (
             <div key={index} className="cc-card text-left">
-              <h3 className="font-serif mb-2">{service.title}</h3>
-              <p>{service.desc}</p>
+              <h3 className="font-serif mb-2 text-black">{service.title}</h3>
+              <p className="text-black/80">{service.desc}</p>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
 // src/pages/Home.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Section from "../components/UI/Section";
 import SectionDivider from "../components/UI/SectionDivider";
 import { motion } from "framer-motion";
@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { setAuthorized, setMemberName, setDueDate, setMonthsPregnant, originalDueDate, setOriginalDueDate, gender, setGender, username, passwordHash } = useAuth();
+  const { setAuthorized, setMemberName, setDueDate, setMonthsPregnant, originalDueDate, setOriginalDueDate, username, passwordHash } = useAuth();
   const CODE_MAP = {
     // CODE: { name, monthsPregnant, gender }
     Tay123: { name: "Madelyn & Nicholas", monthsPregnant: 8, gender: 'boy' },
@@ -16,17 +16,9 @@ const Home = () => {
   };
   const [code, setCode] = useState("");
   const [codeStatus, setCodeStatus] = useState("idle");
-  const [showLogin, setShowLogin] = useState(false);
   const [loginUser, setLoginUser] = useState("");
   const [loginPass, setLoginPass] = useState("");
   const [loginErr, setLoginErr] = useState("");
-
-  const [parent1, setParent1] = useState("");
-  const [parent2, setParent2] = useState("");
-  const [email, setEmail] = useState("");
-  const [due, setDue] = useState("");
-  const [message, setMessage] = useState("");
-  const [selGender, setSelGender] = useState(gender || "");
 
   const hash = (s) => {
     try { return btoa(unescape(encodeURIComponent(s))); } catch { return ""; }
@@ -42,7 +34,7 @@ const Home = () => {
       setAuthorized(true);
       setMemberName(match.name);
       setMonthsPregnant(match.monthsPregnant);
-      if (match.gender) setGender(match.gender);
+      // gender selection handled during profile setup
       // Prefer original due date captured during access request; otherwise compute
       const addMonths = (date, m) => {
         const d = new Date(date.getTime());
@@ -63,23 +55,7 @@ const Home = () => {
     }
   };
 
-  const requestAccess = (e) => {
-    e.preventDefault();
-    const subject = encodeURIComponent("Access Request: Taylor-Made Baby Planning");
-    const combinedName = parent2 ? `${parent1} & ${parent2}` : parent1;
-    const body = encodeURIComponent(
-      `Parent 1: ${parent1}\nParent 2: ${parent2}\nCombined: ${combinedName}\nEmail: ${email}\nDue date: ${due}\nGender: ${selGender || 'unspecified'}\n\nMessage:\n${message}`
-    );
-    // Persist originally entered due date locally for later correlation
-    if (due) {
-      try {
-        const iso = new Date(due).toISOString();
-        setOriginalDueDate(iso);
-      } catch {}
-    }
-    if (selGender) setGender(selGender);
-    window.location.href = `mailto:RegistryTaylor@gmail.com?subject=${subject}&body=${body}`;
-  };
+  // Request Access is handled at /requestaccess
 
   const submitLogin = (e) => {
     e.preventDefault();
@@ -97,21 +73,16 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-accent min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Top-right login button */}
       <button
-        onClick={() => {
-          const el = document.getElementById('auth');
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          // Defer to let scroll start
-          setTimeout(() => setShowLogin(true), 50);
-        }}
-        className="fixed top-4 right-4 z-20 px-4 py-2 rounded-full border border-black bg-white text-black shadow hover:shadow-md"
+        onClick={() => navigate('/login')}
+        className="fixed top-4 right-4 z-20 px-4 py-2 rounded-full border border-gold bg-white text-black shadow hover:shadow-md"
       >
         Log in
       </button>
-      <SectionDivider className="pt-4" />
-      <Section center tightTop>
+      
+      <Section center tightTop compact>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -124,130 +95,43 @@ const Home = () => {
           <p className="text-lg md:text-xl text-black/70 max-w-2xl mx-auto">
             Invite-only services for expecting families. Enter your code or request access below.
           </p>
+          {/* Authorization inside hero */}
+          <div id="auth" className="mt-8">
+            <form onSubmit={submitCode} className="max-w-sm mx-auto space-y-4">
+              <div className="rounded-2xl border-2 border-gold/40 bg-white p-4 shadow-sm text-left">
+                <label className="block text-black font-medium mb-2">Authorization Code</label>
+                <input
+                  type="text"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  placeholder="Enter your invite code"
+                  className="w-full rounded-xl border-2 border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold px-4 py-3 outline-none bg-white placeholder-black/50 caret-gold"
+                />
+                <p className="text-xs text-black/60 mt-2">
+                  Use the invite code shared with you. Need one? <Link to="/requestaccess" className="underline">Request Code</Link>.
+                </p>
+                {codeStatus === "invalid" && (
+                  <p className="text-xs text-red-600 mt-2">Invalid code. Please try again or request access.</p>
+                )}
+                {codeStatus === "valid" && (
+                  <p className="text-xs text-green-700 mt-2">Code accepted. Redirecting…</p>
+                )}
+              </div>
+              <button type="submit" className="w-full btn btn-primary">Continue</button>
+              <Link
+                to="/requestaccess"
+                className="inline-block text-center w-full px-4 py-3 rounded-lg border-2 border-gold/40 bg-white text-black hover:brightness-95"
+              >
+                Request Code
+              </Link>
+            </form>
+          </div>
         </motion.div>
       </Section>
-      <SectionDivider />
-
-      <div id="auth">
-      <Section title="Enter Authorization Code">
-        <form onSubmit={submitCode} className="max-w-md mx-auto space-y-4">
-          <label className="block text-left text-black font-medium">Authorization Code</label>
-          <input
-            type="text"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="Enter your invite code"
-            className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
-          />
-          <button type="submit" className="w-full btn btn-primary">Continue</button>
-          <button type="button" onClick={() => setShowLogin((v) => !v)} className="w-full underline text-black/70">
-            or log in
-          </button>
-          {codeStatus === "invalid" && (
-            <p className="text-sm text-red-600">Invalid code. Please try again or request access.</p>
-          )}
-          {codeStatus === "valid" && (
-            <p className="text-sm text-green-700">Code accepted. Redirecting…</p>
-          )}
-        </form>
-        {showLogin && (
-          <form onSubmit={submitLogin} className="max-w-md mx-auto mt-6 space-y-3 text-left">
-            <label className="block text-black font-medium">Username</label>
-            <input
-              type="text"
-              value={loginUser}
-              onChange={(e) => setLoginUser(e.target.value)}
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 bg-white"
-            />
-            <label className="block text-black font-medium">Password</label>
-            <input
-              type="password"
-              value={loginPass}
-              onChange={(e) => setLoginPass(e.target.value)}
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 bg-white"
-            />
-            {loginErr && <p className="text-sm text-red-600">{loginErr}</p>}
-            <button type="submit" className="w-full btn btn-primary">Log in</button>
-          </form>
-        )}
-      </Section>
-      <SectionDivider />
-
-      <Section title="Request Access" center>
-        <form onSubmit={requestAccess} className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-          <div className="col-span-1">
-            <label className="block text-black font-medium">Parent 1 Name</label>
-            <input
-              type="text"
-              value={parent1}
-              onChange={(e) => setParent1(e.target.value)}
-              placeholder="First parent name"
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
-              required
-            />
-          </div>
-          <div className="col-span-1">
-            <label className="block text-black font-medium">Parent 2 Name (optional)</label>
-            <input
-              type="text"
-              value={parent2}
-              onChange={(e) => setParent2(e.target.value)}
-              placeholder="Second parent name"
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
-            />
-          </div>
-          <div className="col-span-1">
-            <label className="block text-black font-medium">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
-              required
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-black font-medium">Due Date (optional)</label>
-            <input
-              type="date"
-              value={due}
-              onChange={(e) => setDue(e.target.value)}
-              className="w-full rounded-lg border-2 border-black/20 focus:border-black px-4 py-3 outline-none bg-white"
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-black font-medium">Baby's Gender (optional)</label>
-            <select
-              value={selGender}
-              onChange={(e) => setSelGender(e.target.value)}
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 bg-white"
-            >
-              <option value="">Prefer not to say</option>
-              <option value="girl">Girl</option>
-              <option value="boy">Boy</option>
-            </select>
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-black font-medium">Message</label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows="5"
-              placeholder="Tell me a bit about your family and needs…"
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 outline-none bg-white"
-            />
-          </div>
-          <div className="md:col-span-2">
-            <button type="submit" className="w-full md:w-auto btn btn-primary">Request Access</button>
-          </div>
-        </form>
-      </Section>
-      </div>
-      <SectionDivider />
+      {/* Login moved to /login */}
 
       {/* Public information sections */}
-      <Section title="Introduction">
+      <Section title="Introduction" tightTop compact>
         <div className="px-6 py-4 max-w-3xl mx-auto text-black/80 space-y-6">
           <div>
             <h3 className="font-serif text-2xl text-black mb-2">The Problem</h3>
@@ -269,9 +153,9 @@ const Home = () => {
           </div>
         </div>
       </Section>
-      <SectionDivider />
+      <SectionDivider className="my-4" />
 
-      <Section title="Services Snapshot — Taylor‑Made for You">
+      <Section title="Services Snapshot — Taylor‑Made for You" tightTop compact>
         <div className="px-6 py-4">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[ 
@@ -281,7 +165,7 @@ const Home = () => {
               { title: 'Taylor‑Made Showers', desc: 'Planning made simple, from themes to thank‑yous.' },
               { title: 'Taylor‑Made Support', desc: 'I’ll help keep everyone on the same page.' },
             ].map((service, i) => (
-              <div key={i} className="p-6 border border-black/20 rounded-xl shadow bg-white">
+              <div key={i} className="p-6 border border-gold/40 rounded-xl shadow bg-white">
                 <h3 className="font-serif text-2xl mb-2 text-black">{service.title}</h3>
                 <p className="text-black/70">{service.desc}</p>
               </div>
@@ -289,21 +173,21 @@ const Home = () => {
           </div>
         </div>
       </Section>
-      <SectionDivider />
+      <SectionDivider className="my-4" />
 
-      <Section title="Testimonials" center>
+      <Section title="Testimonials" center tightTop compact>
         <div className="px-6 py-4 max-w-2xl mx-auto space-y-6 text-black/80">
-          <blockquote className="italic border-l-4 border-primary pl-4">
+          <blockquote className="italic border-l-4 border-gold pl-4">
             “Taylor made our registry feel effortless — no stress, no second‑guessing.” — Jenna M.
           </blockquote>
-          <blockquote className="italic border-l-4 border-primary pl-4">
+          <blockquote className="italic border-l-4 border-gold pl-4">
             “She helped us choose a stroller that truly works for our lifestyle. Game‑changer!” — Rachel & Matt K.
           </blockquote>
         </div>
       </Section>
-      <SectionDivider />
+      <SectionDivider className="my-4" />
 
-      <Section title="About Me">
+      <Section title="About Me" tightTop compact>
         <div className="px-6 py-4 max-w-3xl mx-auto text-black/80">
           <p className="max-w-2xl">
             Hi, I’m Taylor! Think of me as your go‑to guide (and maybe your new

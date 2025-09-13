@@ -10,8 +10,9 @@ import React from "react";
  * - center: boolean -> center-align text (Hero, CTA, etc.)
  * - index: number -> auto alternates layout
  */
-const Section = ({ title, children, className = "", center = false, index = 0, tightTop = false }) => {
+const Section = ({ title, children, className = "", center = false, index = 0, tightTop = false, compact = false }) => {
   const isReversed = index % 2 === 1 && !center; // alternate only if not a centered section
+  const padding = compact ? "gap-8 md:gap-12 p-8 md:p-10" : "gap-10 md:gap-16 p-10 md:p-16";
 
   return (
     <section className={`cc-container ${tightTop ? "my-10 md:my-16" : "my-20 md:my-28"}`}>
@@ -27,7 +28,7 @@ const Section = ({ title, children, className = "", center = false, index = 0, t
         <div
           className={`relative z-10 flex flex-col md:flex-row ${
             isReversed ? "md:flex-row-reverse" : ""
-          } gap-10 md:gap-16 p-10 md:p-16`}
+          } ${padding}`}
         >
           <div className={`${center ? "text-center w-full" : "flex-1"}`}>
             {title && (

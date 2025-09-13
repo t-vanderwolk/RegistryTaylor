@@ -100,7 +100,7 @@ const PrivateHome = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="mt-8 px-6 py-3 rounded-lg bg-primary text-white font-medium transition-shadow shadow-lg hover:shadow-xl"
+              className="mt-8 btn btn-primary"
             >
               Book Your Consultation
             </motion.button>
@@ -171,9 +171,9 @@ const PrivateHome = () => {
   ];
 
   return (
-    <div className="bg-accent min-h-screen">
+    <div className="min-h-screen bg-white">
       {sections.map((section, i) => (
-        <Section key={i} index={i} center={section.center} title={section.title}>
+        <Section key={i} index={i} center={section.center} title={section.title} tightTop compact>
           {section.content}
         </Section>
       ))}

@@ -3,8 +3,8 @@ import Section from "../components/UI/Section";
 
 const About = () => {
   return (
-    <div>
-      <Section title="About Me">
+    <div className="min-h-screen bg-white">
+      <Section title="About Me" tightTop compact>
         <p className="max-w-2xl mx-auto">
           Hi, I’m Taylor! I know how overwhelming the world of baby gear,
           registries, and family input can feel. With years of hands-on

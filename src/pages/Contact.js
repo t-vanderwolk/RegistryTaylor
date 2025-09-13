@@ -3,8 +3,8 @@ import Section from "../components/UI/Section";
 
 const Contact = () => {
   return (
-    <div>
-      <Section title="Contact / Booking">
+    <div className="min-h-screen bg-white">
+      <Section title="Contact / Booking" center tightTop compact>
         <p className="max-w-xl mx-auto text-black/80">
           Ready to get started? Let’s make baby prep simple, stress-free, and
           Taylor-Made just for you.

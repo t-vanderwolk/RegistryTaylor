@@ -10,8 +10,10 @@ import "./styles/App.css";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import PrivateHome from "./pages/PrivateHome";
 import CreateProfile from "./pages/CreateProfile";
+import RequestAccess from "./pages/RequestAccess";
 import EditProfile from "./pages/EditProfile";
 import Blog from "./pages/Blog";
+import Login from "./pages/Login";
 
 const ProtectedRoute = ({ children }) => {
   const { authorized } = useAuth();
@@ -91,6 +93,8 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/requestaccess" element={<RequestAccess />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/welcome"
             element={

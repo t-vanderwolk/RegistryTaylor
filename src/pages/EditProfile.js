@@ -64,8 +64,8 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="bg-accent min-h-screen">
-      <Section title="Countdown" center>
+    <div className="min-h-screen bg-white">
+      <Section title="Countdown" center tightTop compact>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -130,7 +130,7 @@ const EditProfile = () => {
         </motion.div>
       </Section>
 
-      <Section title="Edit Profile" center>
+      <Section title="Edit Profile" center tightTop compact>
         <form
           onSubmit={(e)=>{
             e.preventDefault();
@@ -219,4 +219,3 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-

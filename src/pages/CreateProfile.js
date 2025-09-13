@@ -62,8 +62,8 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="bg-accent min-h-screen">
-      <Section title="Create Your Profile" center>
+    <div className="min-h-screen bg-white">
+      <Section title="Create Your Profile" center tightTop compact>
         <form onSubmit={onSubmit} className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
           <div>
             <label className="block text-black font-medium">Parent 1 Name</label>

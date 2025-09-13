@@ -9,9 +9,7 @@ const TestTailwind = () => {
       <p className="text-black/70 mb-6">
         If you see styles (big heading, gray background, styled button), Tailwind is working.
       </p>
-      <button className="px-6 py-3 rounded-full bg-black text-white font-semibold hover:bg-gray-800 transition">
-        Tailwind Button
-      </button>
+      <button className="btn btn-primary">Tailwind Button</button>
     </div>
   );
 };

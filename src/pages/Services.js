@@ -26,8 +26,8 @@ const Services = () => {
   ];
 
   return (
-    <div>
-      <Section title="Services">
+    <div className="min-h-screen bg-white">
+      <Section title="Services" tightTop compact>
         <div className="grid gap-8 md:grid-cols-2">
           {services.map((service, index) => (
             <div key={index} className="cc-card text-left">

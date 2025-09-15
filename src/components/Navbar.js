@@ -1,70 +1,37 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Link, NavLink } from "react-router-dom";
+
+const links = [
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/services", label: "Services" },
+  { to: "/faq", label: "FAQ" },
+  { to: "/blog", label: "Blog" },
+  { to: "/contact", label: "Contact" },
+];
 
 const NavBar = () => {
-  const navigate = useNavigate();
-  const { authorized, memberName, setAuthorized, setMemberName, setDueDate, setMonthsPregnant, setOriginalDueDate } = useAuth();
-  const logout = () => {
-    setAuthorized(false);
-    setMemberName("");
-    setDueDate("");
-    setMonthsPregnant(null);
-    setOriginalDueDate("");
-    navigate("/");
-  };
   return (
-    <nav
-      style={{
-        padding: "1rem",
-        background: "#ffffff",
-        display: "flex",
-        justifyContent: "center",
-        gap: "2rem", // evenly spaced
-        borderBottom: "1px solid #D4AF37",
-      }}
-    >
-      <Link to="/" style={{ color: "#000", textDecoration: "none" }}>
-        Home
-      </Link>
-      <Link to="/about" style={{ color: "#000", textDecoration: "none" }}>
-        About
-      </Link>
-      <Link to="/services" style={{ color: "#000", textDecoration: "none" }}>
-        Services
-      </Link>
-      <Link to="/contact" style={{ color: "#000", textDecoration: "none" }}>
-        Contact
-      </Link>
-      <Link to="/faq" style={{ color: "#000", textDecoration: "none" }}>
-        FAQ
-      </Link>
-      {authorized && (
-        <>
-          <Link to="/blog" style={{ color: "#000", textDecoration: "none" }}>
-            Blog
-          </Link>
-          <Link to="/editprofile" style={{ color: "#000", textDecoration: "none" }}>
-            Edit Profile
-          </Link>
-          <span style={{ color: "#000" }}>
-            Welcome, <span className="font-cursive">{memberName}</span>
-          </span>
-          <button
-            onClick={logout}
-            style={{
-              color: "#000",
-              background: "transparent",
-              border: "1px solid #D4AF37",
-              padding: "0.25rem 0.75rem",
-              borderRadius: "9999px",
-              cursor: "pointer",
-            }}
-          >
-            Log out
-          </button>
-        </>
-      )}
+    <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gold/40">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-black">
+        <Link to="/" className="flex items-center gap-2 text-lg font-serif">
+          <span className="font-cursive text-2xl text-gold">Taylor-Made</span>
+          <span className="hidden sm:inline">Baby Planning</span>
+        </Link>
+        <div className="flex flex-wrap items-center gap-4 text-sm sm:text-base">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                `transition-colors ${isActive ? "text-gold" : "text-black hover:text-gold"}`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </div>
+      </div>
     </nav>
   );
 };

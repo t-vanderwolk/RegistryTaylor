@@ -1,86 +1,67 @@
 // src/pages/Blog.js
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import Section from "../components/UI/Section";
 import { Link } from "react-router-dom";
-import defaultTopics from "../data/blogPosts.json";
+
+const posts = [
+  {
+    id: 1,
+    title: "Registry Essentials Worth the Hype",
+    excerpt:
+      "From carriers to bottles, here’s what parents actually reach for every day—and what can stay on the shelf.",
+    content:
+      "After supporting hundreds of families, I have a shortlist of registry items that work hard without cluttering your home. We’ll look at everyday must-haves, splurges that are truly worth it, and smart swaps when you’re on a tight budget.",
+  },
+  {
+    id: 2,
+    title: "Designing a Nursery That Grows with Baby",
+    excerpt:
+      "Set up a calm, functional space that transitions smoothly from newborn naps to toddler play.",
+    content:
+      "Start with a neutral base, layer in cozy textures, and choose furniture that adapts as your little one grows. I share layout tips, storage ideas, and my favorite finishing touches to keep the room feeling magical and practical.",
+  },
+  {
+    id: 3,
+    title: "Planning the Shower You’ll Actually Enjoy",
+    excerpt:
+      "Celebrations should feel personal, joyful, and stress-free. Here’s how to make it happen.",
+    content:
+      "From invitations and mood boards to games that don’t feel cringey, I walk you through the decisions that matter. Plus, a timeline you can follow to stay organized without feeling overwhelmed.",
+  },
+];
 
 const Blog = () => {
-  const STORAGE_KEY = "tm_blog_posts";
-  const [topics, setTopics] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : defaultTopics;
-    } catch {
-      return defaultTopics;
-    }
-  });
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(topics)); } catch {}
-  }, [topics]);
-
-  const [newTitle, setNewTitle] = useState("");
-  const [newExcerpt, setNewExcerpt] = useState("");
-  const addTopic = (e) => {
-    e.preventDefault();
-    if (!newTitle.trim()) return;
-    const next = [{ title: newTitle.trim(), excerpt: newExcerpt.trim() }, ...topics];
-    setTopics(next);
-    setNewTitle("");
-    setNewExcerpt("");
-  };
-
-  const composeEmail = (subject) => {
-    const s = encodeURIComponent(subject);
-    const b = encodeURIComponent("I'd like to submit a topic/question for the Taylor-Made Blog.\n\nTopic: ");
-    window.location.href = `mailto:RegistryTaylor@gmail.com?subject=${s}&body=${b}`;
-  };
-
   return (
-    <div className="bg-accent min-h-screen">
-      <Section title="Taylor‑Made Blog" center>
-        <div className="max-w-4xl mx-auto text-black/80">
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
-            <Link to="/welcome" className="px-4 py-2 rounded-lg border-2 border-gold/40 bg-white text-black hover:brightness-95">Back to Portal</Link>
-            <Link to="/services" className="px-4 py-2 rounded-lg border-2 border-gold/40 bg-white text-black hover:brightness-95">Explore Services</Link>
-            <Link to="/editprofile" className="px-4 py-2 rounded-lg border-2 border-gold/40 bg-white text-black hover:brightness-95">Edit Profile</Link>
-            <button className="btn btn-primary" onClick={() => composeEmail("Question for Taylor-Made")}>Ask Taylor</button>
-          </div>
-          <p className="mb-6">A private space for the Taylor‑Made community to share tips, questions, and wins.</p>
-          <form onSubmit={addTopic} className="cc-card mb-8 grid gap-3 text-left">
-            <h3 className="font-serif text-xl text-black">Post a New Topic</h3>
-            <input
-              type="text"
-              value={newTitle}
-              onChange={(e)=>setNewTitle(e.target.value)}
-              placeholder="Topic title"
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 bg-white"
-            />
-            <textarea
-              value={newExcerpt}
-              onChange={(e)=>setNewExcerpt(e.target.value)}
-              placeholder="A short description or question"
-              rows="3"
-              className="w-full rounded-lg border-2 border-gold/40 focus:border-gold px-4 py-3 bg-white"
-            />
-            <div className="flex gap-3">
-              <button type="submit" className="btn btn-primary">Publish</button>
-              <button type="button" className="px-4 py-3 rounded-lg border-2 border-gold/40 bg-white text-black" onClick={()=>{setNewTitle("");setNewExcerpt("");}}>Clear</button>
-            </div>
-          </form>
+    <div className="min-h-screen bg-white">
+      <Section title="Taylor‑Made Blog" center tightTop compact>
+        <div className="max-w-4xl mx-auto text-black/80 space-y-8">
+          <p className="text-lg text-black/70">
+            Cozy up with planning tips, product roundups, and gentle encouragement as you prepare for baby. These curated highlights give you a taste of the support my clients enjoy inside the Taylor‑Made experience.
+          </p>
+
           <div className="grid gap-6 md:grid-cols-2">
-            {topics.map((t, i) => (
-              <div key={i} className="cc-card text-left">
-                <h3 className="font-serif text-xl text-black mb-2">{t.title}</h3>
-                <p className="text-black/70">{t.excerpt}</p>
-                <div className="mt-4 flex gap-3">
-                  <Link to="/welcome" className="px-3 py-2 rounded border-2 border-gold/40 bg-white text-black hover:brightness-95">Discuss</Link>
-                  <Link to="/services" className="px-3 py-2 rounded border-2 border-gold/40 bg-white text-black hover:brightness-95">Related Services</Link>
-                </div>
-              </div>
+            {posts.map((post) => (
+              <article key={post.id} className="cc-card text-left">
+                <h3 className="font-serif text-2xl text-black mb-3">{post.title}</h3>
+                <p className="text-black/70 mb-4">{post.excerpt}</p>
+                <p className="text-black/80 mb-4">{post.content}</p>
+                <Link
+                  to="/contact"
+                  className="text-gold hover:text-gold/80 underline"
+                >
+                  Let’s plan together →
+                </Link>
+              </article>
             ))}
           </div>
-          <div className="mt-8 text-center">
-            <button className="btn btn-primary" onClick={() => composeEmail("Blog Topic Submission")}>Submit a Topic</button>
+
+          <div className="text-center">
+            <a
+              href="mailto:RegistrywithTaylor@gmail.com?subject=Blog%20Topic%20Suggestion&body=Hi%20Taylor%2C%20I%27d%20love%20to%20read%20about..."
+              className="btn btn-primary"
+            >
+              Suggest a Topic
+            </a>
           </div>
         </div>
       </Section>

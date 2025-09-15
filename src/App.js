@@ -1,146 +1,39 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
-import Faq from "./pages/Faq";              // ✅ lowercase aq matches filename
-import "./styles/App.css";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import PrivateHome from "./pages/PrivateHome";
-import CreateProfile from "./pages/CreateProfile";
-import RequestAccess from "./pages/RequestAccess";
-import EditProfile from "./pages/EditProfile";
+import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
-import Login from "./pages/Login";
+import "./styles/App.css";
 
-const ProtectedRoute = ({ children }) => {
-  const { authorized } = useAuth();
-  return authorized ? children : <Navigate to="/" replace />;
-};
-const TopActions = () => {
-  const { authorized, memberName, setAuthorized, setMemberName, setDueDate, setMonthsPregnant, setOriginalDueDate } = useAuth();
-  const navigate = useLocation(); // just to keep hook parity; navigate not needed here
-  if (!authorized) return null;
-  const logout = () => {
-    setAuthorized(false);
-    setMemberName("");
-    setDueDate("");
-    setMonthsPregnant(null);
-    setOriginalDueDate("");
-    // route back to landing handled by ProtectedRoute redirect
-  };
-  return (
-    <div style={{
-      position: 'sticky', top: 0, zIndex: 30, background: '#fff',
-      borderBottom: '1px solid #D4AF37', padding: '0.5rem 1rem'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-        <a href="/blog" style={{ color: '#000', textDecoration: 'none' }}>Blog</a>
-        <a href="/editprofile" style={{ color: '#000', textDecoration: 'none' }}>Edit Profile</a>
-        <button onClick={logout} style={{
-          border: '1px solid #D4AF37', background: 'transparent', color: '#000',
-          padding: '0.25rem 0.75rem', borderRadius: '9999px', cursor: 'pointer'
-        }}>Log out</button>
-      </div>
-    </div>
-  );
-};
+const NotFound = () => (
+  <main className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-6 text-center">
+    <h1 className="text-5xl font-serif mb-4">Page not found</h1>
+    <p className="text-lg text-black/70 max-w-xl">
+      The page you are looking for does not exist. Use the navigation above to get back on track.
+    </p>
+  </main>
+);
 
-const AppContent = () => {
-  const location = useLocation();
-  return (
-    <>
-      <ScrollToTop />
-      <TopActions />
-      <Routes>
-          <Route
-            path="/"
-            element={
-              useAuth().authorized ? <Navigate to="/welcome" replace /> : <Home />
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <ProtectedRoute>
-                <About />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/services"
-            element={
-              <ProtectedRoute>
-                <Services />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <ProtectedRoute>
-                <Contact />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/faq"
-            element={
-              <ProtectedRoute>
-                <Faq />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/requestaccess" element={<RequestAccess />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/welcome"
-            element={
-              <ProtectedRoute>
-                <PrivateHome />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-profile"
-            element={
-              <ProtectedRoute>
-                <CreateProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/editprofile"
-            element={
-              <ProtectedRoute>
-                <EditProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/blog"
-            element={
-              <ProtectedRoute>
-                <Blog />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-    </>
-  );
-};
-
-const App = () => {
-  return (
-    <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </AuthProvider>
-  );
-};
+const App = () => (
+  <Router>
+    <ScrollToTop />
+    <NavBar />
+    <Routes future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/faq" element={<Faq />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </Router>
+);
 
 export default App;
 

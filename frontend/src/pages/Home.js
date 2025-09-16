@@ -6,90 +6,23 @@ import { motion } from "framer-motion";
 import logo1 from "../assets/logo1.png";
 import logo2 from "../assets/logo2.png";
 import logo3 from "../assets/logo3.png";
-
-const stepTimeline = [
-  {
-    step: "Step 1",
-    title: "Pick a Package",
-    body: "Choose Essentials, Signature, or Bespoke — each intentionally designed for your season of motherhood.",
-  },
-  {
-    step: "Step 2",
-    title: "NDA & Consultation",
-    body: "Sign your NDA, then dive into a private consultation so Taylor can learn your style, priorities, and timeline.",
-  },
-  {
-    step: "Step 3",
-    title: "Planning & Add-Ons",
-    body: "Registry, nursery, events, and concierge errands are curated end-to-end, with add-ons layered in as you wish.",
-  },
-  {
-    step: "Step 4",
-    title: "Ongoing Access",
-    body: "Stay supported through the Taylor-Made Journal, Mentor Circle, and discreet check-ins whenever you need them.",
-  },
-];
-
-const packagePreview = [
-  {
-    name: "Essentials",
-    price: "Starting at $1,950",
-    description: "Registry mastery, personal shopping, and concierge returns handled for you.",
-  },
-  {
-    name: "Signature",
-    price: "Starting at $3,400",
-    description: "Essentials plus nursery design, in-home styling, and family integration guidance.",
-  },
-  {
-    name: "Bespoke",
-    price: "By Invitation",
-    description: "For high-profile families seeking fully private planning with limitless concierge support.",
-  },
-];
-
-const perkHighlights = [
-  {
-    title: "Taylor-Made Journal",
-    blurb: "Private guides, registry intel, launches, and seasonal checklists tailored to your due date.",
-    icon: "📒",
-  },
-  {
-    title: "Mom Mentor Circle",
-    blurb: "One-on-one connections with mothers who mirror your lifestyle — vetted and invite-only.",
-    icon: "🤝",
-  },
-  {
-    title: "Discretion Promise",
-    blurb: "Membership begins with an NDA, ensuring every detail stays confidential and personally overseen.",
-    icon: "🔐",
-  },
-];
-
-const editorialFeatures = [
-  {
-    title: "Registry Concierge",
-    blurb: "Multi-retailer lists, white-glove returns, and luxury product sourcing handled without overwhelm.",
-    icon: "🗂️",
-  },
-  {
-    title: "Nursery Reveal",
-    blurb: "Floor plans, styling, and scent-layered finishing touches timed to your baby shower weekend.",
-    icon: "🛏️",
-  },
-  {
-    title: "Car Seat to Jet Set",
-    blurb: "Certified installations, travel packing, and airport-ready concierge service for first flights.",
-    icon: "✈️",
-  },
-  {
-    title: "Fourth Trimester Care",
-    blurb: "Postpartum setups, vetted night nurses, and nourishing rituals tailored to your recovery.",
-    icon: "🌙",
-  },
-];
+import {
+  membershipJourneySteps,
+  membershipTiers,
+  membershipBenefits,
+  conciergeSpotlights,
+} from "../data/membership";
 
 const Home = () => {
+  const previewTiers = membershipTiers.map((tier) => ({
+    id: tier.id,
+    name: tier.name,
+    priceLabel: tier.startingPrice?.startsWith("$")
+      ? `Starting at ${tier.startingPrice}`
+      : tier.startingPrice,
+    description: tier.intro,
+  }));
+
   return (
     <div className="min-h-screen bg-transparent font-sans text-cozyGray">
       {/* Hero Section */}
@@ -172,7 +105,7 @@ const Home = () => {
       <Section title="Concierge Touchpoints" tightTop compact className="bg-alt-green">
         <div className="px-6 py-6">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {editorialFeatures.map((feature, index) => (
+            {conciergeSpotlights.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 whileHover={{ scale: 1.03, y: -2 }}
@@ -215,7 +148,7 @@ const Home = () => {
       <Section title="How It Works" tightTop compact className="bg-alt-pink">
         <div className="px-6 py-6 max-w-4xl mx-auto text-cozyGray/85">
           <ol className="grid gap-6 md:grid-cols-2">
-            {stepTimeline.map(({ step, title, body }, index) => (
+            {membershipJourneySteps.map(({ step, title, body }, index) => (
               <motion.li
                 key={title}
                 initial={{ opacity: 0, y: 15 }}
@@ -241,7 +174,7 @@ const Home = () => {
             Choose the concierge tier that mirrors your rhythm. Membership begins with a personal invitation and scales from essential registry mastery to fully bespoke planning.
           </p>
           <div className="grid gap-6 md:grid-cols-3">
-            {packagePreview.map((pkg, index) => (
+            {previewTiers.map((pkg, index) => (
               <motion.div
                 key={pkg.name}
                 initial={{ opacity: 0, y: 15 }}
@@ -249,7 +182,7 @@ const Home = () => {
                 transition={{ duration: 0.3, delay: index * 0.15 }}
                 className="rounded-3xl border border-softGold/25 bg-white/90 px-5 py-6 shadow-soft backdrop-blur-sm"
               >
-                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-softGold">{pkg.price}</p>
+                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-softGold">{pkg.priceLabel}</p>
                 <h3 className="mt-2 font-serif text-2xl text-deepSlate">{pkg.name}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-cozyGray/75">{pkg.description}</p>
                 <Link
@@ -273,7 +206,7 @@ const Home = () => {
       <Section title="Membership Perks" tightTop compact className="bg-alt-green">
         <div className="px-6 py-6 max-w-4xl mx-auto text-cozyGray/85 space-y-6">
           <div className="grid gap-6 md:grid-cols-3">
-            {perkHighlights.map((perk, index) => (
+            {membershipBenefits.map((perk, index) => (
               <motion.div
                 key={perk.title}
                 initial={{ opacity: 0, y: 15 }}
@@ -283,7 +216,7 @@ const Home = () => {
               >
                 <div className="text-3xl">{perk.icon}</div>
                 <h3 className="mt-2 font-serif text-lg text-deepSlate">{perk.title}</h3>
-                <p className="mt-2 text-sm font-sans text-cozyGray/75 leading-relaxed">{perk.blurb}</p>
+                <p className="mt-2 text-sm font-sans text-cozyGray/75 leading-relaxed">{perk.summary}</p>
               </motion.div>
             ))}
           </div>

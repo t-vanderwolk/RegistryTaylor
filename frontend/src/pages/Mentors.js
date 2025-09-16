@@ -1,33 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Section from "../components/UI/Section";
-
-const mentorHighlights = [
-  {
-    title: "First-Time Mom",
-    subtitle: "Coastal | Creative Director",
-    description: "Navigated IVF, cross-country moves, and a high-visibility career with grace and humor.",
-    tags: ["ivf", "career", "coastal"],
-  },
-  {
-    title: "Twin Mom",
-    subtitle: "NYC | Luxury Fashion",
-    description: "Specializes in sleep training multiples, travel logistics, and extended family integration.",
-    tags: ["multiples", "travel", "extended family"],
-  },
-  {
-    title: "Working Mom",
-    subtitle: "LA | Entertainment",
-    description: "Balances production schedules, childcare rotations, and discreet public appearances.",
-    tags: ["production", "childcare", "press"],
-  },
-  {
-    title: "Second-Time Mom",
-    subtitle: "Austin | Tech Founder",
-    description: "Blends toddler transitions with newborn prep through gentle routines and curated gear swaps.",
-    tags: ["toddler", "gear", "routines"],
-  },
-];
+import { mentorProfiles } from "../data/mentors";
 
 const MentorCard = ({ title, subtitle, description, tags }) => (
   <article className="rounded-3xl border border-softGold/25 bg-white/85 p-6 shadow-soft backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-dreamy">
@@ -72,8 +46,8 @@ const Mentors = () => {
       </Section>
       <Section title="Browse Mentors" compact className="bg-alt-blue">
         <div className="grid gap-6 md:grid-cols-2">
-          {mentorHighlights.map((mentor) => (
-            <MentorCard key={mentor.title} {...mentor} />
+          {mentorProfiles.map((mentor) => (
+            <MentorCard key={mentor.id} {...mentor} />
           ))}
         </div>
       </Section>

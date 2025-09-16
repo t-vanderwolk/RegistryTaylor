@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const links = [
-  { to: "/", label: "Home" },
+  { to: "/membership", label: "Membership" },
+  { to: "/add-ons", label: "Add-Ons" },
+  { to: "/blog", label: "Journal" },
+  { to: "/mentors", label: "Mentors" },
   { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
-  { to: "/faq", label: "FAQ" },
-  { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -44,7 +44,7 @@ const Navbar = () => {
               </span>
             </div>
           </Link>
-          <div className="hidden md:flex items-center gap-3 text-[0.75rem] xl:text-sm font-medium tracking-[0.2em] uppercase">
+          <div className="hidden md:flex items-center gap-4 text-[0.7rem] xl:text-sm font-medium tracking-[0.2em] uppercase">
             {links.map((link) => (
               <NavLink
                 key={link.to}
@@ -61,6 +61,18 @@ const Navbar = () => {
               </NavLink>
             ))}
           </div>
+        </div>
+        <div className="hidden md:flex items-center gap-3">
+          <NavLink
+            to="/portal"
+            className={({ isActive }) =>
+              `inline-flex items-center rounded-full border border-softGold/60 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.3em] transition ${
+                isActive ? "bg-softGold/30 text-deepSlate" : "text-deepSlate hover:bg-softGold/20"
+              }`
+            }
+          >
+            Member Portal
+          </NavLink>
         </div>
         <button
           type="button"
@@ -89,6 +101,17 @@ const Navbar = () => {
                 {link.label}
               </NavLink>
             ))}
+            <NavLink
+              to="/portal"
+              onClick={closeMenu}
+              className={({ isActive }) =>
+                `py-2 transition-colors duration-200 ${
+                  isActive ? "text-deepSlate" : "text-cozyGray hover:text-deepSlate"
+                }`
+              }
+            >
+              Member Portal
+            </NavLink>
           </div>
         </div>
       )}

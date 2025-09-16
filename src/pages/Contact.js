@@ -10,7 +10,7 @@ const Contact = () => {
           Taylor-Made just for you.
         </p>
         <p className="mt-4 text-cozyGray font-medium">Email: RegistrywithTaylor@gmail.com</p>
-        <button className="mt-6 btn-primary px-8 py-3">Book Your Consultation</button>
+        <button className="mt-6 btn-primary text-sm sm:text-base px-7 sm:px-8 py-3">Book Your Consultation</button>
       </Section>
     </div>
   );

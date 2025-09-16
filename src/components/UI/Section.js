@@ -12,10 +12,12 @@ import React from "react";
  */
 const Section = ({ title, children, className = "", center = false, index = 0, tightTop = false, compact = false }) => {
   const isReversed = index % 2 === 1 && !center; // alternate only if not a centered section
-  const padding = compact ? "gap-8 md:gap-12 p-8 md:p-10" : "gap-10 md:gap-16 p-10 md:p-16";
+  const padding = compact
+    ? "gap-6 md:gap-12 p-6 sm:p-8 md:p-10"
+    : "gap-8 md:gap-16 p-6 sm:p-10 md:p-16";
 
   return (
-    <section className={`cc-container ${tightTop ? "my-12 md:my-16" : "my-20 md:my-28"}`}>
+    <section className={`cc-container ${tightTop ? "my-10 sm:my-12 md:my-16" : "my-16 sm:my-20 md:my-28"}`}>
       <div
         className={`
           relative rounded-3xl border border-softGold/25
@@ -32,7 +34,7 @@ const Section = ({ title, children, className = "", center = false, index = 0, t
           <div className={`${center ? "text-center w-full" : "flex-1"}`}>
             {title && (
               <h2
-                className={`font-serif text-3xl md:text-4xl mb-6 tracking-wide text-cozyGray ${
+                className={`font-serif text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-wide text-cozyGray ${
                   center ? "text-center" : "text-left"
                 }`}
               >
@@ -40,7 +42,7 @@ const Section = ({ title, children, className = "", center = false, index = 0, t
               </h2>
             )}
             {title && (
-              <div className={`${center ? "mx-auto" : ""} h-1 bg-softGold w-14 rounded-full mb-6`} />
+              <div className={`${center ? "mx-auto" : ""} h-1 bg-softGold w-12 sm:w-14 rounded-full mb-6`} />
             )}
             <div className="text-cozyGray/90 leading-relaxed">{children}</div>
           </div>

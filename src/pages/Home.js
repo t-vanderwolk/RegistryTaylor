@@ -14,15 +14,15 @@ const Home = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative rounded-bubble bg-white px-6 py-16 text-center shadow-dreamy border border-softGold/30"
+          className="relative rounded-bubble bg-white px-5 sm:px-6 py-14 sm:py-16 text-center shadow-dreamy border border-softGold/30"
         >
           <motion.h1
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: [0.98, 1.03, 1] }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="mb-4 text-center font-cursive leading-tight text-cozyGray text-4xl sm:text-5xl tracking-tight"
+            className="mb-4 text-center font-cursive leading-tight text-cozyGray text-3xl sm:text-5xl tracking-tight"
           >
-            <motion.span className="font-cursive text-6xl sm:text-[4rem] inline-block mr-2 text-deepSlate">
+            <motion.span className="font-cursive text-5xl sm:text-[3.8rem] inline-block mr-2 text-deepSlate">
               Taylor-Made
             </motion.span>
             <motion.span className="font-cursive text-softGold">
@@ -36,25 +36,25 @@ const Home = () => {
             support—tailored to your family.
           </p>
 
-          <motion.img
+          {/* <motion.img
             src="/assets/hero-baby.png"
             alt="Baby Planning Illustration"
-            className="mx-auto mt-6 max-w-md shadow-soft animate-float"
+            className="mx-auto mt-6 w-full max-w-xs sm:max-w-md shadow-soft animate-float"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-          />
+          /> */}
 
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <div className="mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
             <Link
               to="/services"
-              className="btn-primary text-base md:text-lg px-8 py-3"
+              className="btn-primary text-sm sm:text-base md:text-lg px-7 sm:px-8 py-3"
             >
               Explore Services
             </Link>
             <Link
               to="/contact"
-              className="btn-secondary text-base md:text-lg px-8 py-3"
+              className="btn-secondary text-sm sm:text-base md:text-lg px-7 sm:px-8 py-3"
             >
               Book a Consultation
             </Link>

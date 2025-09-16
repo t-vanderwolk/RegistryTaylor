@@ -30,17 +30,17 @@
 @layer components {
   /* Primary Button */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-2 rounded-full bg-deepSlate text-cloudWhite font-semibold tracking-[0.08em] uppercase transition hover:bg-deepSlate/90;
+    @apply inline-flex items-center justify-center rounded-full bg-deepSlate text-cloudWhite font-semibold tracking-[0.08em] uppercase transition hover:bg-deepSlate/90 text-xs sm:text-sm px-5 sm:px-6 py-2;
   }
 
   /* Secondary Button */
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-2 rounded-full border border-deepSlate/30 bg-white text-deepSlate font-medium tracking-[0.08em] uppercase transition hover:bg-softGold/20;
+    @apply inline-flex items-center justify-center rounded-full border border-deepSlate/30 bg-white text-deepSlate font-medium tracking-[0.08em] uppercase transition hover:bg-softGold/20 text-xs sm:text-sm px-5 sm:px-6 py-2;
   }
 
   /* Card Component */
   .cc-card {
-    @apply p-6 rounded-3xl shadow-soft bg-white border border-softGold/20 transition hover:-translate-y-[2px] hover:shadow-dreamy;
+    @apply p-5 sm:p-6 rounded-3xl shadow-soft bg-white border border-softGold/20 transition hover:-translate-y-[2px] hover:shadow-dreamy;
   }
 
   /* Section Backgrounds */

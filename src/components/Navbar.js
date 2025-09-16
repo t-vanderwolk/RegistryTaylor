@@ -12,24 +12,29 @@ const links = [
 
 const Navbar = () => {
   return (
-    <nav className="sticky top-0 z-30 bg-cloudWhite/80 backdrop-blur-lg border-b border-softLavender/40 shadow-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-cozyGray">
+    <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-softGold/30 shadow-soft">
+      <div className="flex w-full max-w-6xl items-center justify-start gap-8 px-4 py-4 text-deepSlate">
         <Link to="/" className="flex items-center gap-3 text-base sm:text-lg font-serif">
-          <span className="font-cursive text-2xl sm:text-3xl text-babyPink drop-shadow">Taylor-Made</span>
-          <span className="hidden sm:inline text-sm tracking-[0.35em] uppercase text-cozyGray/70">
-            Baby Planning
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-softGold/60 bg-white text-sm font-semibold tracking-[0.3em] text-deepSlate">
+            TM
           </span>
+          <div className="flex flex-col leading-tight">
+            <span className="font-cursive text-2xl sm:text-3xl">Taylor-Made</span>
+            <span className="text-[0.7rem] uppercase tracking-[0.4em] text-cozyGray">
+              Baby Planning
+            </span>
+          </div>
         </Link>
-        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm sm:text-base">
+        <div className="flex items-center gap-2 sm:gap-4 text-[0.85rem] sm:text-sm font-medium tracking-[0.2em] uppercase">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `rounded-full px-3 py-1.5 transition-colors duration-200 ${
+                `pb-1 transition-colors duration-200 ${
                   isActive
-                    ? "bg-babyPink/40 text-cozyGray shadow-sm"
-                    : "text-cozyGray/70 hover:text-babyPink"
+                    ? "text-deepSlate border-b-2 border-softGold"
+                    : "text-cozyGray hover:text-deepSlate"
                 }`
               }
             >

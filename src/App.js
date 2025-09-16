@@ -11,8 +11,8 @@ import Blog from "./pages/Blog";
 import "./styles/App.css";
 
 const NotFound = () => (
-  <main className="min-h-screen flex flex-col items-center justify-center bg-cloudWhite/80 text-cozyGray px-6 text-center">
-    <h1 className="text-5xl font-serif mb-4 text-cozyGray">Page not found</h1>
+  <main className="min-h-screen flex flex-col items-center justify-center bg-cloudWhite px-6 text-center text-deepSlate">
+    <h1 className="text-5xl font-serif mb-4">Page not found</h1>
     <p className="text-lg text-cozyGray/75 max-w-xl">
       The page you are looking for does not exist. Use the navigation above to get back on track.
     </p>

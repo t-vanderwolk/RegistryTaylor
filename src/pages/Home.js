@@ -14,7 +14,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-bubble bg-gradient-to-br from-blush/80 via-cloudWhite/90 to-softSky/80 px-6 py-16 text-center shadow-dreamy border border-softLavender/40"
+          className="relative rounded-bubble bg-white px-6 py-16 text-center shadow-dreamy border border-softGold/30"
         >
           <motion.h1
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -22,10 +22,10 @@ const Home = () => {
             transition={{ duration: 0.55, ease: "easeOut" }}
             className="mb-4 text-center font-cursive leading-tight text-cozyGray text-4xl sm:text-5xl tracking-tight"
           >
-            <motion.span className="font-cursive text-6xl sm:text-[4rem] inline-block mr-2 text-babyPink">
+            <motion.span className="font-cursive text-6xl sm:text-[4rem] inline-block mr-2 text-deepSlate">
               Taylor-Made
             </motion.span>
-            <motion.span className="font-cursive text-softLavender">
+            <motion.span className="font-cursive text-softGold">
               Baby Planning
             </motion.span>
           </motion.h1>
@@ -39,7 +39,7 @@ const Home = () => {
           <motion.img
             src="/assets/hero-baby.png"
             alt="Baby Planning Illustration"
-            className="mx-auto mt-6 max-w-md drop-shadow-lg animate-float"
+            className="mx-auto mt-6 max-w-md shadow-soft animate-float"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
@@ -71,10 +71,10 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-                className="rounded-3xl border border-softLavender/50 bg-white/80 px-5 py-4 shadow-soft hover:bg-babyPink/15 transition"
+                className="rounded-3xl border border-softGold/25 bg-white px-5 py-4 shadow-soft hover:bg-softGold/10 transition"
               >
                 <div className="text-3xl">{icon}</div>
-                <p className="mt-3 font-cursive text-lg text-cozyGray">{label}</p>
+                <p className="mt-3 font-serif text-lg text-deepSlate">{label}</p>
                 <p className="text-sm font-sans text-cozyGray/75">{detail}</p>
               </motion.div>
             ))}
@@ -83,7 +83,7 @@ const Home = () => {
       </Section>
 
       {/* Countdown Section */}
-      <Section title="Countdown to Baby Day 🎉" center className="bg-alt-blue">
+      <Section title="Countdown to Baby Day" center className="bg-alt-blue">
         <DueDateCountdown dueDate="2025-12-01" />
       </Section>
 
@@ -107,10 +107,10 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 key={service.title}
-                className="rounded-3xl border border-softLavender/40 bg-white/85 px-5 py-6 shadow-soft hover:bg-pastelPurple/25 transition"
+                className="rounded-3xl border border-softGold/25 bg-white px-5 py-6 shadow-soft transition hover:-translate-y-1"
               >
                 <div className="text-3xl">{service.icon}</div>
-                <h3 className="mt-3 font-cursive text-xl text-cozyGray">{service.title}</h3>
+                <h3 className="mt-3 font-serif text-xl text-deepSlate">{service.title}</h3>
                 <p className="mt-2 text-sm font-sans text-cozyGray/75 leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
@@ -128,10 +128,10 @@ const Home = () => {
           transition={{ duration: 0.6 }}
           className="px-6 py-6 max-w-2xl mx-auto space-y-6 text-cozyGray/85"
         >
-          <blockquote className="italic border-l-4 border-babyBlue/70 pl-4 font-sans text-base bg-white/70 rounded-2xl py-3">
+          <blockquote className="italic border-l-4 border-softGold/60 pl-4 font-sans text-base bg-white rounded-2xl py-3 shadow-soft">
             “Taylor made our registry feel effortless — no stress, no second-guessing.” — Jenna M.
           </blockquote>
-          <blockquote className="italic border-l-4 border-babyPink/70 pl-4 font-sans text-base bg-white/70 rounded-2xl py-3">
+          <blockquote className="italic border-l-4 border-softGold/60 pl-4 font-sans text-base bg-white rounded-2xl py-3 shadow-soft">
             “She helped us choose a stroller that truly works for our lifestyle. Game-changer!” — Rachel & Matt K.
           </blockquote>
         </motion.div>
@@ -157,9 +157,9 @@ const Home = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="rounded-3xl border border-softLavender/40 bg-white/85 px-5 py-5 shadow-soft"
+                className="rounded-3xl border border-softGold/25 bg-white px-5 py-5 shadow-soft"
               >
-                <h3 className="font-cursive text-base text-babyBlue mb-1">{step}</h3>
+                <h3 className="font-serif text-sm tracking-[0.2em] text-softGold mb-2 uppercase">{step}</h3>
                 <p className="font-sans text-sm text-cozyGray/75">{body}</p>
               </motion.li>
             ))}
@@ -190,14 +190,14 @@ const Home = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.2 }}
-                className="rounded-3xl border border-softLavender/40 bg-white/85 px-5 py-5 shadow-soft"
+                className="rounded-3xl border border-softGold/25 bg-white px-5 py-5 shadow-soft"
               >
                 <div className="text-3xl">{perk.icon}</div>
-                <h3 className="mt-2 font-cursive text-lg text-cozyGray">{perk.title}</h3>
+                <h3 className="mt-2 font-serif text-lg text-deepSlate">{perk.title}</h3>
                 <ul className="mt-2 space-y-1 text-sm font-sans text-cozyGray/75">
                   {perk.points.map((point, i) => (
                     <li key={i} className="flex gap-1">
-                      <span className="text-babyPink">◆</span>
+                      <span className="text-softGold">◆</span>
                       <span>{point}</span>
                     </li>
                   ))}

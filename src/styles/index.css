@@ -6,9 +6,8 @@
 @layer base {
   body {
     @apply bg-cloudWhite text-cozyGray font-sans;
-    background-image: radial-gradient(circle at 20% 20%, rgba(255, 221, 232, 0.55), transparent 55%),
-      radial-gradient(circle at 80% 0%, rgba(221, 239, 254, 0.5), transparent 45%),
-      linear-gradient(180deg, rgba(255, 247, 232, 0.6), rgba(255, 247, 232, 0.3));
+    background-image: linear-gradient(180deg, rgba(203, 185, 150, 0.12), transparent 35%),
+      linear-gradient(90deg, rgba(211, 219, 232, 0.08), transparent 45%);
     background-attachment: fixed;
   }
 
@@ -18,12 +17,12 @@
   h4,
   h5,
   h6 {
-    @apply font-serif text-cozyGray;
+    @apply font-serif text-deepSlate;
   }
 
   ::selection {
-    background: rgba(249, 198, 216, 0.65);
-    color: #4f4c5a;
+    background: rgba(203, 185, 150, 0.35);
+    color: #322f37;
   }
 }
 
@@ -31,34 +30,34 @@
 @layer components {
   /* Primary Button */
   .btn-primary {
-    @apply px-6 py-2 rounded-full bg-gradient-to-r from-babyPink via-softLavender to-softSky text-cozyGray font-semibold shadow-lg hover:shadow-soft hover:opacity-95 transition;
+    @apply inline-flex items-center justify-center px-6 py-2 rounded-full bg-deepSlate text-cloudWhite font-semibold tracking-[0.08em] uppercase transition hover:bg-deepSlate/90;
   }
 
   /* Secondary Button */
   .btn-secondary {
-    @apply px-6 py-2 rounded-full border border-softLavender/50 bg-cloudWhite text-cozyGray font-medium tracking-wide transition hover:bg-babyPink/20 hover:shadow-soft;
+    @apply inline-flex items-center justify-center px-6 py-2 rounded-full border border-deepSlate/30 bg-white text-deepSlate font-medium tracking-[0.08em] uppercase transition hover:bg-softGold/20;
   }
 
   /* Card Component */
   .cc-card {
-    @apply p-5 rounded-2xl shadow-soft bg-white/80 border border-softSky/40 backdrop-blur-sm hover:bg-white transition;
+    @apply p-6 rounded-3xl shadow-soft bg-white border border-softGold/20 transition hover:-translate-y-[2px] hover:shadow-dreamy;
   }
 
   /* Section Backgrounds */
   .bg-alt-pink {
-    @apply bg-babyPink/30 rounded-bubble;
+    @apply bg-blush/40 rounded-bubble;
   }
 
   .bg-alt-blue {
-    @apply bg-babyBlue/30 rounded-bubble;
+    @apply bg-babyBlue/35 rounded-bubble;
   }
 
   .bg-alt-green {
-    @apply bg-pastelGreen/30 rounded-bubble;
+    @apply bg-pastelGreen/35 rounded-bubble;
   }
 
   .bg-alt-yellow {
-    @apply bg-pastelYellow/30 rounded-bubble;
+    @apply bg-pastelYellow/35 rounded-bubble;
   }
 
   .bg-alt-purple {

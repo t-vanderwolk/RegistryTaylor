@@ -17,12 +17,12 @@ export default function DueDateCountdown({ dueDate }) {
   }, [dueDate]);
 
   return (
-    <div className="bg-softSky/40 text-cozyGray p-6 md:p-8 rounded-3xl shadow-soft border border-softLavender/40 text-center backdrop-blur">
-      <h2 className="text-xl md:text-2xl font-serif font-semibold text-babyPink mb-3">
-        Countdown to Baby!
+    <div className="bg-white text-deepSlate p-6 md:p-8 rounded-3xl shadow-soft border border-softGold/30 text-center">
+      <h2 className="text-xl md:text-2xl font-serif font-semibold tracking-[0.2em] uppercase text-softGold mb-3">
+        Countdown to Baby
       </h2>
-      <p className="text-5xl md:text-6xl font-cursive text-babyBlue drop-shadow">
-        {daysLeft > 0 ? `${daysLeft} days` : "It's Baby Day! 🎉"}
+      <p className="text-5xl md:text-6xl font-cursive text-deepSlate">
+        {daysLeft > 0 ? `${daysLeft} days` : "It's Baby Day!"}
       </p>
     </div>
   );

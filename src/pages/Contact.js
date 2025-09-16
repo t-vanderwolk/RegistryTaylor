@@ -9,7 +9,7 @@ const Contact = () => {
           Ready to get started? Let’s make baby prep simple, stress-free, and
           Taylor-Made just for you.
         </p>
-        <p className="mt-4 text-cozyGray font-medium">📧 Email: RegistrywithTaylor@gmail.com</p>
+        <p className="mt-4 text-cozyGray font-medium">Email: RegistrywithTaylor@gmail.com</p>
         <button className="mt-6 btn-primary px-8 py-3">Book Your Consultation</button>
       </Section>
     </div>

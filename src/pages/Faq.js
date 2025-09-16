@@ -26,7 +26,7 @@ const Faq = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border border-softLavender/50 bg-white/85 rounded-2xl px-5 py-4 cursor-pointer shadow-soft hover:bg-babyPink/10 transition"
+              className="border border-softGold/25 bg-white rounded-2xl px-5 py-4 cursor-pointer shadow-soft hover:bg-softGold/10 transition"
               onClick={() =>
                 setOpenIndex(openIndex === index ? null : index)
               }

@@ -4,18 +4,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blush: "#FFDDE8",
-        peachFuzz: "#FFE8DA",
-        babyBlue: "#BFDFF6",
-        babyPink: "#F9C6D8",
-        pastelGreen: "#D5F2E3",
-        pastelYellow: "#FFF5CC",
-        pastelPurple: "#E8DDF9",
-        softLavender: "#D9D6FF",
-        softMint: "#CFEEDF",
-        softSky: "#DDEFFE",
-        cloudWhite: "#FCFCFF",
-        cozyGray: "#4F4C5A",
+        blush: "#F2E6DE",
+        peachFuzz: "#F4E6D7",
+        babyBlue: "#CFD7E4",
+        babyPink: "#E3C6CB",
+        pastelGreen: "#DFE5DE",
+        pastelYellow: "#F2EEDC",
+        pastelPurple: "#E2DADF",
+        softLavender: "#D6D1E2",
+        softMint: "#D7E6DE",
+        softSky: "#D3DBE8",
+        cloudWhite: "#F9F7F4",
+        cozyGray: "#4B4752",
+        deepSlate: "#322F37",
+        softGold: "#CBB996",
       },
       fontFamily: {
         sans: ["Fredoka", "sans-serif"],
@@ -23,8 +25,8 @@ module.exports = {
         serif: ["Playfair Display", "serif"],
       },
       boxShadow: {
-        dreamy: "0 12px 30px -12px rgba(244, 179, 198, 0.45)",
-        soft: "0 15px 45px -20px rgba(94, 114, 228, 0.25)",
+        dreamy: "0 20px 50px -28px rgba(50, 47, 55, 0.35)",
+        soft: "0 18px 40px -30px rgba(50, 47, 55, 0.25)",
       },
       borderRadius: {
         bubble: "2rem",

@@ -2,27 +2,27 @@
    NAVBAR FALLBACK
    =========================== */
 nav {
-  background: linear-gradient(135deg, rgba(255, 221, 232, 0.9), rgba(221, 239, 254, 0.9));
+  background: rgba(255, 255, 255, 0.95);
   padding: 1rem 2rem;
   display: flex;
   justify-content: center;
   gap: 2rem;
-  border-bottom: 1px solid rgba(217, 213, 255, 0.6);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(203, 185, 150, 0.4);
+  backdrop-filter: blur(8px);
 }
 
 nav a {
-  color: #4f4c5a;
+  color: #322f37;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 nav a:hover {
-  color: #f9c6d8;
+  color: #cbb996;
 }
 
 nav a.active {
-  border-bottom: 2px solid #d9d6ff;
+  border-bottom: 2px solid #cbb996;
   padding-bottom: 2px;
 }
 
@@ -30,11 +30,11 @@ nav a.active {
    HERO SECTION FALLBACK
    =========================== */
 .hero {
-  background: linear-gradient(160deg, rgba(255, 236, 214, 0.9), rgba(223, 240, 255, 0.9));
-  color: #4f4c5a;
+  background: #ffffff;
+  color: #322f37;
   padding: 6rem 2rem;
   text-align: center;
-  border-bottom: 1px solid rgba(249, 198, 216, 0.4);
+  border-bottom: 1px solid rgba(203, 185, 150, 0.35);
 }
 
 .hero h1 {
@@ -70,10 +70,10 @@ blockquote {
   font-style: italic;
   margin: 2rem auto;
   max-width: 700px;
-  border-left: 4px solid rgba(249, 198, 216, 0.7);
+  border-left: 4px solid rgba(203, 185, 150, 0.6);
   padding-left: 1rem;
-  color: rgba(79, 76, 90, 0.85);
-  background: rgba(221, 239, 254, 0.25);
+  color: rgba(50, 47, 55, 0.82);
+  background: rgba(243, 236, 224, 0.35);
   border-radius: 1rem;
 }
 
@@ -84,15 +84,16 @@ blockquote {
   max-width: 800px;
   margin: 4rem auto;
   padding: 2rem;
-  background: rgba(255, 247, 204, 0.35);
+  background: #ffffff;
   border-radius: 2rem;
+  border: 1px solid rgba(203, 185, 150, 0.35);
 }
 
 .faq-title {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #4f4c5a;
+  color: #322f37;
 }
 
 .faq-container {
@@ -102,30 +103,30 @@ blockquote {
 }
 
 .faq-item {
-  background: rgba(252, 252, 255, 0.9);
-  border: 1px solid rgba(217, 213, 255, 0.7);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(203, 185, 150, 0.35);
   border-radius: 1.5rem;
   padding: 1rem 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 12px 34px -20px rgba(79, 76, 90, 0.3);
+  box-shadow: 0 12px 34px -24px rgba(50, 47, 55, 0.25);
 }
 
 .faq-item:hover {
-  background: rgba(255, 221, 232, 0.4);
+  background: rgba(203, 185, 150, 0.15);
 }
 
 .faq-question {
   font-family: "Playfair Display", serif;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #4f4c5a;
+  color: #322f37;
 }
 
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  color: rgba(79, 76, 90, 0.8);
+  color: rgba(50, 47, 55, 0.78);
   font-size: 1rem;
   margin-top: 0.5rem;
   line-height: 1.6;
@@ -142,14 +143,14 @@ blockquote {
    FOOTER FALLBACK
    =========================== */
 footer {
-  background: linear-gradient(135deg, rgba(221, 239, 254, 0.9), rgba(255, 236, 214, 0.9));
-  color: #4f4c5a;
+  background: rgba(255, 255, 255, 0.95);
+  color: #322f37;
   padding: 2rem;
   text-align: center;
-  border-top: 1px solid rgba(249, 198, 216, 0.4);
+  border-top: 1px solid rgba(203, 185, 150, 0.35);
 }
 
 footer a {
-  color: #f9c6d8;
+  color: #cbb996;
   text-decoration: underline;
 }

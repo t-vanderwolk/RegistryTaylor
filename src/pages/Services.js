@@ -115,12 +115,12 @@ const Services = () => {
         <div className="grid gap-8 md:grid-cols-2">
           {pillars.map((pillar) => (
             <article key={pillar.title} className="cc-card text-left">
-              <h3 className="font-serif text-2xl text-cozyGray mb-2">{pillar.title}</h3>
+              <h3 className="font-serif text-2xl text-deepSlate mb-2">{pillar.title}</h3>
               <p className="text-cozyGray/75 mb-4">{pillar.blurb}</p>
               <ul className="space-y-2 text-cozyGray/85 text-sm">
                 {pillar.points.map((point, idx) => (
                   <li key={idx} className="flex gap-2">
-                    <span className="text-babyPink">•</span>
+                    <span className="text-softGold">•</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -139,8 +139,8 @@ const Services = () => {
           {packages.map((pkg) => (
             <article key={pkg.name} className="cc-card text-left">
               <header className="mb-4">
-                <div className="text-sm uppercase tracking-[0.3em] text-softLavender">{pkg.tag}</div>
-                <h3 className="font-serif text-3xl text-cozyGray mt-2">{pkg.name}</h3>
+                <div className="text-sm uppercase tracking-[0.3em] text-softGold">{pkg.tag}</div>
+                <h3 className="font-serif text-3xl text-deepSlate mt-2">{pkg.name}</h3>
               </header>
               <p className="text-cozyGray/75 mb-4 leading-relaxed">{pkg.intro}</p>
               {pkg.headline && (
@@ -151,7 +151,7 @@ const Services = () => {
               <ul className="space-y-2 text-cozyGray/85">
                 {pkg.items.map((item, index) => (
                   <li key={index} className="flex gap-3">
-                    <span className="text-babyPink mt-1">◆</span>
+                    <span className="text-softGold mt-1">◆</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -173,7 +173,7 @@ const Services = () => {
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           <article className="cc-card text-left">
-            <h3 className="font-serif text-2xl text-cozyGray mb-3">Taylor-Made Blog</h3>
+            <h3 className="font-serif text-2xl text-deepSlate mb-3">Taylor-Made Blog</h3>
             <ul className="space-y-2 text-cozyGray/85 text-sm leading-relaxed">
               <li>• Private access to curated guides: stroller + car seat comparisons, nursery design tips, registry hacks, travel prep, and family dynamics.</li>
               <li>• Insider updates on launches, recalls, and luxury brand drops.</li>
@@ -181,7 +181,7 @@ const Services = () => {
             </ul>
           </article>
           <article className="cc-card text-left">
-            <h3 className="font-serif text-2xl text-cozyGray mb-3">Taylor-Made Mentors</h3>
+            <h3 className="font-serif text-2xl text-deepSlate mb-3">Taylor-Made Mentors</h3>
             <ul className="space-y-2 text-cozyGray/85 text-sm leading-relaxed">
               <li>• Access to Taylor-Made Mom Mentors for lived wisdom and encouragement.</li>
               <li>• Personalized pairings with mentors who mirror your lifestyle — celebrity, twin, working, or first-time moms.</li>
@@ -189,8 +189,8 @@ const Services = () => {
             </ul>
           </article>
         </div>
-        <div className="mt-8 cc-card text-left border border-softLavender/50 bg-white/85">
-          <h3 className="font-serif text-xl text-cozyGray mb-2">Membership Promise</h3>
+        <div className="mt-8 cc-card text-left border border-softGold/30">
+          <h3 className="font-serif text-xl text-deepSlate mb-2">Membership Promise</h3>
           <ul className="space-y-2 text-cozyGray/85 text-sm leading-relaxed">
             <li>• Discretion first — every client is protected by confidentiality agreements and NDAs.</li>
             <li>• Consultations, registries, and events remain private and personally overseen.</li>

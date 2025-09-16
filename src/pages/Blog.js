@@ -42,14 +42,14 @@ const Blog = () => {
           <div className="grid gap-6 md:grid-cols-2">
             {posts.map((post) => (
               <article key={post.id} className="cc-card text-left">
-                <h3 className="font-serif text-2xl text-cozyGray mb-3">{post.title}</h3>
+                <h3 className="font-serif text-2xl text-deepSlate mb-3">{post.title}</h3>
                 <p className="text-cozyGray/75 mb-4 leading-relaxed">{post.excerpt}</p>
                 <p className="text-cozyGray/85 mb-4 leading-relaxed">{post.content}</p>
                 <Link
                   to="/contact"
-                  className="text-babyPink hover:text-babyPink/80 underline"
+                  className="text-softGold hover:text-deepSlate underline tracking-[0.12em] uppercase text-xs"
                 >
-                  Let’s plan together →
+                  Let’s plan together
                 </Link>
               </article>
             ))}

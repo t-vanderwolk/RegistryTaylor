@@ -10,7 +10,7 @@ const links = [
   { to: "/contact", label: "Contact" },
 ];
 
-const NavBar = () => {
+const Navbar = () => {
   return (
     <nav className="sticky top-0 z-30 bg-cloudWhite/80 backdrop-blur-lg border-b border-softLavender/40 shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-cozyGray">
@@ -42,4 +42,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;

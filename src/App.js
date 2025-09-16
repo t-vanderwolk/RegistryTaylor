@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import NavBar from "./components/NavBar";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -22,7 +22,7 @@ const NotFound = () => (
 const App = () => (
   <Router>
     <ScrollToTop />
-    <NavBar />
+    <Navbar />
     <Routes future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />

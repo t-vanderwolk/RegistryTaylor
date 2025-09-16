@@ -1,167 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Section from "../components/UI/Section";
-
-const heroHighlights = [
-  {
-    icon: "🔐",
-    title: "Invite-Only Access",
-    blurb: "Every journey begins with a personal invitation and unique authorization code for total discretion.",
-  },
-  {
-    icon: "🪄",
-    title: "Concierge Expertise",
-    blurb: "From registry to nursery reveals, Taylor anticipates what’s next so you can stay present.",
-  },
-  {
-    icon: "🤍",
-    title: "Signature Finish",
-    blurb: "Each milestone is styled, scheduled, and delivered with the warmth of a trusted confidante.",
-  },
-];
+import {
+  membershipHeroHighlights,
+  membershipTiers,
+  conciergePillars,
+  membershipBenefits,
+} from "../data/membership";
 
 const packageAccents = [
   "from-babyBlue/50 via-white to-softGold/25",
   "from-pastelPurple/40 via-white to-softGold/30",
   "from-pastelGreen/45 via-white to-softGold/25",
-];
-
-const pillars = [
-  {
-    icon: "🗂️",
-    title: "Registry & Gear Curation",
-    blurb: "I discreetly build, manage, and maintain your registry across every retailer you love.",
-    points: [
-      "Tailored registries across Target, Amazon, Pottery Barn Kids, Nordstrom, and more",
-      "Private access to hard-to-find or luxury products",
-      "You approve — I handle every update, return, and exchange",
-    ],
-  },
-  {
-    icon: "🛍️",
-    title: "Personal Shopping & Concierge",
-    blurb: "Everything from the first stroller trial to the final layette arrives ready for baby.",
-    points: [
-      "In-home or virtual consultations scheduled around your calendar",
-      "White-glove delivery and setup of strollers, car seats, and high chairs",
-      "VIP retailer coordination and early-release access",
-      "Curated wardrobe styling for travel, hospital, and first-week essentials",
-    ],
-  },
-  {
-    icon: "🏡",
-    title: "Nursery & Home Design",
-    blurb: "Create a calming space that blends seamlessly with your home and grows with your family.",
-    points: [
-      "Furniture curation, floor plans, and installation oversight",
-      "Collaboration with your interior designer to match existing style",
-      "Safety integration that disappears into the décor",
-      "Seasonal refreshes for holidays, milestones, and guests",
-    ],
-  },
-  {
-    icon: "🥂",
-    title: "Event & Social Planning",
-    blurb: "Celebrate every chapter without lifting a finger — I manage every discreet detail.",
-    points: [
-      "Baby shower and sip-and-see production with trusted vendors",
-      "Curated gifting experiences with bespoke favors and thank-yous",
-      "Luxury announcement cards and milestone photography coordination",
-    ],
-  },
-  {
-    icon: "👨‍👩‍👧",
-    title: "Family & Lifestyle Integration",
-    blurb: "Keep every member of the household — pets included — feeling supported and seen.",
-    points: [
-      "Coaching around in-law expectations and family dynamics",
-      "Sibling preparation experiences tailored to their ages",
-      "Pet integration plans for a calm homecoming",
-      "Travel concierge services with installs, packing, and itineraries",
-    ],
-  },
-  {
-    icon: "🌙",
-    title: "Ongoing Support & Transitions",
-    blurb: "From fourth trimester to toddler life, your concierge for every next step.",
-    points: [
-      "Postpartum planning, meal prep, and vetted night-nurse introductions",
-      "Scheduling with trusted lactation consultants, photographers, and nanny agencies",
-      "Beyond-baby services for toddler gear, preschool prep, and travel",
-    ],
-  },
-];
-
-const packages = [
-  {
-    name: "Essentials",
-    tag: "Foundation Tier",
-    intro: "For families who want stress-free registry and gear support handled start to finish.",
-    items: [
-      "Curated baby registries across Amazon, Target, Pottery Barn Kids, Nordstrom, and more",
-      "Personal shopping recommendations for strollers, car seats, and everyday gear",
-      "White-glove returns and exchanges managed discreetly",
-      "One virtual or in-home consultation",
-      "Access to Taylor’s vetted vendor list — nannies, doulas, night nurses, lactation consultants",
-    ],
-  },
-  {
-    name: "Signature",
-    tag: "Most Popular Tier",
-    intro: "For clients who want the registry experience plus nursery and lifestyle guidance.",
-    headline: "Includes everything in Essentials, plus:",
-    items: [
-      "Full nursery design plan with furniture curation and décor styling",
-      "In-home personal shopping and setup of gear",
-      "Baby wardrobe essentials shopping for hospital, travel, and first weeks",
-      "Travel preparation concierge — car seat installs, stroller packing, airport support",
-      "Family integration planning for siblings, pets, and in-laws",
-    ],
-  },
-  {
-    name: "Bespoke",
-    tag: "Invite-Only Tier",
-    intro: "A fully private, white-glove experience built for high-profile clients who want every detail handled.",
-    headline: "Includes everything in Signature, plus:",
-    items: [
-      "Custom event planning for baby showers, sip-and-sees, and announcements",
-      "Full nursery install with on-site styling visits",
-      "Concierge coordination with luxury retailers and early product access",
-      "Personalized gifting experiences and thank-you management",
-      "Fourth trimester planning — postpartum setup, night nurse/doula scheduling, curated meal support",
-      "Ongoing quarterly check-ins for new stages, toddler gear, and preschool prep",
-    ],
-  },
-];
-
-const membershipHighlights = [
-  {
-    icon: "📒",
-    title: "Taylor-Made Blog",
-    points: [
-      "Curated guides: stroller + car seat comparisons, nursery design tips, registry hacks, and travel prep",
-      "Insider updates on launches, recalls, and luxury brand drops",
-      "Seasonal checklists covering hospital bags, holiday prep, and toddler transitions",
-    ],
-  },
-  {
-    icon: "🤝",
-    title: "Taylor-Made Mentors",
-    points: [
-      "Access to the Mentor Circle for lived wisdom and encouragement",
-      "Personalized pairings with mentors who mirror your lifestyle",
-      "Opportunities to become a mentor and gift guidance forward",
-    ],
-  },
-  {
-    icon: "💫",
-    title: "Membership Promise",
-    points: [
-      "Discretion first — every client is protected by confidentiality agreements and NDAs",
-      "Consultations, registries, and events remain private and personally overseen",
-      "Membership frames each package as entry into an exclusive inner circle",
-    ],
-  },
 ];
 
 const HeroHighlight = ({ icon, title, blurb }) => (
@@ -183,6 +33,11 @@ const PackageCard = ({ pkg, accent }) => (
         <div className="text-[0.65rem] uppercase tracking-[0.35em] text-deepSlate/70">{pkg.tag}</div>
         <h3 className="mt-2 font-serif text-3xl text-deepSlate">{pkg.name}</h3>
       </header>
+      {pkg.startingPrice && (
+        <p className="text-xs uppercase tracking-[0.3em] text-softGold">
+          {pkg.startingPrice.startsWith("$") ? `Starting at ${pkg.startingPrice}` : pkg.startingPrice}
+        </p>
+      )}
       <p className="text-sm leading-relaxed text-deepSlate/80">{pkg.intro}</p>
       {pkg.headline && (
         <p className="mt-4 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-deepSlate/60">
@@ -229,20 +84,23 @@ const PillarCard = ({ icon, title, blurb, points }) => (
   </article>
 );
 
-const MembershipCard = ({ icon, title, points }) => (
+const MembershipCard = ({ icon, title, summary, details = [] }) => (
   <article className="relative overflow-hidden rounded-3xl border border-softGold/25 bg-white/85 p-6 shadow-soft backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-dreamy">
     <div className="flex items-center gap-3 text-deepSlate">
       <span className="text-3xl">{icon}</span>
       <h3 className="font-serif text-xl">{title}</h3>
     </div>
-    <ul className="mt-4 space-y-2 text-sm leading-relaxed text-cozyGray/80">
-      {points.map((point, idx) => (
-        <li key={idx} className="flex items-start gap-2">
-          <span className="mt-1 text-softGold">•</span>
-          <span>{point}</span>
-        </li>
-      ))}
-    </ul>
+    <p className="mt-3 text-sm leading-relaxed text-cozyGray/80">{summary}</p>
+    {details.length > 0 && (
+      <ul className="mt-4 space-y-2 text-sm leading-relaxed text-cozyGray/75">
+        {details.map((point, idx) => (
+          <li key={idx} className="flex items-start gap-2">
+            <span className="mt-1 text-softGold">•</span>
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+    )}
   </article>
 );
 
@@ -272,7 +130,7 @@ const Membership = () => {
             </a>
           </div>
           <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
-            {heroHighlights.map((item) => (
+            {membershipHeroHighlights.map((item) => (
               <HeroHighlight key={item.title} {...item} />
             ))}
           </div>
@@ -286,8 +144,8 @@ const Membership = () => {
             </p>
           </div>
           <div className="grid gap-8 lg:grid-cols-3">
-            {packages.map((pkg, index) => (
-              <PackageCard key={pkg.name} pkg={pkg} accent={packageAccents[index % packageAccents.length]} />
+            {membershipTiers.map((pkg, index) => (
+              <PackageCard key={pkg.id} pkg={pkg} accent={packageAccents[index % packageAccents.length]} />
             ))}
           </div>
           <div className="text-center text-sm italic text-cozyGray/70">
@@ -303,7 +161,7 @@ const Membership = () => {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {pillars.map((pillar) => (
+            {conciergePillars.map((pillar) => (
               <PillarCard key={pillar.title} {...pillar} />
             ))}
           </div>
@@ -317,7 +175,7 @@ const Membership = () => {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {membershipHighlights.map((highlight) => (
+            {membershipBenefits.map((highlight) => (
               <MembershipCard key={highlight.title} {...highlight} />
             ))}
           </div>

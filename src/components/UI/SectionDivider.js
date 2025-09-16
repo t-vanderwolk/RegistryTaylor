@@ -1,21 +1,27 @@
 import React from "react";
 
-// Minimal gold centered solid line divider
 const SectionDivider = ({ className = "" }) => {
-  const gold = "#D4AF37"; // warm gold
   return (
     <div className={`flex justify-center my-10 ${className}`}>
       <svg
-        width="380"
-        height="24"
-        viewBox="0 0 380 24"
+        width="360"
+        height="28"
+        viewBox="0 0 360 28"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <g stroke={gold} strokeWidth="3.5" strokeLinecap="round" fill="none">
-          {/* single centered line */}
-          <path d="M90 12 H290" />
+        <defs>
+          <linearGradient id="pastelLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#F9C6D8" />
+            <stop offset="50%" stopColor="#D9D6FF" />
+            <stop offset="100%" stopColor="#BFDFF6" />
+          </linearGradient>
+        </defs>
+        <g stroke="url(#pastelLine)" strokeWidth="4" strokeLinecap="round" fill="none">
+          <path d="M70 14 H290" />
         </g>
+        <circle cx="40" cy="14" r="4" fill="#FEE5F1" opacity="0.85" />
+        <circle cx="320" cy="14" r="4" fill="#DDEFFE" opacity="0.85" />
       </svg>
     </div>
   );

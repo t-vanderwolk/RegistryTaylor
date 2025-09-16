@@ -18,12 +18,14 @@ const Section = ({ title, children, className = "", center = false, index = 0, t
     <section className={`cc-container ${tightTop ? "my-10 md:my-16" : "my-20 md:my-28"}`}>
       <div
         className={`
-          relative rounded-2xl border-2 border-gold/30
-          bg-white shadow-md hover:shadow-2xl hover:-translate-y-1 
-          transform transition duration-700 ease-in-out 
+          relative overflow-hidden rounded-bubble border border-softLavender/50
+          bg-white/85 shadow-soft backdrop-blur-sm hover:shadow-dreamy hover:-translate-y-1
+          transform transition duration-700 ease-in-out
           ${className}
         `}
       >
+        <div className="pointer-events-none absolute -top-24 left-8 h-56 w-56 rounded-full bg-babyPink/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 right-12 h-48 w-48 rounded-full bg-softSky/30 blur-3xl" />
         {/* Inner content */}
         <div
           className={`relative z-10 flex flex-col md:flex-row ${
@@ -33,7 +35,7 @@ const Section = ({ title, children, className = "", center = false, index = 0, t
           <div className={`${center ? "text-center w-full" : "flex-1"}`}>
             {title && (
               <h2
-                className={`font-serif text-3xl md:text-4xl mb-6 tracking-wide text-black ${
+                className={`font-serif text-3xl md:text-4xl mb-6 tracking-wide text-cozyGray ${
                   center ? "text-center" : "text-left"
                 }`}
               >
@@ -41,9 +43,9 @@ const Section = ({ title, children, className = "", center = false, index = 0, t
               </h2>
             )}
             {title && (
-              <div className={`${center ? 'mx-auto' : ''} h-0.5 bg-gold w-16 mb-6`} />
+              <div className={`${center ? "mx-auto" : ""} h-1 bg-babyPink w-16 rounded-full mb-6`} />
             )}
-            <div className="text-black/80 leading-relaxed">{children}</div>
+            <div className="text-cozyGray/90 leading-relaxed">{children}</div>
           </div>
         </div>
       </div>

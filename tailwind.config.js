@@ -4,23 +4,30 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#000000", // black
-        accent: "#F7EAF2",  // light powder pink
-        gold: "#D4AF37",    // warm gold
+        blush: "#FFDDE8",
+        peachFuzz: "#FFE8DA",
+        babyBlue: "#BFDFF6",
+        babyPink: "#F9C6D8",
+        pastelGreen: "#D5F2E3",
+        pastelYellow: "#FFF5CC",
+        pastelPurple: "#E8DDF9",
+        softLavender: "#D9D6FF",
+        softMint: "#CFEEDF",
+        softSky: "#DDEFFE",
+        cloudWhite: "#FCFCFF",
+        cozyGray: "#4F4C5A",
       },
       fontFamily: {
+        sans: ["Fredoka", "sans-serif"],
+        cursive: ["Baloo 2", "cursive"],
         serif: ["Playfair Display", "serif"],
-        sans: ["Montserrat", "sans-serif"],
-        cursive: ["Great Vibes", "cursive"],
       },
-      container: {
-        center: true,
-        padding: {
-          DEFAULT: "1rem",
-          md: "2rem",
-          lg: "3rem",
-          xl: "4rem",
-        },
+      boxShadow: {
+        dreamy: "0 12px 30px -12px rgba(244, 179, 198, 0.45)",
+        soft: "0 15px 45px -20px rgba(94, 114, 228, 0.25)",
+      },
+      borderRadius: {
+        bubble: "2rem",
       },
     },
   },

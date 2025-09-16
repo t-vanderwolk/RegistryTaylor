@@ -105,22 +105,22 @@ const packages = [
 
 const Services = () => {
   return (
-    <div className="min-h-screen bg-white">
-      <Section title="Taylor-Made Services" tightTop compact>
-        <div className="mx-auto max-w-3xl text-center text-black/80 mb-10">
-          <p className="text-lg">
+    <div className="min-h-screen bg-transparent text-cozyGray">
+      <Section title="Taylor-Made Services" tightTop compact className="bg-alt-blue">
+        <div className="mx-auto max-w-3xl text-center text-cozyGray/80 mb-10">
+          <p className="text-lg leading-relaxed">
             As an invite-only concierge, every offering is ultra-curated, discreet, and personally overseen by Taylor. Clients trust me to anticipate needs before they surface, handle the logistics no one has time for, and deliver experiences worthy of a high-profile family.
           </p>
         </div>
         <div className="grid gap-8 md:grid-cols-2">
           {pillars.map((pillar) => (
             <article key={pillar.title} className="cc-card text-left">
-              <h3 className="font-serif text-2xl text-black mb-2">{pillar.title}</h3>
-              <p className="text-black/70 mb-4">{pillar.blurb}</p>
-              <ul className="space-y-2 text-black/80 text-sm">
+              <h3 className="font-serif text-2xl text-cozyGray mb-2">{pillar.title}</h3>
+              <p className="text-cozyGray/75 mb-4">{pillar.blurb}</p>
+              <ul className="space-y-2 text-cozyGray/85 text-sm">
                 {pillar.points.map((point, idx) => (
                   <li key={idx} className="flex gap-2">
-                    <span className="text-gold">•</span>
+                    <span className="text-babyPink">•</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -129,9 +129,9 @@ const Services = () => {
           ))}
         </div>
       </Section>
-      <Section title="Taylor-Made Baby Planning Packages" compact>
-        <div className="mx-auto max-w-3xl text-center text-black/70 mb-10">
-          <p>
+      <Section title="Taylor-Made Baby Planning Packages" compact className="bg-alt-pink">
+        <div className="mx-auto max-w-3xl text-center text-cozyGray/75 mb-10">
+          <p className="leading-relaxed">
             Choose the level of concierge support that best reflects your season. Every package is intentionally designed to feel essential, exclusive, and high-touch — with the flexibility to layer in bespoke moments whenever you need them.
           </p>
         </div>
@@ -139,19 +139,19 @@ const Services = () => {
           {packages.map((pkg) => (
             <article key={pkg.name} className="cc-card text-left">
               <header className="mb-4">
-                <div className="text-sm uppercase tracking-[0.3em] text-gold/80">{pkg.tag}</div>
-                <h3 className="font-serif text-3xl text-black mt-2">{pkg.name}</h3>
+                <div className="text-sm uppercase tracking-[0.3em] text-softLavender">{pkg.tag}</div>
+                <h3 className="font-serif text-3xl text-cozyGray mt-2">{pkg.name}</h3>
               </header>
-              <p className="text-black/70 mb-4">{pkg.intro}</p>
+              <p className="text-cozyGray/75 mb-4 leading-relaxed">{pkg.intro}</p>
               {pkg.headline && (
-                <p className="text-sm font-medium uppercase tracking-wide text-black/60 mb-3">
+                <p className="text-sm font-medium uppercase tracking-wide text-cozyGray/70 mb-3">
                   {pkg.headline}
                 </p>
               )}
-              <ul className="space-y-2 text-black/80">
+              <ul className="space-y-2 text-cozyGray/85">
                 {pkg.items.map((item, index) => (
                   <li key={index} className="flex gap-3">
-                    <span className="text-gold mt-1">◆</span>
+                    <span className="text-babyPink mt-1">◆</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -159,39 +159,39 @@ const Services = () => {
             </article>
           ))}
         </div>
-        <div className="mt-10 text-center text-black/70">
+        <div className="mt-10 text-center text-cozyGray/70">
           <p className="text-sm italic">
             Essentials anchors the must-haves, Signature delivers the dream-life ease, and Bespoke remains an invite-only tier for families seeking complete discretion and limitless support.
           </p>
         </div>
       </Section>
-      <Section title="Taylor-Made Membership Perks" compact>
-        <div className="mx-auto max-w-3xl text-center text-black/70 mb-10">
-          <p>
+      <Section title="Taylor-Made Membership Perks" compact className="bg-alt-green">
+        <div className="mx-auto max-w-3xl text-center text-cozyGray/75 mb-10">
+          <p className="leading-relaxed">
             Membership is your invitation into a private, like-minded community. No matter the package, you step into a circle that treats discretion, insight, and shared experience as non-negotiables.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           <article className="cc-card text-left">
-            <h3 className="font-serif text-2xl text-black mb-3">Taylor-Made Blog</h3>
-            <ul className="space-y-2 text-black/80 text-sm">
+            <h3 className="font-serif text-2xl text-cozyGray mb-3">Taylor-Made Blog</h3>
+            <ul className="space-y-2 text-cozyGray/85 text-sm leading-relaxed">
               <li>• Private access to curated guides: stroller + car seat comparisons, nursery design tips, registry hacks, travel prep, and family dynamics.</li>
               <li>• Insider updates on launches, recalls, and luxury brand drops.</li>
               <li>• Seasonal checklists covering hospital bags, holiday prep, and toddler transitions.</li>
             </ul>
           </article>
           <article className="cc-card text-left">
-            <h3 className="font-serif text-2xl text-black mb-3">Taylor-Made Mentors</h3>
-            <ul className="space-y-2 text-black/80 text-sm">
+            <h3 className="font-serif text-2xl text-cozyGray mb-3">Taylor-Made Mentors</h3>
+            <ul className="space-y-2 text-cozyGray/85 text-sm leading-relaxed">
               <li>• Access to Taylor-Made Mom Mentors for lived wisdom and encouragement.</li>
               <li>• Personalized pairings with mentors who mirror your lifestyle — celebrity, twin, working, or first-time moms.</li>
               <li>• Invitation to grow into a mentor yourself, building a legacy of peer-to-peer guidance.</li>
             </ul>
           </article>
         </div>
-        <div className="mt-8 cc-card text-left border border-gold/40 bg-white/80">
-          <h3 className="font-serif text-xl text-black mb-2">Membership Promise</h3>
-          <ul className="space-y-2 text-black/80 text-sm">
+        <div className="mt-8 cc-card text-left border border-softLavender/50 bg-white/85">
+          <h3 className="font-serif text-xl text-cozyGray mb-2">Membership Promise</h3>
+          <ul className="space-y-2 text-cozyGray/85 text-sm leading-relaxed">
             <li>• Discretion first — every client is protected by confidentiality agreements and NDAs.</li>
             <li>• Consultations, registries, and events remain private and personally overseen.</li>
             <li>• Membership frames each package as entry into an exclusive club, rather than an add-on service.</li>

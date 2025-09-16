@@ -1,101 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Baloo+2:wght@400;600&family=Playfair+Display:wght@400;600&display=swap');
 
 @layer base {
-  html {
-    font-family: theme('fontFamily.sans');
+  body {
+    @apply bg-cloudWhite text-cozyGray font-sans;
+    background-image: radial-gradient(circle at 20% 20%, rgba(255, 221, 232, 0.55), transparent 55%),
+      radial-gradient(circle at 80% 0%, rgba(221, 239, 254, 0.5), transparent 45%),
+      linear-gradient(180deg, rgba(255, 247, 232, 0.6), rgba(255, 247, 232, 0.3));
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif text-cozyGray;
+  }
+
+  ::selection {
+    background: rgba(249, 198, 216, 0.65);
+    color: #4f4c5a;
   }
 }
 
-/* ===========================
-   ANIMATIONS
-   =========================== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 1s ease forwards;
-}
-
-/* ===========================
-   GLOBAL TYPOGRAPHY
-   =========================== */
-body {
-  font-family: "Montserrat", sans-serif;
-  background: #fff;
-  color: #111;
-  line-height: 1.7;
-  scroll-behavior: smooth;
-}
-
-h1, h2, h3 {
-  font-family: "Playfair Display", serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* ===========================
-   LINKS
-   =========================== */
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s ease;
-}
-
-/* ===========================
-   BUTTONS
-   =========================== */
-button,
-.btn {
-  @apply px-6 py-3 text-base font-semibold rounded-full border border-black bg-white text-black transition transform;
-}
-
-button:hover,
-.btn:hover {
-  background: black;
-  color: white;
-  transform: translateY(-3px);
-}
-
-.btn.dark {
-  background: black;
-  color: white;
-}
-
-.btn.dark:hover {
-  background: #333;
-}
-
-/* ===========================
-   CUSTOM COMPONENTS (Tailwind @apply)
-   =========================== */
+/* Custom Utilities */
 @layer components {
-  .cc-container {
-    @apply container mx-auto;
-  }
-
-  .cc-card {
-    @apply p-6 border border-gold/40 rounded-xl shadow bg-white transition-shadow duration-300;
-  }
-
+  /* Primary Button */
   .btn-primary {
-    @apply bg-gold text-black hover:brightness-95;
+    @apply px-6 py-2 rounded-full bg-gradient-to-r from-babyPink via-softLavender to-softSky text-cozyGray font-semibold shadow-lg hover:shadow-soft hover:opacity-95 transition;
+  }
+
+  /* Secondary Button */
+  .btn-secondary {
+    @apply px-6 py-2 rounded-full border border-softLavender/50 bg-cloudWhite text-cozyGray font-medium tracking-wide transition hover:bg-babyPink/20 hover:shadow-soft;
+  }
+
+  /* Card Component */
+  .cc-card {
+    @apply p-5 rounded-2xl shadow-soft bg-white/80 border border-softSky/40 backdrop-blur-sm hover:bg-white transition;
+  }
+
+  /* Section Backgrounds */
+  .bg-alt-pink {
+    @apply bg-babyPink/30 rounded-bubble;
+  }
+
+  .bg-alt-blue {
+    @apply bg-babyBlue/30 rounded-bubble;
+  }
+
+  .bg-alt-green {
+    @apply bg-pastelGreen/30 rounded-bubble;
+  }
+
+  .bg-alt-yellow {
+    @apply bg-pastelYellow/30 rounded-bubble;
+  }
+
+  .bg-alt-purple {
+    @apply bg-pastelPurple/35 rounded-bubble;
   }
 }
 
-/* Page background helpers */
+/* Floating Animation for Hero Image */
 @layer utilities {
-  .bg-accent {
-    background-color: theme('colors.accent');
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
   }
 }

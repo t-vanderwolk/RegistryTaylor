@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -11,9 +11,9 @@ import Blog from "./pages/Blog";
 import "./styles/App.css";
 
 const NotFound = () => (
-  <main className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-6 text-center">
-    <h1 className="text-5xl font-serif mb-4">Page not found</h1>
-    <p className="text-lg text-black/70 max-w-xl">
+  <main className="min-h-screen flex flex-col items-center justify-center bg-cloudWhite/80 text-cozyGray px-6 text-center">
+    <h1 className="text-5xl font-serif mb-4 text-cozyGray">Page not found</h1>
+    <p className="text-lg text-cozyGray/75 max-w-xl">
       The page you are looking for does not exist. Use the navigation above to get back on track.
     </p>
   </main>

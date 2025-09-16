@@ -2,12 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Services from "./pages/Services";
+import Membership from "./pages/Membership";
+import AddOns from "./pages/AddOns";
+import Mentors from "./pages/Mentors";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
+import Portal from "./pages/Portal";
 import "./styles/App.css";
 
 const NotFound = () => (
@@ -26,12 +30,16 @@ const App = () => (
     <Routes future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/services" element={<Services />} />
+      <Route path="/membership" element={<Membership />} />
+      <Route path="/add-ons" element={<AddOns />} />
+      <Route path="/mentors" element={<Mentors />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/blog" element={<Blog />} />
+      <Route path="/portal" element={<Portal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+    <Footer />
   </Router>
 );
 

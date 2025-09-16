@@ -3,37 +3,122 @@ import { Link } from "react-router-dom";
 import Section from "../components/UI/Section";
 import SectionDivider from "../components/UI/SectionDivider";
 import { motion } from "framer-motion";
-import DueDateCountdown from "../components/DueDateCountdown";
+import logo1 from "../assets/logo1.png";
+import logo2 from "../assets/logo2.png";
+import logo3 from "../assets/logo3.png";
+
+const stepTimeline = [
+  {
+    step: "Step 1",
+    title: "Pick a Package",
+    body: "Choose Essentials, Signature, or Bespoke — each intentionally designed for your season of motherhood.",
+  },
+  {
+    step: "Step 2",
+    title: "NDA & Consultation",
+    body: "Sign your NDA, then dive into a private consultation so Taylor can learn your style, priorities, and timeline.",
+  },
+  {
+    step: "Step 3",
+    title: "Planning & Add-Ons",
+    body: "Registry, nursery, events, and concierge errands are curated end-to-end, with add-ons layered in as you wish.",
+  },
+  {
+    step: "Step 4",
+    title: "Ongoing Access",
+    body: "Stay supported through the Taylor-Made Journal, Mentor Circle, and discreet check-ins whenever you need them.",
+  },
+];
+
+const packagePreview = [
+  {
+    name: "Essentials",
+    price: "Starting at $1,950",
+    description: "Registry mastery, personal shopping, and concierge returns handled for you.",
+  },
+  {
+    name: "Signature",
+    price: "Starting at $3,400",
+    description: "Essentials plus nursery design, in-home styling, and family integration guidance.",
+  },
+  {
+    name: "Bespoke",
+    price: "By Invitation",
+    description: "For high-profile families seeking fully private planning with limitless concierge support.",
+  },
+];
+
+const perkHighlights = [
+  {
+    title: "Taylor-Made Journal",
+    blurb: "Private guides, registry intel, launches, and seasonal checklists tailored to your due date.",
+    icon: "📒",
+  },
+  {
+    title: "Mom Mentor Circle",
+    blurb: "One-on-one connections with mothers who mirror your lifestyle — vetted and invite-only.",
+    icon: "🤝",
+  },
+  {
+    title: "Discretion Promise",
+    blurb: "Membership begins with an NDA, ensuring every detail stays confidential and personally overseen.",
+    icon: "🔐",
+  },
+];
+
+const editorialFeatures = [
+  {
+    title: "Registry Concierge",
+    blurb: "Multi-retailer lists, white-glove returns, and luxury product sourcing handled without overwhelm.",
+    icon: "🗂️",
+  },
+  {
+    title: "Nursery Reveal",
+    blurb: "Floor plans, styling, and scent-layered finishing touches timed to your baby shower weekend.",
+    icon: "🛏️",
+  },
+  {
+    title: "Car Seat to Jet Set",
+    blurb: "Certified installations, travel packing, and airport-ready concierge service for first flights.",
+    icon: "✈️",
+  },
+  {
+    title: "Fourth Trimester Care",
+    blurb: "Postpartum setups, vetted night nurses, and nourishing rituals tailored to your recovery.",
+    icon: "🌙",
+  },
+];
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-transparent font-sans text-cozyGray">
       {/* Hero Section */}
-      <Section center tightTop compact>
+      <Section center tightTop compact className="bg-gradient-to-br from-blush/40 via-white to-softGold/25">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative rounded-bubble bg-white px-5 sm:px-6 py-14 sm:py-16 text-center shadow-dreamy border border-softGold/30"
+          className="relative rounded-bubble bg-white/90 px-5 sm:px-6 py-14 sm:py-16 text-center shadow-dreamy border border-softGold/30 backdrop-blur"
         >
+          {/* <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mx-auto mb-6 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border border-softGold/70 bg-white text-sm sm:text-base font-serif tracking-[0.4em] text-deepSlate shadow-soft"
+          >
+            TM
+          </motion.div> */}
           <motion.h1
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: [0.98, 1.03, 1] }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="mb-4 text-center font-cursive leading-tight text-cozyGray text-3xl sm:text-5xl tracking-tight"
+            className="mb-4 text-center font-serif text-4xl sm:text-5xl md:text-6xl text-deepSlate"
           >
-            <motion.span className="font-cursive text-5xl sm:text-[3.8rem] inline-block mr-2 text-deepSlate">
-              Taylor-Made
-            </motion.span>
-            <motion.span className="font-cursive text-softGold">
-              Baby Planning
-            </motion.span>
+            Baby Prep, Taylor-Made.
           </motion.h1>
 
           <p className="font-sans text-lg md:text-xl text-cozyGray/80 max-w-2xl mx-auto">
-            A calm, confident path to welcoming your little one. Personalized
-            registries, nursery design, shower planning, and ongoing
-            support—tailored to your family.
+            Invite-only baby planning, styled and scheduled for discerning families who value privacy, polish, and calm.
           </p>
 
           {/* <motion.img
@@ -47,25 +132,25 @@ const Home = () => {
 
           <div className="mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
             <Link
-              to="/services"
+              to="/contact"
               className="btn-primary text-sm sm:text-base md:text-lg px-7 sm:px-8 py-3"
             >
-              Explore Services
+              Request an Invitation
             </Link>
             <Link
-              to="/contact"
+              to="/membership"
               className="btn-secondary text-sm sm:text-base md:text-lg px-7 sm:px-8 py-3"
             >
-              Book a Consultation
+              View Membership Tiers
             </Link>
           </div>
 
           <div className="mt-10 grid gap-6 text-left text-cozyGray/80 md:grid-cols-3">
             {[
-              { icon: "🍼", label: "Invite-Only", detail: "A discreet client list curated by referral." },
-              { icon: "🧸", label: "Concierge Care", detail: "Taylor personally oversees every decision." },
-              { icon: "👶", label: "Confidential Always", detail: "NDA-backed planning and event management." },
-            ].map(({ icon, label, detail }, index) => (
+              { logo: logo1, label: "Invite-Only", detail: "A discreet client list curated by referral." },
+              { logo: logo2, label: "Concierge Care", detail: "Taylor personally oversees every decision." },
+              { logo: logo3, label: "Confidential Always", detail: "NDA-backed planning and event management." },
+            ].map(({ logo, label, detail }, index) => (
               <motion.div
                 key={label}
                 initial={{ opacity: 0, y: 20 }}
@@ -73,7 +158,9 @@ const Home = () => {
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
                 className="rounded-3xl border border-softGold/25 bg-white px-5 py-4 shadow-soft hover:bg-softGold/10 transition"
               >
-                <div className="text-3xl">{icon}</div>
+                <div className="mb-3 flex justify-center">
+                  <img src={logo} alt={`${label} emblem`} className="h-12 w-12 object-contain" />
+                </div>
                 <p className="mt-3 font-serif text-lg text-deepSlate">{label}</p>
                 <p className="text-sm font-sans text-cozyGray/75">{detail}</p>
               </motion.div>
@@ -82,36 +169,21 @@ const Home = () => {
         </motion.div>
       </Section>
 
-      {/* Countdown Section */}
-      <Section title="Countdown to Baby Day" center className="bg-alt-blue">
-        <DueDateCountdown dueDate="2025-12-01" />
-      </Section>
-
-      <SectionDivider className="my-6" />
-
-      {/* Services Section */}
-      <Section title="Services Snapshot" tightTop compact className="bg-alt-green">
+      <Section title="Concierge Touchpoints" tightTop compact className="bg-alt-green">
         <div className="px-6 py-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              { title: "Registry Concierge", desc: "Curated lists, managed & delivered.", icon: "🗒️" },
-              { title: "Personal Shopping", desc: "VIP access & white-glove delivery.", icon: "🛍️" },
-              { title: "Nursery Design", desc: "Safety + styling planned seamlessly.", icon: "🛏️" },
-              { title: "Events & Celebrations", desc: "Baby showers, sip-and-sees.", icon: "🥂" },
-              { title: "Family Integration", desc: "Support for siblings & pets.", icon: "👨‍👩‍👧‍👦" },
-              { title: "Ongoing Concierge", desc: "Postpartum coaching & more.", icon: "⏳" },
-            ].map((service, index) => (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {editorialFeatures.map((feature, index) => (
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
+                key={feature.title}
+                whileHover={{ scale: 1.03, y: -2 }}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                key={service.title}
-                className="rounded-3xl border border-softGold/25 bg-white px-5 py-6 shadow-soft transition hover:-translate-y-1"
+                className="rounded-3xl border border-softGold/25 bg-white/90 px-5 py-6 shadow-soft backdrop-blur-sm"
               >
-                <div className="text-3xl">{service.icon}</div>
-                <h3 className="mt-3 font-serif text-xl text-deepSlate">{service.title}</h3>
-                <p className="mt-2 text-sm font-sans text-cozyGray/75 leading-relaxed">{service.desc}</p>
+                <div className="text-3xl">{feature.icon}</div>
+                <h3 className="mt-3 font-serif text-lg text-deepSlate">{feature.title}</h3>
+                <p className="mt-2 text-sm font-sans text-cozyGray/75 leading-relaxed">{feature.blurb}</p>
               </motion.div>
             ))}
           </div>
@@ -121,18 +193,18 @@ const Home = () => {
       <SectionDivider className="my-6" />
 
       {/* Testimonials */}
-      <Section title="Testimonials" center compact className="bg-alt-purple">
+      <Section title="Founding Member Voices" center compact className="bg-alt-purple">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           className="px-6 py-6 max-w-2xl mx-auto space-y-6 text-cozyGray/85"
         >
-          <blockquote className="italic border-l-4 border-softGold/60 pl-4 font-sans text-base bg-white rounded-2xl py-3 shadow-soft">
-            “Taylor made our registry feel effortless — no stress, no second-guessing.” — Jenna M.
+          <blockquote className="italic border-l-4 border-softGold/60 pl-4 font-sans text-base bg-white/90 rounded-2xl py-4 shadow-soft backdrop-blur-sm">
+            “Taylor anticipated every detail — from a bespoke nursery reveal to a mother-in-law arrival plan. We simply got to enjoy it.” — Founding Member, Scottsdale
           </blockquote>
-          <blockquote className="italic border-l-4 border-softGold/60 pl-4 font-sans text-base bg-white rounded-2xl py-3 shadow-soft">
-            “She helped us choose a stroller that truly works for our lifestyle. Game-changer!” — Rachel & Matt K.
+          <blockquote className="italic border-l-4 border-softGold/60 pl-4 font-sans text-base bg-white/90 rounded-2xl py-4 shadow-soft backdrop-blur-sm">
+            “Registry to travel concierge, all handled with grace and impeccable discretion.” — Founding Member, Manhattan
           </blockquote>
         </motion.div>
       </Section>
@@ -141,26 +213,19 @@ const Home = () => {
 
       {/* Process */}
       <Section title="How It Works" tightTop compact className="bg-alt-pink">
-        <div className="px-6 py-6 max-w-5xl mx-auto text-cozyGray/85">
-          <ol className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {[
-              { step: "1. Invite", body: "Membership is invite-only with tiered packages." },
-              { step: "2. Agreement", body: "All members sign an NDA for privacy." },
-              { step: "3. Consultation", body: "Deep-dive session to learn your lifestyle." },
-              { step: "4. Planning", body: "Taylor handles registry, nursery, events." },
-              { step: "5. Add-Ons", body: "Shower planning, extended styling, postpartum." },
-              { step: "6. Access", body: "Stay connected via Blog & Mentor Circle." },
-              { step: "7. Discreet", body: "Always confidential and stress-free." },
-            ].map(({ step, body }, index) => (
+        <div className="px-6 py-6 max-w-4xl mx-auto text-cozyGray/85">
+          <ol className="grid gap-6 md:grid-cols-2">
+            {stepTimeline.map(({ step, title, body }, index) => (
               <motion.li
-                key={step}
+                key={title}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="rounded-3xl border border-softGold/25 bg-white px-5 py-5 shadow-soft"
+                className="rounded-3xl border border-softGold/25 bg-white px-5 py-6 shadow-soft"
               >
-                <h3 className="font-serif text-sm tracking-[0.2em] text-softGold mb-2 uppercase">{step}</h3>
-                <p className="font-sans text-sm text-cozyGray/75">{body}</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-softGold">{step}</p>
+                <h3 className="mt-2 font-serif text-xl text-deepSlate">{title}</h3>
+                <p className="mt-2 font-sans text-sm text-cozyGray/75 leading-relaxed">{body}</p>
               </motion.li>
             ))}
           </ol>
@@ -169,39 +234,56 @@ const Home = () => {
 
       <SectionDivider className="my-6" />
 
+      {/* Membership Preview */}
+      <Section title="Membership Packages" tightTop compact className="bg-alt-blue">
+        <div className="px-6 py-6 max-w-5xl mx-auto text-cozyGray/85 space-y-6">
+          <p className="text-center text-sm sm:text-base leading-relaxed">
+            Choose the concierge tier that mirrors your rhythm. Membership begins with a personal invitation and scales from essential registry mastery to fully bespoke planning.
+          </p>
+          <div className="grid gap-6 md:grid-cols-3">
+            {packagePreview.map((pkg, index) => (
+              <motion.div
+                key={pkg.name}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.15 }}
+                className="rounded-3xl border border-softGold/25 bg-white/90 px-5 py-6 shadow-soft backdrop-blur-sm"
+              >
+                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-softGold">{pkg.price}</p>
+                <h3 className="mt-2 font-serif text-2xl text-deepSlate">{pkg.name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-cozyGray/75">{pkg.description}</p>
+                <Link
+                  to="/membership"
+                  className="mt-5 inline-flex items-center justify-center rounded-full border border-deepSlate/20 bg-white/80 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-deepSlate transition hover:border-deepSlate/40 hover:bg-white"
+                >
+                  Explore {pkg.name}
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="text-center text-sm text-cozyGray/70">
+            Want to add more sparkle? Browse the full <Link to="/add-ons" className="text-deepSlate underline decoration-softGold/50">Taylor-Made Add-Ons Menu</Link>.
+          </div>
+        </div>
+      </Section>
+
+      <SectionDivider className="my-6" />
+
       {/* Membership */}
       <Section title="Membership Perks" tightTop compact className="bg-alt-green">
         <div className="px-6 py-6 max-w-4xl mx-auto text-cozyGray/85 space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            {[
-              {
-                title: "Taylor-Made Blog",
-                icon: "📒",
-                points: ["Curated comparisons & tips.", "Insider product updates.", "Seasonal checklists."],
-              },
-              {
-                title: "Taylor-Made Mentors",
-                icon: "🤝",
-                points: ["Circle of mothers with lived wisdom.", "Personal mentor matching.", "Opportunities to mentor others."],
-              },
-            ].map((perk, index) => (
+          <div className="grid gap-6 md:grid-cols-3">
+            {perkHighlights.map((perk, index) => (
               <motion.div
                 key={perk.title}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.2 }}
-                className="rounded-3xl border border-softGold/25 bg-white px-5 py-5 shadow-soft"
+                className="rounded-3xl border border-softGold/25 bg-white/90 px-5 py-6 shadow-soft backdrop-blur-sm"
               >
                 <div className="text-3xl">{perk.icon}</div>
                 <h3 className="mt-2 font-serif text-lg text-deepSlate">{perk.title}</h3>
-                <ul className="mt-2 space-y-1 text-sm font-sans text-cozyGray/75">
-                  {perk.points.map((point, i) => (
-                    <li key={i} className="flex gap-1">
-                      <span className="text-softGold">◆</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="mt-2 text-sm font-sans text-cozyGray/75 leading-relaxed">{perk.blurb}</p>
               </motion.div>
             ))}
           </div>
@@ -218,11 +300,11 @@ const Home = () => {
           transition={{ duration: 0.6 }}
           className="px-6 py-6 max-w-2xl mx-auto text-cozyGray/85"
         >
-          <p className="font-sans text-base">
-            Hi, I’m Taylor! Think of me as your go-to guide (and maybe your new best friend) for all things baby prep...
+          <p className="font-sans text-base leading-relaxed">
+            I built my expertise curating gear at Strolleria, styling spaces for Pottery Barn Kids, and serving as a concierge for high-profile families. Taylor-Made was born to deliver that insider knowledge with a softer, more personal touch.
           </p>
-          <p className="mt-4 font-sans text-base">
-            Now, I bring that experience to you in a warm, personalized way that takes away the stress and leaves you excited, prepared, and confident.
+          <p className="mt-4 font-sans text-base leading-relaxed">
+            When I’m not refining registry lists, you’ll find me walking Bea and Karma — our resident brand mascots — or scouting the next dreamy baby shower venue. Every detail is handled with the same warmth I give my own circle.
           </p>
         </motion.div>
       </Section>

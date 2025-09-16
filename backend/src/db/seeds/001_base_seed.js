@@ -1,0 +1,85 @@
+exports.seed = async (knex) => {
+  await knex('documents').del();
+  await knex('consultations').del();
+  await knex('mentors').del();
+  await knex('blog_posts').del();
+  await knex('add_ons').del();
+  await knex('membership_packages').del();
+  await knex('invites').del();
+  await knex('users').del();
+
+  const adminUserId = (await knex('users')
+    .insert({
+      name: 'Taylor Vanderwolk',
+      email: 'concierge@taylormadebaby.com',
+      role: 'admin',
+      invite_status: 'approved',
+      nda_signed: true,
+    })
+    .returning('id'))[0].id;
+
+  await knex('membership_packages').insert([
+    {
+      name: 'Essentials',
+      description: 'Registry mastery, personal shopping, and concierge returns handled for you.',
+      price_pilot: 1950,
+      price_future: 2400,
+      included_services: JSON.stringify([
+        'Curated multi-retailer registry management',
+        'One virtual or in-home consultation',
+        'White-glove returns and exchanges',
+      ]),
+    },
+    {
+      name: 'Signature',
+      description: 'Essentials plus nursery design, in-home styling, and family integration guidance.',
+      price_pilot: 3400,
+      price_future: 4100,
+      included_services: JSON.stringify([
+        'Everything in Essentials',
+        'Nursery design concepts and sourcing',
+        'Travel preparation concierge',
+      ]),
+    },
+    {
+      name: 'Bespoke',
+      description: 'Invite-only concierge experience for limitless support and discretion.',
+      price_pilot: 0,
+      price_future: 0,
+      included_services: JSON.stringify([
+        'Everything in Signature',
+        'Custom events and gifting management',
+        'Quarterly planning intensives',
+      ]),
+    },
+  ]);
+
+  await knex('add_ons').insert([
+    {
+      name: 'Full Nursery Install',
+      category: 'nursery',
+      description: 'Furniture sourcing, white-glove delivery coordination, and styling.',
+      price_pilot: 950,
+      price_future: 1200,
+    },
+    {
+      name: 'Sip & See Production',
+      category: 'events',
+      description: 'Concepting, vendor coordination, bespoke favors, and on-site hosting support.',
+      price_pilot: 1400,
+      price_future: 1850,
+    },
+  ]);
+
+  await knex('blog_posts').insert([
+    {
+      title: 'Registry Essentials Worth the Hype',
+      slug: 'registry-essentials-worth-the-hype',
+      content: 'From carriers to bottles... (seed content)',
+      category: 'registry',
+      author_id: adminUserId,
+      visibility: 'public',
+      published_at: knex.fn.now(),
+    },
+  ]);
+};

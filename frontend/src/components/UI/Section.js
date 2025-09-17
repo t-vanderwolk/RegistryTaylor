@@ -32,8 +32,8 @@ const Section = ({
     >
       <div
         className={`
-          relative rounded-3xl border border-softGold/25
-          bg-white shadow-soft transition duration-500 ease-out
+          relative rounded-[2.5rem] border border-babyPink/30
+          bg-white/95 shadow-soft transition duration-500 ease-out backdrop-blur-sm
           ${className}
         `}
       >
@@ -46,7 +46,7 @@ const Section = ({
           <div className={`${center ? "text-center w-full" : "flex-1"}`}>
             {title && (
               <h2
-                className={`font-serif text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-wide text-cozyGray ${
+                className={`font-playful text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-tight text-blueberry ${
                   center ? "text-center" : "text-left"
                 }`}
               >
@@ -54,9 +54,9 @@ const Section = ({
               </h2>
             )}
             {title && (
-              <div className={`${center ? "mx-auto" : ""} h-1 bg-softGold w-12 sm:w-14 rounded-full mb-6`} />
+              <div className={`${center ? "mx-auto" : ""} h-1 bg-babyBlue w-12 sm:w-16 rounded-full mb-6`} />
             )}
-            <div className="text-cozyGray/90 leading-relaxed">{children}</div>
+            <div className="text-pebble/90 leading-relaxed">{children}</div>
           </div>
         </div>
       </div>

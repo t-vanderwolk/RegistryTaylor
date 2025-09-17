@@ -15,9 +15,9 @@ import Portal from "./pages/Portal";
 import "./styles/App.css";
 
 const NotFound = () => (
-  <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-blueberry">
-    <h1 className="text-5xl font-playful mb-4">Page not found</h1>
-    <p className="text-lg text-pebble/75 max-w-xl">
+  <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-darkText">
+    <h1 className="text-5xl font-playful mb-4 text-babyBlue">Page not found</h1>
+    <p className="text-lg font-body text-darkText/75 max-w-xl">
       The page you are looking for does not exist. Use the navigation above to return to your concierge dashboard.
     </p>
   </main>

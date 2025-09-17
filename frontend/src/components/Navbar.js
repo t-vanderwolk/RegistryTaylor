@@ -1,145 +1,130 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import Button from "./UI/Button";
 
-const links = [
+const NAV_LINKS = [
   { to: "/membership", label: "Membership" },
   { to: "/add-ons", label: "Add-Ons" },
-  { to: "/blog", label: "Journal" },
   { to: "/mentors", label: "Mentors" },
+  { to: "/blog", label: "Journal" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
 
+const BLOCK_COLORS = ["bg-babyBlue", "bg-babyPink", "bg-pastelPurple"];
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
-  const handleToggle = () => setOpen((prev) => !prev);
+  const toggleMenu = () => setOpen((current) => !current);
   const closeMenu = () => setOpen(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-    const handleMatchChange = (event) => {
+
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handleChange = (event) => {
       if (event.matches) {
         setOpen(false);
       }
     };
 
-    mediaQuery.addEventListener("change", handleMatchChange);
-    return () => mediaQuery.removeEventListener("change", handleMatchChange);
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
   }, []);
 
+  const navLinkClasses = ({ isActive }) =>
+    `rounded-full px-4 py-2 text-xs sm:text-sm font-heading tracking-[0.18em] transition duration-200 ease-out shadow-toy ${
+      isActive
+        ? "bg-babyBlue text-darkText"
+        : "bg-cream/80 text-darkText/70 hover:bg-babyPink/70 hover:text-darkText"
+    }`;
+
   return (
-    <nav className="sticky top-0 z-30 bg-cream/90 backdrop-blur border-b border-babyPink/30 shadow-soft">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-4 py-4 text-blueberry">
-        <div className="flex flex-1 items-center gap-6">
-          <Link
-            to="/"
-            className="flex items-center gap-4"
-            onClick={closeMenu}
-          >
-            <div className="flex items-center gap-1">
-              {['T', 'M', 'B'].map((letter, index) => (
-                <span
-                  key={letter}
-                  className={`inline-flex h-9 w-9 items-center justify-center rounded-lg font-block text-base shadow-pop animate-bob`}
-                  style={{
-                    animationDelay: `${index * 0.15}s`,
-                    backgroundColor: index === 0 ? '#A7D8F7' : index === 1 ? '#FADADD' : '#C4E8C2',
-                    color: '#3A3D4D',
-                  }}
-                >
-                  {letter}
-                </span>
-              ))}
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="font-playful text-lg sm:text-xl tracking-tight text-blueberry">
-                Taylor-Made Baby Co.
-              </span>
-              <span className="text-[0.65rem] uppercase tracking-[0.35em] text-pebble">
-                Invite-Only Concierge for Modern Families
-              </span>
-            </div>
-          </Link>
-          <div className="hidden md:flex items-center gap-3">
-            {links.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `rounded-full px-4 py-2 text-xs sm:text-sm font-semibold tracking-wide transition-transform duration-200 ease-out ${
-                    isActive
-                      ? 'bg-babyBlue text-blueberry shadow-pop'
-                      : 'bg-white/70 text-pebble hover:bg-babyPink/60 hover:text-blueberry hover:-translate-y-1'
-                  }`
-                }
+    <header className="sticky top-0 z-50 border-b border-babyPink/40 bg-cream/90 backdrop-blur-lg">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
+        <Link
+          to="/"
+          className="flex items-center gap-4"
+          onClick={closeMenu}
+        >
+          <div className="flex items-end gap-1">
+            {"TMB".split("").map((letter, index) => (
+              <span
+                /* eslint-disable-next-line react/no-array-index-key */
+                key={index}
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl font-blocky text-lg text-darkText shadow-toy transition duration-200 ${BLOCK_COLORS[index % BLOCK_COLORS.length]} hover:animate-wiggle`}
+                style={{ animationDelay: `${index * 0.12}s` }}
               >
-                {link.label}
-              </NavLink>
+                {letter}
+              </span>
             ))}
           </div>
+          <div className="flex flex-col leading-tight text-darkText">
+            <span className="font-playful text-xl sm:text-2xl">Taylor-Made Baby Planning</span>
+            <span className="text-[0.6rem] font-heading uppercase tracking-[0.4em] text-darkText/60">
+              Invite-Only Concierge
+            </span>
+          </div>
+        </Link>
+
+        <nav className="hidden flex-1 items-center justify-end gap-3 md:flex">
+          {NAV_LINKS.map((link) => (
+            <NavLink key={link.to} to={link.to} className={navLinkClasses}>
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-3 md:flex">
+          <Button as={Link} to="/contact" variant="purple" size="sm" className="tracking-[0.25em] uppercase">
+            Request Invite
+          </Button>
+          <Button as={Link} to="/portal" variant="blue" size="sm" className="tracking-[0.25em] uppercase">
+            Member Portal
+          </Button>
         </div>
-        <div className="hidden md:flex items-center gap-3">
-          <NavLink
-            to="/portal"
-                className={({ isActive }) =>
-                  `rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.28em] transition-transform duration-200 ease-out ${
-                    isActive
-                      ? 'bg-pastelPurple text-blueberry shadow-pop'
-                      : 'bg-white/80 text-blueberry hover:bg-pastelPurple/60 hover:-translate-y-1'
-                  }`
-                }
-              >
-                Portal
-              </NavLink>
-        </div>
+
         <button
           type="button"
-          className="inline-flex md:hidden items-center justify-center rounded-full bg-babyBlue/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-blueberry shadow-soft transition-transform duration-200"
+          className="inline-flex items-center justify-center rounded-full border border-babyPink/60 bg-cream/90 px-4 py-2 text-xs font-heading uppercase tracking-[0.28em] text-darkText shadow-toy transition duration-200 md:hidden"
           aria-expanded={open}
           aria-label="Toggle navigation"
-          onClick={handleToggle}
+          onClick={toggleMenu}
         >
           Menu
         </button>
       </div>
+
       {open && (
-        <div className="md:hidden border-t border-babyPink/40 bg-cream/95">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-4 text-sm font-semibold text-blueberry">
-            {links.map((link) => (
+        <div className="md:hidden">
+          <div className="space-y-2 border-t border-babyPink/40 bg-cream/95 px-4 py-4 shadow-toy">
+            {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 onClick={closeMenu}
                 className={({ isActive }) =>
-                  `rounded-full px-4 py-3 transition duration-200 ${
+                  `block rounded-full px-4 py-3 font-heading text-sm tracking-[0.18em] transition duration-200 shadow-toy ${
                     isActive
-                      ? 'bg-babyPink/70 text-blueberry shadow-soft'
-                      : 'bg-white/80 text-pebble hover:bg-pastelPurple/60 hover:text-blueberry'
+                      ? "bg-babyPink text-darkText"
+                      : "bg-cream/90 text-darkText/70 hover:bg-babyBlue/80 hover:text-darkText"
                   }`
                 }
               >
                 {link.label}
               </NavLink>
             ))}
-            <NavLink
-              to="/portal"
-              onClick={closeMenu}
-              className={({ isActive }) =>
-                `rounded-full px-4 py-3 transition duration-200 ${
-                  isActive
-                    ? 'bg-pastelPurple/80 text-blueberry shadow-soft'
-                    : 'bg-white/80 text-pebble hover:bg-pastelPurple/60 hover:text-blueberry'
-                }`
-              }
-            >
-              Portal
-            </NavLink>
+            <Button as={Link} to="/contact" variant="purple" size="md" className="w-full">
+              Request Invite
+            </Button>
+            <Button as={Link} to="/portal" variant="blue" size="md" className="w-full">
+              Member Portal
+            </Button>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 

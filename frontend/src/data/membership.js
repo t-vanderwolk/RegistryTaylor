@@ -21,7 +21,7 @@ export const membershipTiers = [
     id: "essentials",
     name: "Essentials",
     tag: "Foundation Tier",
-    startingPrice: "$1,950",
+    startingPrice: "$1,500",
     intro: "For families who want stress-free registry and gear support handled start to finish.",
     items: [
       "Curated baby registries across Amazon, Target, Pottery Barn Kids, Nordstrom, and more",
@@ -35,7 +35,7 @@ export const membershipTiers = [
     id: "signature",
     name: "Signature",
     tag: "Most Popular Tier",
-    startingPrice: "$3,400",
+    startingPrice: "$3,000",
     intro: "For clients who want the registry experience plus nursery and lifestyle guidance.",
     headline: "Includes everything in Essentials, plus:",
     items: [
@@ -126,6 +126,9 @@ export const conciergePillars = [
       "Postpartum planning, meal prep, and vetted night-nurse introductions",
       "Scheduling with trusted lactation consultants, photographers, and nanny agencies",
       "Beyond-baby services for toddler gear, preschool prep, and travel",
+      "House calls coordinated anywhere in the country",
+      "On-call 911 virtual support for urgent decisions",
+      "Direct 24/7 chat access with Taylor and the concierge team",
     ],
   },
 ];

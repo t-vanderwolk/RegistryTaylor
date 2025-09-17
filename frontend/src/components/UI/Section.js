@@ -46,7 +46,7 @@ const Section = ({
           <div className={`${center ? "text-center w-full" : "flex-1"}`}>
             {title && (
               <h2
-                className={`font-playful text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-tight text-blueberry ${
+                className={`font-playful text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-tight text-darkText ${
                   center ? "text-center" : "text-left"
                 }`}
               >
@@ -56,7 +56,7 @@ const Section = ({
             {title && (
               <div className={`${center ? "mx-auto" : ""} h-1 bg-babyBlue w-12 sm:w-16 rounded-full mb-6`} />
             )}
-            <div className="text-pebble/90 leading-relaxed">{children}</div>
+            <div className="text-darkText/85 leading-relaxed font-body">{children}</div>
           </div>
         </div>
       </div>

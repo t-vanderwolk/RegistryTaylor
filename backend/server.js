@@ -1,9 +1,14 @@
-require('dotenv').config();
-
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
 const express = require('express');
+const dotenv = require('dotenv');
+
+// Load env vars from backend/.env first, then fall back to repo root
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+if (!process.env.JWT_SECRET) {
+  dotenv.config({ path: path.resolve(__dirname, '../.env') });
+}
 
 const app = require('./src/app');
 const logger = require('./src/utils/logger');
@@ -12,6 +17,10 @@ const errorHandler = require('./src/middleware/error-handler');
 
 const PORT = process.env.PORT || 5050;
 const buildPath = path.join(__dirname, '..', 'frontend', 'build');
+
+if (!process.env.JWT_SECRET) {
+  logger.warn('JWT_SECRET is not configured after loading environment files. Auth will fail.');
+}
 
 if (fs.existsSync(buildPath)) {
   logger.info('Serving React build', { buildPath });

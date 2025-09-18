@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node backend/server.js",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
     "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "nodemon": "^3.0.3"
   }
 }

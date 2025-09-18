@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
 import Portal from "./pages/Portal";
+import MentorPortal from "./pages/MentorPortal";
 import "./styles/App.css";
 
 const NotFound = () => (
@@ -24,10 +25,10 @@ const NotFound = () => (
 );
 
 const App = () => (
-  <Router>
+  <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
     <ScrollToTop />
     <Navbar />
-    <Routes future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+    <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/membership" element={<Membership />} />
@@ -37,6 +38,7 @@ const App = () => (
       <Route path="/faq" element={<Faq />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/portal" element={<Portal />} />
+      <Route path="/mentor-portal" element={<MentorPortal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />

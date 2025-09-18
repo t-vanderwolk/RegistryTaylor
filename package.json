@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cd backend && npm start",                           
+    "start": "cd backend && npm start",
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
     "migrate": "cd backend && npm run migrate",
-    "seed": "cd backend && npm run seed",
+    "seed": "cd backend && npm run seed",         
     "heroku-postbuild": "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run migrate && npm run seed"
   },
   "dependencies": {
@@ -24,19 +24,5 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "nodemon": "^3.0.3"
-  },
-  "description": "Multi-tier project (frontend + backend)",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/t-vanderwolk/RegistryTaylor.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/t-vanderwolk/RegistryTaylor/issues"
-  },
-  "homepage": "https://github.com/t-vanderwolk/RegistryTaylor#readme"
+  }
 }

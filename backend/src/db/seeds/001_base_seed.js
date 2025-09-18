@@ -44,6 +44,30 @@ exports.seed = async (knex) => {
     status: 'active',
   });
 
+  const mentorAdminHash = await bcrypt.hash('Karma', 10);
+  const mentorAdmin = await knex('users')
+    .insert({
+      name: 'Registry With Taylor',
+      email: 'registrywithtaylor@gmail.com',
+      role: 'mentor',
+      invite_status: 'approved',
+      nda_signed: true,
+      password_hash: mentorAdminHash,
+    })
+    .returning(['id']);
+
+  await knex('mentors').insert({
+    user_id: mentorAdmin[0].id,
+    profile:
+      'Taylor-led mentor account covering concierge onboarding, VIP member support, and mentor circle administration.',
+    specialties: JSON.stringify(['concierge onboarding', 'vip member support', 'mentor circle administration']),
+    availability: JSON.stringify([
+      { day: 'monday', slots: ['09:00', '14:00'] },
+      { day: 'wednesday', slots: ['11:00', '16:00'] },
+    ]),
+    status: 'active',
+  });
+
   await knex('membership_packages').insert([
     {
       name: 'Essentials',

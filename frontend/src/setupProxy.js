@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://localhost:5000',
+      target: 'http://localhost:5050',
       changeOrigin: true,
       xfwd: true,
       cookieDomainRewrite: 'localhost',
@@ -12,4 +12,3 @@ module.exports = function(app) {
     })
   );
 };
-

@@ -2,6 +2,47 @@ import React, { useState } from "react";
 
 const Portal = () => {
   const [login, setLogin] = useState({ email: "", password: "" });
+  const [status, setStatus] = useState({ loading: false, error: null, success: false });
+
+  const handleChange = (field) => (event) => {
+    const { value } = event.target;
+    setLogin((current) => ({ ...current, [field]: value }));
+    setStatus((current) => ({ ...current, error: null, success: false }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setStatus({ loading: true, error: null, success: false });
+
+    try {
+      const response = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: login.email.trim(), password: login.password }),
+      });
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = payload?.error?.message || "Unable to sign in. Please try again.";
+        throw new Error(message);
+      }
+
+      if (payload?.data?.token) {
+        localStorage.setItem("tm_token", payload.data.token);
+      }
+      if (payload?.data?.user) {
+        localStorage.setItem("tm_user", JSON.stringify(payload.data.user));
+      }
+
+      setStatus({ loading: false, error: null, success: true });
+    } catch (error) {
+      setStatus({
+        loading: false,
+        error: error.message || "Unable to sign in. Please try again.",
+        success: false,
+      });
+    }
+  };
 
   return (
     <main className="min-h-screen bg-cream text-darkText px-6 py-20">
@@ -22,15 +63,27 @@ const Portal = () => {
         </p>
         <form
           className="mt-10 space-y-4 text-left"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <h2 className="font-playful text-xl text-blueberry text-center">Member Login</h2>
+          <div aria-live="polite" className="space-y-2">
+            {status.error && (
+              <p className="rounded-2xl border border-babyPink/60 bg-babyPink/30 px-4 py-3 text-sm font-body text-darkText/80">
+                {status.error}
+              </p>
+            )}
+            {status.success && (
+              <p className="rounded-2xl border border-babyBlue/60 bg-babyBlue/30 px-4 py-3 text-sm font-body text-darkText/80">
+                Signed in successfully. Concierge tools will unlock shortly.
+              </p>
+            )}
+          </div>
           <label className="block text-sm text-darkText/75 font-body">
             Email
             <input
               type="email"
               value={login.email}
-              onChange={(event) => setLogin({ ...login, email: event.target.value })}
+              onChange={handleChange("email")}
               placeholder="you@taylormadebabyco.com"
               className="mt-2 w-full rounded-2xl border border-babyBlue/50 bg-white/95 px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
               required
@@ -41,7 +94,7 @@ const Portal = () => {
             <input
               type="password"
               value={login.password}
-              onChange={(event) => setLogin({ ...login, password: event.target.value })}
+              onChange={handleChange("password")}
               placeholder="Enter your password"
               className="mt-2 w-full rounded-2xl border border-babyBlue/50 bg-white/95 px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
               required
@@ -49,9 +102,12 @@ const Portal = () => {
           </label>
           <button
             type="submit"
-            className="w-full rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition-transform duration-200 hover:-translate-y-1 hover:shadow-dreamy"
+            disabled={status.loading}
+            className={`w-full rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition-transform duration-200 ${
+              status.loading ? "opacity-70" : "hover:-translate-y-1 hover:shadow-dreamy"
+            }`}
           >
-            Sign In
+            {status.loading ? "Signing In…" : "Sign In"}
           </button>
         </form>
       </div>

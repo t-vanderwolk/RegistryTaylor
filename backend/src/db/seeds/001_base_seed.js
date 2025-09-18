@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 exports.seed = async (knex) => {
   await knex('documents').del();
   await knex('consultations').del();
@@ -17,6 +19,30 @@ exports.seed = async (knex) => {
       nda_signed: true,
     })
     .returning('id'))[0].id;
+
+  const mentorPasswordHash = await bcrypt.hash('mentorme', 10);
+  const mentorUser = await knex('users')
+    .insert({
+      name: 'Morgan Ellis',
+      email: 'mentor@taylormadebaby.com',
+      role: 'mentor',
+      invite_status: 'approved',
+      nda_signed: true,
+      password_hash: mentorPasswordHash,
+    })
+    .returning(['id', 'name']);
+
+  await knex('mentors').insert({
+    user_id: mentorUser[0].id,
+    profile:
+      'Former NICU nurse and certified sleep consultant helping first-time parents create calm routines and confident transitions from hospital to home.',
+    specialties: JSON.stringify(['sleep coaching', 'fourth trimester planning', 'travel logistics']),
+    availability: JSON.stringify([
+      { day: 'tuesday', slots: ['10:00', '13:00'] },
+      { day: 'thursday', slots: ['12:30', '15:30'] },
+    ]),
+    status: 'active',
+  });
 
   await knex('membership_packages').insert([
     {

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Portal = () => {
+  const navigate = useNavigate();
   const [login, setLogin] = useState({ email: "", password: "" });
   const [status, setStatus] = useState({ loading: false, error: null, success: false });
 
@@ -35,6 +37,11 @@ const Portal = () => {
       }
 
       setStatus({ loading: false, error: null, success: true });
+
+      const user = payload?.data?.user;
+      if (user?.role === "mentor") {
+        navigate("/mentor-portal", { replace: true });
+      }
     } catch (error) {
       setStatus({
         loading: false,

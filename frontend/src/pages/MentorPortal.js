@@ -609,7 +609,6 @@ const ResourceLibrary = () => {
 };
 
 const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropdownOpen, setIsDropdownOpen }) => {
-  const location = useLocation();
   const links = useMemo(
     () => [
       { to: "/mentor-portal", label: "Dashboard" },

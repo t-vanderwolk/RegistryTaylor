@@ -1,13 +1,14 @@
 {
-  "name": "registry-taylor",
+  "name": "tm-backend",
   "version": "1.0.0",
   "private": true,
+  "description": "Taylor-Made Baby Planning API server",
+  "main": "src/server.js",
   "scripts": {
-    "start": "cd backend && npm start",
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
-    "migrate": "cd backend && npm run migrate",
-    "seed": "cd backend && npm run seed",
-    "heroku-postbuild": "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run migrate && npm run seed"
+    "dev": "nodemon --watch src src/server.js",
+    "start": "NODE_ENV=production node src/server.js",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -22,7 +23,6 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1",
     "nodemon": "^3.0.3"
   }
 }

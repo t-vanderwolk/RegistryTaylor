@@ -11,7 +11,23 @@ const NAV_LINKS = [
   { to: "/contact", label: "Contact" },
 ];
 
-const BLOCK_COLORS = ["bg-babyBlue", "bg-babyPink", "bg-pastelPurple"];
+const BLOCK_STACK = [
+  {
+    letter: "T",
+    classes:
+      "self-start bg-gradient-to-br from-babyBlue via-cream to-babyBlue/80 -rotate-3 -translate-x-1",
+  },
+  {
+    letter: "M",
+    classes:
+      "self-center bg-gradient-to-br from-babyPink via-cream to-babyPink/80",
+  },
+  {
+    letter: "B",
+    classes:
+      "self-end bg-gradient-to-br from-pastelPurple via-cream to-pastelPurple/85 rotate-2 translate-x-1",
+  },
+];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -48,13 +64,11 @@ const Navbar = () => {
           className="flex items-center gap-4"
           onClick={closeMenu}
         >
-          <div className="flex items-end gap-1">
-            {"TMB".split("").map((letter, index) => (
+          <div className="flex flex-col items-center gap-1">
+            {BLOCK_STACK.map(({ letter, classes }) => (
               <span
-                /* eslint-disable-next-line react/no-array-index-key */
-                key={index}
-                className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl font-blocky text-lg text-darkText shadow-toy transition duration-200 ${BLOCK_COLORS[index % BLOCK_COLORS.length]} hover:animate-wiggle`}
-                style={{ animationDelay: `${index * 0.12}s` }}
+                key={letter}
+                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl border-4 border-cream font-heading text-xl text-darkText shadow-dreamy transition duration-200 ${classes}`}
               >
                 {letter}
               </span>

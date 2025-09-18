@@ -18,24 +18,32 @@ const errorHandler = require('./src/middleware/error-handler');
 const PORT = process.env.PORT || 5050;
 const buildPath = path.join(__dirname, '..', 'frontend', 'build');
 
+// Warn if JWT_SECRET missing
 if (!process.env.JWT_SECRET) {
   logger.warn('JWT_SECRET is not configured after loading environment files. Auth will fail.');
 }
 
+// ✅ Serve React frontend only if build exists
 if (fs.existsSync(buildPath)) {
   logger.info('Serving React build', { buildPath });
+
+  // Serve static files
   app.use(express.static(buildPath));
 
-  app.get('*', (req, res, next) => {
-    if (req.originalUrl.startsWith('/api')) {
-      return next();
-    }
+  // Let API routes work normally
+  app.use('/api', require('./src/routes'));
+
+  // All non-API routes → React
+  app.get('*', (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 } else {
   logger.warn('React build directory not found; API only mode', { buildPath });
+  // Still register API routes so backend works in dev
+  app.use('/api', require('./src/routes'));
 }
 
+// Error handling
 app.use(notFoundHandler);
 app.use(errorHandler);
 

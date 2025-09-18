@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cd backend && npm start",
+    "start": "npm start --prefix backend",
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
-    "migrate": "cd backend && npm run migrate",
-    "seed": "cd backend && npm run seed",         
-    "heroku-postbuild": "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run migrate && npm run seed"
+    "migrate": "npm run migrate --prefix backend",
+    "seed": "npm run seed --prefix backend",
+    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend && npm run migrate --prefix backend && npm run seed --prefix backend"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -24,5 +24,8 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }

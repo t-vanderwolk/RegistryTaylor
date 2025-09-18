@@ -10,7 +10,7 @@ exports.seed = async (knex) => {
   await knex('invites').del();
   await knex('users').del();
 
-  const adminUserId = (await knex('users')
+  const adminUser = (await knex('users')
     .insert({
       name: 'Taylor Vanderwolk',
       email: 'concierge@taylormadebaby.com',
@@ -18,22 +18,22 @@ exports.seed = async (knex) => {
       invite_status: 'approved',
       nda_signed: true,
     })
-    .returning('id'))[0].id;
+    .returning(['id']))[0];
 
-  const mentorPasswordHash = await bcrypt.hash('mentorme', 10);
-  const mentorUser = await knex('users')
+  const mentorHash = await bcrypt.hash('mentorme', 10);
+  const mentorUser = (await knex('users')
     .insert({
       name: 'Morgan Ellis',
       email: 'mentor@taylormadebaby.com',
       role: 'mentor',
       invite_status: 'approved',
       nda_signed: true,
-      password_hash: mentorPasswordHash,
+      password_hash: mentorHash,
     })
-    .returning(['id', 'name']);
+    .returning(['id']))[0];
 
   await knex('mentors').insert({
-    user_id: mentorUser[0].id,
+    user_id: mentorUser.id,
     profile:
       'Former NICU nurse and certified sleep consultant helping first-time parents create calm routines and confident transitions from hospital to home.',
     specialties: JSON.stringify(['sleep coaching', 'fourth trimester planning', 'travel logistics']),
@@ -45,7 +45,7 @@ exports.seed = async (knex) => {
   });
 
   const mentorAdminHash = await bcrypt.hash('Karma', 10);
-  const mentorAdmin = await knex('users')
+  const mentorAdminUser = (await knex('users')
     .insert({
       name: 'Registry With Taylor',
       email: 'registrywithtaylor@gmail.com',
@@ -54,10 +54,10 @@ exports.seed = async (knex) => {
       nda_signed: true,
       password_hash: mentorAdminHash,
     })
-    .returning(['id']);
+    .returning(['id']))[0];
 
   await knex('mentors').insert({
-    user_id: mentorAdmin[0].id,
+    user_id: mentorAdminUser.id,
     profile:
       'Taylor-led mentor account covering concierge onboarding, VIP member support, and mentor circle administration.',
     specialties: JSON.stringify(['concierge onboarding', 'vip member support', 'mentor circle administration']),
@@ -83,8 +83,8 @@ exports.seed = async (knex) => {
     {
       name: 'Signature',
       description: 'Essentials plus nursery design, in-home styling, and family integration guidance.',
-      price_pilot: 3400,
-      price_future: 4100,
+      price_pilot: 3000,
+      price_future: 3600,
       included_services: JSON.stringify([
         'Everything in Essentials',
         'Nursery design concepts and sourcing',
@@ -109,15 +109,15 @@ exports.seed = async (knex) => {
       name: 'Full Nursery Install',
       category: 'nursery',
       description: 'Furniture sourcing, white-glove delivery coordination, and styling.',
-      price_pilot: 950,
-      price_future: 1200,
+      price_pilot: 730,
+      price_future: 1060,
     },
     {
       name: 'Sip & See Production',
       category: 'events',
       description: 'Concepting, vendor coordination, bespoke favors, and on-site hosting support.',
-      price_pilot: 1400,
-      price_future: 1850,
+      price_pilot: 1075,
+      price_future: 1630,
     },
   ]);
 
@@ -127,7 +127,7 @@ exports.seed = async (knex) => {
       slug: 'registry-essentials-worth-the-hype',
       content: 'From carriers to bottles... (seed content)',
       category: 'registry',
-      author_id: adminUserId,
+      author_id: adminUser.id,
       visibility: 'public',
       published_at: knex.fn.now(),
     },

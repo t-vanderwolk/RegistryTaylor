@@ -26,21 +26,16 @@ if (!process.env.JWT_SECRET) {
 // ✅ Serve React frontend only if build exists
 if (fs.existsSync(buildPath)) {
   logger.info('Serving React build', { buildPath });
-
-  // Serve static files
   app.use(express.static(buildPath));
 
-  // Let API routes work normally
-  app.use('/api', require('./src/routes'));
-
-  // All non-API routes → React
-  app.get('*', (req, res) => {
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api/')) {
+      return next();
+    }
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 } else {
   logger.warn('React build directory not found; API only mode', { buildPath });
-  // Still register API routes so backend works in dev
-  app.use('/api', require('./src/routes'));
 }
 
 // Error handling

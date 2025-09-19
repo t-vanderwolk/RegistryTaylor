@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Button from "./UI/Button";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   const [inviteCode, setInviteCode] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <motion.section
@@ -61,20 +63,48 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
           className="w-full max-w-md rounded-full bg-cream/85 p-2 pl-6 pr-2 shadow-toy backdrop-blur"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={(event) => {
+            event.preventDefault();
+            const code = inviteCode.trim();
+            if (!code) {
+              setError("Enter your invite code to continue.");
+              return;
+            }
+
+            if (code !== "123") {
+              setError("We couldn't find that invite. Please confirm with Taylor." );
+              return;
+            }
+
+            setError("");
+            navigate("/create-profile", {
+              state: {
+                inviteCode: code,
+                role: "client",
+              },
+            });
+          }}
         >
           <div className="flex items-center gap-2">
             <input
               type="text"
               value={inviteCode}
-              onChange={(event) => setInviteCode(event.target.value)}
+              onChange={(event) => {
+                setInviteCode(event.target.value);
+                if (error) setError("");
+              }}
               placeholder="Enter your private invite code"
               className="w-full rounded-full border-none bg-transparent font-body text-sm text-darkText placeholder:text-darkText/40 focus:outline-none"
             />
-            <Button variant="pink" size="sm" className="whitespace-nowrap">
+            <Button type="submit" variant="pink" size="sm" className="whitespace-nowrap">
               Verify Code
             </Button>
           </div>
+          {error && (
+            <p className="mt-2 text-center text-xs font-heading uppercase tracking-[0.3em] text-babyPink">
+              {error}
+            </p>
+          )}
         </motion.form>
       </div>
     </motion.section>

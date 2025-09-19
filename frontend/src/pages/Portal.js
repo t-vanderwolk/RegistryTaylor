@@ -37,6 +37,7 @@ const Portal = () => {
       }
 
       const user = payload?.data?.user;
+<<<<<<< HEAD
       const destinations = {
         admin: "/admin-portal",
         mentor: "/mentor-portal",
@@ -47,6 +48,14 @@ const Portal = () => {
         setStatus({ loading: false, error: null, success: true });
         navigate(destinations[user.role], { replace: true });
         return;
+=======
+      if (user?.role === "mentor") {
+        navigate("/mentor-portal", { replace: true });
+      } else if (user?.role === "admin") {
+        navigate("/admin-portal", { replace: true });
+      } else if (user?.role === "member") {
+        navigate("/user-portal", { replace: true });
+>>>>>>> 03d1865430fc68c3db1d93d0009a43d4ff4fef6d
       }
 
       setStatus({ loading: false, error: null, success: true });

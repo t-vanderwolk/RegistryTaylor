@@ -10,7 +10,6 @@ exports.seed = async (knex) => {
   await knex('invites').del();
   await knex('users').del();
 
-<<<<<<< HEAD
   const seedPassword = process.env.SEED_DEFAULT_PASSWORD || 'Karma';
 
   const adminPassword = process.env.SEED_ADMIN_PASSWORD || seedPassword;
@@ -18,12 +17,6 @@ exports.seed = async (knex) => {
   const adminUser = (await knex('users')
     .insert({
       name: 'Admin User',
-=======
-  const adminHash = await bcrypt.hash('Karma', 10);
-  const adminUser = (await knex('users')
-    .insert({
-      name: 'Taylor Vanderwolk',
->>>>>>> 03d1865430fc68c3db1d93d0009a43d4ff4fef6d
       email: 'admin@me.com',
       role: 'admin',
       invite_status: 'approved',
@@ -32,12 +25,8 @@ exports.seed = async (knex) => {
     })
     .returning(['id']))[0];
 
-<<<<<<< HEAD
   const mentorPassword = process.env.SEED_MENTOR_PASSWORD || seedPassword;
   const mentorHash = await bcrypt.hash(mentorPassword, 10);
-=======
-  const mentorHash = await bcrypt.hash('Karma', 10);
->>>>>>> 03d1865430fc68c3db1d93d0009a43d4ff4fef6d
   const mentorUser = (await knex('users')
     .insert({
       name: 'Morgan Ellis',
@@ -61,7 +50,6 @@ exports.seed = async (knex) => {
     status: 'active',
   });
 
-<<<<<<< HEAD
   const clientPassword = process.env.SEED_CLIENT_PASSWORD || seedPassword;
   const clientHash = await bcrypt.hash(clientPassword, 10);
   const clientUser = (await knex('users')
@@ -89,17 +77,6 @@ exports.seed = async (knex) => {
     file_url: 'https://taylormadebaby.com/documents/avery-parker-nda.pdf',
     document_type: 'nda',
     signed_at: knex.fn.now(),
-=======
-  const memberHash = await bcrypt.hash('Karma', 10);
-  await knex('users').insert({
-    name: 'Taylor-Made Member',
-    email: 'user@me.com',
-    role: 'member',
-    invite_status: 'approved',
-    nda_signed: true,
-    package_selected: 'signature',
-    password_hash: memberHash,
->>>>>>> 03d1865430fc68c3db1d93d0009a43d4ff4fef6d
   });
 
   await knex('membership_packages').insert([

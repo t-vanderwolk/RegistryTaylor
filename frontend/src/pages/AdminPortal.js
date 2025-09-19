@@ -43,50 +43,67 @@ const ENGAGEMENT_TREND = [
 ];
 
 /* ------------------ SIDEBAR ------------------ */
-const Sidebar = ({ items, isOpen, onClose }) => (
-  <>
-    <div
-      className={`fixed inset-0 z-30 bg-slate-900/40 transition-opacity duration-200 lg:hidden ${
-        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
-      onClick={onClose}
-    />
-    <aside
-      className={`fixed inset-y-0 left-0 z-40 w-72 transform border-r border-white/20 
-      bg-white/40 backdrop-blur-xl px-6 py-8 shadow-2xl transition-transform duration-300 
-      lg:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Taylor-Made</p>
-          <p className="text-lg font-heading text-blueberry">Admin Studio</p>
-        </div>
+const SidebarContent = ({ items, onClose, showClose }) => (
+  <div className="flex h-full flex-col">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Taylor-Made</p>
+        <p className="text-lg font-heading text-blueberry">Admin Studio</p>
+      </div>
+      {showClose && (
         <button
-          className="lg:hidden rounded-full border border-slate-200 px-2 py-1 text-xs text-slate-500 hover:border-blueberry hover:text-blueberry"
+          type="button"
+          className="rounded-full border border-slate-200 px-2 py-1 text-xs text-slate-500 transition-colors hover:border-blueberry hover:text-blueberry"
           onClick={onClose}
         >
           ✕
         </button>
-      </div>
-      <nav className="mt-10 flex flex-col gap-3">
-        {items.map((item) => (
-          <NavLink
-            key={item.id}
-            to={`/admin-portal/${item.path}`}
-            className={({ isActive }) =>
-              `block rounded-2xl px-4 py-3 shadow-md backdrop-blur-md transition 
-              ${isActive 
-                ? "bg-gradient-to-r from-babyBlue/70 to-babyPink/70 text-white shadow-lg" 
-                : "bg-white/60 text-slate-600 hover:bg-babyBlue/20 hover:text-blueberry"}`
-            }
-            onClick={onClose}
-          >
-            <span className="font-semibold">{item.label}</span>
-            <span className="mt-1 block text-xs text-slate-500">{item.blurb}</span>
-          </NavLink>
-        ))}
-      </nav>
+      )}
+    </div>
+    <nav className="mt-8 flex flex-1 flex-col gap-3">
+      {items.map((item) => (
+        <NavLink
+          key={item.id}
+          to={`/admin-portal/${item.path}`}
+          className={({ isActive }) =>
+            `block rounded-2xl px-4 py-3 shadow-md backdrop-blur-md transition ${
+              isActive
+                ? "bg-gradient-to-r from-babyBlue/70 to-babyPink/70 text-white shadow-lg"
+                : "bg-white/60 text-slate-600 hover:bg-babyBlue/20 hover:text-blueberry"
+            }`
+          }
+          onClick={onClose}
+        >
+          <span className="font-semibold">{item.label}</span>
+          <span className="mt-1 block text-xs text-slate-500">{item.blurb}</span>
+        </NavLink>
+      ))}
+    </nav>
+  </div>
+);
+
+const Sidebar = ({ items, isOpen, onClose }) => (
+  <>
+    <div
+      className={`fixed inset-0 z-30 bg-slate-900/40 transition-opacity duration-200 lg:hidden ${
+        isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+      }`}
+      onClick={onClose}
+    />
+
+    <aside
+      className={`fixed inset-y-0 left-0 z-40 w-72 transform border-r border-white/20 bg-white/40 px-6 py-8 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
+      <SidebarContent items={items} onClose={onClose} showClose />
     </aside>
+
+    <div className="relative hidden lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-white/20 lg:bg-white/40 lg:px-6 lg:py-8 lg:shadow-xl lg:backdrop-blur-xl">
+      <div className="sticky top-10">
+        <SidebarContent items={items} onClose={undefined} showClose={false} />
+      </div>
+    </div>
   </>
 );
 
@@ -184,7 +201,7 @@ const AdminPortal = () => {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cream via-white to-babyBlue/20 text-darkText">
       <Sidebar items={NAV_ITEMS} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex flex-1 flex-col lg:pl-72">
+      <div className="flex flex-1 flex-col">
         <Topbar adminName={adminName} onToggleSidebar={() => setSidebarOpen((v) => !v)} />
         <main className="flex-1 px-6 py-8 lg:px-10">
           <div className="mx-auto w-full max-w-6xl space-y-8">

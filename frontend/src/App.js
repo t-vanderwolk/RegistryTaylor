@@ -13,6 +13,8 @@ import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
 import Portal from "./pages/Portal";
 import MentorPortal from "./pages/MentorPortal";
+import AdminPortal from "./pages/AdminPortal";
+import UserPortal from "./pages/UserPortal";
 import "./styles/App.css";
 
 const NotFound = () => (
@@ -39,6 +41,8 @@ const App = () => (
       <Route path="/blog" element={<Blog />} />
       <Route path="/portal" element={<Portal />} />
       <Route path="/mentor-portal" element={<MentorPortal />} />
+      <Route path="/admin-portal/*" element={<AdminPortal />} />
+      <Route path="/user-portal" element={<UserPortal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />

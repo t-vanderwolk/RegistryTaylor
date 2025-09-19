@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -16,6 +16,7 @@ import AdminPortal from "./pages/AdminPortal";
 import ClientPortal from "./pages/ClientPortal";
 import MentorPortal from "./pages/MentorPortal";
 import UserPortal from "./pages/UserPortal";
+import CreateProfile from "./pages/CreateProfile";
 import "./styles/App.css";
 
 const NotFound = () => (
@@ -27,27 +28,39 @@ const NotFound = () => (
   </main>
 );
 
+const AppRoutes = () => {
+  const location = useLocation();
+  const hideChrome = location.pathname.startsWith("/admin-portal");
+
+  return (
+    <>
+      {!hideChrome && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/membership" element={<Membership />} />
+        <Route path="/add-ons" element={<AddOns />} />
+        <Route path="/mentors" element={<Mentors />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/portal" element={<Portal />} />
+        <Route path="/create-profile" element={<CreateProfile />} />
+        <Route path="/admin-portal/*" element={<AdminPortal />} />
+        <Route path="/client-portal/*" element={<ClientPortal />} />
+        <Route path="/mentor-portal" element={<MentorPortal />} />
+        <Route path="/user-portal" element={<UserPortal />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {!hideChrome && <Footer />}
+    </>
+  );
+};
+
 const App = () => (
   <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
     <ScrollToTop />
-    <Navbar />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/membership" element={<Membership />} />
-      <Route path="/add-ons" element={<AddOns />} />
-      <Route path="/mentors" element={<Mentors />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/faq" element={<Faq />} />
-      <Route path="/blog" element={<Blog />} />
-      <Route path="/portal" element={<Portal />} />
-      <Route path="/admin-portal/*" element={<AdminPortal />} />
-      <Route path="/client-portal" element={<ClientPortal />} />
-      <Route path="/mentor-portal" element={<MentorPortal />} />
-      <Route path="/user-portal" element={<UserPortal />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-    <Footer />
+    <AppRoutes />
   </Router>
 );
 

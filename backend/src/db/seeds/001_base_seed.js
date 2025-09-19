@@ -10,21 +10,27 @@ exports.seed = async (knex) => {
   await knex('invites').del();
   await knex('users').del();
 
+  const seedPassword = process.env.SEED_DEFAULT_PASSWORD || 'Karma';
+
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD || seedPassword;
+  const adminHash = await bcrypt.hash(adminPassword, 10);
   const adminUser = (await knex('users')
     .insert({
-      name: 'Taylor Vanderwolk',
-      email: 'concierge@taylormadebaby.com',
+      name: 'Admin User',
+      email: 'admin@me.com',
       role: 'admin',
       invite_status: 'approved',
       nda_signed: true,
+      password_hash: adminHash,
     })
     .returning(['id']))[0];
 
-  const mentorHash = await bcrypt.hash('mentorme', 10);
+  const mentorPassword = process.env.SEED_MENTOR_PASSWORD || seedPassword;
+  const mentorHash = await bcrypt.hash(mentorPassword, 10);
   const mentorUser = (await knex('users')
     .insert({
       name: 'Morgan Ellis',
-      email: 'mentor@taylormadebaby.com',
+      email: 'mentor@me.com',
       role: 'mentor',
       invite_status: 'approved',
       nda_signed: true,
@@ -44,28 +50,33 @@ exports.seed = async (knex) => {
     status: 'active',
   });
 
-  const mentorAdminHash = await bcrypt.hash('Karma', 10);
-  const mentorAdminUser = (await knex('users')
+  const clientPassword = process.env.SEED_CLIENT_PASSWORD || seedPassword;
+  const clientHash = await bcrypt.hash(clientPassword, 10);
+  const clientUser = (await knex('users')
     .insert({
-      name: 'Registry With Taylor',
-      email: 'registrywithtaylor@gmail.com',
-      role: 'mentor',
+      name: 'Avery Parker',
+      email: 'client@me.com',
+      role: 'member',
       invite_status: 'approved',
-      nda_signed: true,
-      password_hash: mentorAdminHash,
+      nda_signed: false,
+      package_selected: 'signature',
+      password_hash: clientHash,
     })
     .returning(['id']))[0];
 
-  await knex('mentors').insert({
-    user_id: mentorAdminUser.id,
-    profile:
-      'Taylor-led mentor account covering concierge onboarding, VIP member support, and mentor circle administration.',
-    specialties: JSON.stringify(['concierge onboarding', 'vip member support', 'mentor circle administration']),
-    availability: JSON.stringify([
-      { day: 'monday', slots: ['09:00', '14:00'] },
-      { day: 'wednesday', slots: ['11:00', '16:00'] },
-    ]),
-    status: 'active',
+  await knex('consultations').insert({
+    member_id: clientUser.id,
+    consultant_id: mentorUser.id,
+    date_time: knex.fn.now(),
+    status: 'completed',
+    notes_encrypted: null,
+  });
+
+  await knex('documents').insert({
+    user_id: clientUser.id,
+    file_url: 'https://taylormadebaby.com/documents/avery-parker-nda.pdf',
+    document_type: 'nda',
+    signed_at: knex.fn.now(),
   });
 
   await knex('membership_packages').insert([

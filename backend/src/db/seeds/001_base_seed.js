@@ -10,21 +10,23 @@ exports.seed = async (knex) => {
   await knex('invites').del();
   await knex('users').del();
 
+  const adminHash = await bcrypt.hash('Karma', 10);
   const adminUser = (await knex('users')
     .insert({
       name: 'Taylor Vanderwolk',
-      email: 'concierge@taylormadebaby.com',
+      email: 'admin@me.com',
       role: 'admin',
       invite_status: 'approved',
       nda_signed: true,
+      password_hash: adminHash,
     })
     .returning(['id']))[0];
 
-  const mentorHash = await bcrypt.hash('mentorme', 10);
+  const mentorHash = await bcrypt.hash('Karma', 10);
   const mentorUser = (await knex('users')
     .insert({
       name: 'Morgan Ellis',
-      email: 'mentor@taylormadebaby.com',
+      email: 'mentor@me.com',
       role: 'mentor',
       invite_status: 'approved',
       nda_signed: true,
@@ -44,28 +46,15 @@ exports.seed = async (knex) => {
     status: 'active',
   });
 
-  const mentorAdminHash = await bcrypt.hash('Karma', 10);
-  const mentorAdminUser = (await knex('users')
-    .insert({
-      name: 'Registry With Taylor',
-      email: 'registrywithtaylor@gmail.com',
-      role: 'mentor',
-      invite_status: 'approved',
-      nda_signed: true,
-      password_hash: mentorAdminHash,
-    })
-    .returning(['id']))[0];
-
-  await knex('mentors').insert({
-    user_id: mentorAdminUser.id,
-    profile:
-      'Taylor-led mentor account covering concierge onboarding, VIP member support, and mentor circle administration.',
-    specialties: JSON.stringify(['concierge onboarding', 'vip member support', 'mentor circle administration']),
-    availability: JSON.stringify([
-      { day: 'monday', slots: ['09:00', '14:00'] },
-      { day: 'wednesday', slots: ['11:00', '16:00'] },
-    ]),
-    status: 'active',
+  const memberHash = await bcrypt.hash('Karma', 10);
+  await knex('users').insert({
+    name: 'Taylor-Made Member',
+    email: 'user@me.com',
+    role: 'member',
+    invite_status: 'approved',
+    nda_signed: true,
+    package_selected: 'signature',
+    password_hash: memberHash,
   });
 
   await knex('membership_packages').insert([

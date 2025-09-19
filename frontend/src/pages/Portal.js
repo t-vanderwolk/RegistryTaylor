@@ -41,6 +41,10 @@ const Portal = () => {
       const user = payload?.data?.user;
       if (user?.role === "mentor") {
         navigate("/mentor-portal", { replace: true });
+      } else if (user?.role === "admin") {
+        navigate("/admin-portal", { replace: true });
+      } else if (user?.role === "member") {
+        navigate("/user-portal", { replace: true });
       }
     } catch (error) {
       setStatus({

@@ -144,3 +144,24 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.profile = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: { message: 'Authentication required' } });
+    }
+
+    const user = await db('users')
+      .where({ id: req.user.id })
+      .select('id', 'name', 'email', 'role', 'invite_status', 'nda_signed', 'package_selected')
+      .first();
+
+    if (!user) {
+      return res.status(404).json({ error: { message: 'User not found' } });
+    }
+
+    res.json({ data: user });
+  } catch (error) {
+    next(error);
+  }
+};

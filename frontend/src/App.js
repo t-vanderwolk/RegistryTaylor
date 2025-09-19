@@ -15,6 +15,8 @@ import Portal from "./pages/Portal";
 import AdminPortal from "./pages/AdminPortal";
 import ClientPortal from "./pages/ClientPortal";
 import MentorPortal from "./pages/MentorPortal";
+import AdminPortal from "./pages/AdminPortal";
+import UserPortal from "./pages/UserPortal";
 import "./styles/App.css";
 
 const NotFound = () => (
@@ -43,6 +45,8 @@ const App = () => (
       <Route path="/admin-portal/*" element={<AdminPortal />} />
       <Route path="/client-portal" element={<ClientPortal />} />
       <Route path="/mentor-portal" element={<MentorPortal />} />
+      <Route path="/admin-portal/*" element={<AdminPortal />} />
+      <Route path="/user-portal" element={<UserPortal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />

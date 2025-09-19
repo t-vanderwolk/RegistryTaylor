@@ -36,12 +36,20 @@ const Portal = () => {
         localStorage.setItem("tm_user", JSON.stringify(payload.data.user));
       }
 
-      setStatus({ loading: false, error: null, success: true });
-
       const user = payload?.data?.user;
-      if (user?.role === "mentor") {
-        navigate("/mentor-portal", { replace: true });
+      const destinations = {
+        admin: "/admin-portal",
+        mentor: "/mentor-portal",
+        member: "/client-portal",
+      };
+
+      if (user?.role && destinations[user.role]) {
+        setStatus({ loading: false, error: null, success: true });
+        navigate(destinations[user.role], { replace: true });
+        return;
       }
+
+      setStatus({ loading: false, error: null, success: true });
     } catch (error) {
       setStatus({
         loading: false,

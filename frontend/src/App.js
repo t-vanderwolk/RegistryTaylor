@@ -12,6 +12,8 @@ import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
 import Portal from "./pages/Portal";
+import AdminPortal from "./pages/AdminPortal";
+import ClientPortal from "./pages/ClientPortal";
 import MentorPortal from "./pages/MentorPortal";
 import "./styles/App.css";
 
@@ -38,6 +40,8 @@ const App = () => (
       <Route path="/faq" element={<Faq />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/portal" element={<Portal />} />
+      <Route path="/admin-portal" element={<AdminPortal />} />
+      <Route path="/client-portal" element={<ClientPortal />} />
       <Route path="/mentor-portal" element={<MentorPortal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

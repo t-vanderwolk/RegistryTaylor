@@ -9,21 +9,40 @@ exports.up = async (knex) => {
     }
   };
 
-  await ensureColumn(usersTable, 'active', (table) => {
-    table.boolean('active').notNullable().defaultTo(true);
-  });
+  const invitesExists = await knex.schema.hasTable(inviteCodesTable);
+  if (!invitesExists) {
+    await knex.schema.createTable(inviteCodesTable, (table) => {
+      table.string('code').primary();
+      table.enu('role', ['admin', 'mentor', 'client'], { useNative: true, enumName: 'invite_portal_role' }).notNullable();
+      table.string('assigned_name');
+      table.string('assigned_email');
+      table.timestamp('expires_at');
+      table.boolean('single_use').notNullable().defaultTo(true);
+      table.timestamp('used_at');
+      table.uuid('used_by_user_id').references('users.id').onDelete('SET NULL');
+      table.jsonb('metadata').defaultTo('{}');
+      table.timestamps(true, true);
+    });
+  } else {
+    await ensureColumn(inviteCodesTable, 'metadata', (table) => {
+      table.jsonb('metadata').defaultTo('{}');
+    });
+  }
 
-  await ensureColumn(usersTable, 'phone', (table) => {
-    table.string('phone');
-  });
+  const usersExists = await knex.schema.hasTable(usersTable);
+  if (usersExists) {
+    await ensureColumn(usersTable, 'active', (table) => {
+      table.boolean('active').notNullable().defaultTo(true);
+    });
 
-  await ensureColumn(usersTable, 'zip_code', (table) => {
-    table.string('zip_code');
-  });
+    await ensureColumn(usersTable, 'phone', (table) => {
+      table.string('phone');
+    });
 
-  await ensureColumn(inviteCodesTable, 'metadata', (table) => {
-    table.jsonb('metadata').defaultTo('{}');
-  });
+    await ensureColumn(usersTable, 'zip_code', (table) => {
+      table.string('zip_code');
+    });
+  }
 
   const hasPrivateBlog = await knex.schema.hasTable('private_blog_posts');
   if (!hasPrivateBlog) {

@@ -7,7 +7,30 @@ const apiV1 = require('./routes/v1');
 
 const app = express();
 
-app.use(helmet());
+const totsquadEmbedOrigin = 'https://babyconcierge.totsquad.com';
+const defaultDirectives = helmet.contentSecurityPolicy.getDefaultDirectives();
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...defaultDirectives,
+        'script-src': [
+          ...(defaultDirectives['script-src'] || []),
+          totsquadEmbedOrigin,
+        ],
+        'frame-src': [
+          ...(defaultDirectives['frame-src'] || ["'self'"]),
+          totsquadEmbedOrigin,
+        ],
+        'connect-src': [
+          ...(defaultDirectives['connect-src'] || ["'self'"]),
+          totsquadEmbedOrigin,
+        ],
+      },
+    },
+  })
+);
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const conciergeTouches = [
   { id: 1, title: "Nursery Reveal Timeline", detail: "Taylor scheduled walkthrough + scent layering", status: "in-progress" },
@@ -244,7 +244,7 @@ const UserPortal = () => {
 
       <footer className="px-4 pb-6">
         <div className="mx-auto max-w-5xl rounded-2xl border border-babyPink/30 bg-babyPink/10 px-6 py-3 text-center text-[0.65rem] font-heading uppercase tracking-[0.3em] text-darkText/50">
-          Taylor-Made Baby Planning • Confidential Concierge Experience • NDA Protected
+          Taylor-Made Baby Co. • Confidential Concierge Experience • NDA Protected
         </div>
       </footer>
     </div>

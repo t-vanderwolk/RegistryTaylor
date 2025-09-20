@@ -630,7 +630,7 @@ const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropd
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-babyPink/40 px-3 py-2 font-heading text-blueberry shadow-soft">
-              Taylor-Made Baby Planning
+              Taylor-Made Baby Co.
             </div>
             <span className="hidden text-xs uppercase tracking-[0.3em] text-darkText/50 md:inline">
               Mentor Concierge Portal
@@ -651,6 +651,13 @@ const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropd
                 />
               </button>
             </label>
+            <button
+              type="button"
+              onClick={onSignOut}
+              className="rounded-full border border-babyPink/60 bg-babyPink/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.28em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyPink/20"
+            >
+              Log Out
+            </button>
             <div className="relative">
               <button
                 type="button"
@@ -730,7 +737,7 @@ const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropd
       </div>
       <footer className="px-4 pb-6">
         <div className="mx-auto max-w-6xl rounded-2xl border border-babyPink/30 bg-babyPink/10 px-6 py-3 text-center text-[0.65rem] font-heading uppercase tracking-[0.3em] text-darkText/50">
-          Taylor-Made Baby Planning • Confidential Concierge Communication • Protected by NDA
+          Taylor-Made Baby Co. • Confidential Concierge Communication • Protected by NDA
         </div>
       </footer>
     </div>

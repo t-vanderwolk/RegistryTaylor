@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { NavLink, Routes, Route, Navigate } from "react-router-dom";
+import { NavLink, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import {
   ResponsiveContainer,
   LineChart,
@@ -108,7 +108,7 @@ const Sidebar = ({ items, isOpen, onClose }) => (
 );
 
 /* ------------------ TOPBAR ------------------ */
-const Topbar = ({ adminName, onToggleSidebar }) => {
+const Topbar = ({ adminName, onToggleSidebar, onSignOut }) => {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 lg:px-10">
@@ -137,6 +137,13 @@ const Topbar = ({ adminName, onToggleSidebar }) => {
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-babyPink/30 text-blueberry font-heading">
             {adminName.charAt(0)}
           </div>
+          <button
+            type="button"
+            onClick={onSignOut}
+            className="rounded-full border border-babyPink/60 bg-babyPink/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyPink/20"
+          >
+            Log Out
+          </button>
         </div>
       </div>
     </header>
@@ -187,6 +194,7 @@ const AdminDashboard = () => (
 /* ------------------ ROOT ------------------ */
 const AdminPortal = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   const profile = useMemo(() => {
     const stored = localStorage.getItem("tm_user");
     if (!stored) return null;
@@ -198,11 +206,17 @@ const AdminPortal = () => {
   }, []);
   const adminName = profile?.name || "Admin";
 
+  const handleSignOut = () => {
+    localStorage.removeItem("tm_token");
+    localStorage.removeItem("tm_user");
+    navigate("/portal");
+  };
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cream via-white to-babyBlue/20 text-darkText">
       <Sidebar items={NAV_ITEMS} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex flex-1 flex-col">
-        <Topbar adminName={adminName} onToggleSidebar={() => setSidebarOpen((v) => !v)} />
+        <Topbar adminName={adminName} onToggleSidebar={() => setSidebarOpen((v) => !v)} onSignOut={handleSignOut} />
         <main className="flex-1 px-6 py-8 lg:px-10">
           <div className="mx-auto w-full max-w-6xl space-y-8">
             <Routes>

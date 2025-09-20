@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5050;
 const server = http.createServer(app);
 
 server.listen(PORT, () => {
-  logger.info(`Taylor-Made API listening on port ${PORT}`);
+  logger.info(`Taylor-Made Baby Co. API listening on port ${PORT}`);
 });
 
 module.exports = server;

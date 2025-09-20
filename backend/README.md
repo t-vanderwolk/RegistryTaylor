@@ -1,4 +1,4 @@
-# Taylor-Made Baby Planning API
+# Taylor-Made Baby Co. API
 
 This Express + PostgreSQL service powers the invite-only concierge experience outlined in the product roadmap. The backend ships with structured data models, role-aware routes, and integration hooks for authentication, memberships, add-ons, blogs, mentors, consultations, and document storage.
 

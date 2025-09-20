@@ -1,22 +1,62 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const FOOTER_BLOCKS = [
+  {
+    letter: "T",
+    classes: "bg-babyBlue",
+    style: {
+      "--stack-shift": "-4px",
+      "--stack-tilt": "1.8deg",
+      "--drop-delay": "0.15s",
+      "--wobble-delay": "1.2s",
+    },
+  },
+  {
+    letter: "M",
+    classes: "bg-babyPink",
+    style: {
+      "--stack-shift": "6px",
+      "--stack-tilt": "-2deg",
+      "--drop-delay": "0.35s",
+      "--wobble-delay": "1.45s",
+    },
+  },
+  {
+    letter: "C",
+    classes: "bg-pastelPurple",
+    style: {
+      "--stack-shift": "-3px",
+      "--stack-tilt": "2.4deg",
+      "--drop-delay": "0.55s",
+      "--wobble-delay": "1.7s",
+    },
+  },
+  {
+    letter: "O",
+    classes: "bg-sunshine",
+    style: {
+      "--stack-shift": "5px",
+      "--stack-tilt": "-1.6deg",
+      "--drop-delay": "0.75s",
+      "--wobble-delay": "1.95s",
+    },
+  },
+];
+
 const Footer = () => {
   return (
     <footer className="mt-20 bg-gradient-to-br from-babyBlue/35 via-cream to-babyPink/35 text-darkText border-t border-babyPink/30">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-3">
         <div className="space-y-4">
           <Link to="/" className="inline-flex items-center gap-4 text-blueberry">
-            <div className="flex items-center gap-1">
-              {['T', 'M', 'C', 'O'].map((letter, index) => (
+            <div className="footer-stack flex items-end gap-0">
+              {FOOTER_BLOCKS.map(({ letter, classes, style }) => (
                 <span
                   key={letter}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg font-blocky text-base shadow-pop animate-bob"
-                  style={{
-                    animationDelay: `${index * 0.1}s`,
-                    backgroundColor: ["#FADADD", "#A7D8F7", "#DCC6F6", "#FFFDF7"][index % 4],
-                    color: '#3A3D4D',
-                  }}
+                  className={`stack-block inline-flex h-12 w-12 items-center justify-center font-heading text-xl uppercase text-cream ${classes}`}
+                  style={style}
+                  data-letter={letter}
                 >
                   {letter}
                 </span>
@@ -38,8 +78,8 @@ const Footer = () => {
           </p>
           <div className="space-y-1">
             <p className="uppercase tracking-[0.25em] text-[0.65rem] text-darkText/60 font-heading">Concierge Contact</p>
-            <a href="mailto:concierge@taylormadebaby.com" className="block text-blueberry hover:text-pastelPurple">
-              concierge@taylormadebaby.com
+            <a href="mailto:RegistryWihTaylor@gmail.com" className="block text-blueberry hover:text-pastelPurple">
+              RegistryWihTaylor@gmail.com
             </a>
             <a href="tel:+14805551234" className="block text-blueberry hover:text-pastelPurple">
               +1 (480) 555-1234

@@ -11,6 +11,7 @@ import Mentors from "./pages/Mentors";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
+import PrivateBlog from "./pages/PrivateBlog";
 import Portal from "./pages/Portal";
 import AdminPortal from "./pages/AdminPortal";
 import ClientPortal from "./pages/ClientPortal";
@@ -44,11 +45,12 @@ const AppRoutes = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/private-blog" element={<PrivateBlog />} />
         <Route path="/portal" element={<Portal />} />
         <Route path="/create-profile" element={<CreateProfile />} />
         <Route path="/admin-portal/*" element={<AdminPortal />} />
         <Route path="/client-portal/*" element={<ClientPortal />} />
-        <Route path="/mentor-portal" element={<MentorPortal />} />
+        <Route path="/mentor-portal/*" element={<MentorPortal />} />
         <Route path="/user-portal" element={<UserPortal />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

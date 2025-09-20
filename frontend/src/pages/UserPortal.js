@@ -122,7 +122,7 @@ const UserPortal = () => {
 
     (async () => {
       try {
-        const response = await fetch("/api/v1/auth/profile", {
+        const response = await fetch("/api/v1/profile/me", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -142,8 +142,8 @@ const UserPortal = () => {
           throw new Error(payload?.error?.message || "Unable to load your concierge dashboard.");
         }
 
-        if (payload?.data?.role !== 'member') {
-          setState({ status: "unauthorized", data: null, error: "This portal is reserved for members." });
+        if (payload?.data?.role !== 'client') {
+          setState({ status: "unauthorized", data: null, error: "This portal is reserved for clients." });
           return;
         }
 

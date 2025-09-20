@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.use(requireAuth, requireRole('mentor'));
 
-router.get('/me', mentorController.getProfile);
+router.get('/dashboard', mentorController.getDashboard);
+router.post('/messages', mentorController.sendMessage);
+router.patch('/messages/:id/read', mentorController.markMessageRead);
 
 module.exports = router;

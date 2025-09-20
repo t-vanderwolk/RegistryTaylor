@@ -1,15 +1,19 @@
 const router = require('express').Router();
 
-const packageRouter = require('./packages');
-const addOnRouter = require('./add-ons');
-const blogRouter = require('./blog');
 const authRouter = require('./auth');
-const mentorRouter = require('./mentors');
+const adminRouter = require('./admin');
+const mentorRouter = require('./mentor');
+const mentorsLegacyRouter = require('./mentors');
+const clientRouter = require('./client');
+const profileRouter = require('./profile');
+const privateBlogRouter = require('./private-blog');
 
 router.use('/auth', authRouter);
-router.use('/packages', packageRouter);
-router.use('/add-ons', addOnRouter);
-router.use('/blog', blogRouter);
-router.use('/mentors', mentorRouter);
+router.use('/admin', adminRouter);
+router.use('/mentor', mentorRouter);
+router.use('/mentors', mentorsLegacyRouter);
+router.use('/client', clientRouter);
+router.use('/profile', profileRouter);
+router.use('/private-blog', privateBlogRouter);
 
 module.exports = router;

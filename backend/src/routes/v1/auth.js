@@ -1,10 +1,9 @@
-const router = require('express').Router();
-const authController = require('../../controllers/auth.controller');
-const authMiddleware = require('../../middleware/auth');
+const express = require('express');
+const authController = require('../../controllers/authController');
 
-router.post('/invite', authController.requestInvite);
-router.post('/register', authController.registerWithInvite);
+const router = express.Router();
+
+router.post('/register-with-invite', authController.registerWithInvite);
 router.post('/login', authController.login);
-router.get('/profile', authMiddleware, authController.profile);
 
 module.exports = router;

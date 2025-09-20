@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Portal = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [login, setLogin] = useState({ email: "", password: "" });
   const [status, setStatus] = useState({ loading: false, error: null, success: false });
 
@@ -37,11 +38,19 @@ const Portal = () => {
       }
 
       const user = payload?.data?.user;
+      const searchParams = new URLSearchParams(location.search);
+      const redirectTo = location.state?.redirectTo || searchParams.get("redirect");
       const destinations = {
         admin: "/admin-portal",
         mentor: "/mentor-portal",
-        member: "/client-portal",
+        client: "/client-portal",
       };
+
+      if (redirectTo) {
+        setStatus({ loading: false, error: null, success: true });
+        navigate(redirectTo, { replace: true });
+        return;
+      }
 
       if (user?.role && destinations[user.role]) {
         setStatus({ loading: false, error: null, success: true });

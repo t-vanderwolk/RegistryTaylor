@@ -112,6 +112,7 @@ exports.updateMyProfile = async (req, res, next) => {
         'due_date',
         'package_choice',
         'mentor_preference',
+        'family_intro',
       ];
       allowedKeys.forEach((key) => {
         if (Object.prototype.hasOwnProperty.call(profile, key)) {

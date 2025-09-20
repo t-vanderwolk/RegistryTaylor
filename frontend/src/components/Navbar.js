@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import Button from "./UI/Button";
+import { useAuth } from "../context/AuthContext";
 
 const NAV_LINKS = [
   { to: "/membership", label: "Membership" },
@@ -47,6 +48,7 @@ const BLOCK_STACK = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { token } = useAuth();
 
   const toggleMenu = () => setOpen((current) => !current);
   const closeMenu = () => setOpen(false);
@@ -101,11 +103,14 @@ const Navbar = () => {
         </Link>
 
         <nav className="hidden flex-1 items-center justify-end gap-3 md:flex">
-          {NAV_LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to} className={navLinkClasses}>
-              {link.label}
-            </NavLink>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const target = link.label === "Journal" && token ? "/private-blog" : link.to;
+            return (
+              <NavLink key={link.to} to={target} className={navLinkClasses}>
+                {link.label}
+              </NavLink>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -145,22 +150,25 @@ const Navbar = () => {
       {open && (
         <div className="md:hidden">
           <div className="space-y-2 border-t border-babyPink/40 bg-cream/95 px-4 py-4 shadow-toy">
-            {NAV_LINKS.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                onClick={closeMenu}
-                className={({ isActive }) =>
-                  `block rounded-full px-4 py-3 font-heading text-sm tracking-[0.18em] transition duration-200 shadow-toy ${
-                    isActive
-                      ? "bg-babyPink text-darkText"
-                      : "bg-cream/90 text-darkText/70 hover:bg-babyBlue/80 hover:text-darkText"
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const target = link.label === "Journal" && token ? "/private-blog" : link.to;
+              return (
+                <NavLink
+                  key={link.to}
+                  to={target}
+                  onClick={closeMenu}
+                  className={({ isActive }) =>
+                    `block rounded-full px-4 py-3 font-heading text-sm tracking-[0.18em] transition duration-200 shadow-toy ${
+                      isActive
+                        ? "bg-babyPink text-darkText"
+                        : "bg-cream/90 text-darkText/70 hover:bg-babyBlue/80 hover:text-darkText"
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              );
+            })}
             <Button as={Link} to="/contact" variant="purple" size="md" className="w-full" onClick={closeMenu}>
               Request Invite
             </Button>

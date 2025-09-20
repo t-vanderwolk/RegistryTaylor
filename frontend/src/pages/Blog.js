@@ -2,14 +2,16 @@
 import React from "react";
 import Section from "../components/UI/Section";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { blogPosts } from "../data/blog";
 import { motion } from "framer-motion";
 
 const Blog = () => {
   const navigate = useNavigate();
 
+  const { token } = useAuth();
+
   const handleEnterPrivateBlog = () => {
-    const token = localStorage.getItem("tm_token");
     if (token) {
       navigate("/private-blog");
       return;

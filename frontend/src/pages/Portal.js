@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Portal = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login: loginUser, loading: authLoading, error: authError } = useAuth();
   const [login, setLogin] = useState({ email: "", password: "" });
   const [status, setStatus] = useState({ loading: false, error: null, success: false });
 
@@ -17,27 +19,13 @@ const Portal = () => {
     event.preventDefault();
     setStatus({ loading: true, error: null, success: false });
 
-    try {
-      const response = await fetch("/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: login.email.trim(), password: login.password }),
-      });
+    const result = await loginUser(login.email.trim(), login.password);
+    if (!result.success) {
+      setStatus({ loading: false, error: result.error || authError || "Unable to sign in.", success: false });
+      return;
+    }
 
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        const message = payload?.error?.message || "Unable to sign in. Please try again.";
-        throw new Error(message);
-      }
-
-      if (payload?.data?.token) {
-        localStorage.setItem("tm_token", payload.data.token);
-      }
-      if (payload?.data?.user) {
-        localStorage.setItem("tm_user", JSON.stringify(payload.data.user));
-      }
-
-      const user = payload?.data?.user;
+    const user = result.user;
       const searchParams = new URLSearchParams(location.search);
       const redirectTo = location.state?.redirectTo || searchParams.get("redirect");
       const destinations = {
@@ -58,14 +46,7 @@ const Portal = () => {
         return;
       }
 
-      setStatus({ loading: false, error: null, success: true });
-    } catch (error) {
-      setStatus({
-        loading: false,
-        error: error.message || "Unable to sign in. Please try again.",
-        success: false,
-      });
-    }
+    setStatus({ loading: false, error: null, success: true });
   };
 
   return (
@@ -133,9 +114,9 @@ const Portal = () => {
               </p>
             </div>
             <div aria-live="polite" className="space-y-2">
-              {status.error && (
+              {(status.error || authError) && (
                 <p className="rounded-2xl border border-babyPink/60 bg-babyPink/25 px-4 py-3 text-sm font-body text-darkText/80">
-                  {status.error}
+                  {status.error || authError}
                 </p>
               )}
               {status.success && (
@@ -168,12 +149,14 @@ const Portal = () => {
             </label>
             <button
               type="submit"
-              disabled={status.loading}
+              disabled={status.loading || authLoading}
               className={`w-full rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition-transform duration-200 ${
-                status.loading ? "cursor-wait opacity-70" : "hover:-translate-y-1 hover:shadow-dreamy"
+                status.loading || authLoading
+                  ? "cursor-wait opacity-70"
+                  : "hover:-translate-y-1 hover:shadow-dreamy"
               }`}
             >
-              {status.loading ? "Signing In…" : "Sign In"}
+              {status.loading || authLoading ? "Signing In…" : "Sign In"}
             </button>
             <p className="text-center text-[0.7rem] font-body text-darkText/50">
               Experiencing trouble? Contact your concierge lead for a password reset or temporary access link.

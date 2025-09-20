@@ -14,18 +14,33 @@ const NAV_LINKS = [
 const BLOCK_STACK = [
   {
     letter: "T",
-    classes:
-      "self-start bg-gradient-to-br from-babyBlue via-cream to-babyBlue/80 -rotate-3 -translate-x-1",
+    classes: "bg-babyBlue",
+    style: {
+      "--stack-shift": "-6px",
+      "--stack-tilt": "2deg",
+      "--drop-delay": "0.45s",
+      "--wobble-delay": "1.4s",
+    },
   },
   {
     letter: "M",
-    classes:
-      "self-center bg-gradient-to-br from-babyPink via-cream to-babyPink/80",
+    classes: "bg-babyPink",
+    style: {
+      "--stack-shift": "4px",
+      "--stack-tilt": "-1.5deg",
+      "--drop-delay": "0.25s",
+      "--wobble-delay": "1.15s",
+    },
   },
   {
     letter: "B",
-    classes:
-      "self-end bg-gradient-to-br from-pastelPurple via-cream to-pastelPurple/85 rotate-2 translate-x-1",
+    classes: "bg-pastelPurple",
+    style: {
+      "--stack-shift": "-1px",
+      "--stack-tilt": "1deg",
+      "--drop-delay": "0.05s",
+      "--wobble-delay": "0.95s",
+    },
   },
 ];
 
@@ -64,23 +79,21 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-babyPink/40 bg-cream/90 backdrop-blur-lg">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
-        <Link
-          to="/"
-          className="flex items-center gap-4"
-          onClick={closeMenu}
-        >
-          <div className="flex flex-col items-center gap-1">
-            {BLOCK_STACK.map(({ letter, classes }) => (
+        <Link to="/" className="flex items-center gap-4" onClick={closeMenu}>
+          <div className="brand-stack flex flex-col items-center">
+            {BLOCK_STACK.map(({ letter, classes, style }) => (
               <span
                 key={letter}
-                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl border-4 border-cream font-heading text-xl text-darkText shadow-dreamy transition duration-200 ${classes}`}
+                className={`stack-block inline-flex h-12 w-12 items-center justify-center font-heading text-xl text-cream uppercase ${classes}`}
+                style={style}
+                data-letter={letter}
               >
                 {letter}
               </span>
             ))}
           </div>
           <div className="flex flex-col leading-tight text-darkText">
-            <span className="font-playful text-xl sm:text-2xl">Taylor-Made Baby Planning</span>
+            <span className="font-playful text-xl sm:text-2xl">Taylor-Made Baby Co.</span>
             <span className="text-[0.6rem] font-heading uppercase tracking-[0.4em] text-darkText/60">
               Invite-Only Concierge
             </span>

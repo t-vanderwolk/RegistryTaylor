@@ -136,7 +136,7 @@ const Membership = () => {
           </div>
         </div>
       </Section>
-      <Section title="Taylor-Made Baby Planning Packages" compact className="bg-alt-pink">
+      <Section title="Taylor-Made Baby Co. Packages" compact className="bg-alt-pink">
         <div id="packages" className="space-y-10">
           <div className="mx-auto max-w-3xl text-center text-cozyGray/75">
             <p className="leading-relaxed">

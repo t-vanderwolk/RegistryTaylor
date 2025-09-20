@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard", path: "dashboard" },
@@ -26,7 +26,7 @@ const conciergeMessages = [
   { sender: "Concierge Team", message: "Your Sip & See inspiration deck is ready for review.", time: "Yesterday, 6:45 PM" },
 ];
 
-const Topbar = ({ clientName }) => (
+const Topbar = ({ clientName, onSignOut }) => (
   <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
     <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 lg:px-10">
       <div>
@@ -34,10 +34,20 @@ const Topbar = ({ clientName }) => (
         <p className="font-playful text-2xl text-blueberry">Taylor-Made Lounge</p>
       </div>
       <div className="flex items-center gap-3">
-        <p className="text-sm font-semibold text-blueberry">{clientName}</p>
+        <div className="hidden text-right sm:block">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Signed in</p>
+          <p className="text-sm font-semibold text-blueberry">{clientName}</p>
+        </div>
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-babyBlue/30 text-blueberry">
           {clientName.charAt(0)}
         </div>
+        <button
+          type="button"
+          onClick={onSignOut}
+          className="rounded-full border border-babyPink/60 bg-babyPink/10 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.28em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyPink/20"
+        >
+          Log Out
+        </button>
       </div>
     </div>
   </header>
@@ -92,6 +102,7 @@ const ResourcesPage = () => <div>Guides, checklists, blogs, downloads</div>;
 const ProgressPage = () => <div>Timeline tracker, % completion, milestones</div>;
 
 const ClientPortal = () => {
+  const navigate = useNavigate();
   const profile = useMemo(() => {
     const stored = localStorage.getItem("tm_user");
     if (!stored) return { name: "Client" };
@@ -102,9 +113,15 @@ const ClientPortal = () => {
     }
   }, []);
 
+  const handleSignOut = () => {
+    localStorage.removeItem("tm_token");
+    localStorage.removeItem("tm_user");
+    navigate("/portal");
+  };
+
   return (
     <div className="min-h-screen bg-cream/40 text-darkText">
-      <Topbar clientName={profile.name} />
+      <Topbar clientName={profile.name} onSignOut={handleSignOut} />
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-8 lg:px-10">
         <Routes>
           <Route index element={<Navigate to="dashboard" replace />} />

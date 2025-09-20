@@ -35,7 +35,7 @@ const Blog = () => {
 
           <div className="text-center">
             <a
-              href="mailto:RegistrywithTaylor@gmail.com?subject=Blog%20Topic%20Suggestion&body=Hi%20Taylor%2C%20I%27d%20love%20to%20read%20about..."
+              href="mailto:RegistryWihTaylor@gmail.com?subject=Blog%20Topic%20Suggestion&body=Hi%20Taylor%2C%20I%27d%20love%20to%20read%20about..."
               className="btn-primary text-sm sm:text-base px-7 sm:px-8 py-3"
             >
               Suggest a Topic

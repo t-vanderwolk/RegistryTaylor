@@ -2,14 +2,14 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 export const portalNavItems = [
-  { to: ".", label: "Dashboard", end: true },
-  { to: "bio", label: "Bio" },
-  { to: "journey", label: "My Journey" },
-  { to: "belly-pics", label: "Belly Pics" },
-  { to: "private-blog", label: "Private Blog" },
-  { to: "services", label: "Services" },
-  { to: "resources", label: "Resources" },
-  { to: "progress", label: "Progress" },
+  { to: "/client-portal", label: "Dashboard", end: true },
+  { to: "/client-portal/bio", label: "Bio" },
+  { to: "/client-portal/journey", label: "My Journey" },
+  { to: "/client-portal/belly-pics", label: "Belly Pics" },
+  { to: "/client-portal/private-blog", label: "Private Blog" },
+  { to: "/client-portal/services", label: "Services" },
+  { to: "/client-portal/resources", label: "Resources" },
+  { to: "/client-portal/progress", label: "Progress" },
 ];
 
 const PortalNav = () => {

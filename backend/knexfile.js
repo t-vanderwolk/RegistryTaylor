@@ -3,6 +3,17 @@ require('dotenv').config();
 const defaultConnection =
   process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/taylormade';
 
+const buildConnection = (connection) => {
+  if (!connection) return connection;
+  if (typeof connection === 'string' && connection.includes('sslmode=require')) {
+    return {
+      connectionString: connection,
+      ssl: { rejectUnauthorized: false },
+    };
+  }
+  return connection;
+};
+
 const baseConfig = {
   client: 'pg',
   migrations: {
@@ -17,11 +28,11 @@ const baseConfig = {
 module.exports = {
   development: {
     ...baseConfig,
-    connection: defaultConnection,
+    connection: buildConnection(defaultConnection),
   },
   test: {
     ...baseConfig,
-    connection: process.env.TEST_DATABASE_URL || defaultConnection,
+    connection: buildConnection(process.env.TEST_DATABASE_URL || defaultConnection),
   },
   production: {
     ...baseConfig,

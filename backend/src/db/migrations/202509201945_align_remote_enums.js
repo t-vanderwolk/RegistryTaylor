@@ -3,27 +3,20 @@ exports.up = async (knex) => {
   const labels = ['admin', 'mentor', 'client'];
 
   for (const label of labels) {
-    await knex.raw(
-      `DO $$ BEGIN
-        IF EXISTS (
-          SELECT 1
-          FROM pg_type t
-          JOIN pg_enum e ON t.oid = e.enumtypid
-          WHERE t.typname = ?
-        ) AND NOT EXISTS (
-          SELECT 1
-          FROM pg_type t
-          JOIN pg_enum e ON t.oid = e.enumtypid
-          WHERE t.typname = ? AND e.enumlabel = ?
-        ) THEN
-          ALTER TYPE ?? ADD VALUE ?;
-        END IF;
-      END $$;`,
-      [roleEnum, roleEnum, label, roleEnum, label]
-    );
+    const result = await knex
+      .select('e.enumlabel')
+      .from('pg_type as t')
+      .join('pg_enum as e', 't.oid', 'e.enumtypid')
+      .where('t.typname', roleEnum)
+      .andWhere('e.enumlabel', label)
+      .first();
+
+    if (!result) {
+      await knex.raw(`ALTER TYPE "${roleEnum}" ADD VALUE '${label}'`);
+    }
   }
 };
 
 exports.down = async () => {
-  // No-op: removing enum values is destructive and not required.
+  // Enum values cannot be easily removed. No-op.
 };

@@ -48,7 +48,7 @@ const BLOCK_STACK = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const { token } = useAuth();
+  const { token, role, logout } = useAuth();
 
   const toggleMenu = () => setOpen((current) => !current);
   const closeMenu = () => setOpen(false);
@@ -77,6 +77,19 @@ const Navbar = () => {
         ? "bg-babyBlue text-darkText"
         : "bg-cream/80 text-darkText/70 hover:bg-babyPink/70 hover:text-darkText"
     }`;
+
+  const portalDestinations = {
+    admin: "/admin-portal",
+    mentor: "/mentor-portal",
+    client: "/client-portal",
+  };
+
+  const portalHome = portalDestinations[role] || "/portal";
+
+  const handleLogout = () => {
+    closeMenu();
+    logout();
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-babyPink/40 bg-cream/90 backdrop-blur-lg">
@@ -114,26 +127,37 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          {!token && (
+            <Button
+              as={Link}
+              to="/contact"
+              variant="purple"
+              size="sm"
+              className="tracking-[0.25em] uppercase"
+              onClick={closeMenu}
+            >
+              Request Invite
+            </Button>
+          )}
           <Button
             as={Link}
-            to="/contact"
-            variant="purple"
-            size="sm"
-            className="tracking-[0.25em] uppercase"
-            onClick={closeMenu}
-          >
-            Request Invite
-          </Button>
-          <Button
-            as={Link}
-            to="/portal"
+            to={portalHome}
             variant="blue"
             size="sm"
             className="tracking-[0.25em] uppercase"
             onClick={closeMenu}
           >
-            Member Portal
+            {token ? "Portal Home" : "Member Portal"}
           </Button>
+          {token && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="inline-flex items-center justify-center rounded-full border border-babyPink/60 bg-transparent px-4 py-2 text-xs font-heading uppercase tracking-[0.25em] text-blueberry shadow-toy transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-dreamy"
+            >
+              Log Out
+            </button>
+          )}
         </div>
 
         <button
@@ -169,12 +193,23 @@ const Navbar = () => {
                 </NavLink>
               );
             })}
-            <Button as={Link} to="/contact" variant="purple" size="md" className="w-full" onClick={closeMenu}>
-              Request Invite
+            {!token && (
+              <Button as={Link} to="/contact" variant="purple" size="md" className="w-full" onClick={closeMenu}>
+                Request Invite
+              </Button>
+            )}
+            <Button as={Link} to={portalHome} variant="blue" size="md" className="w-full" onClick={closeMenu}>
+              {token ? "Portal Home" : "Member Portal"}
             </Button>
-            <Button as={Link} to="/portal" variant="blue" size="md" className="w-full" onClick={closeMenu}>
-              Member Portal
-            </Button>
+            {token && (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-full rounded-full border border-babyPink/60 bg-transparent px-6 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry shadow-toy transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-dreamy"
+              >
+                Log Out
+              </button>
+            )}
           </div>
         </div>
       )}

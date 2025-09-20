@@ -4,6 +4,7 @@ import Topbar from "../components/Layout/Topbar";
 import PortalNav, { portalNavItems } from "../components/Layout/PortalNav";
 import Dashboard from "./client/Dashboard";
 import Bio from "./client/Bio";
+import MyJourney from "./client/MyJourney";
 import PrivateBlog from "./PrivateBlog";
 
 const Placeholder = ({ title }) => (
@@ -45,7 +46,9 @@ const ClientPortal = () => {
           <Routes>
             <Route index element={<Dashboard />} />
             <Route path="bio" element={<Bio />} />
-            <Route path="journey" element={<Placeholder title="My Journey" />} />
+            <Route path="journey" element={<MyJourney />} />
+            <Route path="bio/*" element={<Navigate to="/client-portal/bio" replace />} />
+            <Route path="journey/*" element={<Navigate to="/client-portal/journey" replace />} />
             <Route path="belly-pics" element={<Placeholder title="Belly Pics" />} />
             <Route path="blog" element={<Navigate to="private-blog" replace />} />
             <Route path="private-blog" element={<PrivateBlog />} />

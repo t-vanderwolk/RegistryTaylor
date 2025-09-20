@@ -53,6 +53,7 @@ const Home = () => {
 
       {/* Free Consultation */}
       <Section
+        id="consultation"
         title="Book Your Free Consultation"
         center
         compact

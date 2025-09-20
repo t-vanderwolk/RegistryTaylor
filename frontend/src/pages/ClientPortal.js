@@ -1,14 +1,6 @@
+// src/pages/ClientPortal.js
 import React, { useMemo } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-
-const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", path: "dashboard" },
-  { id: "registry", label: "Registry", path: "registry" },
-  { id: "nursery", label: "Nursery Design", path: "nursery" },
-  { id: "mentor", label: "My Mentor", path: "mentor" },
-  { id: "resources", label: "Resources", path: "resources" },
-  { id: "progress", label: "Progress", path: "progress" },
-];
 
 const conciergeHighlights = [
   { id: 1, title: "Nursery install", detail: "White-glove setup scheduled for October 4 at 9:00 AM." },
@@ -53,6 +45,7 @@ const Topbar = ({ clientName, onSignOut }) => (
   </header>
 );
 
+/* --- Dashboard --- */
 const Dashboard = () => (
   <div className="space-y-8">
     <section className="grid gap-6 md:grid-cols-2">
@@ -94,12 +87,77 @@ const Dashboard = () => (
   </div>
 );
 
-// TODO: Flesh out sub-pages
-const RegistryPage = () => <div>Registry builder (curated lists, shoppable links, notes)</div>;
-const NurseryPage = () => <div>Nursery style boards, swatches, approvals</div>;
-const MentorPage = () => <div>Chat, booking, past sessions</div>;
-const ResourcesPage = () => <div>Guides, checklists, blogs, downloads</div>;
-const ProgressPage = () => <div>Timeline tracker, % completion, milestones</div>;
+/* --- Registry --- */
+const RegistryPage = () => (
+  <div className="space-y-6">
+    <h2 className="font-heading text-xl text-blueberry">Your Registry</h2>
+    <p className="text-sm text-darkText/70">Curated picks, shoppable links, and space for your own notes.</p>
+    <div className="rounded-3xl border border-babyBlue/40 bg-white p-6 shadow-soft">
+      <ul className="space-y-3">
+        <li>🛒 Nuna MIXX Next Stroller</li>
+        <li>🍼 Comotomo Bottles (2-pack)</li>
+        <li>👶 Hatch Rest+ Sound Machine</li>
+      </ul>
+      <button className="mt-4 rounded-full bg-babyPink/20 px-5 py-2 text-xs font-semibold text-blueberry">
+        Add Item
+      </button>
+    </div>
+  </div>
+);
+
+/* --- Nursery --- */
+const NurseryPage = () => (
+  <div className="space-y-6">
+    <h2 className="font-heading text-xl text-blueberry">Nursery Design</h2>
+    <p className="text-sm text-darkText/70">Mood boards, swatches, and design approvals.</p>
+    <div className="rounded-3xl border border-babyPink/40 bg-white p-6 shadow-soft">
+      <p>🎨 Upload design inspiration or browse swatch samples here.</p>
+      <button className="mt-4 rounded-full bg-babyBlue/20 px-5 py-2 text-xs font-semibold text-blueberry">
+        Upload Swatch
+      </button>
+    </div>
+  </div>
+);
+
+/* --- Mentor --- */
+const MentorPage = () => (
+  <div className="space-y-6">
+    <h2 className="font-heading text-xl text-blueberry">Your Mentor</h2>
+    <p className="text-sm text-darkText/70">Book sessions, send messages, review past chats.</p>
+    <div className="rounded-3xl border border-pastelPurple/40 bg-white p-6 shadow-soft">
+      <p>💬 Chat placeholder</p>
+      <button className="mt-4 rounded-full bg-babyPink/20 px-5 py-2 text-xs font-semibold text-blueberry">
+        Book Session
+      </button>
+    </div>
+  </div>
+);
+
+/* --- Resources --- */
+const ResourcesPage = () => (
+  <div className="space-y-6">
+    <h2 className="font-heading text-xl text-blueberry">Resources</h2>
+    <p className="text-sm text-darkText/70">Guides, checklists, and downloads for your journey.</p>
+    <div className="grid gap-4 md:grid-cols-2">
+      <div className="rounded-2xl border border-babyBlue/30 bg-white p-5 shadow-soft">Hospital Bag Checklist (PDF)</div>
+      <div className="rounded-2xl border border-babyPink/30 bg-white p-5 shadow-soft">Stroller Comparison Guide (PDF)</div>
+      <div className="rounded-2xl border border-pastelPurple/30 bg-white p-5 shadow-soft">Sleep Training Basics (PDF)</div>
+    </div>
+  </div>
+);
+
+/* --- Progress --- */
+const ProgressPage = () => (
+  <div className="space-y-6">
+    <h2 className="font-heading text-xl text-blueberry">Your Progress</h2>
+    <p className="text-sm text-darkText/70">Track milestones and completion %.</p>
+    <div className="rounded-3xl border border-babyBlue/40 bg-white p-6 shadow-soft">
+      <p>📅 Nursery ready: 70%</p>
+      <p>🛍 Registry curated: 85%</p>
+      <p>📖 Classes booked: 40%</p>
+    </div>
+  </div>
+);
 
 const ClientPortal = () => {
   const navigate = useNavigate();

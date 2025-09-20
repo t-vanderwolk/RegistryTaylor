@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import Button from "./UI/Button";
 
 const NAV_LINKS = [
@@ -31,6 +31,7 @@ const BLOCK_STACK = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => setOpen((current) => !current);
   const closeMenu = () => setOpen(false);
@@ -48,6 +49,10 @@ const Navbar = () => {
     mq.addEventListener("change", handleChange);
     return () => mq.removeEventListener("change", handleChange);
   }, []);
+
+  useEffect(() => {
+    closeMenu();
+  }, [location.pathname]);
 
   const navLinkClasses = ({ isActive }) =>
     `rounded-full px-4 py-2 text-xs sm:text-sm font-heading tracking-[0.18em] transition duration-200 ease-out shadow-toy ${
@@ -91,10 +96,24 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button as={Link} to="/contact" variant="purple" size="sm" className="tracking-[0.25em] uppercase">
+          <Button
+            as={Link}
+            to="/contact"
+            variant="purple"
+            size="sm"
+            className="tracking-[0.25em] uppercase"
+            onClick={closeMenu}
+          >
             Request Invite
           </Button>
-          <Button as={Link} to="/portal" variant="blue" size="sm" className="tracking-[0.25em] uppercase">
+          <Button
+            as={Link}
+            to="/portal"
+            variant="blue"
+            size="sm"
+            className="tracking-[0.25em] uppercase"
+            onClick={closeMenu}
+          >
             Member Portal
           </Button>
         </div>
@@ -129,10 +148,10 @@ const Navbar = () => {
                 {link.label}
               </NavLink>
             ))}
-            <Button as={Link} to="/contact" variant="purple" size="md" className="w-full">
+            <Button as={Link} to="/contact" variant="purple" size="md" className="w-full" onClick={closeMenu}>
               Request Invite
             </Button>
-            <Button as={Link} to="/portal" variant="blue" size="md" className="w-full">
+            <Button as={Link} to="/portal" variant="blue" size="md" className="w-full" onClick={closeMenu}>
               Member Portal
             </Button>
           </div>

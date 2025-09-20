@@ -70,6 +70,8 @@ exports.seed = async (knex) => {
     due_date: '2025-02-14',
     package_choice: 'Signature Taylor-Made',
     mentor_preference: 'Morgan Ellis',
+    family_intro:
+      'We are blending modern desert neutrals with sentimental heirlooms and would love extra guidance on registry experiences.',
   });
 
   await knex('mentor_assignments').insert({

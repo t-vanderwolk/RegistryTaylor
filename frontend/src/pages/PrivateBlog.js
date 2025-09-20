@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const initialFormState = {
   title: "",
@@ -7,11 +8,7 @@ const initialFormState = {
 };
 
 const PrivateBlog = () => {
-  const [auth, setAuth] = useState(() => ({
-    token: localStorage.getItem("tm_token"),
-    role: (localStorage.getItem("tm_role") || "").toLowerCase(),
-  }));
-  const { token, role } = auth;
+  const { token, role, logout } = useAuth();
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,9 +49,7 @@ const PrivateBlog = () => {
       const payload = await response.json().catch(() => ({}));
 
       if (response.status === 401 || response.status === 403) {
-        localStorage.removeItem("tm_token");
-        localStorage.removeItem("tm_role");
-        setAuth({ token: null, role: "" });
+        logout();
         throw new Error(payload?.error?.message || "Please sign in again to view private posts.");
       }
 

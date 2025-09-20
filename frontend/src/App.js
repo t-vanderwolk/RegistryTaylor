@@ -19,6 +19,7 @@ import MentorPortal from "./pages/MentorPortal";
 import UserPortal from "./pages/UserPortal";
 import CreateProfile from "./pages/CreateProfile";
 import "./styles/App.css";
+import ProtectedRoute from "./components/Layout/ProtectedRoute";
 
 const NotFound = () => (
   <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-darkText">
@@ -49,7 +50,14 @@ const AppRoutes = () => {
         <Route path="/portal" element={<Portal />} />
         <Route path="/create-profile" element={<CreateProfile />} />
         <Route path="/admin-portal/*" element={<AdminPortal />} />
-        <Route path="/client-portal/*" element={<ClientPortal />} />
+        <Route
+          path="/client-portal/*"
+          element={
+            <ProtectedRoute allowedRoles={["client"]}>
+              <ClientPortal />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/mentor-portal/*" element={<MentorPortal />} />
         <Route path="/user-portal" element={<UserPortal />} />
         <Route path="*" element={<NotFound />} />

@@ -50,7 +50,7 @@ const HeroSection = () => {
           transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
           className="flex flex-wrap justify-center gap-3"
         >
-          <Button as={Link} to="/contact" variant="purple" size="lg">
+          <Button as={Link} to="/request-invite" variant="purple" size="lg">
             Request Invitation
           </Button>
           <Button as={Link} to="/membership" variant="blue" size="lg">

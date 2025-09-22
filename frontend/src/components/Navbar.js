@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { to: "/membership", label: "Membership" },
   { to: "/add-ons", label: "Add-Ons" },
   { to: "/mentors", label: "Mentors" },
-  { to: "/blog", label: "Journal" },
+  { to: "/blog", label: "Blog" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
@@ -116,21 +116,18 @@ const Navbar = () => {
         </Link>
 
         <nav className="hidden flex-1 items-center justify-end gap-3 md:flex">
-          {NAV_LINKS.map((link) => {
-            const target = link.label === "Journal" && token ? "/private-blog" : link.to;
-            return (
-              <NavLink key={link.to} to={target} className={navLinkClasses}>
-                {link.label}
-              </NavLink>
-            );
-          })}
+          {NAV_LINKS.map((link) => (
+            <NavLink key={link.to} to={link.to} className={navLinkClasses}>
+              {link.label}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
           {!token && (
             <Button
               as={Link}
-              to="/contact"
+              to="/request-invite"
               variant="purple"
               size="sm"
               className="tracking-[0.25em] uppercase"
@@ -174,27 +171,24 @@ const Navbar = () => {
       {open && (
         <div className="md:hidden">
           <div className="space-y-2 border-t border-babyPink/40 bg-cream/95 px-4 py-4 shadow-toy">
-            {NAV_LINKS.map((link) => {
-              const target = link.label === "Journal" && token ? "/private-blog" : link.to;
-              return (
-                <NavLink
-                  key={link.to}
-                  to={target}
-                  onClick={closeMenu}
-                  className={({ isActive }) =>
-                    `block rounded-full px-4 py-3 font-heading text-sm tracking-[0.18em] transition duration-200 shadow-toy ${
-                      isActive
-                        ? "bg-babyPink text-darkText"
-                        : "bg-cream/90 text-darkText/70 hover:bg-babyBlue/80 hover:text-darkText"
-                    }`
-                  }
-                >
-                  {link.label}
-                </NavLink>
-              );
-            })}
+            {NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={closeMenu}
+                className={({ isActive }) =>
+                  `block rounded-full px-4 py-3 font-heading text-sm tracking-[0.18em] transition duration-200 shadow-toy ${
+                    isActive
+                      ? "bg-babyPink text-darkText"
+                      : "bg-cream/90 text-darkText/70 hover:bg-babyBlue/80 hover:text-darkText"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
             {!token && (
-              <Button as={Link} to="/contact" variant="purple" size="md" className="w-full" onClick={closeMenu}>
+              <Button as={Link} to="/request-invite" variant="purple" size="md" className="w-full" onClick={closeMenu}>
                 Request Invite
               </Button>
             )}

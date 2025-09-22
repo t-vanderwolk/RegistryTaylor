@@ -112,9 +112,9 @@ const Footer = () => {
               Add-Ons
             </Link>
             <Link to="/blog" className="hover:text-babyPink">
-              Journal
+              Blog
             </Link>
-            <Link to="/contact" className="hover:text-babyPink">
+            <Link to="/request-invite" className="hover:text-babyPink">
               Request Invite
             </Link>
           </div>

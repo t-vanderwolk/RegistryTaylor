@@ -1,5 +1,5 @@
 // src/pages/Blog.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Section from "../components/UI/Section";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -8,8 +8,66 @@ import { motion } from "framer-motion";
 
 const Blog = () => {
   const navigate = useNavigate();
-
   const { token } = useAuth();
+  const storageKey = "tm_public_blog_questions";
+  const [questions, setQuestions] = useState([]);
+  const [form, setForm] = useState({ name: "", question: "" });
+  const [feedback, setFeedback] = useState({ status: "idle", message: "" });
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setQuestions(parsed);
+        }
+      }
+    } catch (error) {
+      console.warn("Unable to load saved questions", error);
+    }
+  }, []);
+
+  const persistQuestions = (items) => {
+    setQuestions(items);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(items));
+    } catch (error) {
+      console.warn("Unable to persist questions", error);
+    }
+  };
+
+  const handleInputChange = (field) => (event) => {
+    setForm((current) => ({ ...current, [field]: event.target.value }));
+    setFeedback({ status: "idle", message: "" });
+  };
+
+  const createId = () => {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return `q_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+  };
+
+  const handleSubmitQuestion = (event) => {
+    event.preventDefault();
+    if (!form.question.trim()) {
+      setFeedback({ status: "error", message: "Please share a question before submitting." });
+      return;
+    }
+
+    const entry = {
+      id: createId(),
+      name: form.name.trim() || "Anonymous",
+      question: form.question.trim(),
+      createdAt: new Date().toISOString(),
+    };
+
+    const next = [entry, ...questions].slice(0, 24);
+    persistQuestions(next);
+    setForm({ name: "", question: "" });
+    setFeedback({ status: "success", message: "Thanks! Taylor will feature your question soon." });
+  };
 
   const handleEnterPrivateBlog = () => {
     if (token) {
@@ -109,6 +167,82 @@ const Blog = () => {
             >
               Suggest a Topic
             </a>
+          </div>
+
+          {/* Q & A Section */}
+          <div className="mt-16 space-y-8">
+            <header className="text-center space-y-3">
+              <h2 className="font-serif text-3xl text-deepSlate">Q &amp; A w/ Tay</h2>
+              <p className="mx-auto max-w-3xl text-cozyGray/75 leading-relaxed">
+                Curious about registry strategy, concierge touches, or prepping for baby? Drop your question and Taylor will handpick favorites to answer in upcoming posts and newsletters.
+              </p>
+              <p className="text-xs font-heading uppercase tracking-[0.35em] text-softGold">
+                Taylor personally reads every submission and will hand-answer each question ASAP.
+              </p>
+            </header>
+
+            <form onSubmit={handleSubmitQuestion} className="mx-auto grid w-full max-w-3xl gap-4 rounded-3xl border border-softGold/30 bg-white/90 p-6 shadow-soft">
+              <label className="text-sm font-heading uppercase tracking-[0.3em] text-deepSlate/60">
+                Name (optional)
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={handleInputChange("name")}
+                  placeholder="Taylor Fan"
+                  className="mt-2 w-full rounded-2xl border border-softGold/30 bg-white px-4 py-3 text-sm text-deepSlate shadow-inner focus:border-softGold focus:outline-none"
+                />
+              </label>
+              <label className="text-sm font-heading uppercase tracking-[0.3em] text-deepSlate/60">
+                Your Question
+                <textarea
+                  value={form.question}
+                  onChange={handleInputChange("question")}
+                  placeholder="Ask Taylor anything about concierge planning, gifting, or milestone moments."
+                  rows={4}
+                  className="mt-2 w-full rounded-2xl border border-softGold/30 bg-white px-4 py-3 text-sm text-deepSlate shadow-inner focus:border-softGold focus:outline-none"
+                />
+              </label>
+              {feedback.status !== "idle" && (
+                <p
+                  className={`text-sm font-body ${
+                    feedback.status === "success" ? "text-softGold" : "text-rose-500"
+                  }`}
+                >
+                  {feedback.message}
+                </p>
+              )}
+              <button
+                type="submit"
+                className="btn-primary max-w-xs justify-center self-end text-sm uppercase tracking-[0.3em]"
+              >
+                Submit Question
+              </button>
+            </form>
+
+            {questions.length > 0 && (
+              <section className="mx-auto grid w-full max-w-5xl gap-4">
+                <h3 className="text-center font-heading text-sm uppercase tracking-[0.35em] text-deepSlate/50">
+                  Community Curiosity
+                </h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {questions.map((entry) => (
+                    <article
+                      key={entry.id}
+                      className="rounded-3xl border border-softGold/30 bg-white/95 p-6 text-left shadow-soft"
+                    >
+                      <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.3em] text-deepSlate/50">
+                        <span>{entry.name}</span>
+                        <span>{new Date(entry.createdAt).toLocaleDateString()}</span>
+                      </div>
+                      <p className="mt-3 text-sm text-deepSlate/80 leading-relaxed">{entry.question}</p>
+                      <p className="mt-4 text-xs font-heading uppercase tracking-[0.3em] text-softGold">
+                        Taylor is curating a response
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         </div>
       </Section>

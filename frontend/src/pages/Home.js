@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Section from "../components/UI/Section";
 import SectionDivider from "../components/UI/SectionDivider";
 import Card from "../components/UI/Card";
@@ -9,23 +8,9 @@ import logo2 from "../assets/logo2.png";
 import logo3 from "../assets/logo3.png";
 import HeroSection from "../components/HeroSection";
 import ConsultationSection from "../components/ConsultationSection";
-import {
-  membershipJourneySteps,
-  membershipTiers,
-  membershipBenefits,
-  conciergeSpotlights,
-} from "../data/membership";
+import { conciergeSpotlights } from "../data/membership";
 
 const Home = () => {
-  const previewTiers = membershipTiers.map((tier) => ({
-    id: tier.id,
-    name: tier.name,
-    priceLabel: tier.startingPrice?.startsWith("$")
-      ? `Starting at ${tier.startingPrice}`
-      : tier.startingPrice,
-    description: tier.intro,
-  }));
-
   const identityHighlights = [
     {
       logo: logo1,

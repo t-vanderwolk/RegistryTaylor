@@ -10,6 +10,7 @@ exports.seed = async (knex) => {
   await knex('mentor_profiles').del().catch(() => {});
   await knex('client_profiles').del().catch(() => {});
   await knex('invite_codes').del().catch(() => {});
+  await knex('invite_requests').del().catch(() => {});
   await knex('users').del().catch(() => {});
   const hasPrivateBlog = await knex.schema.hasTable('private_blog_posts');
   if (hasPrivateBlog) {
@@ -107,6 +108,27 @@ exports.seed = async (knex) => {
         mentor_preference: 'Morgan Ellis',
         due_date: '2025-02-14',
       },
+    },
+  ]);
+
+  await knex('invite_requests').insert([
+    {
+      id: uuid(),
+      name: 'Jordan Blake',
+      email: 'jordan@example.com',
+      zip_code: '85255',
+      package_choice: 'Signature Taylor-Made',
+      status: 'pending',
+    },
+    {
+      id: uuid(),
+      name: 'Sam Riley',
+      email: 'sam@example.com',
+      zip_code: '85258',
+      package_choice: 'Concierge Essentials',
+      status: 'approved',
+      generated_code: 'CLT-INVITE',
+      handled_at: knex.fn.now(),
     },
   ]);
 

@@ -18,6 +18,7 @@ import ClientPortal from "./pages/ClientPortal";
 import MentorPortal from "./pages/MentorPortal";
 import UserPortal from "./pages/UserPortal";
 import CreateProfile from "./pages/CreateProfile";
+import RequestInvite from "./pages/RequestInvite";
 import "./styles/App.css";
 import ProtectedRoute from "./components/Layout/ProtectedRoute";
 
@@ -44,6 +45,7 @@ const AppRoutes = () => {
         <Route path="/add-ons" element={<AddOns />} />
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/request-invite" element={<RequestInvite />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/private-blog" element={<PrivateBlog />} />

@@ -7,6 +7,7 @@
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
     "migrate": "npm run migrate --prefix backend",
     "seed": "npm run seed --prefix backend",
+    "lint": "npx eslint \"frontend/src/**/*.{js,jsx}\" \"backend/src/**/*.js\"",
     "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend && npm run migrate --prefix backend && npm run seed --prefix backend"
   },
   "dependencies": {
@@ -23,6 +24,9 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "nodemon": "^3.0.3"
   },
   "engines": {

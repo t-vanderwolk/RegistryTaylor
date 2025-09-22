@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { NavLink, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import {
   ResponsiveContainer,
@@ -9,9 +9,8 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  BarChart,
-  Bar,
 } from "recharts";
+import api from "../lib/api";
 
 /* ------------------ NAV ITEMS ------------------ */
 const NAV_ITEMS = [
@@ -41,6 +40,154 @@ const ENGAGEMENT_TREND = [
   { month: "May", engagement: 61 },
   { month: "Jun", engagement: 66 },
 ];
+
+/* ------------------ INVITE MANAGEMENT ------------------ */
+const statusBadgeStyles = {
+  pending: "bg-amber-100 text-amber-700",
+  approved: "bg-emerald-100 text-emerald-700",
+  declined: "bg-rose-100 text-rose-700",
+};
+
+const InviteManagement = () => {
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [actioning, setActioning] = useState(null);
+
+  const loadRequests = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await api.get("/api/v1/invite-requests");
+      setRequests(response.data?.data || []);
+    } catch (err) {
+      const message = err.response?.data?.error?.message || "Unable to load invitation requests.";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadRequests();
+  }, [loadRequests]);
+
+  const handleDecision = async (id, status, options = {}) => {
+    setActioning(`${id}-${status}`);
+    try {
+      await api.patch(`/api/v1/invite-requests/${id}`, {
+        status,
+        generateInviteCode: Boolean(options.generateInviteCode),
+      });
+      await loadRequests();
+    } catch (err) {
+      const message = err.response?.data?.error?.message || `Unable to mark request as ${status}.`;
+      setError(message);
+    } finally {
+      setActioning(null);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Leads</p>
+          <h1 className="font-playful text-3xl text-blueberry">Invitation Requests</h1>
+          <p className="text-sm text-slate-500">
+            Review prospective families, approve concierge access, or decline with a gentle touch.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={loadRequests}
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+        >
+          Refresh
+        </button>
+      </header>
+
+      {error && (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+          {error}
+        </div>
+      )}
+
+      <section className="rounded-[2rem] border border-babyPink/40 bg-white/95 p-6 shadow-lg">
+        {loading ? (
+          <p className="text-sm text-slate-500">Loading invitation requests…</p>
+        ) : requests.length === 0 ? (
+          <p className="text-sm text-slate-500">No invitation requests yet. New submissions will appear here.</p>
+        ) : (
+          <div className="space-y-4">
+            {requests.map((request) => (
+              <article
+                key={request.id}
+                className="rounded-3xl border border-babyBlue/30 bg-white px-5 py-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="font-heading text-blueberry">{request.name}</p>
+                    <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                      <a href={`mailto:${request.email}`} className="underline">{request.email}</a>
+                      {request.zip_code && <span>ZIP {request.zip_code}</span>}
+                      {request.package_choice && <span>{request.package_choice}</span>}
+                      <span>Requested {new Date(request.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                  <span
+                    className={`inline-flex items-center rounded-full px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] ${
+                      statusBadgeStyles[request.status] || 'bg-slate-100 text-slate-600'
+                    }`}
+                  >
+                    {request.status}
+                  </span>
+                </div>
+
+                {request.generated_code && (
+                  <p className="mt-2 text-xs font-heading uppercase tracking-[0.3em] text-emerald-600">
+                    Invite Code: {request.generated_code}
+                  </p>
+                )}
+
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    disabled={actioning === `${request.id}-approved` || request.status === 'approved'}
+                    onClick={() =>
+                      handleDecision(request.id, 'approved', {
+                        generateInviteCode: !request.generated_code,
+                      })
+                    }
+                    className={`rounded-full border border-emerald-300 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-emerald-600 shadow-soft transition ${
+                      actioning === `${request.id}-approved` || request.status === 'approved'
+                        ? 'opacity-60'
+                        : 'hover:-translate-y-0.5 hover:shadow-dreamy'
+                    }`}
+                  >
+                    {request.status === 'approved' ? 'Approved' : 'Approve & Generate Invite'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={actioning === `${request.id}-declined` || request.status === 'declined'}
+                    onClick={() => handleDecision(request.id, 'declined')}
+                    className={`rounded-full border border-rose-300 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-rose-600 shadow-soft transition ${
+                      actioning === `${request.id}-declined` || request.status === 'declined'
+                        ? 'opacity-60'
+                        : 'hover:-translate-y-0.5 hover:shadow-dreamy'
+                    }`}
+                  >
+                    {request.status === 'declined' ? 'Declined' : 'Decline'}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};
 
 /* ------------------ SIDEBAR ------------------ */
 const SidebarContent = ({ items, onClose, showClose }) => (
@@ -222,6 +369,7 @@ const AdminPortal = () => {
             <Routes>
               <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="invites" element={<InviteManagement />} />
               <Route
                 path="*"
                 element={

@@ -37,14 +37,15 @@ const ConsultationSection = () => {
     }
 
     const script = document.createElement("script");
+    const container = widgetRef.current;
     script.id = scriptId;
     script.src = scriptUrl;
     script.async = true;
     document.body.appendChild(script);
 
     return () => {
-      if (widgetRef.current) {
-        widgetRef.current.innerHTML = "";
+      if (container) {
+        container.innerHTML = "";
       }
       script.remove();
     };

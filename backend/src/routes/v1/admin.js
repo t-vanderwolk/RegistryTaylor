@@ -10,5 +10,7 @@ router.use(requireAuth, requireRole('admin'));
 router.post('/invites', adminController.createInvite);
 router.get('/invites', adminController.listInvites);
 router.get('/dashboard', adminController.dashboard);
+router.get('/clients', adminController.listClients);
+router.get('/mentors', adminController.listMentors);
 
 module.exports = router;

@@ -23,15 +23,6 @@ const NAV_ITEMS = [
   { id: "settings", label: "Settings", path: "settings", blurb: "Brand + security" },
 ];
 
-/* ------------------ SAMPLE DATA ------------------ */
-const DASHBOARD_METRICS = [
-  { label: "Total Invite Requests", value: 128 },
-  { label: "Approved Invites", value: 94 },
-  { label: "Active Clients", value: 38 },
-  { label: "Mentors", value: 12 },
-  { label: "Revenue (YTD)", value: "$420K" },
-];
-
 const ENGAGEMENT_TREND = [
   { month: "Jan", engagement: 42 },
   { month: "Feb", engagement: 48 },
@@ -309,45 +300,326 @@ const Topbar = ({ adminName, onToggleSidebar, onSignOut }) => {
 };
 
 /* ------------------ DASHBOARD ------------------ */
-const AdminDashboard = () => (
-  <div className="space-y-8">
-    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-      {DASHBOARD_METRICS.map((metric) => (
-        <article
-          key={metric.label}
-          className="rounded-[2rem] border border-babyBlue/30 bg-gradient-to-tr from-white via-babyBlue/10 to-babyPink/10 p-6 shadow-lg"
-        >
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">{metric.label}</p>
-          <p className="mt-3 font-heading text-3xl text-blueberry">{metric.value}</p>
-        </article>
-      ))}
-    </section>
+const AdminDashboard = () => {
+  const [stats, setStats] = useState(null);
+  const [recentInvites, setRecentInvites] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    <section className="rounded-[2rem] border border-babyPink/40 bg-white/90 p-6 shadow-lg">
-      <div className="flex items-center justify-between">
+  const loadDashboard = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await api.get("/api/v1/admin/dashboard");
+      const payload = response.data?.data || {};
+      setStats(payload.stats || null);
+      setRecentInvites(Array.isArray(payload.recent_invites) ? payload.recent_invites : []);
+    } catch (err) {
+      const message = err.response?.data?.error?.message || "Unable to load admin metrics.";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadDashboard();
+  }, [loadDashboard]);
+
+  const metricCards = [
+    { id: "total_invite_requests", label: "Invite Requests", value: stats?.total_invite_requests },
+    { id: "pending_invite_requests", label: "Pending Invites", value: stats?.pending_invite_requests },
+    { id: "approved_invite_requests", label: "Approved Invites", value: stats?.approved_invite_requests },
+    { id: "active_clients", label: "Active Clients", value: stats?.active_clients },
+    { id: "active_mentors", label: "Active Mentors", value: stats?.active_mentors },
+  ];
+
+  const formatValue = (value) => {
+    if (loading) return "...";
+    if (typeof value === "number") return value;
+    return "--";
+  };
+
+  return (
+    <div className="space-y-8">
+      <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="font-heading text-xl text-blueberry">Engagement Over Time</h2>
-          <p className="text-sm text-slate-500">Monitor logins and concierge touchpoints.</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Pulse</p>
+          <h1 className="font-playful text-3xl text-blueberry">Operations Dashboard</h1>
+          <p className="text-sm text-slate-500">Live counts from the client, mentor, and invite programs.</p>
         </div>
-        <button className="rounded-full bg-gradient-to-r from-babyBlue to-babyPink px-4 py-2 text-xs font-heading uppercase text-white shadow-md">
-          Export
+        <button
+          type="button"
+          onClick={loadDashboard}
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+        >
+          Refresh
         </button>
-      </div>
-      <div className="mt-6 h-64">
-        <ResponsiveContainer>
-          <LineChart data={ENGAGEMENT_TREND}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-            <XAxis dataKey="month" stroke="#94A3B8" />
-            <YAxis allowDecimals={false} stroke="#94A3B8" />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="engagement" stroke="#7C3AED" strokeWidth={3} dot={{ r: 4 }} />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </section>
-  </div>
-);
+      </header>
+
+      {error && (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+          {error}
+        </div>
+      )}
+
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        {metricCards.map((metric) => (
+          <article
+            key={metric.id}
+            className="rounded-[2rem] border border-babyBlue/30 bg-gradient-to-tr from-white via-babyBlue/10 to-babyPink/10 p-6 shadow-lg"
+          >
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-500">{metric.label}</p>
+            <p className="mt-3 font-heading text-3xl text-blueberry">{formatValue(metric.value)}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="rounded-[2rem] border border-babyPink/40 bg-white/90 p-6 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-heading text-xl text-blueberry">Engagement Over Time</h2>
+            <p className="text-sm text-slate-500">Monitor logins and concierge touchpoints.</p>
+          </div>
+          <button className="rounded-full bg-gradient-to-r from-babyBlue to-babyPink px-4 py-2 text-xs font-heading uppercase text-white shadow-md">
+            Export
+          </button>
+        </div>
+        <div className="mt-6 h-64">
+          <ResponsiveContainer>
+            <LineChart data={ENGAGEMENT_TREND}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+              <XAxis dataKey="month" stroke="#94A3B8" />
+              <YAxis allowDecimals={false} stroke="#94A3B8" />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="engagement" stroke="#7C3AED" strokeWidth={3} dot={{ r: 4 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/90 p-6 shadow-lg">
+        <h2 className="font-heading text-xl text-blueberry">Recent Invites</h2>
+        <p className="text-sm text-slate-500">Latest codes generated across concierge programs.</p>
+        {loading ? (
+          <p className="mt-4 text-sm text-slate-500">Loading recent invites...</p>
+        ) : recentInvites.length === 0 ? (
+          <p className="mt-4 text-sm text-slate-500">No invite codes issued yet.</p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {recentInvites.map((invite) => (
+              <div
+                key={invite.code}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-babyBlue/20 bg-white px-5 py-4 shadow-soft"
+              >
+                <div>
+                  <p className="font-heading text-blueberry">{invite.code}</p>
+                  <p className="text-xs text-slate-500">{invite.role}</p>
+                </div>
+                <div className="text-right text-xs text-slate-400">
+                  <p>{invite.assigned_name || "Unassigned"}</p>
+                  <p>{invite.created_at ? new Date(invite.created_at).toLocaleDateString() : "--"}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};
+
+/* ------------------ CLIENT DIRECTORY ------------------ */
+const ClientDirectory = () => {
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const loadClients = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await api.get("/api/v1/admin/clients");
+      setClients(Array.isArray(response.data?.data) ? response.data.data : []);
+    } catch (err) {
+      const message = err.response?.data?.error?.message || "Unable to load clients.";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadClients();
+  }, [loadClients]);
+
+  return (
+    <div className="space-y-6">
+      <header className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Members</p>
+          <h1 className="font-playful text-3xl text-blueberry">Active Clients</h1>
+          <p className="text-sm text-slate-500">Families with live access to the concierge studio.</p>
+        </div>
+        <button
+          type="button"
+          onClick={loadClients}
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+        >
+          Refresh
+        </button>
+      </header>
+
+      {error && (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">{error}</div>
+      )}
+
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+        {loading ? (
+          <p className="text-sm text-slate-500">Loading clients...</p>
+        ) : clients.length === 0 ? (
+          <p className="text-sm text-slate-500">No active clients at the moment.</p>
+        ) : (
+          <ul className="space-y-4">
+            {clients.map((client) => (
+              <li
+                key={client.id}
+                className="rounded-3xl border border-babyBlue/20 bg-white px-5 py-4 shadow-soft"
+              >
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <p className="font-heading text-lg text-blueberry">{client.name}</p>
+                    <p className="text-xs text-slate-500">{client.email}</p>
+                    {client.phone && <p className="text-xs text-slate-400">{client.phone}</p>}
+                  </div>
+                  <div className="text-right text-xs text-slate-400">
+                    <p>
+                      Joined {client.created_at ? new Date(client.created_at).toLocaleDateString() : "--"}
+                    </p>
+                    <p>{client.package_choice || "Package TBD"}</p>
+                  </div>
+                </div>
+                {client.mentors?.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {client.mentors.map((mentor) => (
+                      <span
+                        key={mentor.id}
+                        className="inline-flex items-center rounded-full bg-babyBlue/10 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.25em] text-blueberry"
+                      >
+                        {mentor.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+};
+
+/* ------------------ MENTOR DIRECTORY ------------------ */
+const MentorDirectory = () => {
+  const [mentors, setMentors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const loadMentors = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await api.get("/api/v1/admin/mentors");
+      setMentors(Array.isArray(response.data?.data) ? response.data.data : []);
+    } catch (err) {
+      const message = err.response?.data?.error?.message || "Unable to load mentors.";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMentors();
+  }, [loadMentors]);
+
+  return (
+    <div className="space-y-6">
+      <header className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Team</p>
+          <h1 className="font-playful text-3xl text-blueberry">Active Mentors</h1>
+          <p className="text-sm text-slate-500">Specialists currently supporting families.</p>
+        </div>
+        <button
+          type="button"
+          onClick={loadMentors}
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+        >
+          Refresh
+        </button>
+      </header>
+
+      {error && (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">{error}</div>
+      )}
+
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+        {loading ? (
+          <p className="text-sm text-slate-500">Loading mentors...</p>
+        ) : mentors.length === 0 ? (
+          <p className="text-sm text-slate-500">No active mentors currently enrolled.</p>
+        ) : (
+          <ul className="space-y-4">
+            {mentors.map((mentor) => (
+              <li
+                key={mentor.id}
+                className="rounded-3xl border border-babyPink/20 bg-white px-5 py-4 shadow-soft"
+              >
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <p className="font-heading text-lg text-blueberry">{mentor.name}</p>
+                    <p className="text-xs text-slate-500">{mentor.email}</p>
+                    {mentor.phone && <p className="text-xs text-slate-400">{mentor.phone}</p>}
+                    {mentor.specialty && (
+                      <p className="mt-2 text-xs font-heading uppercase tracking-[0.3em] text-slate-500">
+                        Specialty: {mentor.specialty}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-right text-xs text-slate-400">
+                    <p>
+                      Joined {mentor.created_at ? new Date(mentor.created_at).toLocaleDateString() : "--"}
+                    </p>
+                    {mentor.max_clients && (
+                      <p>
+                        Capacity {mentor.client_count || 0}/{Number(mentor.max_clients) || "∞"}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {mentor.clients?.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {mentor.clients.map((client) => (
+                      <span
+                        key={client.id}
+                        className="inline-flex items-center rounded-full bg-babyBlue/10 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.25em] text-blueberry"
+                      >
+                        {client.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+};
 
 /* ------------------ ROOT ------------------ */
 const AdminPortal = () => {
@@ -391,6 +663,8 @@ const AdminPortal = () => {
                   />
                 }
               />
+              <Route path="clients" element={<ClientDirectory />} />
+              <Route path="mentors" element={<MentorDirectory />} />
               <Route
                 path="*"
                 element={

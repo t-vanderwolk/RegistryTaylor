@@ -22,10 +22,20 @@ const ensureInviteValid = (invite, email) => {
     throw error;
   }
 
-  if (invite.assigned_email && normalizeEmail(invite.assigned_email) !== normalizeEmail(email)) {
+  if (email && invite.assigned_email && normalizeEmail(invite.assigned_email) !== normalizeEmail(email)) {
     const error = new Error('Invite is not assigned to this email');
     error.status = 403;
     throw error;
+  }
+};
+
+const parseMetadata = (value) => {
+  if (!value) return {};
+  if (typeof value === 'object') return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return {};
   }
 };
 
@@ -65,7 +75,10 @@ exports.registerWithInvite = async (req, res, next) => {
     }
 
     const normalizedEmail = normalizeEmail(email);
-    const invite = await trx('invite_codes').where({ code }).first();
+    const normalizedCode = code.trim().toUpperCase();
+    const invite = await trx('invite_codes')
+      .whereRaw('UPPER(code) = ?', normalizedCode)
+      .first();
     ensureInviteValid(invite, normalizedEmail);
 
     const existing = await trx('users').whereRaw('LOWER(email) = ?', normalizedEmail).first();
@@ -89,8 +102,8 @@ exports.registerWithInvite = async (req, res, next) => {
     await upsertProfile(trx, invite.role, userId, profile);
 
     await trx('invite_codes')
-      .where({ code })
-      .update({ used_at: new Date(), used_by_user_id: userId });
+      .where({ code: invite.code })
+      .update({ used_at: trx.fn.now(), used_by_user_id: userId });
 
     await trx.commit();
 
@@ -109,6 +122,40 @@ exports.registerWithInvite = async (req, res, next) => {
     });
   } catch (error) {
     await trx.rollback();
+    next(error);
+  }
+};
+
+exports.verifyInvite = async (req, res, next) => {
+  try {
+    const rawCode = req.params.code;
+    if (!rawCode) {
+      throw Object.assign(new Error('Invite code is required'), { status: 400 });
+    }
+
+    const code = rawCode.trim().toUpperCase();
+    if (!code) {
+      throw Object.assign(new Error('Invite code is required'), { status: 400 });
+    }
+
+    const invite = await db('invite_codes')
+      .whereRaw('UPPER(code) = ?', code)
+      .first();
+
+    ensureInviteValid(invite);
+
+    res.json({
+      data: {
+        code: invite.code,
+        role: invite.role,
+        assigned_email: invite.assigned_email,
+        assigned_name: invite.assigned_name,
+        metadata: parseMetadata(invite.metadata),
+        single_use: invite.single_use,
+        expires_at: invite.expires_at,
+      },
+    });
+  } catch (error) {
     next(error);
   }
 };

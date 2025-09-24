@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import api from "../lib/api";
+import { useAuth } from "../context/AuthContext";
 
 const BABY_GENDER_OPTIONS = [
   { value: "", label: "Select preference" },
@@ -103,24 +105,45 @@ const readFileAsDataUrl = (file) =>
 const CreateProfile = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { persist, setAuthState } = useAuth();
   const searchParams = new URLSearchParams(location.search);
 
-  const rawRole = location.state?.role || searchParams.get("role");
-  const role = rawRole === "mentor" ? "mentor" : "client";
-  const inviteCode =
+  const initialInviteCode = (
     location.state?.inviteCode ||
     searchParams.get("invite") ||
     searchParams.get("code") ||
-    "123";
-  const invitedEmail =
+    ""
+  )
+    .trim()
+    .toUpperCase();
+
+  const [inviteCode] = useState(initialInviteCode);
+  const [inviteInfo, setInviteInfo] = useState(location.state?.inviteInfo || null);
+  const [inviteStatus, setInviteStatus] = useState(
+    inviteInfo ? "ready" : initialInviteCode ? "loading" : "error"
+  );
+  const [inviteError, setInviteError] = useState(
+    inviteInfo || initialInviteCode
+      ? ""
+      : "Invite code missing. Request a new invite to continue."
+  );
+
+  const initialRoleCandidate =
+    location.state?.role || inviteInfo?.role || searchParams.get("role");
+  const initialRole = initialRoleCandidate === "mentor" ? "mentor" : "client";
+  const [role, setRole] = useState(initialRole);
+
+  const initialInvitedEmail =
     location.state?.invitedEmail ||
     location.state?.email ||
     searchParams.get("email") ||
     "";
+  const [forcedEmail, setForcedEmail] = useState(initialInvitedEmail);
+  const invitedEmail = forcedEmail;
 
   const [formData, setFormData] = useState(() => ({
-    ...initialFormState(role),
-    email: invitedEmail,
+    ...initialFormState(initialRole),
+    email: initialInvitedEmail,
   }));
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
@@ -128,16 +151,16 @@ const CreateProfile = () => {
   const [draftLoaded, setDraftLoaded] = useState(false);
 
   const storageKey = useMemo(
-    () => `tm_create_profile_${role}_${inviteCode}`,
+    () => `tm_create_profile_${role}_${inviteCode || 'unknown'}`,
     [inviteCode, role],
   );
 
   useEffect(() => {
     setDraftLoaded(false);
-    setFormData({ ...initialFormState(role), email: invitedEmail });
+    setFormData({ ...initialFormState(role), email: forcedEmail });
     setErrors({});
     setSubmitError("");
-  }, [role, invitedEmail, inviteCode]);
+  }, [role, forcedEmail, inviteCode]);
 
   useEffect(() => {
     let cancelled = false;
@@ -149,7 +172,7 @@ const CreateProfile = () => {
           setFormData((current) => ({
             ...current,
             ...parsed,
-            email: invitedEmail || parsed.email || current.email,
+            email: forcedEmail || parsed.email || current.email,
           }));
         }
       }
@@ -162,17 +185,96 @@ const CreateProfile = () => {
     return () => {
       cancelled = true;
     };
-  }, [invitedEmail, storageKey]);
+  }, [forcedEmail, storageKey]);
 
   useEffect(() => {
     if (!draftLoaded) return;
     localStorage.setItem(storageKey, JSON.stringify(formData));
   }, [draftLoaded, formData, storageKey]);
 
-  const destinations = {
-    client: "/client-portal",
-    mentor: "/mentor-portal",
-  };
+  useEffect(() => {
+    if (!inviteCode) {
+      setInviteStatus('error');
+      setInviteError('Invite code missing. Request a new invite to continue.');
+      return;
+    }
+
+    if (inviteInfo || inviteStatus === 'error') {
+      return;
+    }
+
+    let cancelled = false;
+    const fetchInvite = async () => {
+      setInviteStatus('loading');
+      try {
+        const response = await api.get(`/api/v1/auth/invites/${encodeURIComponent(inviteCode)}`);
+        if (cancelled) return;
+        const invite = response.data?.data;
+        setInviteInfo(invite);
+        setInviteStatus('ready');
+        setInviteError('');
+      } catch (error) {
+        if (!cancelled) {
+          setInviteStatus('error');
+          setInviteError(
+            error.response?.data?.error?.message ||
+              'We could not find that invite or it has already been used.'
+          );
+        }
+      }
+    };
+
+    fetchInvite();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [inviteCode, inviteInfo, inviteStatus]);
+
+  useEffect(() => {
+    if (!inviteInfo) return;
+
+    const resolvedRole = inviteInfo.role === 'mentor' ? 'mentor' : 'client';
+    if (resolvedRole !== role) {
+      setRole(resolvedRole);
+    }
+
+    if (inviteInfo.assigned_email && inviteInfo.assigned_email !== forcedEmail) {
+      setForcedEmail(inviteInfo.assigned_email);
+    }
+
+    setFormData((current) => {
+      const next = { ...current };
+
+      if (inviteInfo.assigned_name && !next.parentOneName) {
+        next.parentOneName = inviteInfo.assigned_name;
+      }
+
+      if (inviteInfo.assigned_email) {
+        next.email = inviteInfo.assigned_email;
+      }
+
+      const metadata = inviteInfo.metadata || {};
+
+      if (resolvedRole === 'client') {
+        if (metadata.due_date && !next.dueDate) {
+          next.dueDate = metadata.due_date;
+        }
+        if (metadata.package_choice && !next.packageChoice) {
+          next.packageChoice = metadata.package_choice;
+        }
+        if (metadata.mentor_preference && !next.mentorPreference) {
+          next.mentorPreference = metadata.mentor_preference;
+        }
+      } else {
+        if (metadata.specialty && !next.specialty) {
+          next.specialty = metadata.specialty;
+        }
+      }
+
+      return next;
+    });
+  }, [inviteInfo, role, forcedEmail]);
 
   const handleInputChange = (field) => (event) => {
     let { value } = event.target;
@@ -232,6 +334,11 @@ const CreateProfile = () => {
     event.preventDefault();
     setSubmitError("");
 
+    if (inviteStatus !== "ready") {
+      setSubmitError("We’re still verifying your invite. Please try again in a moment.");
+      return;
+    }
+
     const validationErrors = validationRules(role, formData);
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
@@ -240,34 +347,98 @@ const CreateProfile = () => {
 
     setSubmitting(true);
     try {
+      const trimmedName = formData.parentOneName?.trim() || formData.parentOneName;
+      const trimmedEmail = formData.email?.trim() || formData.email;
+      const trimmedPhone = formData.phone?.trim() || formData.phone || null;
+      const trimmedZip = formData.zipCode?.trim() || formData.zipCode || null;
+
+      const baseProfile =
+        role === "client"
+          ? {
+              parent_one_name: trimmedName,
+              parent_two_name: formData.parentTwoName || null,
+              baby_name: formData.babyName || null,
+              baby_gender: formData.babyGender || null,
+              due_date: formData.dueDate || null,
+              package_choice: formData.packageChoice || null,
+              mentor_preference: formData.mentorPreference || null,
+            }
+          : {
+              specialty: formData.specialty,
+              bio: formData.bio,
+              availability: formData.availability,
+              max_clients: Number(formData.maxClients) || 0,
+              certifications: formData.certificationFiles.map((file) => file.name),
+            };
+
       const payload = {
-        role,
-        inviteCode,
-        ...formData,
-        ...(role === "mentor" && formData.maxClients
-          ? { maxClients: Number(formData.maxClients) }
-          : {}),
+        code: inviteCode,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: formData.password,
+        phone: trimmedPhone,
+        zip_code: trimmedZip,
+        profile: baseProfile,
       };
 
-      const response = await fetch("/api/v1/profile/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await api.post("/api/v1/auth/register-with-invite", payload);
+      const result = response.data?.data;
 
-      if (!response.ok) {
-        const message = (await response.json().catch(() => ({})))?.error?.message;
-        throw new Error(message || "We couldn’t save your profile just yet.");
+      if (!result?.token || !result?.user) {
+        throw new Error("We couldn’t save your profile just yet.");
       }
 
+      persist(result.token, result.user);
+      setAuthState({ token: result.token, user: result.user, role: result.user.role || role });
+
       localStorage.removeItem(storageKey);
-      navigate(destinations[role] || "/portal", { replace: true });
+
+      const destinationsByRole = {
+        client: "/client-portal",
+        mentor: "/mentor-portal",
+        admin: "/admin-portal",
+      };
+
+      const destination = destinationsByRole[result.user.role] || "/portal";
+      navigate(destination, { replace: true });
     } catch (error) {
-      setSubmitError(error.message || "We couldn’t save your profile just yet.");
+      const message =
+        error.response?.data?.error?.message ||
+        error.message ||
+        "We couldn’t save your profile just yet.";
+      setSubmitError(message);
     } finally {
       setSubmitting(false);
     }
   };
+
+  if (inviteStatus === 'loading') {
+    return (
+      <main className="min-h-screen bg-cream text-darkText flex items-center justify-center">
+        <p className="text-sm font-heading uppercase tracking-[0.3em] text-slate-500">
+          Verifying your invite…
+        </p>
+      </main>
+    );
+  }
+
+  if (inviteStatus === 'error') {
+    return (
+      <main className="min-h-screen bg-cream text-darkText flex items-center justify-center px-6">
+        <div className="w-full max-w-md rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 text-center shadow-soft">
+          <h1 className="font-playful text-3xl text-blueberry">We need a fresh invite</h1>
+          <p className="mt-3 text-sm text-slate-600">{inviteError}</p>
+          <button
+            type="button"
+            onClick={() => navigate('/request-invite')}
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+          >
+            Request Invite
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   const renderProgress = () => (
     <div className="flex flex-wrap items-center justify-center gap-5 text-xs uppercase tracking-[0.35em] text-slate-400">

@@ -15,7 +15,7 @@ const getStoredAuth = () => {
     const user = JSON.parse(localStorage.getItem(storageKeys.user) || "null");
     const role = localStorage.getItem(storageKeys.role) || user?.role || "";
     return { token, user, role };
-  } catch (error) {
+  } catch {
     return { token: null, user: null, role: "" };
   }
 };
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
             setAuthState({ token, user: payload, role: payload.role || "" });
           }
         }
-      } catch (err) {
+      } catch {
         if (!cancelled) {
           persist(null, null);
           setAuthState({ token: null, user: null, role: "" });

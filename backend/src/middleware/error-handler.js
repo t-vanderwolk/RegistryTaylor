@@ -1,6 +1,6 @@
 const logger = require('../utils/logger');
 
-module.exports = (err, req, res, next) => {
+module.exports = (err, req, res, _next) => {
   logger.error('Unhandled error', {
     path: req.originalUrl,
     method: req.method,

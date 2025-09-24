@@ -48,7 +48,7 @@ const statusBadgeStyles = {
   declined: "bg-rose-100 text-rose-700",
 };
 
-const InviteManagement = () => {
+const InviteManagement = ({ onApproved }) => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -75,11 +75,16 @@ const InviteManagement = () => {
   const handleDecision = async (id, status, options = {}) => {
     setActioning(`${id}-${status}`);
     try {
-      await api.patch(`/api/v1/invite-requests/${id}`, {
+      const response = await api.patch(`/api/v1/invite-requests/${id}`, {
         status,
         generateInviteCode: Boolean(options.generateInviteCode),
+        targetRole: options.targetRole,
       });
       await loadRequests();
+      if (status === 'approved' && typeof onApproved === 'function') {
+        const updated = response.data?.data;
+        onApproved(updated);
+      }
     } catch (err) {
       const message = err.response?.data?.error?.message || `Unable to mark request as ${status}.`;
       setError(message);
@@ -135,13 +140,18 @@ const InviteManagement = () => {
                       <span>Requested {new Date(request.created_at).toLocaleDateString()}</span>
                     </div>
                   </div>
-                  <span
-                    className={`inline-flex items-center rounded-full px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] ${
-                      statusBadgeStyles[request.status] || 'bg-slate-100 text-slate-600'
-                    }`}
-                  >
-                    {request.status}
-                  </span>
+                  <div className="flex flex-col items-end gap-2">
+                    <span
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] ${
+                        statusBadgeStyles[request.status] || 'bg-slate-100 text-slate-600'
+                      }`}
+                    >
+                      {request.status}
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-babyBlue/30 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.3em] text-blueberry/80">
+                      {request.requested_role === 'mentor' ? 'Mentor' : 'Client'}
+                    </span>
+                  </div>
                 </div>
 
                 {request.generated_code && (
@@ -157,6 +167,7 @@ const InviteManagement = () => {
                     onClick={() =>
                       handleDecision(request.id, 'approved', {
                         generateInviteCode: !request.generated_code,
+                        targetRole: request.requested_role,
                       })
                     }
                     className={`rounded-full border border-emerald-300 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-emerald-600 shadow-soft transition ${
@@ -369,7 +380,17 @@ const AdminPortal = () => {
             <Routes>
               <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="invites" element={<InviteManagement />} />
+              <Route
+                path="invites"
+                element={
+                  <InviteManagement
+                    onApproved={(request) => {
+                      const destination = request?.requested_role === 'mentor' ? 'mentors' : 'clients';
+                      navigate(`/admin-portal/${destination}`);
+                    }}
+                  />
+                }
+              />
               <Route
                 path="*"
                 element={

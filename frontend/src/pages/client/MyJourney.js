@@ -213,7 +213,7 @@ const MyJourney = () => {
           <span className="inline-flex items-center rounded-full border border-babyBlue/30 bg-babyBlue/10 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry">
             {packageChoice} Journey
           </span>
-          <h1 className="font-heading text-3xl text-blueberry">Hi {parentName.split(" ")[0]}, here is {babyName}'s current arc.</h1>
+          <h1 className="font-heading text-3xl text-blueberry">Hi {parentName.split(" ")[0]}, here is {babyName}&rsquo;s current arc.</h1>
           <p className="max-w-2xl text-sm font-body leading-relaxed text-darkText/70">
             We keep every milestone paced and polished. Update your Bio when details shift so the countdown, registry, and concierge touches always align.
           </p>
@@ -242,7 +242,7 @@ const MyJourney = () => {
         <div className="space-y-4">
           <header className="space-y-2">
             <h2 className="font-heading text-2xl text-blueberry">Taylor-Made Timeline</h2>
-            <p className="text-sm font-body text-darkText/70">We choreograph each touchpoint so you can stay present. Here's where we are right now.</p>
+            <p className="text-sm font-body text-darkText/70">We choreograph each touchpoint so you can stay present. Here&rsquo;s where we are right now.</p>
           </header>
           <ol className="space-y-4">
             {timeline.map((item) => (
@@ -325,7 +325,7 @@ const MyJourney = () => {
           />
           <MemoryCard
             title="Heartbeat moments"
-            detail="Capture the little memories: playlists, cravings, loved ones' reactions."
+            detail="Capture the little memories: playlists, cravings, loved ones&rsquo; reactions."
             actionLabel="Add a note"
             to="/private-blog"
           />

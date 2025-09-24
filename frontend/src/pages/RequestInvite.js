@@ -9,6 +9,7 @@ const emptyForm = {
   email: "",
   zip_code: "",
   package_choice: "",
+  requested_role: "client",
 };
 
 const RequestInvite = () => {
@@ -114,6 +115,25 @@ const RequestInvite = () => {
                   ))}
                 </select>
               </Field>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="I am joining as" required>
+                <select
+                  value={form.requested_role}
+                  onChange={handleChange("requested_role")}
+                  required
+                  className="w-full rounded-2xl border border-babyBlue/30 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                >
+                  <option value="client">Expecting / new parent</option>
+                  <option value="mentor">Concierge mentor / specialist</option>
+                </select>
+              </Field>
+              <div className="rounded-3xl border border-babyPink/30 bg-babyPink/10 px-5 py-4 text-xs font-body leading-relaxed text-darkText/70">
+                <p>
+                  Parents receive invite codes to the client lounge. Mentors share their interest here and we’ll route the invite to the mentor portal.
+                </p>
+              </div>
             </div>
 
             {status.state !== "idle" && (

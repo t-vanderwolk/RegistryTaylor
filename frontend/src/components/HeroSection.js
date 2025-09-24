@@ -25,7 +25,6 @@ const HeroSection = () => {
         >
           Beginnings, curated playfully
         </motion.span> */}
-
         <motion.h1
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,6 +33,7 @@ const HeroSection = () => {
         >
           Baby Prep, Taylor-Made.
         </motion.h1>
+  <motion.h2>Hi Awin</motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 28 }}

@@ -8,10 +8,14 @@ const generateInviteCode = (prefix = 'CLT') =>
 
 exports.create = async (req, res, next) => {
   try {
-    const { name, email, zip_code, package_choice } = req.body;
+    const { name, email, zip_code, package_choice, requested_role = 'client' } = req.body;
 
     if (!name || !email) {
       throw Object.assign(new Error('Name and email are required'), { status: 400 });
+    }
+
+    if (!['client', 'mentor'].includes(requested_role)) {
+      throw Object.assign(new Error('Requested role must be client or mentor'), { status: 400 });
     }
 
     const normalizedEmail = normalizeEmail(email);
@@ -22,6 +26,7 @@ exports.create = async (req, res, next) => {
         email: normalizedEmail,
         zip_code: zip_code ? zip_code.trim() : null,
         package_choice: package_choice ? package_choice.trim() : null,
+        requested_role,
       })
       .returning('*');
 
@@ -48,7 +53,7 @@ exports.updateStatus = async (req, res, next) => {
   const trx = await db.transaction();
   try {
     const { id } = req.params;
-    const { status, notes, generateInviteCode: shouldGenerateCode } = req.body;
+    const { status, notes, generateInviteCode: shouldGenerateCode, targetRole } = req.body;
 
     if (!['pending', 'approved', 'declined'].includes(status)) {
       throw Object.assign(new Error('Invalid status'), { status: 400 });
@@ -59,11 +64,20 @@ exports.updateStatus = async (req, res, next) => {
       throw Object.assign(new Error('Invite request not found'), { status: 404 });
     }
 
+    let roleToAssign = request.requested_role || 'client';
+    if (targetRole) {
+      if (!['client', 'mentor'].includes(targetRole)) {
+        throw Object.assign(new Error('Invalid role'), { status: 400 });
+      }
+      roleToAssign = targetRole;
+    }
+
     const updates = {
       status,
       notes: notes || null,
       handled_by: req.user.id,
       handled_at: trx.fn.now(),
+      requested_role: roleToAssign,
     };
 
     let inviteCode = request.generated_code;
@@ -72,7 +86,7 @@ exports.updateStatus = async (req, res, next) => {
       const code = generateInviteCode();
       await trx('invite_codes').insert({
         code,
-        role: 'client',
+        role: roleToAssign,
         assigned_name: request.name,
         assigned_email: request.email,
         metadata: {

@@ -90,6 +90,7 @@ const Blog = () => {
         compact
         className="bg-alt-blue"
       >
+        <motion.h2>Hi Awin!</motion.h2>
         <div className="max-w-5xl mx-auto text-cozyGray/80 space-y-10">
           <p className="text-lg text-cozyGray/75 leading-relaxed text-center">
             Cozy up with planning tips, product roundups, and gentle

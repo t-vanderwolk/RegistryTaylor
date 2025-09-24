@@ -1,6 +1,5 @@
 const express = require('express');
 const requireAuth = require('../../middleware/requireAuth');
-const requireRole = require('../../middleware/requireRole');
 const controller = require('../../controllers/privateBlogController');
 
 const router = express.Router();

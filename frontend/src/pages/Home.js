@@ -9,8 +9,8 @@ import logo3 from "../assets/logo3.png";
 import HeroSection from "../components/HeroSection";
 import ConsultationSection from "../components/ConsultationSection";
 import { conciergeSpotlights } from "../data/membership";
-
 const Home = () => {
+
   const identityHighlights = [
     {
       logo: logo1,

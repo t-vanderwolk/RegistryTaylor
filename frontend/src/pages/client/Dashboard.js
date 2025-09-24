@@ -184,13 +184,13 @@ const Dashboard = () => {
           <article className="rounded-3xl border border-babyBlue/30 bg-babyBlue/10 px-5 py-4">
             <p className="font-heading text-blueberry">{clientProfile.mentor_preference || "Assigned Mentor"}</p>
             <p className="mt-2 text-sm text-darkText/75">
-              "I added three travel-ready must-haves to your registry. Take a peek and let me know what you love!"
+              &ldquo;I added three travel-ready must-haves to your registry. Take a peek and let me know what you love!&rdquo;
             </p>
           </article>
           <article className="rounded-3xl border border-babyPink/30 bg-babyPink/10 px-5 py-4">
             <p className="font-heading text-blueberry">Taylor · Concierge</p>
             <p className="mt-2 text-sm text-darkText/75">
-              "White-glove delivery is confirmed for Friday morning. Coffee and pastries will be waiting when you arrive."
+              &ldquo;White-glove delivery is confirmed for Friday morning. Coffee and pastries will be waiting when you arrive.&rdquo;
             </p>
           </article>
         </div>

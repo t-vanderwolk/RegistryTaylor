@@ -119,6 +119,7 @@ exports.seed = async (knex) => {
       zip_code: '85255',
       package_choice: 'Signature Taylor-Made',
       status: 'pending',
+      requested_role: 'client',
     },
     {
       id: uuid(),
@@ -129,6 +130,7 @@ exports.seed = async (knex) => {
       status: 'approved',
       generated_code: 'CLT-INVITE',
       handled_at: knex.fn.now(),
+      requested_role: 'client',
     },
   ]);
 

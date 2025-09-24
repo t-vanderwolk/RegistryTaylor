@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Button from "./UI/Button";
+import api from "../lib/api";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState("");
+  const [verifying, setVerifying] = useState(false);
 
   return (
     <motion.section
@@ -63,26 +65,41 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
           className="w-full max-w-md rounded-full bg-cream/85 p-2 pl-6 pr-2 shadow-toy backdrop-blur"
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
-            const code = inviteCode.trim();
+            const code = inviteCode.trim().toUpperCase();
             if (!code) {
               setError("Enter your invite code to continue.");
               return;
             }
 
-            if (code !== "123") {
-              setError("We couldn't find that invite. Please confirm with Taylor." );
-              return;
-            }
+            setVerifying(true);
+            try {
+              const response = await api.get(`/api/v1/auth/invites/${encodeURIComponent(code)}`);
+              const invite = response.data?.data;
+              if (!invite) {
+                throw new Error("We couldn't find that invite. Please confirm with Taylor.");
+              }
 
-            setError("");
-            navigate("/create-profile", {
-              state: {
-                inviteCode: code,
-                role: "client",
-              },
-            });
+              setError("");
+              setInviteCode("");
+              navigate("/create-profile", {
+                state: {
+                  inviteCode: invite.code,
+                  role: invite.role,
+                  invitedEmail: invite.assigned_email || "",
+                  inviteInfo: invite,
+                },
+              });
+            } catch (err) {
+              const message =
+                err.response?.data?.error?.message ||
+                err.message ||
+                "We couldn't find that invite. Please confirm with Taylor.";
+              setError(message);
+            } finally {
+              setVerifying(false);
+            }
           }}
         >
           <div className="flex items-center gap-2">
@@ -90,14 +107,14 @@ const HeroSection = () => {
               type="text"
               value={inviteCode}
               onChange={(event) => {
-                setInviteCode(event.target.value);
+                setInviteCode(event.target.value.toUpperCase());
                 if (error) setError("");
               }}
               placeholder="Enter your private invite code"
               className="w-full rounded-full border-none bg-transparent font-body text-sm text-darkText placeholder:text-darkText/40 focus:outline-none"
             />
-            <Button type="submit" variant="pink" size="sm" className="whitespace-nowrap">
-              Verify Code
+            <Button type="submit" variant="pink" size="sm" className="whitespace-nowrap" disabled={verifying}>
+              {verifying ? "Verifying..." : "Verify Code"}
             </Button>
           </div>
           {error && (

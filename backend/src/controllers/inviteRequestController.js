@@ -1,7 +1,7 @@
 const { normalizeEmail } = require('../utils/crypto');
 const db = require('../db/connection');
 const logger = require('../utils/logger');
-const { sendInviteEmail, isEmailConfigured } = require('../utils/email');
+const { sendInviteEmail } = require('../utils/email');
 
 const generateInviteCode = (prefix = 'CLT') =>
   `${prefix}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
@@ -106,23 +106,16 @@ exports.updateStatus = async (req, res, next) => {
     if (status === 'approved') {
       const codeToSend = inviteCode || updated.generated_code || request.generated_code;
       if (codeToSend) {
-        if (isEmailConfigured()) {
-          try {
-            await sendInviteEmail({
-              to: request.email,
-              name: request.name,
-              code: codeToSend,
-            });
-          } catch (emailError) {
-            logger.error('Error sending invite approval email', {
-              requestId: id,
-              error: emailError.message,
-            });
-          }
-        } else {
-          logger.warn('Invite approved but email configuration missing', {
-            requestId: id,
+        try {
+          await sendInviteEmail({
             to: request.email,
+            name: request.name,
+            code: codeToSend,
+          });
+        } catch (emailError) {
+          logger.error('Error sending invite approval email', {
+            requestId: id,
+            error: emailError.message,
           });
         }
       }

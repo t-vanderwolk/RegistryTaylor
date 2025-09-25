@@ -32,7 +32,7 @@ const Section = ({
     >
       <div
         className={`
-          relative rounded-[2.5rem] border border-babyPink/30
+          relative rounded-[2.5rem] border border-babyBlue/20
           bg-white/95 shadow-soft transition duration-500 ease-out backdrop-blur-sm
           ${className}
         `}
@@ -54,7 +54,7 @@ const Section = ({
               </h2>
             )}
             {title && (
-              <div className={`${center ? "mx-auto" : ""} h-1 bg-babyBlue w-12 sm:w-16 rounded-full mb-6`} />
+              <div className={`${center ? "mx-auto" : ""} h-1 w-12 sm:w-16 rounded-full bg-babyBlue/70 mb-6`} />
             )}
             <div className="text-darkText/85 leading-relaxed font-body">{children}</div>
           </div>

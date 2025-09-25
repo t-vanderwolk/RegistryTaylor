@@ -13,7 +13,7 @@ const Home = () => {
     <div className="relative space-y-16 pb-24">
       <Hero />
       <HowItWorks />
-      <section className="mx-auto max-w-5xl rounded-[3rem] border border-babyBlue/20 bg-white px-6 py-10 shadow-soft" aria-labelledby="booking-heading">
+      <section className="mx-auto max-w-5xl surface-panel px-6 py-10" aria-labelledby="booking-heading">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-heading uppercase tracking-[0.45em] text-blueberry/60">Concierge Calendar</p>
           <h2 id="booking-heading" className="mt-3 text-3xl font-heading text-blueberry">
@@ -23,7 +23,7 @@ const Home = () => {
             Choose a time that fits your schedule and Taylor will meet you for a pastel-perfect planning session.
           </p>
         </div>
-        <div className="mt-8 overflow-hidden rounded-[2.5rem] border border-babyBlue/15 bg-softBeige/60 p-4 shadow-inner">
+        <div className="mt-8 overflow-hidden surface-card bg-softBeige/60 p-4 shadow-inner">
           <ConsultationSection />
         </div>
       </section>

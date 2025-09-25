@@ -25,7 +25,7 @@ const FAQAccordion = () => {
     <section
       id="faq"
       tabIndex="-1"
-    className="mx-auto mt-14 max-w-5xl rounded-[3rem] border border-babyBlue/20 bg-white p-8 shadow-soft"
+    className="mx-auto mt-14 max-w-5xl surface-panel p-8"
     >
       <header className="text-center">
         <p className="text-xs font-heading uppercase tracking-[0.5em] text-blueberry/70">

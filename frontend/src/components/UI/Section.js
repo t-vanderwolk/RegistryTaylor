@@ -22,12 +22,12 @@ const Section = ({
 }) => {
   const isReversed = index % 2 === 1 && !center; // alternate only if not a centered section
   const padding = compact
-    ? "gap-6 md:gap-12 p-6 sm:p-8 md:p-10"
-    : "gap-8 md:gap-16 p-6 sm:p-10 md:p-16";
+    ? "gap-8 md:gap-12 px-6 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16"
+    : "gap-10 md:gap-16 px-6 py-14 sm:px-10 sm:py-20 md:px-16 md:py-24";
 
   return (
     <section
-      className={`cc-container ${tightTop ? "my-10 sm:my-12 md:my-16" : "my-16 sm:my-20 md:my-28"}`}
+      className={`cc-container ${tightTop ? "my-14 sm:my-16 md:my-20" : "my-20 sm:my-24 md:my-32"}`}
       {...rest}
     >
       <div
@@ -39,7 +39,7 @@ const Section = ({
       >
         {/* Inner content */}
         <div
-          className={`relative z-10 flex flex-col md:flex-row ${
+          className={`relative z-10 flex flex-col md:flex-row space-y-10 md:space-y-0 ${
             isReversed ? "md:flex-row-reverse" : ""
           } ${padding}`}
         >

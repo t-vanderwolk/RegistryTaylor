@@ -10,7 +10,9 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { SparklesIcon } from "@heroicons/react/24/outline";
 import api from "../lib/api";
+import EmptyState from "../components/UI/EmptyState";
 
 const EnvelopeIcon = ({ className = "" }) => (
   <svg
@@ -358,6 +360,13 @@ const Topbar = ({ adminName, onToggleSidebar, onSignOut }) => {
 /* ------------------ DASHBOARD ------------------ */
 const AdminDashboard = () => {
   const { stats, recentInvites, engagement, loading, error, reload } = useAdminMetrics();
+  const [questions, setQuestions] = useState([]);
+  const [questionsLoading, setQuestionsLoading] = useState(true);
+  const [questionsError, setQuestionsError] = useState("");
+  const [questionDrafts, setQuestionDrafts] = useState({});
+  const [mentors, setMentors] = useState([]);
+  const [mentorsLoading, setMentorsLoading] = useState(true);
+  const [mentorsError, setMentorsError] = useState("");
 
   const metricCards = [
     { id: "total_invite_requests", label: "Invite Requests", value: stats?.total_invite_requests },
@@ -371,6 +380,119 @@ const AdminDashboard = () => {
     if (loading) return "...";
     if (typeof value === "number") return value;
     return "--";
+  };
+
+  const hydrateDrafts = useCallback((items) => {
+    setQuestionDrafts(() =>
+      items.reduce((acc, item) => {
+        acc[item.id] = {
+          answer: item.answer || '',
+          status: item.status || 'pending',
+          username: item.username || '',
+          email: item.email || '',
+          question: item.question,
+          assigned_to: item.assigned_to || '',
+        };
+        return acc;
+      }, {})
+    );
+  }, []);
+
+  const loadQuestions = useCallback(async () => {
+    setQuestionsLoading(true);
+    setQuestionsError("");
+    try {
+      const response = await api.get('/api/v1/admin/blog/questions');
+      const data = Array.isArray(response.data?.data) ? response.data.data : [];
+      setQuestions(data);
+      hydrateDrafts(data);
+    } catch (err) {
+      const message = err.response?.data?.error?.message || 'Unable to load blog questions.';
+      setQuestionsError(message);
+    } finally {
+      setQuestionsLoading(false);
+    }
+  }, [hydrateDrafts]);
+
+  useEffect(() => {
+    loadQuestions();
+  }, [loadQuestions]);
+
+  useEffect(() => {
+    const loadMentors = async () => {
+      setMentorsLoading(true);
+      setMentorsError("");
+      try {
+        const response = await api.get('/api/v1/admin/mentors');
+        const data = Array.isArray(response.data?.data) ? response.data.data : [];
+        setMentors(data);
+      } catch (err) {
+        const message = err.response?.data?.error?.message || 'Unable to load mentors.';
+        setMentorsError(message);
+      } finally {
+        setMentorsLoading(false);
+      }
+    };
+
+    loadMentors();
+  }, []);
+
+  const handleDraftChange = (id, field, value) => {
+    setQuestionDrafts((current) => {
+      const nextDraft = {
+        ...(current[id] || {}),
+        [field]: value,
+      };
+
+      if (field === 'answer') {
+        const trimmed = value?.trim() || '';
+        nextDraft.status = trimmed.length ? 'published' : 'pending';
+      }
+
+      return {
+        ...current,
+        [id]: nextDraft,
+      };
+    });
+  };
+
+  const handleSaveQuestion = async (id) => {
+    const draft = questionDrafts[id];
+    if (!draft) return;
+    try {
+      const response = await api.patch(`/api/v1/admin/blog/questions/${id}`, {
+        username: draft.username,
+        email: draft.email,
+        question: draft.question,
+        answer: draft.answer,
+        status: draft.status,
+      });
+      const updated = response.data?.data;
+      if (updated) {
+        setQuestions((current) => {
+          const next = current.map((item) => (item.id === id ? updated : item));
+          hydrateDrafts(next);
+          return next;
+        });
+      }
+    } catch (err) {
+      const message = err.response?.data?.error?.message || 'Unable to update question.';
+      setQuestionsError(message);
+    }
+  };
+
+  const handleDeleteQuestion = async (id) => {
+    try {
+      await api.delete(`/api/v1/admin/blog/questions/${id}`);
+      setQuestions((current) => {
+        const next = current.filter((item) => item.id !== id);
+        hydrateDrafts(next);
+        return next;
+      });
+    } catch (err) {
+      const message = err.response?.data?.error?.message || 'Unable to delete question.';
+      setQuestionsError(message);
+    }
   };
 
   return (
@@ -415,6 +537,144 @@ const AdminDashboard = () => {
             <p className="mt-3 font-heading text-3xl text-blueberry">{formatValue(metric.value)}</p>
           </article>
         ))}
+      </section>
+
+      <section className="rounded-[2rem] border border-pastelPurple/40 bg-white/95 p-6 shadow-lg">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="font-heading text-xl text-blueberry">Blog Q & A Submissions</h2>
+            <p className="text-sm text-darkText/60">Review reader questions and publish answers to the public blog.</p>
+          </div>
+          <button
+            type="button"
+            onClick={loadQuestions}
+            className="rounded-full border border-pastelPurple/40 bg-white px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+          >
+            Refresh
+          </button>
+        </div>
+
+        {questionsError && (
+          <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+            {questionsError}
+          </div>
+        )}
+
+        {questionsLoading ? (
+          <div className="mt-6">
+            <EmptyState
+              title="Loading questions"
+              description="Gathering submissions from the Q & A form."
+              icon={SparklesIcon}
+            />
+          </div>
+        ) : questions.length === 0 ? (
+          <div className="mt-6">
+            <EmptyState
+              title="No questions yet"
+              description="Once readers submit Q & A prompts, you can answer and publish them here."
+              icon={SparklesIcon}
+            />
+          </div>
+        ) : (
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {questions.map((question) => {
+              const draft = questionDrafts[question.id] || { answer: question.answer || '', status: question.status, name: question.name || '', question: question.question };
+              return (
+                <article
+                  key={question.id}
+                  className="flex h-full flex-col gap-4 rounded-2xl border border-pastelPurple/40 bg-white/95 p-5 shadow-soft"
+                >
+                  <header className="space-y-3">
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/50">
+                        {question.username || 'Guest'} · {new Date(question.created_at).toLocaleDateString()}
+                      </p>
+                      <input
+                        type="text"
+                        value={draft.username}
+                        onChange={(event) => handleDraftChange(question.id, 'username', event.target.value)}
+                        className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-2 font-heading text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                        placeholder="Username"
+                      />
+                      <input
+                        type="email"
+                        value={draft.email}
+                        onChange={(event) => handleDraftChange(question.id, 'email', event.target.value)}
+                        className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-2 font-body text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                        placeholder="Email"
+                      />
+                    </div>
+                    <textarea
+                      value={draft.question}
+                      onChange={(event) => handleDraftChange(question.id, 'question', event.target.value)}
+                      className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-2 font-heading text-base text-blueberry focus:border-babyPink focus:outline-none"
+                      rows={3}
+                    />
+                  </header>
+
+                  <label className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/50">
+                    Answer
+                    <textarea
+                      value={draft.answer}
+                      onChange={(event) => handleDraftChange(question.id, 'answer', event.target.value)}
+                      rows={4}
+                      className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-3 font-body text-sm text-darkText/80 focus:border-babyPink focus:outline-none"
+                      placeholder="Craft a thoughtful concierge response…"
+                    />
+                  </label>
+
+        <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">
+          <span>Status</span>
+          <select
+            value={draft.status}
+            onChange={(event) => handleDraftChange(question.id, 'status', event.target.value)}
+            className="rounded-full border border-pastelPurple/40 bg-white px-3 py-1 text-blueberry focus:border-babyPink focus:outline-none"
+          >
+            <option value="pending">Pending</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">
+          <span>Assigned Mentor</span>
+          <select
+            value={draft.assigned_to || ''}
+            onChange={(event) => handleDraftChange(question.id, 'assigned_to', event.target.value || null)}
+            className="rounded-full border border-pastelPurple/40 bg-white px-3 py-1 text-blueberry focus:border-babyPink focus:outline-none"
+            disabled={mentorsLoading}
+          >
+            <option value="">Unassigned</option>
+            {mentors.map((mentor) => (
+              <option key={mentor.id} value={mentor.id}>
+                {mentor.name}
+              </option>
+            ))}
+          </select>
+          {mentorsError && <span className="text-[0.6rem] font-body text-rose-500 normal-case">{mentorsError}</span>}
+        </div>
+
+        <div className="mt-auto flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => handleSaveQuestion(question.id)}
+                      className="rounded-full bg-babyBlue px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteQuestion(question.id)}
+                      className="rounded-full border border-rose-200 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-rose-500 shadow-soft transition hover:-translate-y-0.5 hover:bg-rose-50 hover:shadow-dreamy"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       <section className="rounded-[2rem] border border-babyPink/40 bg-white/90 p-6 shadow-lg">

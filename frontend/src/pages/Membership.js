@@ -9,9 +9,9 @@ import {
 } from "../data/membership";
 
 const packageAccents = [
-  "from-babyBlue/50 via-white to-softGold/25",
-  "from-pastelPurple/40 via-white to-softGold/30",
-  "from-pastelGreen/45 via-white to-softGold/25",
+  "from-babyBlue/55 via-white to-pastelPurple/25",
+  "from-babyPink/45 via-white to-pastelPurple/25",
+  "from-pastelPurple/45 via-white to-babyBlue/20",
 ];
 
 const HeroHighlight = ({ icon, title, blurb }) => (
@@ -129,7 +129,7 @@ const Membership = () => {
               View Packages
             </a>
           </div>
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-3">
             {membershipHeroHighlights.map((item) => (
               <HeroHighlight key={item.title} {...item} />
             ))}
@@ -160,7 +160,7 @@ const Membership = () => {
               These pillars shape every package. Mix, layer, and expand them as your family grows — each one personally directed by Taylor for a seamless experience.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {conciergePillars.map((pillar) => (
               <PillarCard key={pillar.title} {...pillar} />
             ))}
@@ -174,7 +174,7 @@ const Membership = () => {
               Membership opens a private circle of insight, camaraderie, and ongoing touchpoints. Whether you prefer curated guides, mentor access, or white-glove discretion, you are never navigating motherhood alone.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {membershipBenefits.map((highlight) => (
               <MembershipCard key={highlight.title} {...highlight} />
             ))}

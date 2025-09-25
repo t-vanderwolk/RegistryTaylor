@@ -7,6 +7,7 @@ const mentorsLegacyRouter = require('./mentors');
 const clientRouter = require('./client');
 const profileRouter = require('./profile');
 const privateBlogRouter = require('./private-blog');
+const blogQuestionsRouter = require('./blog-questions');
 const blogRouter = require('./blog');
 const inviteRequestRouter = require('./invite-requests');
 
@@ -17,6 +18,7 @@ router.use('/mentors', mentorsLegacyRouter);
 router.use('/client', clientRouter);
 router.use('/profile', profileRouter);
 router.use('/private-blog', privateBlogRouter);
+router.use('/blog/questions', blogQuestionsRouter);
 router.use('/blog', blogRouter);
 router.use('/invite-requests', inviteRequestRouter);
 

@@ -16,6 +16,10 @@ exports.seed = async (knex) => {
   if (hasBlogPosts) {
     await knex('blog_posts').del().catch(() => {});
   }
+  const hasBlogQuestions = await knex.schema.hasTable('blog_questions');
+  if (hasBlogQuestions) {
+    await knex('blog_questions').del().catch(() => {});
+  }
   const hasPrivateBlog = await knex.schema.hasTable('private_blog_posts');
   if (hasPrivateBlog) {
     await knex('private_blog_posts').del().catch(() => {});
@@ -199,6 +203,28 @@ exports.seed = async (knex) => {
         content:
           'Morgan here — baby goods arriving Wednesday. I added three registry swaps based on your feedback. Full notes are inside the client dashboard.',
         author_id: mentorId,
+      },
+    ]);
+  }
+
+  if (hasBlogQuestions) {
+    await knex('blog_questions').insert([
+      {
+        id: uuid(),
+        username: 'HarperL',
+        email: 'harper@example.com',
+        question: 'Any tips for balancing registry items across price points while keeping it cohesive?',
+        answer:
+          'Start with the heirloom-level pieces you truly want, then layer mid-range essentials and sprinkle in luxe upgrades. I create palette + material guardrails so even a mix of retailers still feels intentional.',
+        status: 'published',
+      },
+      {
+        id: uuid(),
+        username: 'JordanR',
+        email: 'jordan@example.com',
+        question: 'How early should we lock-in nursery styling if we want a full install?',
+        answer: null,
+        status: 'pending',
       },
     ]);
   }

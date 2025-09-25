@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { SparklesIcon } from "@heroicons/react/24/outline";
 import api from "../../lib/api";
+import EmptyState from "../../components/UI/EmptyState";
 
 const ClientMessages = () => {
   const [mentors, setMentors] = useState([]);
@@ -72,40 +74,48 @@ const ClientMessages = () => {
   };
 
   return (
-    <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/95 p-6 shadow-soft">
-      <header className="space-y-2 border-b border-babyPink/30 pb-4">
-        <h1 className="font-playful text-3xl text-blueberry">Concierge Messages</h1>
-        <p className="text-sm text-darkText/70">
+    <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft">
+      <header className="space-y-3 border-b border-pastelPurple/40 pb-6 text-center">
+        <h1 className="font-heading text-3xl font-semibold text-blueberry sm:text-4xl">Concierge Messages</h1>
+        <p className="font-body text-sm text-darkText/70 sm:text-base">
           Chat with your mentor team and Taylor. All notes stay under NDA and live inside your portal.
         </p>
         {mentors.length > 0 && (
-          <p className="text-xs uppercase tracking-[0.3em] text-darkText/50">
+          <p className="font-heading text-xs uppercase tracking-[0.3em] text-darkText/50">
             Mentor team: {mentors.map((mentor) => mentor.name).join(", ")}
           </p>
         )}
       </header>
 
-      <div className="mt-6 flex min-h-[360px] flex-col gap-4">
+      <div className="mt-10 flex min-h-[360px] flex-col gap-6">
         {loading ? (
-          <p className="text-sm text-slate-500">Loading your conversation…</p>
+          <EmptyState
+            title="Loading your conversation…"
+            description="We’re gathering every note from your concierge circle."
+            icon={SparklesIcon}
+          />
         ) : error ? (
-          <p className="text-sm text-rose-600">{error}</p>
+          <EmptyState title="We hit a snag" description={error} icon={SparklesIcon} />
         ) : messages.length === 0 ? (
-          <p className="text-sm text-slate-500">No messages yet. Send your concierge a note below.</p>
+          <EmptyState
+            title="Your thread is waiting"
+            description="Drop a note below and your concierge will respond within 24 hours."
+            icon={SparklesIcon}
+          />
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`max-w-xl rounded-2xl px-4 py-3 text-sm shadow-soft ${
+                className={`max-w-xl rounded-2xl px-5 py-4 text-sm shadow-soft ring-1 ring-pastelPurple/30 ${
                   clientUser && message.sender_id === clientUser.id
-                    ? 'ml-auto bg-babyBlue/25 text-darkText'
-                    : 'bg-babyPink/20 text-darkText'
+                    ? 'ml-auto bg-babyBlue/20 text-darkText'
+                    : 'bg-babyPink/15 text-darkText'
                 }`}
               >
-                <p className="text-xs uppercase tracking-[0.3em] text-darkText/60">{message.sender_name}</p>
-                <p className="mt-1 whitespace-pre-line">{message.body}</p>
-                <p className="mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-darkText/40">
+                <p className="font-heading text-xs uppercase tracking-[0.3em] text-blueberry/70">{message.sender_name}</p>
+                <p className="mt-2 whitespace-pre-line font-body leading-relaxed">{message.body}</p>
+                <p className="mt-3 text-[0.6rem] font-body uppercase tracking-[0.3em] text-darkText/40">
                   {new Date(message.created_at).toLocaleString()}
                 </p>
               </div>
@@ -113,23 +123,23 @@ const ClientMessages = () => {
           </div>
         )}
 
-        <form className="mt-auto space-y-3" onSubmit={handleSubmit}>
+        <form className="mt-auto space-y-4" onSubmit={handleSubmit}>
           <textarea
             value={body}
             onChange={(event) => {
               setBody(event.target.value);
               setError("");
             }}
-            rows={4}
+            rows={5}
             placeholder="Write a note for your mentor or Taylor"
-            className="w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+            className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-5 py-4 font-body text-base text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
           />
-          <div className="flex items-center justify-between text-xs text-darkText/50">
-            <span>Response times are typically within 24 hours.</span>
+          <div className="flex flex-col items-center gap-3 text-xs text-darkText/60 sm:flex-row sm:justify-between">
+            <span className="font-body">Response times are typically within 24 hours.</span>
             <button
               type="submit"
               disabled={!body.trim() || sending}
-              className={`rounded-full bg-babyPink px-5 py-2 font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+              className={`rounded-full bg-babyPink px-6 py-2 font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
                 !body.trim() || sending ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-dreamy'
               }`}
             >

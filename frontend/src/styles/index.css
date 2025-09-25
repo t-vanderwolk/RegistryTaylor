@@ -1,16 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Fredoka+One&family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   body {
-    @apply bg-cream text-darkText font-body;
+    @apply bg-cream text-darkText font-body font-normal;
     background-image:
-      radial-gradient(circle at 12% 20%, rgba(250, 218, 221, 0.6) 0, rgba(250, 218, 221, 0) 55%),
-      radial-gradient(circle at 88% 18%, rgba(167, 216, 247, 0.5) 0, rgba(167, 216, 247, 0) 50%),
-      radial-gradient(circle at 20% 80%, rgba(220, 198, 246, 0.45) 0, rgba(220, 198, 246, 0) 50%),
-      linear-gradient(180deg, rgba(255, 253, 247, 0.65), rgba(220, 198, 246, 0.12) 60%, transparent 100%);
+      radial-gradient(circle at 15% 20%, rgba(247, 191, 216, 0.55) 0, rgba(247, 191, 216, 0) 55%),
+      radial-gradient(circle at 85% 18%, rgba(169, 185, 255, 0.45) 0, rgba(169, 185, 255, 0) 55%),
+      radial-gradient(circle at 20% 80%, rgba(230, 223, 242, 0.55) 0, rgba(230, 223, 242, 0) 50%),
+      linear-gradient(180deg, rgba(255, 253, 247, 0.9), rgba(230, 223, 242, 0.3) 60%, transparent 100%);
     background-attachment: fixed;
   }
 
@@ -20,12 +20,12 @@
   h4,
   h5,
   h6 {
-    @apply font-heading text-blueberry;
+    @apply font-heading font-semibold text-blueberry;
   }
 
   ::selection {
-    background: rgba(167, 216, 247, 0.45);
-    color: #3a3d4d;
+    background: rgba(169, 185, 255, 0.35);
+    color: #2f2a33;
   }
 }
 
@@ -68,7 +68,7 @@
   }
 
   .bg-alt-yellow {
-    @apply bg-sunshine/25 rounded-bubble;
+    @apply bg-gold/15 rounded-bubble;
   }
 
   .bg-alt-purple {

@@ -203,7 +203,7 @@ const Blog = () => {
                   value={form.name}
                   onChange={handleInputChange("name")}
                   placeholder="Taylor Fan"
-                  className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                  className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyBlue focus:outline-none"
                   required
                 />
               </label>
@@ -214,7 +214,7 @@ const Blog = () => {
                   value={form.email}
                   onChange={handleInputChange("email")}
                   placeholder="you@example.com"
-                  className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                  className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyBlue focus:outline-none"
                   required
                 />
               </label>
@@ -225,7 +225,7 @@ const Blog = () => {
                 onChange={handleInputChange("question")}
                 placeholder="Ask Taylor anything about concierge planning, gifting, or milestone moments."
                 rows={4}
-                className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyBlue focus:outline-none"
               />
             </label>
             <button type="submit" className="btn-primary text-xs sm:text-sm">

@@ -23,7 +23,7 @@ const MembershipHighlights = () => (
   <section
     id="membership"
     tabIndex="-1"
-    className="mx-auto mt-20 max-w-6xl rounded-[3rem] border border-babyBlue/15 bg-white p-10 shadow-soft"
+    className="mx-auto mt-20 max-w-6xl surface-panel p-10"
   >
     <div className="flex flex-col gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
       <div>

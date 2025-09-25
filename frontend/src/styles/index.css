@@ -74,6 +74,14 @@
     @apply p-6 sm:p-7 rounded-[2rem] shadow-soft bg-white/90 border border-babyBlue/20 transition transform duration-200 ease-out hover:-translate-y-1 hover:shadow-dreamy;
   }
 
+  .surface-panel {
+    @apply rounded-[3rem] border border-babyBlue/20 bg-white/95 shadow-soft backdrop-blur-sm;
+  }
+
+  .surface-card {
+    @apply rounded-[2.5rem] border border-babyBlue/20 bg-white/95 shadow-soft backdrop-blur-sm;
+  }
+
   /* Section Backgrounds */
   .bg-alt-pink {
     @apply bg-babyPink/40 rounded-bubble;

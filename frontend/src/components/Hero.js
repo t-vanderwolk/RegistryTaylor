@@ -54,7 +54,7 @@ const Hero = () => {
     <section
       id="home"
       tabIndex="-1"
-      className="relative mx-auto mt-10 flex max-w-6xl flex-col-reverse items-center gap-12 overflow-hidden rounded-[3rem] border border-babyBlue/20 bg-white/95 px-6 py-16 text-center text-midnight shadow-soft md:mt-16 md:flex-row md:items-stretch md:gap-10 md:px-12 md:text-left"
+      className="relative mx-auto mt-10 flex max-w-6xl flex-col-reverse items-center gap-12 overflow-hidden surface-panel px-6 py-16 text-center text-midnight md:mt-16 md:flex-row md:items-stretch md:gap-10 md:px-12 md:text-left"
     >
 
       <div className="relative z-10 flex w-full flex-col justify-center gap-6 md:w-2/3">
@@ -140,7 +140,7 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10 flex w-full justify-center md:w-1/3">
-        <div className="relative flex h-full w-full max-w-sm items-center justify-center rounded-[3rem] border border-babyBlue/20 bg-white p-10 shadow-soft">
+        <div className="relative flex h-full w-full max-w-sm items-center justify-center surface-card rounded-[3rem] bg-white p-10">
           <img
             src={heroLogo}
             srcSet={`${heroLogo} 1x, ${heroLogo} 2x`}

@@ -22,7 +22,7 @@ const HowItWorks = () => (
   <section
     id="how-it-works"
     tabIndex="-1"
-    className="mx-auto mt-20 max-w-6xl rounded-[3rem] border border-babyBlue/20 bg-white p-10 shadow-soft"
+    className="mx-auto mt-20 max-w-6xl surface-panel p-10"
   >
     <header className="text-center">
       <p className="text-xs font-heading uppercase tracking-[0.5em] text-blueberry/70">

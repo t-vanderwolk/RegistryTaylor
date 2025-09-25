@@ -24,8 +24,8 @@ import ProtectedRoute from "./components/Layout/ProtectedRoute";
 
 const NotFound = () => (
   <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-darkText">
-    <h1 className="text-5xl font-playful mb-4 text-babyBlue">Page not found</h1>
-    <p className="text-lg font-body text-darkText/75 max-w-xl">
+    <h1 className="mb-4 text-5xl font-heading text-babyBlue">Page not found</h1>
+    <p className="max-w-xl text-lg font-body text-darkText/75">
       The page you are looking for does not exist. Use the navigation above to return to your concierge dashboard.
     </p>
   </main>
@@ -37,33 +37,40 @@ const AppRoutes = () => {
 
   return (
     <>
+      {!hideChrome && (
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+      )}
       {!hideChrome && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/membership" element={<Membership />} />
-        <Route path="/add-ons" element={<AddOns />} />
-        <Route path="/mentors" element={<Mentors />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/request-invite" element={<RequestInvite />} />
-        <Route path="/faq" element={<Faq />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/private-blog" element={<PrivateBlog />} />
-        <Route path="/portal" element={<Portal />} />
-        <Route path="/create-profile" element={<CreateProfile />} />
-        <Route path="/admin-portal/*" element={<AdminPortal />} />
-        <Route
-          path="/client-portal/*"
-          element={
-            <ProtectedRoute allowedRoles={["client"]}>
-              <ClientPortal />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/mentor-portal/*" element={<MentorPortal />} />
-        <Route path="/user-portal" element={<UserPortal />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <main id="main-content" tabIndex="-1" className="outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/add-ons" element={<AddOns />} />
+          <Route path="/mentors" element={<Mentors />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/request-invite" element={<RequestInvite />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/private-blog" element={<PrivateBlog />} />
+          <Route path="/portal" element={<Portal />} />
+          <Route path="/create-profile" element={<CreateProfile />} />
+          <Route path="/admin-portal/*" element={<AdminPortal />} />
+          <Route
+            path="/client-portal/*"
+            element={
+              <ProtectedRoute allowedRoles={["client"]}>
+                <ClientPortal />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/mentor-portal/*" element={<MentorPortal />} />
+          <Route path="/user-portal" element={<UserPortal />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
       {!hideChrome && <Footer />}
     </>
   );

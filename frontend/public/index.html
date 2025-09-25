@@ -1,59 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Web fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/taylor-made-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#D4AF37" />
+    <meta name="theme-color" content="#FADADD" />
     <meta
       name="description"
-      content="Taylor-Made Baby Co. – invite-only concierge for modern families, offering bespoke registry planning, nursery design, and lifestyle support."
+      content="Taylor-Made Baby Co. | Invite-only baby planning concierge delivering joyful registries, pastel nurseries, and white-glove celebrations."
     />
-    <meta property="og:title" content="Taylor-Made Baby Co." />
-    <meta property="og:description" content="Invite-only concierge baby planning—registry styling, nursery design, and white-glove lifestyle support." />
+    <meta property="og:title" content="Taylor-Made Baby Co. | Invite-Only Baby Planning Concierge" />
+    <meta
+      property="og:description"
+      content="Baby prep, Taylor-made. Discover our invite-only concierge for modern parents who crave joyful planning without overwhelm."
+    />
     <meta property="og:image" content="%PUBLIC_URL%/taylor-made-logo.png" />
     <meta property="og:type" content="website" />
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/taylor-made-logo.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <title>Taylor-Made Baby Co. | Invite-Only Baby Planning Concierge</title>
+    <style>
+      :root {
+        --baby-pink: #fadadd;
+        --baby-blue: #a7c7e7;
+        --pastel-purple: #d8bfd8;
+        --soft-beige: #f5f5dc;
+        --midnight: #2f2a33;
+      }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Taylor-Made Baby Co.</title>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, rgba(245, 245, 220, 0.95), rgba(216, 191, 216, 0.15));
+        color: var(--midnight);
+      }
+
+      .skip-static {
+        position: absolute;
+        top: 0.75rem;
+        left: -999px;
+        z-index: 9999;
+        padding: 0.75rem 1.5rem;
+        background: var(--midnight);
+        color: white;
+        border-radius: 999px;
+        text-decoration: none;
+      }
+
+      .skip-static:focus {
+        left: 50%;
+        transform: translateX(-50%);
+        outline: 3px solid var(--baby-blue);
+      }
+
+      #static-landing {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 3rem;
+      }
+
+      .static-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 32px;
+        padding: 2rem;
+        box-shadow: 0 28px 60px -35px rgba(47, 42, 51, 0.25);
+      }
+
+      .static-header {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .static-logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-align: left;
+      }
+
+      .static-logo img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 0.75rem;
+        box-shadow: 0 10px 30px rgba(47, 42, 51, 0.15);
+      }
+
+      .static-nav ul {
+        display: flex;
+        gap: 1rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .static-nav a {
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--midnight);
+      }
+
+      .static-hero {
+        margin-top: 2rem;
+        text-align: center;
+        padding: 3rem 2rem;
+        border-radius: 48px;
+        background: linear-gradient(135deg, rgba(251, 239, 242, 0.55), rgba(211, 228, 247, 0.35));
+        box-shadow: 0 40px 80px -45px rgba(47, 42, 51, 0.3);
+      }
+
+      .static-hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        margin-bottom: 1rem;
+      }
+
+      .static-hero p {
+        max-width: 640px;
+        margin: 0 auto 1.75rem;
+        line-height: 1.6;
+      }
+
+      .static-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem 2.25rem;
+        border-radius: 999px;
+        border: 1px solid rgba(251, 239, 242, 0.85);
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--midnight);
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        text-decoration: none;
+        box-shadow: 0 12px 30px -24px rgba(47, 42, 51, 0.3);
+      }
+
+      .static-steps {
+        margin-top: 3rem;
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .static-step {
+        padding: 1.75rem;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 18px 40px -32px rgba(47, 42, 51, 0.2);
+      }
+
+      .static-testimonials {
+        margin-top: 3rem;
+        padding: 2.5rem;
+        border-radius: 40px;
+        background: rgba(91, 81, 98, 0.08);
+        color: var(--midnight);
+        border: 1px solid rgba(91, 81, 98, 0.12);
+      }
+
+      .static-testimonials blockquote {
+        margin: 0 0 1.5rem;
+        font-style: italic;
+        line-height: 1.6;
+      }
+
+      .static-form {
+        margin-top: 3rem;
+      }
+
+      .static-form form {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .static-form label {
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(47, 42, 51, 0.7);
+      }
+
+      .static-form input,
+      .static-form textarea {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border-radius: 18px;
+        border: 1px solid rgba(167, 199, 231, 0.4);
+        font-size: 0.95rem;
+      }
+
+      .static-footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(47, 42, 51, 0.1);
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+
+      @media (min-width: 768px) {
+        .static-header {
+          flex-direction: row;
+        }
+
+        .static-steps {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      html.js-enabled #static-landing {
+        display: none;
+      }
+    </style>
+    <script>
+      document.documentElement.classList.add("js-enabled");
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="static-landing">
+      <a class="skip-static" href="#static-main">Skip to content</a>
+      <header class="static-header">
+        <div class="static-logo">
+          <img src="%PUBLIC_URL%/taylor-made-logo.png" alt="Taylor-Made Baby Co. logo" />
+          <div>
+            <strong style="font-family: 'Playfair Display', serif; font-size: 1.35rem;">Taylor-Made Baby Co.</strong>
+            <div style="font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;">Baby Planning Concierge</div>
+          </div>
+        </div>
+        <nav class="static-nav" aria-label="Static primary">
+          <ul>
+            <li><a href="#static-main">Home</a></li>
+            <li><a href="#static-how">How It Works</a></li>
+            <li><a href="#static-membership">Membership</a></li>
+            <li><a href="#static-invite">Request Invite</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main id="static-main" tabindex="-1">
+        <section class="static-hero" aria-labelledby="static-hero-title">
+          <h1 id="static-hero-title">Baby Prep, Taylor-Made</h1>
+          <p>
+            An invite-only concierge for modern parents who crave joyful planning without overwhelm. Discover pastel-perfect registries, bespoke nurseries, and a concierge team ready to celebrate every milestone.
+          </p>
+          <a class="static-button" href="#static-invite">Request Invite</a>
+        </section>
+
+        <section class="static-card static-steps" id="static-how" aria-labelledby="static-how-title">
+          <h2 id="static-how-title" style="grid-column: 1 / -1; font-family: 'Playfair Display', serif; font-size: 2rem; margin: 0;">How It Works</h2>
+          <article class="static-step">
+            <h3 style="margin-top: 0; font-family: 'Playfair Display', serif;">Discover</h3>
+            <p>Share your style, timeline, and dream moments. We listen and map a concierge blueprint that feels just like you.</p>
+          </article>
+          <article class="static-step">
+            <h3 style="margin-top: 0; font-family: 'Playfair Display', serif;">Plan</h3>
+            <p>We curate registries, nursery boards, and vendor pairings—coordinating every detail behind the scenes.</p>
+          </article>
+          <article class="static-step">
+            <h3 style="margin-top: 0; font-family: 'Playfair Display', serif;">Celebrate</h3>
+            <p>Nursery reveals, baby showers, and arrival-day support arrive wrapped in joyful ease.</p>
+          </article>
+        </section>
+
+        <section class="static-card" id="static-membership" aria-labelledby="static-membership-title" style="margin-top: 3rem;">
+          <h2 id="static-membership-title" style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-top: 0;">Membership Highlights</h2>
+          <ul style="padding-left: 1.1rem; line-height: 1.7;">
+            <li>Bespoke concierge plan with quarterly planning sessions.</li>
+            <li>Private access to nursery stylists, doulas, and boutique vendors.</li>
+            <li>Celebration styling for showers, sip & sees, and welcome-home moments.</li>
+          </ul>
+        </section>
+
+        <section class="static-testimonials" aria-labelledby="static-testimonials-title">
+          <h2 id="static-testimonials-title" style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-top: 0;">Client Love</h2>
+          <blockquote>
+            “Taylor handled every vendor call and surprise—our nursery reveal felt like a pastel dream and we just got to show up.”
+          </blockquote>
+          <cite style="font-size: 0.75rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(67, 61, 74, 0.7);">– Amelia &amp; Jordan</cite>
+        </section>
+
+        <section class="static-card static-form" id="static-invite" aria-labelledby="static-invite-title">
+          <h2 id="static-invite-title" style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-top: 0;">Request Your Invite</h2>
+          <p>Apply now — no payment required. Taylor personally reviews every note that arrives.</p>
+          <form action="mailto:RegistryWihTaylor@gmail.com" method="post">
+            <label>
+              Name
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Optional note
+              <textarea name="note" rows="4" placeholder="Share your due date, nursery vibe, or concierge wishes."></textarea>
+            </label>
+            <button type="submit" class="static-button">Send</button>
+          </form>
+        </section>
+      </main>
+
+      <footer class="static-footer">
+        Contact • RegistryWihTaylor@gmail.com • @taylormadebabyco • Scottsdale · Phoenix · Remote
+      </footer>
+    </div>
+
     <div id="root"></div>
-    <!-- TotSquad booking widget -->
-    <!-- <script
-      src="https://babyconcierge.totsquad.com/embed.js"
-      async
-    ></script> -->
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

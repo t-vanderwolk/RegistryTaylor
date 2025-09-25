@@ -50,6 +50,41 @@ exports.getDashboard = async (req, res, next) => {
   }
 };
 
+exports.listMessages = async (req, res, next) => {
+  try {
+    const clientId = req.user.id;
+
+    const mentors = await db('mentor_assignments as ma')
+      .join('users as m', 'm.id', 'ma.mentor_id')
+      .select('m.id', 'm.name', 'm.email')
+      .where('ma.client_id', clientId)
+      .orderBy('m.name', 'asc');
+
+    const messages = await db('messages as m')
+      .join('users as sender', 'sender.id', 'm.sender_id')
+      .select(
+        'm.id',
+        'sender.id as sender_id',
+        'sender.name as sender_name',
+        'sender.role as sender_role',
+        'm.body',
+        'm.read',
+        'm.created_at'
+      )
+      .where('m.thread_id', clientId)
+      .orderBy('m.created_at', 'asc');
+
+    res.json({
+      data: {
+        mentors,
+        messages,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.sendMessage = async (req, res, next) => {
   try {
     const clientId = req.user.id;
@@ -69,7 +104,21 @@ exports.sendMessage = async (req, res, next) => {
 
     await db('messages').insert(message);
 
-    res.status(201).json({ data: message });
+    const saved = await db('messages as m')
+      .join('users as sender', 'sender.id', 'm.sender_id')
+      .select(
+        'm.id',
+        'sender.id as sender_id',
+        'sender.name as sender_name',
+        'sender.role as sender_role',
+        'm.body',
+        'm.read',
+        'm.created_at'
+      )
+      .where('m.id', message.id)
+      .first();
+
+    res.status(201).json({ data: saved });
   } catch (error) {
     next(error);
   }

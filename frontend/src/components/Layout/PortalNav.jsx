@@ -6,6 +6,7 @@ export const portalNavItems = [
   { to: "/client-portal/bio", label: "Bio" },
   { to: "/client-portal/journey", label: "My Journey" },
   { to: "/client-portal/belly-pics", label: "Belly Pics" },
+  { to: "/client-portal/messages", label: "Messages" },
   { to: "/client-portal/private-blog", label: "Private Blog" },
   { to: "/client-portal/services", label: "Services" },
   { to: "/client-portal/resources", label: "Resources" },

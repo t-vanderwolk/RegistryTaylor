@@ -1,16 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @layer base {
   body {
-    @apply bg-cream text-darkText font-body font-normal;
+    @apply bg-softBeige text-midnight font-body font-normal;
     background-image:
-      radial-gradient(circle at 15% 20%, rgba(247, 191, 216, 0.55) 0, rgba(247, 191, 216, 0) 55%),
-      radial-gradient(circle at 85% 18%, rgba(169, 185, 255, 0.45) 0, rgba(169, 185, 255, 0) 55%),
-      radial-gradient(circle at 20% 80%, rgba(230, 223, 242, 0.55) 0, rgba(230, 223, 242, 0) 50%),
-      linear-gradient(180deg, rgba(255, 253, 247, 0.9), rgba(230, 223, 242, 0.3) 60%, transparent 100%);
+      radial-gradient(circle at 15% 20%, rgba(251, 239, 242, 0.45) 0, rgba(251, 239, 242, 0) 55%),
+      radial-gradient(circle at 85% 18%, rgba(211, 228, 247, 0.35) 0, rgba(211, 228, 247, 0) 55%),
+      radial-gradient(circle at 20% 80%, rgba(237, 230, 248, 0.3) 0, rgba(237, 230, 248, 0) 50%),
+      linear-gradient(180deg, rgba(248, 244, 236, 0.96), rgba(237, 230, 248, 0.12) 65%, transparent 100%);
     background-attachment: fixed;
   }
 
@@ -24,8 +24,28 @@
   }
 
   ::selection {
-    background: rgba(169, 185, 255, 0.35);
-    color: #2f2a33;
+    background: rgba(211, 228, 247, 0.35);
+    color: #433d4a;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: 0.5rem;
+    left: -999px;
+    z-index: 9999;
+    padding: 0.75rem 1.25rem;
+    background: #433d4a;
+    color: #fffcf8;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border-radius: 999px;
+    transition: transform 0.2s ease;
+  }
+
+  .skip-link:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    outline: 3px solid #d3e4f7;
   }
 }
 
@@ -42,7 +62,7 @@
 
   /* Secondary Button */
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-babyPink/60 bg-babyPink text-blueberry font-semibold tracking-wide uppercase transition-transform duration-200 ease-out text-sm sm:text-base px-6 sm:px-7 py-3 shadow-soft;
+    @apply inline-flex items-center justify-center rounded-full border border-babyBlue/40 bg-babyPink text-blueberry font-semibold tracking-wide uppercase transition-transform duration-200 ease-out text-sm sm:text-base px-6 sm:px-7 py-3 shadow-soft;
   }
 
   .btn-secondary:hover {
@@ -51,7 +71,7 @@
 
   /* Card Component */
   .cc-card {
-    @apply p-6 sm:p-7 rounded-[2rem] shadow-soft bg-white/90 border border-babyPink/20 transition transform duration-200 ease-out hover:-translate-y-1 hover:shadow-dreamy;
+    @apply p-6 sm:p-7 rounded-[2rem] shadow-soft bg-white/90 border border-babyBlue/20 transition transform duration-200 ease-out hover:-translate-y-1 hover:shadow-dreamy;
   }
 
   /* Section Backgrounds */

@@ -102,23 +102,36 @@ exports.listAll = async (_req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const { id } = req.params;
-  const { name, email, question, answer, status, assigned_to: assignedTo } = req.body;
+    const {
+      username,
+      name,
+      email,
+      question,
+      answer,
+      status,
+      assigned_to: assignedTo,
+    } = req.body;
 
-  const updates = {
-    updated_at: db.fn.now(),
-  };
+    const updates = {
+      updated_at: db.fn.now(),
+    };
 
-    if (name !== undefined) updates.username = name?.trim() || null;
-    if (username !== undefined) updates.username = username?.trim() || null;
-  if (email !== undefined) {
-    const trimmedEmail = email?.trim();
-    if (!trimmedEmail) {
-      const err = new Error('Email is required');
-      err.status = 400;
-      throw err;
+    const providedUsername = username !== undefined ? username : name;
+    if (providedUsername !== undefined) {
+      const trimmedUsername = providedUsername?.trim();
+      updates.username = trimmedUsername || null;
     }
-    updates.email = trimmedEmail.toLowerCase();
-  }
+
+    if (email !== undefined) {
+      const trimmedEmail = email?.trim();
+      if (!trimmedEmail) {
+        const err = new Error('Email is required');
+        err.status = 400;
+        throw err;
+      }
+      updates.email = trimmedEmail.toLowerCase();
+    }
+
     if (question !== undefined) updates.question = question?.trim();
     if (answer !== undefined) updates.answer = answer?.trim() || null;
     if (status !== undefined) updates.status = status;

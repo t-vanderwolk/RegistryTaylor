@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { NavLink, useLocation, useNavigate, Routes, Route } from "react-router-dom";
+import api from "../lib/api";
 
 const notifications = [
   { id: 1, mentee: "Avery P.", detail: "New registry update submitted", time: "5m ago" },
@@ -31,17 +32,6 @@ const mentorMentees = [
   { id: 2, name: "Jordan Smith", channel: "Email" },
   { id: 3, name: "Harper Family", channel: "Signal" },
 ];
-
-const mentorMessages = {
-  1: [
-    { sender: "Avery", body: "We’re loving the stroller recs! Adding two to the registry.", timestamp: "8:45 AM" },
-    { sender: "you", body: "Perfect! I’ll follow up with the travel accessories we discussed. 💕", timestamp: "8:47 AM" },
-  ],
-  2: [
-    { sender: "Jordan", body: "Can we review the personal shopping picks today?", timestamp: "Yesterday" },
-  ],
-  3: [{ sender: "Harper Family", body: "We confirmed the guest list—sending it over now!", timestamp: "Monday" }],
-};
 
 const notesSeed = [
   { id: 1, mentee: "Avery Parker", body: "Focus on travel-ready nursery essentials. Follow up with stroller base availability.", timestamp: "Today, 9:10 AM" },
@@ -412,66 +402,174 @@ const EventsCelebrations = () => (
 );
 
 const Messages = () => {
-  const [activeMentee, setActiveMentee] = useState(mentorMentees[0]);
-  const currentThread = mentorMessages[activeMentee.id] || [];
+  const [clients, setClients] = useState([]);
+  const [activeClientId, setActiveClientId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [messageBody, setMessageBody] = useState("");
+  const [sending, setSending] = useState(false);
+  const mentorUser = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("tm_user") || "null");
+    } catch (parseError) {
+      return null;
+    }
+  }, []);
+
+  const fetchMessages = useCallback(
+    async (clientId) => {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await api.get('/api/v1/mentor/messages', {
+          params: clientId ? { clientId } : {},
+        });
+        const data = response.data?.data || {};
+        const fetchedClients = Array.isArray(data.clients) ? data.clients : [];
+        setClients(fetchedClients);
+        const activeId = data.active_client_id || fetchedClients[0]?.id || null;
+        setActiveClientId(activeId);
+        const fetchedMessages = Array.isArray(data.messages) ? data.messages : [];
+        setMessages(fetchedMessages);
+        if (activeId) {
+          const unread = fetchedMessages.filter(
+            (message) => !message.read && mentorUser && message.sender_id !== mentorUser.id
+          );
+          await Promise.allSettled(
+            unread.map((message) => api.patch(`/api/v1/mentor/messages/${message.id}/read`))
+          );
+        }
+      } catch (err) {
+        const message = err.response?.data?.error?.message || 'Unable to load messages.';
+        setError(message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [mentorUser]
+  );
+
+  useEffect(() => {
+    fetchMessages();
+  }, [fetchMessages]);
+
+  const handleSelectClient = (clientId) => {
+    if (clientId === activeClientId) return;
+    fetchMessages(clientId);
+  };
+
+  const handleSendMessage = async (event) => {
+    event.preventDefault();
+    if (!activeClientId || !messageBody.trim()) return;
+    setSending(true);
+    try {
+      const response = await api.post('/api/v1/mentor/messages', {
+        client_id: activeClientId,
+        body: messageBody.trim(),
+      });
+      const saved = response.data?.data;
+      if (saved) {
+        setMessages((current) => [...current, saved]);
+      }
+      setMessageBody("");
+    } catch (err) {
+      const message = err.response?.data?.error?.message || 'Unable to send message.';
+      setError(message);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const currentClient = clients.find((client) => client.id === activeClientId) || null;
 
   return (
-    <div className="grid min-h-[480px] gap-6 lg:grid-cols-[280px_1fr]">
+    <div className="grid min-h-[520px] gap-6 lg:grid-cols-[280px_1fr]">
       <aside className="rounded-3xl border border-babyPink/30 bg-white p-6 shadow-soft">
-        <h2 className="font-heading text-lg text-blueberry">Mentees</h2>
-        <ul className="mt-4 space-y-2">
-          {mentorMentees.map((mentee) => (
-            <li key={mentee.id}>
+        <h2 className="font-heading text-lg text-blueberry">Families</h2>
+        <div className="mt-4 space-y-2">
+          {loading && clients.length === 0 ? (
+            <p className="text-sm text-slate-500">Loading…</p>
+          ) : clients.length === 0 ? (
+            <p className="text-sm text-slate-500">No assigned families yet.</p>
+          ) : (
+            clients.map((client) => (
               <button
                 type="button"
-                onClick={() => setActiveMentee(mentee)}
-                className={`w-full rounded-2xl px-4 py-3 text-left font-body text-sm transition ${
-                  mentee.id === activeMentee.id
-                    ? "bg-babyPink/20 text-blueberry border border-babyPink/40"
-                    : "border border-transparent text-darkText/70 hover:bg-babyPink/10"
+                key={client.id}
+                onClick={() => handleSelectClient(client.id)}
+                className={`w-full rounded-2xl px-4 py-3 text-left text-sm transition ${
+                  client.id === activeClientId
+                    ? 'border border-babyPink/40 bg-babyPink/20 text-blueberry'
+                    : 'border border-transparent text-darkText/70 hover:bg-babyPink/10'
                 }`}
               >
-                <span className="font-heading text-blueberry">{mentee.name}</span>
+                <span className="font-heading text-blueberry">{client.name}</span>
                 <span className="block text-[0.65rem] uppercase tracking-[0.3em] text-darkText/50">
-                  Preferred channel: {mentee.channel}
+                  {client.package_choice || 'Package TBD'}
                 </span>
               </button>
-            </li>
-          ))}
-        </ul>
+            ))
+          )}
+        </div>
       </aside>
+
       <section className="flex flex-col rounded-3xl border border-babyBlue/30 bg-white shadow-soft">
         <header className="border-b border-babyBlue/30 px-6 py-4">
-          <h2 className="font-heading text-lg text-blueberry">Chat with {activeMentee.name}</h2>
+          <h2 className="font-heading text-lg text-blueberry">
+            {currentClient ? `Chat with ${currentClient.name}` : 'Select a family'}
+          </h2>
           <p className="text-xs font-body text-darkText/60">All communication remains under NDA.</p>
         </header>
-        <div className="flex-1 space-y-4 overflow-y-auto px-6 py-4">
-          {currentThread.map((message, index) => (
-            <div
-              key={`${message.sender}-${index}`}
-              className={`max-w-lg rounded-2xl px-4 py-3 font-body text-sm shadow-soft ${
-                message.sender === "you" ? "ml-auto bg-babyBlue/25 text-darkText" : "bg-babyPink/25 text-darkText"
-              }`}
-            >
-              <p className="text-xs uppercase tracking-[0.2em] text-darkText/60">{message.sender}</p>
-              <p className="mt-1">{message.body}</p>
-              <p className="mt-2 text-[0.65rem] uppercase tracking-[0.3em] text-darkText/40">{message.timestamp}</p>
-            </div>
-          ))}
+        <div className="flex-1 space-y-3 overflow-y-auto px-6 py-4">
+          {loading ? (
+            <p className="text-sm text-slate-500">Loading conversation…</p>
+          ) : error ? (
+            <p className="text-sm text-rose-600">{error}</p>
+          ) : !currentClient ? (
+            <p className="text-sm text-slate-500">Select a family to view messages.</p>
+          ) : messages.length === 0 ? (
+            <p className="text-sm text-slate-500">No messages yet. Start the conversation below.</p>
+          ) : (
+            messages.map((message) => (
+              <div
+                key={message.id}
+                className={`max-w-lg rounded-2xl px-4 py-3 text-sm shadow-soft ${
+                  mentorUser && message.sender_id === mentorUser.id
+                    ? 'ml-auto bg-babyBlue/25 text-darkText'
+                    : 'bg-babyPink/25 text-darkText'
+                }`}
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-darkText/60">{message.sender_name}</p>
+                <p className="mt-1 whitespace-pre-line">{message.body}</p>
+                <p className="mt-2 text-[0.65rem] uppercase tracking-[0.3em] text-darkText/40">
+                  {new Date(message.created_at).toLocaleString()}
+                </p>
+              </div>
+            ))
+          )}
         </div>
         <footer className="border-t border-babyBlue/30 px-6 py-4">
-          <form className="flex gap-3">
+          <form className="flex gap-3" onSubmit={handleSendMessage}>
             <input
               type="text"
-              placeholder="Type a confidential message"
+              value={messageBody}
+              onChange={(event) => {
+                setMessageBody(event.target.value);
+                setError("");
+              }}
+              placeholder={currentClient ? `Send a note to ${currentClient.name}` : 'Select a family to begin'}
               className="flex-1 rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm font-body text-darkText focus:border-babyPink focus:outline-none"
+              disabled={!currentClient}
             />
             <button
               type="submit"
-              className="rounded-full bg-babyBlue px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft"
-              disabled
+              disabled={!currentClient || !messageBody.trim() || sending}
+              className={`rounded-full bg-babyBlue px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft ${
+                !currentClient || !messageBody.trim() || sending ? 'opacity-60' : 'hover:-translate-y-0.5'
+              }`}
             >
-              Send
+              {sending ? 'Sending…' : 'Send'}
             </button>
           </form>
           <p className="mt-2 text-center text-[0.65rem] uppercase tracking-[0.3em] text-darkText/50">

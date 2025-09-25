@@ -62,6 +62,51 @@ exports.getDashboard = async (req, res, next) => {
   }
 }; 
 
+exports.listMessages = async (req, res, next) => {
+  try {
+    const mentorId = req.user.id;
+    const { clientId } = req.query;
+
+    const clients = await db('mentor_assignments as ma')
+      .join('users as u', 'u.id', 'ma.client_id')
+      .leftJoin('client_profiles as cp', 'cp.user_id', 'u.id')
+      .select('u.id', 'u.name', 'u.email', 'cp.package_choice', 'cp.due_date')
+      .where('ma.mentor_id', mentorId)
+      .orderBy('u.name', 'asc');
+
+    if (!clients.length) {
+      return res.json({ data: { clients: [], active_client_id: null, messages: [] } });
+    }
+
+    const activeClientId = clientId && clients.some((c) => c.id === clientId) ? clientId : clients[0].id;
+
+    const messages = await db('messages as m')
+      .join('users as sender', 'sender.id', 'm.sender_id')
+      .select(
+        'm.id',
+        'm.thread_id as client_id',
+        'sender.id as sender_id',
+        'sender.name as sender_name',
+        'sender.role as sender_role',
+        'm.body',
+        'm.read',
+        'm.created_at'
+      )
+      .where('m.thread_id', activeClientId)
+      .orderBy('m.created_at', 'asc');
+
+    res.json({
+      data: {
+        clients,
+        active_client_id: activeClientId,
+        messages,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.sendMessage = async (req, res, next) => {
   try {
     const mentorId = req.user.id;
@@ -83,7 +128,22 @@ exports.sendMessage = async (req, res, next) => {
 
     await db('messages').insert(message);
 
-    res.status(201).json({ data: message });
+    const saved = await db('messages as m')
+      .join('users as sender', 'sender.id', 'm.sender_id')
+      .select(
+        'm.id',
+        'm.thread_id as client_id',
+        'sender.id as sender_id',
+        'sender.name as sender_name',
+        'sender.role as sender_role',
+        'm.body',
+        'm.read',
+        'm.created_at'
+      )
+      .where('m.id', message.id)
+      .first();
+
+    res.status(201).json({ data: saved });
   } catch (error) {
     next(error);
   }

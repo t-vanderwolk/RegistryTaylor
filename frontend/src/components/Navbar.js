@@ -45,6 +45,24 @@ const BLOCK_STACK = [
   },
 ];
 
+const EnvelopeIcon = ({ className = "" }) => (
+  <svg
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.6}
+    stroke="currentColor"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3.75 5.25h16.5a.75.75 0 0 1 .75.75v12a.75.75 0 0 1-.75.75H3.75a.75.75 0 0 1-.75-.75v-12a.75.75 0 0 1 .75-.75zm0 0 8.25 6 8.25-6"
+    />
+  </svg>
+);
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -85,6 +103,12 @@ const Navbar = () => {
   };
 
   const portalHome = portalDestinations[role] || "/portal";
+  const messageDestinations = {
+    admin: "/admin-portal/messages",
+    mentor: "/mentor-portal/messages",
+    client: "/client-portal/messages",
+  };
+  const messagesHome = messageDestinations[role] || null;
 
   const handleLogout = () => {
     closeMenu();
@@ -124,6 +148,16 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          {token && messagesHome && (
+            <Link
+              to={messagesHome}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-babyPink/60 bg-white text-blueberry shadow-toy transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-dreamy"
+              onClick={closeMenu}
+              aria-label="Messages"
+            >
+              <EnvelopeIcon className="h-5 w-5" />
+            </Link>
+          )}
           {!token && (
             <Button
               as={Link}
@@ -195,6 +229,16 @@ const Navbar = () => {
             <Button as={Link} to={portalHome} variant="blue" size="md" className="w-full" onClick={closeMenu}>
               {token ? "Portal Home" : "Member Portal"}
             </Button>
+            {token && messagesHome && (
+              <Link
+                to={messagesHome}
+                onClick={closeMenu}
+                className="flex items-center gap-3 rounded-full border border-babyPink/60 bg-white px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry shadow-toy transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-dreamy"
+              >
+                <EnvelopeIcon className="h-4 w-4" />
+                Messages
+              </Link>
+            )}
             {token && (
               <button
                 type="button"

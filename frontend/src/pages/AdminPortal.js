@@ -1886,11 +1886,30 @@ const ProfileDrawer = ({ open, onClose, title, loading, error, children }) => {
 };
 
 /* ------------------ BLOG MANAGER ------------------ */
+const slugify = (value) =>
+  value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-');
+
+const defaultBlogForm = {
+  id: null,
+  title: "",
+  slug: "",
+  category: "Announcements",
+  visibility: "public",
+  excerpt: "",
+  content: "",
+};
+
 const BlogManager = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ id: null, title: "", category: "Announcements", content: "" });
+  const [form, setForm] = useState(defaultBlogForm);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -1898,8 +1917,9 @@ const BlogManager = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await api.get('/api/v1/private-blog');
-      setPosts(Array.isArray(response.data?.data) ? response.data.data : []);
+      const response = await api.get('/api/v1/admin/blog/posts', { params: { visibility: 'all' } });
+      const data = Array.isArray(response.data?.data) ? response.data.data : [];
+      setPosts(data);
     } catch (err) {
       const messageText = err.response?.data?.error?.message || 'Unable to load posts.';
       setError(messageText);
@@ -1913,12 +1933,22 @@ const BlogManager = () => {
   }, [loadPosts]);
 
   const handleInputChange = (field) => (event) => {
-    setForm((current) => ({ ...current, [field]: event.target.value }));
+    const { value } = event.target;
+    setForm((current) => {
+      if (field === 'title') {
+        const nextSlug = current.id || current.slug ? current.slug : slugify(value);
+        return { ...current, title: value, slug: nextSlug };
+      }
+      if (field === 'slug') {
+        return { ...current, slug: slugify(value) };
+      }
+      return { ...current, [field]: value };
+    });
     setMessage("");
   };
 
   const resetForm = () => {
-    setForm({ id: null, title: "", category: "Announcements", content: "" });
+    setForm(defaultBlogForm);
     setMessage("");
   };
 
@@ -1931,19 +1961,26 @@ const BlogManager = () => {
 
     setSaving(true);
     try {
+      const payload = {
+        title: form.title.trim(),
+        category: form.category.trim(),
+        content: form.content.trim(),
+        visibility: form.visibility,
+      };
+
+      if (form.slug.trim()) {
+        payload.slug = form.slug.trim();
+      }
+
+      if (form.excerpt.trim()) {
+        payload.excerpt = form.excerpt.trim();
+      }
+
       if (form.id) {
-        await api.put(`/api/v1/private-blog/${form.id}`, {
-          title: form.title.trim(),
-          category: form.category.trim(),
-          content: form.content.trim(),
-        });
+        await api.put(`/api/v1/admin/blog/posts/${form.id}`, payload);
         setMessage('Post updated.');
       } else {
-        await api.post('/api/v1/private-blog', {
-          title: form.title.trim(),
-          category: form.category.trim(),
-          content: form.content.trim(),
-        });
+        await api.post('/api/v1/admin/blog/posts', payload);
         setMessage('Post published.');
       }
       resetForm();
@@ -1957,14 +1994,22 @@ const BlogManager = () => {
   };
 
   const handleEdit = (post) => {
-    setForm({ id: post.id, title: post.title, category: post.category, content: post.content });
+    setForm({
+      id: post.id,
+      title: post.title || '',
+      slug: post.slug || '',
+      category: post.category || 'Announcements',
+      visibility: post.visibility || 'public',
+      excerpt: post.excerpt || '',
+      content: post.content || '',
+    });
     setMessage('Editing draft. Save to update the post.');
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this post?')) return;
     try {
-      await api.delete(`/api/v1/private-blog/${id}`);
+      await api.delete(`/api/v1/admin/blog/posts/${id}`);
       setMessage('Post deleted.');
       if (form.id === id) {
         resetForm();
@@ -2005,6 +2050,16 @@ const BlogManager = () => {
             />
           </label>
           <label className="text-sm">
+            Slug
+            <input
+              type="text"
+              value={form.slug}
+              onChange={handleInputChange('slug')}
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+              placeholder="taylor-made-concierge-preview"
+            />
+          </label>
+          <label className="text-sm">
             Category
             <input
               type="text"
@@ -2013,6 +2068,27 @@ const BlogManager = () => {
               className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
               placeholder="Announcements, Mentor Notes, Events"
               required
+            />
+          </label>
+          <label className="text-sm">
+            Visibility
+            <select
+              value={form.visibility}
+              onChange={handleInputChange('visibility')}
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+            >
+              <option value="public">Public</option>
+              <option value="members_only">Members Only</option>
+            </select>
+          </label>
+          <label className="text-sm">
+            Excerpt
+            <textarea
+              value={form.excerpt}
+              onChange={handleInputChange('excerpt')}
+              rows={3}
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+              placeholder="Optional summary shown on the public blog."
             />
           </label>
           <label className="text-sm">
@@ -2065,9 +2141,13 @@ const BlogManager = () => {
                   <div>
                     <h3 className="font-heading text-lg text-blueberry">{post.title}</h3>
                     <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{post.category}</p>
+                    <p className="text-xs text-slate-500">Slug: {post.slug}</p>
+                    <p className="text-xs text-slate-500">Visibility: {post.visibility === 'members_only' ? 'Members Only' : 'Public'}</p>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-400">
-                    <span>Updated {post.updated_at ? new Date(post.updated_at).toLocaleDateString() : '--'}</span>
+                    <span>
+                      Updated {post.updatedAt ? new Date(post.updatedAt).toLocaleDateString() : post.updated_at ? new Date(post.updated_at).toLocaleDateString() : '--'}
+                    </span>
                     <button
                       type="button"
                       onClick={() => handleEdit(post)}
@@ -2084,7 +2164,7 @@ const BlogManager = () => {
                     </button>
                   </div>
                 </div>
-                <p className="mt-3 whitespace-pre-line text-sm text-slate-600">{post.content}</p>
+                <p className="mt-3 whitespace-pre-line text-sm text-slate-600">{post.excerpt || post.content}</p>
               </article>
             ))}
           </div>

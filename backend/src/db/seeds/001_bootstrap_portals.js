@@ -12,6 +12,10 @@ exports.seed = async (knex) => {
   await knex('invite_codes').del().catch(() => {});
   await knex('invite_requests').del().catch(() => {});
   await knex('users').del().catch(() => {});
+  const hasBlogPosts = await knex.schema.hasTable('blog_posts');
+  if (hasBlogPosts) {
+    await knex('blog_posts').del().catch(() => {});
+  }
   const hasPrivateBlog = await knex.schema.hasTable('private_blog_posts');
   if (hasPrivateBlog) {
     await knex('private_blog_posts').del().catch(() => {});
@@ -150,6 +154,33 @@ exports.seed = async (knex) => {
       read: false,
     },
   ]);
+
+  if (hasBlogPosts) {
+    await knex('blog_posts').insert([
+      {
+        id: uuid(),
+        title: 'Taylor-Made Concierge Preview',
+        slug: 'taylor-made-concierge-preview',
+        category: 'Announcements',
+        excerpt: 'Peek inside the white-glove experience we curate for every family joining the Taylor-Made lounge.',
+        content:
+          'Welcome to the Taylor-Made blog! This preview shares the signature milestones we orchestrate for concierge families — from registry couture to nursery styling and celebration logistics. Members can log into the private lounge for extended guides and checklists.',
+        visibility: 'public',
+        author_id: adminId,
+      },
+      {
+        id: uuid(),
+        title: 'Mentor Notes: Nursery Glow-Up Checklist',
+        slug: 'mentor-notes-nursery-glow-up',
+        category: 'Mentor Notes',
+        excerpt: 'Morgan shares the five glam touches that transform any nursery into a serene retreat.',
+        content:
+          'Our mentor Morgan rounded up the design cues we rely on when polishing nurseries for high-touch families. From scent layering to textile elevations, here is how to recreate the Taylor-Made glow ahead of baby’s arrival.',
+        visibility: 'members_only',
+        author_id: mentorId,
+      },
+    ]);
+  }
 
   if (hasPrivateBlog) {
     await knex('private_blog_posts').insert([

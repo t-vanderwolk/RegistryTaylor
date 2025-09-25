@@ -2,6 +2,7 @@ const express = require('express');
 const requireAuth = require('../../middleware/requireAuth');
 const requireRole = require('../../middleware/requireRole');
 const adminController = require('../../controllers/adminController');
+const blogController = require('../../controllers/blog.controller');
 
 const router = express.Router();
 
@@ -19,5 +20,9 @@ router.get('/messages/threads', adminController.listMessageThreads);
 router.get('/messages/threads/:id', adminController.getThreadMessages);
 router.post('/messages', adminController.sendMessage);
 router.patch('/messages/:id/read', adminController.markMessageRead);
+router.get('/blog/posts', blogController.listPosts);
+router.post('/blog/posts', blogController.createPost);
+router.put('/blog/posts/:id', blogController.updatePost);
+router.delete('/blog/posts/:id', blogController.archivePost);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const requireAuth = require('../../middleware/requireAuth');
 const requireRole = require('../../middleware/requireRole');
 const adminController = require('../../controllers/adminController');
 const blogController = require('../../controllers/blog.controller');
+const blogQuestionsController = require('../../controllers/blogQuestionsController');
 
 const router = express.Router();
 
@@ -24,5 +25,8 @@ router.get('/blog/posts', blogController.listPosts);
 router.post('/blog/posts', blogController.createPost);
 router.put('/blog/posts/:id', blogController.updatePost);
 router.delete('/blog/posts/:id', blogController.archivePost);
+router.get('/blog/questions', blogQuestionsController.listAll);
+router.patch('/blog/questions/:id', blogQuestionsController.update);
+router.delete('/blog/questions/:id', blogQuestionsController.remove);
 
 module.exports = router;

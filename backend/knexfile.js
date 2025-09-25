@@ -5,12 +5,37 @@ const defaultConnection =
 
 const buildConnection = (connection) => {
   if (!connection) return connection;
-  if (typeof connection === 'string' && connection.includes('sslmode=require')) {
+
+  if (typeof connection === 'string') {
+    const requiresSsl = connection.includes('sslmode=require');
+
+    if (requiresSsl) {
+      try {
+        const url = new URL(connection);
+        url.searchParams.delete('sslmode');
+        return {
+          connectionString: url.toString(),
+          ssl: { rejectUnauthorized: false },
+        };
+      } catch (error) {
+        // fallback to original string if parsing fails
+        return {
+          connectionString: connection,
+          ssl: { rejectUnauthorized: false },
+        };
+      }
+    }
+
+    return connection;
+  }
+
+  if (typeof connection === 'object' && connection.ssl === undefined) {
     return {
-      connectionString: connection,
+      ...connection,
       ssl: { rejectUnauthorized: false },
     };
   }
+
   return connection;
 };
 

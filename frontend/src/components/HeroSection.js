@@ -15,10 +15,10 @@ const HeroSection = () => {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative mt-16 mb-16 overflow-hidden rounded-bubble bg-white px-5 py-16 shadow-dreamy sm:mt-20 sm:mb-20 sm:px-8 md:mt-28 md:mb-28 md:px-12 md:py-20"
+      className="relative mt-16 mb-16 overflow-hidden rounded-bubble bg-gradient-to-br from-babyPink/60 via-pastelPurple/30 to-babyBlue/60 px-6 py-24 shadow-dreamy sm:mt-20 sm:mb-20 sm:px-8 md:mt-28 md:mb-28 md:px-12"
     >
-
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center text-darkText">
+      <div className="absolute inset-0 bg-white/20 mix-blend-lighten" aria-hidden="true" />
+      <div className="relative z-10 mx-auto flex min-h-[70vh] max-w-4xl flex-col items-center justify-center space-y-10 text-center text-darkText">
         {/* <motion.span
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -31,17 +31,16 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
-          className="font-playful text-4xl sm:text-5xl md:text-6xl"
+          className="font-heading text-5xl font-semibold text-blueberry sm:text-6xl md:text-7xl"
         >
           Baby Prep, Taylor-Made.
         </motion.h1>
-  <motion.h2>Hi Awin</motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-          className="max-w-2xl font-body text-base leading-relaxed text-darkText/80 sm:text-lg"
+          className="max-w-2xl font-body text-lg font-normal leading-relaxed text-darkText/80 sm:text-xl"
         >
           An invite-only concierge for millennial and Gen Z families who crave joyful planning without the overwhelm. We craft registries, nursery reveals, and celebrations that feel cozy, custom, and completely you.
         </motion.p>
@@ -50,7 +49,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
-          className="flex flex-wrap justify-center gap-3"
+          className="flex flex-wrap justify-center gap-4"
         >
           <Button as={Link} to="/request-invite" variant="purple" size="lg">
             Request Invitation

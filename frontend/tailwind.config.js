@@ -4,21 +4,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        babyPink: "#FADADD",
-        babyBlue: "#A7D8F7",
-        pastelPurple: "#DCC6F6",
+        babyPink: "#F7BFD8",
+        babyBlue: "#A9B9FF",
+        pastelPurple: "#E6DFF2",
         cream: "#FFFDF7",
-        darkText: "#333333",
-        goldHighlight: "#E5C07B",
-        blueberry: "#3A3D4D",
-        pebble: "#55586A",
-        sunshine: "#FFE5A6"
+        darkText: "#2F2A33",
+        blueberry: "#35354A",
+        gold: "#D4AF37",
+        softGold: "#D4AF37",
+        blush: "#F5D0E0",
+        softLavender: "#DDD4F5"
       },
       fontFamily: {
-        playful: ["'Baloo 2'", "cursive"],
-        heading: ["'Poppins'", "sans-serif"],
-        body: ["'Inter'", "sans-serif"],
-        blocky: ["'Fredoka One'", "cursive"]
+        heading: ["'Playfair Display'", "serif"],
+        body: ["'Poppins'", "sans-serif"],
+        playful: ["'Playfair Display'", "serif"],
+        blocky: ["'Poppins'", "sans-serif"]
       },
       boxShadow: {
         toy: "0 6px 12px rgba(0, 0, 0, 0.08)",

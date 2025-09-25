@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import Section from "../components/UI/Section";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { blogPosts } from "../data/blog";
 import { motion } from "framer-motion";
+import api from "../lib/api";
+import { blogPosts as fallbackPosts } from "../data/blog";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Blog = () => {
   const [questions, setQuestions] = useState([]);
   const [form, setForm] = useState({ name: "", question: "" });
   const [feedback, setFeedback] = useState({ status: "idle", message: "" });
+  const [posts, setPosts] = useState([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
 
   useEffect(() => {
     try {
@@ -26,6 +29,45 @@ const Blog = () => {
     } catch (error) {
       console.warn("Unable to load saved questions", error);
     }
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const adaptPosts = (items) =>
+      items.map((post) => ({
+        id: post.slug || post.id,
+        slug: post.slug || post.id,
+        title: post.title,
+        category: post.category,
+        excerpt: post.excerpt || post.content?.slice(0, 200) || "",
+        isMembersOnly: post.visibility ? post.visibility === "members_only" : Boolean(post.isMembersOnly),
+      }));
+
+    (async () => {
+      setLoadingPosts(true);
+      try {
+        const response = await api.get("/api/v1/blog");
+        if (!active) return;
+        const payload = Array.isArray(response.data?.data) ? response.data.data : [];
+        if (payload.length) {
+          setPosts(adaptPosts(payload));
+        } else {
+          setPosts(adaptPosts(fallbackPosts));
+        }
+      } catch (error) {
+        console.warn("Unable to load blog posts", error);
+        if (active) {
+          setPosts(adaptPosts(fallbackPosts));
+        }
+      } finally {
+        if (active) setLoadingPosts(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const persistQuestions = (items) => {
@@ -101,9 +143,12 @@ const Blog = () => {
 
           {/* Blog Grid */}
           <div className="grid gap-8 md:grid-cols-2">
-            {blogPosts.map((post, index) => (
+            {loadingPosts && posts.length === 0 && (
+              <p className="text-center text-sm text-cozyGray/60">Loading latest posts…</p>
+            )}
+            {posts.map((post, index) => (
               <motion.article
-                key={post.id}
+                key={post.id || index}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -131,7 +176,7 @@ const Blog = () => {
                       {post.excerpt}
                     </p>
                     <Link
-                      to={`/blog/${post.id}`}
+                      to={`/blog/${post.slug || post.id}`}
                       className="text-softGold hover:text-deepSlate underline tracking-[0.12em] uppercase text-xs"
                     >
                       Read More →

@@ -49,7 +49,7 @@ const InviteForm = () => {
     <section
       id="request-invite"
       tabIndex="-1"
-      className="mx-auto mt-20 max-w-4xl surface-panel p-8"
+      className="mx-auto mt-20 max-w-4xl surface-panel"
     >
       <header className="text-center">
         <p className="text-xs font-heading uppercase tracking-[0.5em] text-blueberry/70">

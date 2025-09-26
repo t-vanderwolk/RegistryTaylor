@@ -45,7 +45,7 @@ const TestimonialsCarousel = () => {
     <section
       id="testimonials"
       tabIndex="-1"
-      className="mx-auto mt-16 max-w-4xl surface-panel p-10 text-blueberry"
+      className="mx-auto mt-16 max-w-4xl surface-panel text-blueberry"
     >
       <header className="text-center">
         <p className="text-xs font-heading uppercase tracking-[0.5em] text-blueberry/60">Private Praise</p>

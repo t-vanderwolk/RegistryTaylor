@@ -13,7 +13,7 @@ const Home = () => {
     <div className="relative space-y-16 pb-24">
       <Hero />
       <HowItWorks />
-      <section className="mx-auto max-w-5xl surface-panel px-6 py-10" aria-labelledby="booking-heading">
+      <section className="mx-auto max-w-5xl surface-panel" aria-labelledby="booking-heading">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-heading uppercase tracking-[0.45em] text-blueberry/60">Concierge Calendar</p>
           <h2 id="booking-heading" className="mt-3 text-3xl font-heading text-blueberry">

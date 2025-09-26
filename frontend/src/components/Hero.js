@@ -104,7 +104,7 @@ const Hero = () => {
           />
           <button
             type="submit"
-            className="h-12 rounded-full border border-babyBlue/30 bg-babyPink/60 px-6 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+            className="h-12 w-full rounded-full border border-babyBlue/30 bg-babyPink/60 px-6 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 sm:w-auto"
           >
             {status === "loading" ? "Verifying…" : "Verify Code"}
           </button>

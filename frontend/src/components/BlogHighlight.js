@@ -5,7 +5,7 @@ const BlogHighlight = () => {
   return (
     <section
       id="blog"
-      className="mx-auto mt-16 max-w-5xl surface-panel px-6 py-10"
+      className="mx-auto mt-16 max-w-5xl surface-panel"
     >
       <div className="flex flex-col gap-6 text-center md:flex-row md:items-center md:text-left">
         <div className="md:w-2/3">

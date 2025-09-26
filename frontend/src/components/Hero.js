@@ -54,7 +54,7 @@ const Hero = () => {
     <section
       id="home"
       tabIndex="-1"
-      className="relative mx-auto mt-10 flex max-w-6xl flex-col-reverse items-center gap-12 overflow-hidden surface-panel px-6 py-16 text-center text-midnight md:mt-16 md:flex-row md:items-stretch md:gap-10 md:px-12 md:text-left"
+      className="relative mx-auto mt-10 flex max-w-6xl flex-col-reverse items-center gap-10 overflow-hidden surface-panel text-center text-midnight md:mt-16 md:flex-row md:items-stretch md:gap-12 md:text-left"
     >
 
       <div className="relative z-10 flex w-full flex-col justify-center gap-6 md:w-2/3">
@@ -113,7 +113,7 @@ const Hero = () => {
           {status === "error" && <span className="text-red-400">{error}</span>}
           {status === "success" && <span className="text-blueberry">Code accepted! Redirecting…</span>}
         </div>
-        <div className="grid gap-4 text-left sm:grid-cols-3">
+        <div className="grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               title: "Discover",

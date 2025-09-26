@@ -10,7 +10,7 @@ import ConsultationSection from "../components/ConsultationSection";
 
 const Home = () => {
   return (
-    <div className="relative space-y-16 pb-24">
+    <div className="relative space-y-10 pb-24 sm:space-y-16">
       <Hero />
       <HowItWorks />
       <section className="mx-auto max-w-5xl surface-panel" aria-labelledby="booking-heading">
@@ -23,7 +23,7 @@ const Home = () => {
             Choose a time that fits your schedule and Taylor will meet you for a pastel-perfect planning session.
           </p>
         </div>
-        <div className="mt-8 overflow-hidden surface-card bg-softBeige/60 p-4 shadow-inner">
+        <div className="mt-8 overflow-hidden surface-card bg-softBeige/60 shadow-inner">
           <ConsultationSection />
         </div>
       </section>

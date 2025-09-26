@@ -25,8 +25,12 @@ const Navbar = () => {
       { label: "How It Works", target: "how-it-works", to: "/#how-it-works" },
       { label: "Membership", target: "membership", to: "/#membership" },
       { label: "Blog", to: "/blog" },
-      { label: "Request Invite", target: "request-invite", to: "/#request-invite" },
     ],
+    []
+  );
+
+  const requestInviteLink = useMemo(
+    () => ({ label: "Request Invite", target: "request-invite", to: "/#request-invite" }),
     []
   );
 
@@ -156,7 +160,11 @@ const Navbar = () => {
         <div className="hidden items-center gap-3 md:flex">
           <a
             href="#request-invite"
-            onClick={(event) => handleAnchorNavigation(event, navLinks[3])}
+            onClick={(event) => {
+              if (requestInviteLink) {
+                handleAnchorNavigation(event, requestInviteLink);
+              }
+            }}
             className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             aria-label="Request an invite"
           >

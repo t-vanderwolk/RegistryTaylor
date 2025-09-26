@@ -3,14 +3,12 @@ import { NavLink } from "react-router-dom";
 
 export const portalNavItems = [
   { to: "/client-portal", label: "Dashboard", end: true },
-  { to: "/client-portal/bio", label: "Bio" },
-  { to: "/client-portal/journey", label: "My Journey" },
-  { to: "/client-portal/belly-pics", label: "Belly Pics" },
+  { to: "/client-portal/journey", label: "Journey" },
+  { to: "/client-portal/services", label: "Support Hub" },
+  { to: "/client-portal/memories", label: "Memories" },
   { to: "/client-portal/messages", label: "Messages" },
   { to: "/client-portal/private-blog", label: "Private Blog" },
-  { to: "/client-portal/services", label: "Services" },
-  { to: "/client-portal/resources", label: "Resources" },
-  { to: "/client-portal/progress", label: "Progress" },
+  { to: "/client-portal/bio", label: "Profile" },
 ];
 
 const PortalNav = () => {

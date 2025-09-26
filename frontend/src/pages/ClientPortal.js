@@ -7,6 +7,7 @@ import Bio from "./client/Bio";
 import MyJourney from "./client/MyJourney";
 import PrivateBlog from "./PrivateBlog";
 import ClientMessages from "./client/Messages";
+import Services from "./client/Services";
 
 const Placeholder = ({ title }) => (
   <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/90 p-8 text-center shadow-soft backdrop-blur-sm">
@@ -54,7 +55,7 @@ const ClientPortal = () => {
             <Route path="messages" element={<ClientMessages />} />
             <Route path="blog" element={<Navigate to="private-blog" replace />} />
             <Route path="private-blog" element={<PrivateBlog />} />
-            <Route path="services" element={<Placeholder title="Services" />} />
+            <Route path="services" element={<Services />} />
             <Route path="resources" element={<Placeholder title="Resources" />} />
             <Route path="progress" element={<Placeholder title="Progress" />} />
             <Route path="*" element={<Navigate to="." replace />} />

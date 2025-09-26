@@ -8,8 +8,6 @@ const apiV1 = require('./routes/v1');
 const app = express();
 
 const totsquadEmbedOrigin = 'https://babyconcierge.totsquad.com';
-const avantlinkOrigin = 'https://classic.avantlink.com';
-const inlineHashAvantlink = "'sha256-3bzWVxQE32IZQKH9eh8KzyHuhXOlMrboDVVBRd0fWTU='";
 const defaultDirectives = helmet.contentSecurityPolicy.getDefaultDirectives();
 
 app.use(
@@ -20,8 +18,6 @@ app.use(
         'script-src': [
           ...(defaultDirectives['script-src'] || []),
           totsquadEmbedOrigin,
-          avantlinkOrigin,
-          inlineHashAvantlink,
         ],
         'frame-src': [
           ...(defaultDirectives['frame-src'] || ["'self'"]),
@@ -30,7 +26,6 @@ app.use(
         'connect-src': [
           ...(defaultDirectives['connect-src'] || ["'self'"]),
           totsquadEmbedOrigin,
-          avantlinkOrigin,
         ],
       },
     },

@@ -64,6 +64,10 @@ const Navbar = () => {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleAnchorNavigation = (event, link) => {
     event.preventDefault();
 
@@ -79,10 +83,29 @@ const Navbar = () => {
       }
     }
 
+    if (to === "/") {
+      if (location.pathname !== "/") {
+        navigate("/");
+      } else {
+        scrollToTop();
+      }
+      return;
+    }
+
     navigate(to);
   };
 
   const portalHome = portalDestinations[role] || "/portal";
+
+  const handleHomeClick = (event) => {
+    event.preventDefault();
+    closeMenu();
+    if (location.pathname !== "/") {
+      navigate("/");
+    } else {
+      scrollToTop();
+    }
+  };
 
   const renderNavLink = (link) => (
     <li key={link.label}>
@@ -100,7 +123,7 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 border-b border-babyBlue/20 bg-white/95 shadow-sm">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 md:flex-nowrap">
         <div className="flex w-full items-center justify-between gap-3 md:w-auto md:flex-1">
-          <Link to="/" className="flex min-w-0 flex-1 items-center gap-3" onClick={closeMenu}>
+          <Link to="/" className="flex min-w-0 flex-1 items-center gap-3" onClick={handleHomeClick}>
             <img
               src={logoImage}
               srcSet={`${logoImage} 1x, ${logoImage} 2x`}

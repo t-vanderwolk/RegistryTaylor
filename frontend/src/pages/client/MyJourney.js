@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../lib/api";
+import {
+  buildFocusItems,
+  buildMilestones,
+  recentWinPlaceholders,
+  TOTAL_PROJECT_PHASES,
+} from "./progressUtils";
 
 const TOTAL_GESTATION_DAYS = 280;
 
@@ -202,6 +208,11 @@ const MyJourney = () => {
   const journey = computeJourney(profile);
   const timeline = buildTimeline(journey.currentWeek);
   const checklist = buildChecklist(profile, journey);
+  const milestones = buildMilestones(profile);
+  const focusItems = buildFocusItems(milestones);
+  const completedMilestones = milestones.filter((item) => item.done).length;
+  const milestonePercent = Math.round((completedMilestones / milestones.length) * 100);
+  const totalCompletedPhases = Math.min(TOTAL_PROJECT_PHASES, completedMilestones * 3);
 
   const mentorLabel = profile.mentor_preference || "Assigned mentor";
   const packageChoice = profile.package_choice || "Concierge";
@@ -270,6 +281,60 @@ const MyJourney = () => {
         </div>
       </section>
 
+      <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-2">
+          <h2 className="font-heading text-2xl text-blueberry">Concierge Milestones</h2>
+          <p className="text-sm font-body text-darkText/70">{completedMilestones} of {milestones.length} major moments complete · {milestonePercent}% of Taylor’s plan.</p>
+        </header>
+        <div className="mt-6 h-3 w-full rounded-full bg-babyPink/20">
+          <div className="h-full rounded-full bg-babyPink" style={{ width: `${milestonePercent}%` }} />
+        </div>
+        <p className="mt-2 text-xs font-body text-darkText/50">{totalCompletedPhases} of {TOTAL_PROJECT_PHASES} concierge phases prepared.</p>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {milestones.map((item) => (
+            <article
+              key={item.id}
+              className={`rounded-[2rem] border px-6 py-5 shadow-soft ${
+                item.done ? "border-babyBlue/30 bg-babyBlue/10" : "border-babyPink/30 bg-white"
+              }`}
+            >
+              <p className="font-heading text-lg text-blueberry">{item.title}</p>
+              <p className="mt-2 text-sm font-body text-darkText/70">{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-2">
+          <h2 className="font-heading text-2xl text-blueberry">Focus with Taylor</h2>
+          <p className="text-sm font-body text-darkText/70">These are the next concierge moves on deck. Share updates and the team will keep momentum.
+          </p>
+        </header>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {focusItems.map((item) => (
+            <article
+              key={item.id}
+              className="flex h-full flex-col justify-between rounded-[2rem] border border-babyBlue/25 bg-babyBlue/10 px-6 py-5 shadow-soft"
+            >
+              <div className="space-y-3">
+                <span className="inline-flex items-center rounded-full border border-babyPink/40 bg-white/70 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.3em] text-blueberry/80">
+                  Concierge focus
+                </span>
+                <h3 className="font-heading text-lg text-blueberry">{item.title}</h3>
+                <p className="text-sm font-body leading-relaxed text-darkText/75">{item.description}</p>
+              </div>
+              <Link
+                to={item.link}
+                className="mt-5 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+              >
+                {item.cta}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-2">
           <h2 className="font-heading text-2xl text-blueberry">Concierge Checklist</h2>
@@ -317,18 +382,29 @@ const MyJourney = () => {
             actionLabel="Document in Private Blog"
             to="/private-blog"
           />
-          <MemoryCard
-            title="Nursery progress"
-            detail="Upload photos or key decisions so your mentor can align merch drops."
-            actionLabel="Share update"
-            to="/client-portal/belly-pics"
-          />
+  <MemoryCard
+    title="Nursery progress"
+    detail="Upload photos or key decisions so your mentor can align merch drops."
+    actionLabel="Share update"
+    to="/client-portal/memories"
+  />
           <MemoryCard
             title="Heartbeat moments"
             detail="Capture the little memories: playlists, cravings, loved ones&rsquo; reactions."
             actionLabel="Add a note"
             to="/private-blog"
           />
+        </div>
+        <div className="mt-8 rounded-[2rem] border border-pastelPurple/40 bg-white px-6 py-5 shadow-soft">
+          <p className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Recent wins</p>
+          <ul className="mt-3 space-y-2 text-sm font-body text-darkText/75">
+            {recentWinPlaceholders.map((win) => (
+              <li key={win} className="flex items-start gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-blueberry/60" />
+                <span>{win}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>

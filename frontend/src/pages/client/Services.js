@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import {
   CalendarDaysIcon,
   ChatBubbleLeftRightIcon,
+  DocumentArrowDownIcon,
+  BookmarkSquareIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 
@@ -71,19 +73,61 @@ const careTeamSupport = [
     id: "mentor",
     icon: SparklesIcon,
     title: "Mentor Circle",
-    detail: "Reply in Messages with your preferred cadence or request a new mentor match."
+    detail: "Reply in Messages with your preferred cadence or request a new mentor match.",
   },
   {
     id: "calendar",
     icon: CalendarDaysIcon,
     title: "Concierge Calendar",
-    detail: "Need a touchpoint this week? Book a slot and the team will confirm within the hour."
+    detail: "Need a touchpoint this week? Book a slot and the team will confirm within the hour.",
   },
   {
     id: "chat",
     icon: ChatBubbleLeftRightIcon,
     title: "White-Glove Requests",
-    detail: "Use the form below for travel, gifting, or install days that need extra discretion."
+    detail: "Use the form below for travel, gifting, or install days that need extra discretion.",
+  },
+];
+
+const featuredGuides = [
+  {
+    id: "nursery-lookbook",
+    title: "Nursery Palette Lookbook",
+    type: "PDF",
+    updated: "Jul 14, 2024",
+    summary: "Curated color stories, textiles, and accent inspo pulled from recent installs and client mood boards.",
+  },
+  {
+    id: "registry-checklist",
+    title: "Concierge Registry Checklist",
+    type: "Sheet",
+    updated: "Aug 02, 2024",
+    summary: "Live tracker covering stroller, feeding, travel, and fourth-trimester essentials with Taylor's notes.",
+  },
+  {
+    id: "hospital-bag",
+    title: "Hospital Bag Guide",
+    type: "Notion",
+    updated: "Sep 10, 2024",
+    summary: "Wardrobe, toiletry, and tech packing lists plus concierge tips for partners and visitors.",
+  },
+];
+
+const quickReferences = [
+  {
+    id: "milestone",
+    title: "Milestone Snapshot",
+    blurb: "Printable timeline covering registry, nursery, and celebration checkpoints by trimester.",
+  },
+  {
+    id: "support",
+    title: "Support Rolodex",
+    blurb: "Concierge-approved list of doulas, lactation, and night nannies by metro area with direct contact links.",
+  },
+  {
+    id: "gifting",
+    title: "Gifting Tracker",
+    blurb: "Google Sheet template for thank-you notes and gifting budgets. Taylor will pre-fill upon request.",
   },
 ];
 
@@ -186,6 +230,80 @@ const Services = () => {
                 className="mt-5 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry transition hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
               >
                 Hold my spot
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <h2 className="font-heading text-2xl text-blueberry">Featured Guides</h2>
+            <p className="text-sm font-body text-darkText/70">
+              Member-favorite downloads curated by Taylor. Save, share, or ask for a bespoke version.
+            </p>
+          </div>
+          <Link
+            to="/client-portal/messages"
+            className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+          >
+            Request updates
+          </Link>
+        </div>
+        <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {featuredGuides.map((guide) => (
+            <article
+              key={guide.id}
+              className="flex h-full flex-col gap-4 rounded-[2rem] border border-babyBlue/25 bg-white/95 p-6 shadow-soft"
+            >
+              <header className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-heading text-xl text-blueberry">{guide.title}</h3>
+                  <p className="mt-2 text-sm font-body text-darkText/70">{guide.summary}</p>
+                </div>
+                <span className="whitespace-nowrap rounded-full bg-babyBlue/20 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.35em] text-blueberry/80">
+                  {guide.type}
+                </span>
+              </header>
+              <div className="mt-auto flex items-center justify-between text-xs font-heading uppercase tracking-[0.3em] text-darkText/40">
+                <span>Updated {guide.updated}</span>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+                >
+                  <DocumentArrowDownIcon className="h-4 w-4" aria-hidden="true" />
+                  Download
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-3">
+          <h2 className="font-heading text-2xl text-blueberry">Quick Reference Templates</h2>
+          <p className="text-sm font-body text-darkText/70">
+            Concierge staples you can duplicate and customize. Taylor will pre-fill details—just drop a note in Messages.
+          </p>
+        </div>
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          {quickReferences.map((item) => (
+            <article
+              key={item.id}
+              className="rounded-[2rem] border border-pastelPurple/40 bg-white px-5 py-6 text-left shadow-soft"
+            >
+              <span className="inline-flex items-center justify-center rounded-2xl border border-pastelPurple/40 bg-pastelPurple/30 p-3 text-blueberry">
+                <BookmarkSquareIcon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <h3 className="mt-4 font-heading text-lg text-blueberry">{item.title}</h3>
+              <p className="mt-2 text-sm font-body leading-relaxed text-darkText/70">{item.blurb}</p>
+              <Link
+                to="/client-portal/messages"
+                className="mt-4 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+              >
+                Personalize for me
               </Link>
             </article>
           ))}

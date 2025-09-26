@@ -31,16 +31,11 @@ const Navbar = () => {
   );
 
   useEffect(() => {
-    if (!location.hash) {
-      return;
-    }
+    if (!location.hash) return;
 
     const targetId = location.hash.replace("#", "");
     const targetElement = document.getElementById(targetId);
-
-    if (!targetElement) {
-      return;
-    }
+    if (!targetElement) return;
 
     window.requestAnimationFrame(() => {
       targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -49,7 +44,10 @@ const Navbar = () => {
   }, [location]);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMenuOpen) return undefined;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     const handleEscape = (event) => {
       if (event.key === "Escape") {
@@ -58,7 +56,10 @@ const Navbar = () => {
     };
 
     document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, [isMenuOpen]);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -96,24 +97,36 @@ const Navbar = () => {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-babyBlue/20 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-3 sm:px-6">
-        <Link to="/" className="flex items-center gap-3" onClick={closeMenu}>
-          <img
-            src={logoImage}
-            srcSet={`${logoImage} 1x, ${logoImage} 2x`}
-            alt="Taylor-Made Baby Co. logo"
-            className="h-12 w-auto rounded-full border border-babyBlue/25 bg-white p-2 shadow-soft"
-          />
-          <div className="leading-tight text-blueberry">
-            <span className="block font-heading text-xl">Taylor-Made Baby Co.</span>
-            <span className="text-xs font-body uppercase tracking-[0.4em] text-blueberry/70">
-              Baby Planning Concierge
-            </span>
-          </div>
-        </Link>
+    <header className="sticky top-0 z-50 border-b border-babyBlue/20 bg-white/95 shadow-sm">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 md:flex-nowrap">
+        <div className="flex w-full items-center justify-between gap-3 md:w-auto md:flex-1">
+          <Link to="/" className="flex min-w-0 flex-1 items-center gap-3" onClick={closeMenu}>
+            <img
+              src={logoImage}
+              srcSet={`${logoImage} 1x, ${logoImage} 2x`}
+              alt="Taylor-Made Baby Co. logo"
+              className="h-9 w-auto sm:h-12"
+            />
+            <div className="leading-tight text-blueberry">
+              <span className="block font-heading text-lg sm:text-xl">Taylor-Made Baby Co.</span>
+              <span className="hidden text-xs font-body uppercase tracking-[0.4em] text-blueberry/70 sm:block">
+                Baby Planning Concierge
+              </span>
+            </div>
+          </Link>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-full border border-babyBlue/40 bg-white p-2 text-blueberry shadow-soft transition duration-200 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((current) => !current)}
+          >
+            {isMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+          </button>
+        </div>
+
+        <nav className="hidden flex-1 items-center justify-center gap-6 md:flex" aria-label="Primary">
           <ul className="flex items-center gap-2">{navLinks.map(renderNavLink)}</ul>
         </nav>
 
@@ -142,71 +155,67 @@ const Navbar = () => {
             </button>
           )}
         </div>
-
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-full border border-babyBlue/40 bg-white p-2 text-blueberry shadow-soft transition duration-200 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
-          aria-label="Toggle navigation menu"
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((current) => !current)}
-        >
-          {isMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
-        </button>
       </div>
 
-      <div
-        className={`md:hidden transition-opacity duration-200 ${
-          isMenuOpen ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        <nav aria-label="Mobile" className="px-4 pb-6">
-          <ul className="space-y-3 rounded-3xl border border-babyBlue/30 bg-white/95 p-6 shadow-soft">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.to}
-                  onClick={(event) => handleAnchorNavigation(event, link)}
-                  className="block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry/80 transition hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70"
+      {isMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-midnight/20 backdrop-blur-sm md:hidden"
+            aria-hidden="true"
+            onClick={closeMenu}
+          />
+          <nav
+            aria-label="Mobile"
+            className="absolute left-0 right-0 top-full z-50 px-4 pb-6 md:hidden"
+          >
+            <ul className="space-y-3 rounded-3xl border border-babyBlue/30 bg-white/95 p-6 shadow-dreamy">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.to}
+                    onClick={(event) => handleAnchorNavigation(event, link)}
+                    className="block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry/80 transition hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+              <li className="pt-1">
+                <Link
+                  to="/request-invite"
+                  onClick={closeMenu}
+                  className="block rounded-full border border-babyBlue/30 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
                 >
-                  {link.label}
-                </a>
+                  Request Invite
+                </Link>
               </li>
-            ))}
-            <li>
-              <a
-                href="#request-invite"
-                onClick={(event) => handleAnchorNavigation(event, navLinks[3])}
-                className="block rounded-full border border-babyBlue/30 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
-              >
-                Request Invite
-              </a>
-            </li>
-            <li>
-              <Link
-                to={portalHome}
-                onClick={closeMenu}
-                className="block rounded-full border border-babyBlue/40 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-skyMist focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
-              >
-                {token ? "Portal" : "Member Login"}
-              </Link>
-            </li>
-            {token && (
               <li>
-                <button
-                  type="button"
-                  onClick={() => {
-                    logout();
-                    closeMenu();
-                  }}
-                  className="w-full rounded-full border border-blueberry/20 bg-blueberry/90 px-4 py-3 text-xs font-heading uppercase tracking-[0.35em] text-cream transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+                <Link
+                  to={portalHome}
+                  onClick={closeMenu}
+                  className="block rounded-full border border-babyBlue/40 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-skyMist focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
                 >
-                  Log Out
-                </button>
+                  {token ? "Portal" : "Member Login"}
+                </Link>
               </li>
-            )}
-          </ul>
-        </nav>
-      </div>
+              {token && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      closeMenu();
+                    }}
+                    className="w-full rounded-full border border-blueberry/20 bg-blueberry/90 px-4 py-3 text-xs font-heading uppercase tracking-[0.35em] text-cream transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+                  >
+                    Log Out
+                  </button>
+                </li>
+              )}
+            </ul>
+          </nav>
+        </>
+      )}
     </header>
   );
 };

@@ -16,7 +16,7 @@ const BlogHighlight = () => {
           </p>
         </div>
         <div className="md:w-1/3">
-          <div className="rounded-[2rem] border border-babyBlue/25 bg-softBeige/70 p-6 text-left shadow-soft">
+          <div className="surface-card bg-softBeige/70 text-left shadow-soft">
             <p className="text-xs font-heading uppercase tracking-[0.35em] text-blueberry/60">Featured Story</p>
             <h3 className="mt-2 text-xl font-heading text-blueberry">The Soft-Launch Registry Checklist</h3>
             <p className="mt-3 text-sm text-midnight/80">

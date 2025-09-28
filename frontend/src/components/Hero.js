@@ -130,7 +130,7 @@ const Hero = () => {
           ].map((item) => (
             <article
               key={item.title}
-            className="rounded-3xl bg-softBeige/70 p-4 text-left shadow-soft transition duration-200 hover:-translate-y-1 hover:shadow-dreamy"
+              className="rounded-3xl bg-softBeige/70 p-4 text-left shadow-soft transition duration-200 hover:-translate-y-1 hover:shadow-dreamy"
             >
               <h2 className="text-lg font-heading text-blueberry">{item.title}</h2>
               <p className="mt-1 text-sm text-midnight/70">{item.copy}</p>

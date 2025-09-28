@@ -9,15 +9,7 @@ import PrivateBlog from "./PrivateBlog";
 import ClientMessages from "./client/Messages";
 import Services from "./client/Services";
 import Memories from "./client/Memories";
-
-const Placeholder = ({ title }) => (
-  <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/90 p-8 text-center shadow-soft backdrop-blur-sm">
-    <h2 className="font-heading text-2xl text-blueberry">{title}</h2>
-    <p className="mt-4 text-sm font-body text-darkText/70">
-      This section is coming soon. Your concierge data will appear here once it is connected.
-    </p>
-  </section>
-);
+import Registry from "./client/Registry";
 
 const ClientPortal = () => {
   return (
@@ -50,9 +42,11 @@ const ClientPortal = () => {
             <Route index element={<Dashboard />} />
             <Route path="bio" element={<Bio />} />
             <Route path="journey" element={<MyJourney />} />
+            <Route path="registry" element={<Registry />} />
             <Route path="memories" element={<Memories />} />
             <Route path="bio/*" element={<Navigate to="/client-portal/bio" replace />} />
             <Route path="journey/*" element={<Navigate to="/client-portal/journey" replace />} />
+            <Route path="registry/*" element={<Navigate to="/client-portal/registry" replace />} />
             <Route path="memories/*" element={<Navigate to="/client-portal/memories" replace />} />
             <Route path="messages" element={<ClientMessages />} />
             <Route path="blog" element={<Navigate to="private-blog" replace />} />

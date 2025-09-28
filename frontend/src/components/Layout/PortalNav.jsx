@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 export const portalNavItems = [
   { to: "/client-portal", label: "Dashboard", end: true },
   { to: "/client-portal/journey", label: "Journey" },
+  { to: "/client-portal/registry", label: "Registry" },
   { to: "/client-portal/services", label: "Support Hub" },
   { to: "/client-portal/memories", label: "Memories" },
   { to: "/client-portal/messages", label: "Messages" },

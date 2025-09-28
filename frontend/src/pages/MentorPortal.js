@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { NavLink, useLocation, useNavigate, Routes, Route } from "react-router-dom";
 import api from "../lib/api";
+import RegistryBoard from "../components/registry/RegistryBoard";
 
 const notifications = [
   { id: 1, mentee: "Avery P.", detail: "New registry update submitted", time: "5m ago" },
@@ -225,6 +226,8 @@ const RegistrySupport = () => {
           ))}
         </ul>
       </section>
+
+      <RegistryBoard role="mentor" />
     </div>
   );
 };

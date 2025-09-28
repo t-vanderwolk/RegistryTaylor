@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PinterestBoardEmbed from "../../components/PinterestBoardEmbed";
 
 const initialMemories = [
   {
@@ -51,11 +52,6 @@ const Memories = () => {
       if (photoPreview) URL.revokeObjectURL(photoPreview);
     };
   }, [photoPreview]);
-
-  const highlightMemories = useMemo(
-    () => memories.slice(0, 3),
-    [memories]
-  );
 
   const handleNoteSubmit = (event) => {
     event.preventDefault();
@@ -248,6 +244,18 @@ const Memories = () => {
               )}
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/95 p-6 shadow-soft backdrop-blur-sm sm:p-8">
+        <div className="space-y-3">
+          <h2 className="font-heading text-2xl text-blueberry">Pin your inspiration</h2>
+          <p className="text-sm font-body text-darkText/70">
+            Drop the Pinterest board that captures your nursery vibe, shower dreams, or registry inspo. Taylor will reference it while curating your concierge plan.
+          </p>
+        </div>
+        <div className="mt-6">
+          <PinterestBoardEmbed />
         </div>
       </section>
 

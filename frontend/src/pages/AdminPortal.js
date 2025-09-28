@@ -13,6 +13,8 @@ import {
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import api from "../lib/api";
 import EmptyState from "../components/UI/EmptyState";
+import RegistryBoard from "../components/registry/RegistryBoard";
+import { useRegistryStore } from "../hooks/useRegistryStore";
 
 const EnvelopeIcon = ({ className = "" }) => (
   <svg
@@ -40,6 +42,7 @@ const NAV_ITEMS = [
   { id: "clients", label: "Clients", path: "clients", blurb: "Membership roster" },
   { id: "mentors", label: "Mentors", path: "mentors", blurb: "Concierge team" },
   { id: "calendar", label: "Calendar", path: "calendar", blurb: "Milestones & events" },
+  { id: "registry", label: "Registry", path: "registry", blurb: "Lists & gifting" },
   { id: "blog", label: "Blog Manager", path: "blog", blurb: "Posts & drafts" },
   { id: "services", label: "Services & Content", path: "services", blurb: "Packages and resources" },
   { id: "reports", label: "Reports", path: "reports", blurb: "Performance insights" },
@@ -1587,6 +1590,78 @@ const AdminCalendar = () => {
   );
 };
 
+/* ------------------ REGISTRY MANAGER ------------------ */
+const AdminRegistryManager = () => {
+  const { items } = useRegistryStore();
+
+  const summary = useMemo(() => {
+    const counts = items.reduce(
+      (acc, item) => {
+        const status = item.status || "planning";
+        acc.total += 1;
+        acc.byStatus[status] = (acc.byStatus[status] || 0) + 1;
+        if (item.link) acc.withLinks += 1;
+        return acc;
+      },
+      { total: 0, byStatus: {}, withLinks: 0 },
+    );
+
+    const collect = (...keys) => keys.reduce((total, key) => total + (counts.byStatus[key] || 0), 0);
+
+    return {
+      total: counts.total,
+      planning: collect("planning", "shortlist"),
+      inFlight: collect("ordered", "shipped"),
+      fulfilled: collect("delivered", "fulfilled"),
+      withLinks: counts.withLinks,
+    };
+  }, [items]);
+
+  const highlightCards = [
+    { label: "Total items", value: summary.total },
+    { label: "Active planning", value: summary.planning },
+    { label: "Ordered / shipped", value: summary.inFlight },
+    { label: "Fulfilled", value: summary.fulfilled },
+    { label: "With outside links", value: summary.withLinks },
+  ];
+
+  return (
+    <div className="space-y-8">
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-6 shadow-soft">
+        <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="text-xs font-heading uppercase tracking-[0.35em] text-slate-400">Concierge Snapshot</span>
+            <h1 className="font-playful text-3xl text-blueberry">Registry Overview</h1>
+            <p className="text-sm text-slate-500">
+              Monitor the shared registry workspace. Updates reflect instantly across client, mentor, and admin portals.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-babyPink/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyPink/20"
+          >
+            Add new item
+          </button>
+        </header>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+          {highlightCards.map((card) => (
+            <article
+              key={card.label}
+              className="rounded-2xl border border-babyBlue/30 bg-babyBlue/10 px-5 py-4 text-sm text-blueberry"
+            >
+              <p className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry/60">{card.label}</p>
+              <p className="mt-2 text-2xl font-heading">{card.value}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <RegistryBoard role="admin" />
+    </div>
+  );
+};
+
 /* ------------------ SERVICES & CONTENT ------------------ */
 const INITIAL_SERVICES = [
   {
@@ -2480,6 +2555,7 @@ const AdminPortal = () => {
               <Route path="mentors" element={<MentorDirectory />} />
               <Route path="messages" element={<AdminMessages />} />
               <Route path="calendar" element={<AdminCalendar />} />
+              <Route path="registry" element={<AdminRegistryManager />} />
               <Route path="blog" element={<BlogManager />} />
               <Route path="services" element={<ServicesContent />} />
               <Route path="reports" element={<ReportsOverview />} />

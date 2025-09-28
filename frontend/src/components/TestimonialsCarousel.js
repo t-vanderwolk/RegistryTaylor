@@ -35,6 +35,41 @@ My wife couldn’t be happier! Happy wife happy life!`,
     author: "Logan & Drew",
     detail: "Expecting twins",
   },
+  {
+    quote:
+      "Taylor was amazing explaining the differences in a few strollers and car seats. Highly recommend going here.",
+    author: "Sharon Kraft",
+  },
+  {
+    quote:
+      "Wonderful experience, I worked with Tayler and she was very knowledgeable and great to work with!",
+    author: "Emily Wingerter",
+  },
+  {
+    quote:
+      "Taylor was incredibly knowledgeable and very helpful. She walked us through set up, take down, and the various options. Her customer service was spot on and we left feeling like we made an excellent decision making our purchases. Highly recommend, especially for first time parents.",
+    author: "Charles David",
+  },
+  {
+    quote:
+      "Taylor was the gal who helped us find the stroller for our registry. She was so knowledgeable which was a big help as it's our first baby and we didn't know where to start.",
+    author: "Cara Warzecha",
+  },
+  {
+    quote:
+      "Great store. Lots of great brands available to try (even has a walkway with various surface and ramps to roll the strollers on). Taylor gave us amazing help. She was extremely knowledgeable and showed us more options than we would have known to ask about, which led to us changing what we wanted for a whole stroller/etc set up. Highly recommend.",
+    author: "Jennifer Robblee",
+  },
+  {
+    quote:
+      "My husband and I had a great experience at Strolleria thanks to Taylor! We came in not knowing what we wanted and Taylor listened to our preferences/lifestyle and provided us with great recommendations. With Taylor's guidance we picked a stroller and car seat and she definitely made the process less overwhelming for us.",
+    author: "Talie Walsh",
+  },
+  {
+    quote:
+      "We found the perfect stroller and car seat for our growing family with Taylor's help. She is truly a wealth of knowledge and did a fantastic job educating us and guiding us in the right direction based on our individual needs and preferences. Not only did we leave feeling confident in our selections, but Taylor made the entire process fun and exciting. I cannot recommend Taylor and Strolleria more highly for all your baby gear needs.",
+    author: "Caihlan Snyder",
+  },
 ];
 
 const TestimonialsCarousel = () => {

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext";
-import logoImage from "../assets/taylor-made-logo.png";
 
 const Navbar = () => {
   const { token, role, logout } = useAuth();
@@ -111,80 +110,86 @@ const Navbar = () => {
     }
   };
 
-  const renderNavLink = (link) => (
-    <li key={link.label}>
-      <a
-        href={link.to}
-        onClick={(event) => handleAnchorNavigation(event, link)}
-        className="relative inline-flex items-center rounded-full px-4 py-2 text-sm font-heading uppercase tracking-[0.3em] text-blueberry/80 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70 focus-visible:ring-offset-2 focus-visible:ring-offset-softBeige hover:text-blueberry"
-      >
-        {link.label}
-      </a>
-    </li>
-  );
-
   return (
-    <header className="sticky top-0 z-50 border-b border-babyBlue/20 bg-white/95 shadow-sm">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 md:flex-nowrap">
-        <div className="flex w-full items-center justify-between gap-3 md:w-auto md:flex-1">
-          <Link to="/" className="flex min-w-0 flex-1 items-center gap-3" onClick={handleHomeClick}>
-            <img
-              src={logoImage}
-              srcSet={`${logoImage} 1x, ${logoImage} 2x`}
-              alt="Taylor-Made Baby Co. logo"
-              className="h-9 w-auto sm:h-12"
-            />
-            <div className="leading-tight text-blueberry">
-              <span className="block font-heading text-lg sm:text-xl">Taylor-Made Baby Co.</span>
-              <span className="hidden text-xs font-body uppercase tracking-[0.4em] text-blueberry/70 sm:block">
-                Baby Planning Concierge
+    <header className="sticky top-0 z-50 bg-transparent">
+      <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6">
+        <div className="relative flex items-center justify-between gap-4 rounded-full border border-babyPink/40 bg-white/75 px-4 py-3 shadow-dreamy backdrop-blur-xl sm:px-6 md:px-8">
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+            onClick={handleHomeClick}
+          >
+            <span
+              aria-hidden="true"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-babyPink/55 bg-white/90 shadow-soft"
+            >
+              <span className="flex items-center gap-1">
+                <span className="font-script text-[1.5rem] leading-none text-blueberry/90">T</span>
+                <span className="font-script text-[1.25rem] leading-none text-babyPink/80">M</span>
               </span>
-            </div>
+            </span>
+            <span className="hidden text-xs font-babyco uppercase tracking-[0.38em] text-blueberry/65 sm:inline">
+              Registry Concierge
+            </span>
+            <span className="sr-only">Return to home</span>
           </Link>
+
+          <nav className="hidden flex-1 justify-center md:flex" aria-label="Primary">
+            <ul className="flex items-center gap-1">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.to}
+                    onClick={(event) => handleAnchorNavigation(event, link)}
+                    className="group relative inline-flex items-center rounded-full px-4 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry/75 transition hover:text-blueberry focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  >
+                    <span className="absolute inset-x-2 bottom-1 h-1 rounded-full bg-babyPink/60 opacity-0 transition group-hover:opacity-100" aria-hidden="true" />
+                    <span className="relative">{link.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="hidden items-center gap-3 md:flex">
+            <a
+              href="#request-invite"
+              onClick={(event) => {
+                if (requestInviteLink) {
+                  handleAnchorNavigation(event, requestInviteLink);
+                }
+              }}
+              className="inline-flex items-center justify-center rounded-full border border-babyPink/55 bg-white px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-babyPink/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              aria-label="Request an invite"
+            >
+              Request Invite
+            </a>
+            <Link
+              to={portalHome}
+              className="inline-flex items-center justify-center rounded-full border border-babyPink/55 bg-blueberry/90 px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-cream shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            >
+              {token ? "Portal" : "Member Login"}
+            </Link>
+            {token && (
+              <button
+                type="button"
+                onClick={logout}
+                className="inline-flex items-center justify-center rounded-full border border-babyPink/45 bg-white/85 px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-babyPink/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              >
+                Log Out
+              </button>
+            )}
+          </div>
 
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full border border-babyBlue/40 bg-white p-2 text-blueberry shadow-soft transition duration-200 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
+            className="inline-flex items-center justify-center rounded-full border border-babyPink/55 bg-white/85 p-2 text-blueberry shadow-soft transition duration-200 hover:bg-babyPink/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((current) => !current)}
           >
             {isMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
           </button>
-        </div>
-
-        <nav className="hidden flex-1 items-center justify-center gap-6 md:flex" aria-label="Primary">
-          <ul className="flex items-center gap-2">{navLinks.map(renderNavLink)}</ul>
-        </nav>
-
-        <div className="hidden items-center gap-3 md:flex">
-          <a
-            href="#request-invite"
-            onClick={(event) => {
-              if (requestInviteLink) {
-                handleAnchorNavigation(event, requestInviteLink);
-              }
-            }}
-            className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            aria-label="Request an invite"
-          >
-            Request Invite
-          </a>
-          <Link
-            to={portalHome}
-            className="inline-flex items-center justify-center rounded-full border border-babyBlue/40 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-skyMist focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-          >
-            {token ? "Portal" : "Member Login"}
-          </Link>
-          {token && (
-            <button
-              type="button"
-              onClick={logout}
-              className="inline-flex items-center justify-center rounded-full border border-blueberry/15 bg-blueberry/90 px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-cream shadow-soft transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              Log Out
-            </button>
-          )}
         </div>
       </div>
 
@@ -197,15 +202,15 @@ const Navbar = () => {
           />
           <nav
             aria-label="Mobile"
-            className="absolute left-0 right-0 top-full z-50 px-4 pb-6 md:hidden"
+            className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-50 md:hidden"
           >
-            <ul className="space-y-3 rounded-3xl border border-babyBlue/30 bg-white/95 p-6 shadow-dreamy">
+            <ul className="space-y-3 rounded-[2.5rem] border border-babyPink/55 bg-white/95 p-6 shadow-dreamy backdrop-blur">
               {navLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.to}
                     onClick={(event) => handleAnchorNavigation(event, link)}
-                    className="block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry/80 transition hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70"
+                    className="block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry/80 transition hover:bg-babyPink/35 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
                   >
                     {link.label}
                   </a>
@@ -215,7 +220,7 @@ const Navbar = () => {
                 <Link
                   to="/request-invite"
                   onClick={closeMenu}
-                  className="block rounded-full border border-babyBlue/30 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+                  className="block rounded-full border border-babyPink/55 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
                 >
                   Request Invite
                 </Link>
@@ -224,7 +229,7 @@ const Navbar = () => {
                 <Link
                   to={portalHome}
                   onClick={closeMenu}
-                  className="block rounded-full border border-babyBlue/40 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-skyMist focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+                  className="block rounded-full border border-babyPink/55 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
                 >
                   {token ? "Portal" : "Member Login"}
                 </Link>
@@ -237,7 +242,7 @@ const Navbar = () => {
                       logout();
                       closeMenu();
                     }}
-                    className="w-full rounded-full border border-blueberry/20 bg-blueberry/90 px-4 py-3 text-xs font-heading uppercase tracking-[0.35em] text-cream transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+                    className="w-full rounded-full border border-babyPink/55 bg-blueberry/90 px-4 py-3 text-xs font-heading uppercase tracking-[0.35em] text-cream transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
                   >
                     Log Out
                   </button>

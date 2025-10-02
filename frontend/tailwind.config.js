@@ -23,7 +23,9 @@ module.exports = {
         heading: ["'Playfair Display'", "serif"],
         body: ["'Inter'", "sans-serif"],
         playful: ["'Playfair Display'", "serif"],
-        blocky: ["'Inter'", "sans-serif"]
+        blocky: ["'Inter'", "sans-serif"],
+        script: ["'Great Vibes'", "cursive"],
+        babyco: ["'Cormorant Garamond'", "serif"]
       },
       boxShadow: {
         toy: "0 6px 12px rgba(0, 0, 0, 0.08)",

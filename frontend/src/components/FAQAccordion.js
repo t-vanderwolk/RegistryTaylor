@@ -25,35 +25,40 @@ const FAQAccordion = () => {
     <section
       id="faq"
       tabIndex="-1"
-    className="mx-auto mt-14 max-w-5xl surface-panel p-8"
+      className="relative mx-auto mt-20 max-w-5xl overflow-hidden rounded-[3rem] border border-babyBlue/20 bg-white/90 px-6 py-14 shadow-soft backdrop-blur-sm sm:px-10"
     >
-      <header className="text-center">
-        <p className="text-xs font-heading uppercase tracking-[0.5em] text-blueberry/70">
+      <div className="pointer-events-none absolute -right-24 top-10 h-56 w-56 rounded-full bg-babyBlue/30 blur-3xl" aria-hidden="true" />
+
+      <header className="relative text-center">
+        <p className="text-xs font-heading uppercase tracking-[0.55em] text-blueberry/70">
           Curious Minds
         </p>
-        <h2 className="mt-3 text-3xl font-heading text-blueberry">Frequently Asked Questions</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm text-midnight/70">
-          Transparency first—here are a few favorites from expectant parents when they reach out to Taylor.
+        <h2 className="mt-4 text-3xl font-heading text-blueberry sm:text-4xl">Frequently Asked Questions</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-midnight/75">
+          A few of the thoughtful questions parents ask before joining our concierge family.
         </p>
       </header>
-      <div className="mt-8 space-y-4">
+      <div className="relative mt-8 space-y-4">
         {questions.map((item, index) => {
           const isOpen = activeIndex === index;
           const panelId = `faq-panel-${index}`;
           const buttonId = `faq-control-${index}`;
 
           return (
-            <article key={item.question} className="rounded-3xl border border-babyBlue/20 bg-softBeige/60 p-4 shadow-soft">
+            <article
+              key={item.question}
+              className="rounded-[2.6rem] border border-babyBlue/25 bg-white/80 p-5 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-dreamy"
+            >
               <button
                 id={buttonId}
                 type="button"
-                className="flex w-full items-center justify-between gap-4 text-left text-base font-heading text-blueberry focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70 focus-visible:ring-offset-2 focus-visible:ring-offset-softBeige"
+                className="flex w-full items-center justify-between gap-4 text-left text-base font-heading text-blueberry focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setActiveIndex((current) => (current === index ? -1 : index))}
               >
                 {item.question}
-                <span className="text-2xl text-blueberry">{isOpen ? "−" : "+"}</span>
+                <span className="text-2xl text-blueberry/70">{isOpen ? "−" : "+"}</span>
               </button>
               <div
                 id={panelId}
@@ -63,7 +68,7 @@ const FAQAccordion = () => {
                   isOpen ? "max-h-60" : "max-h-0 overflow-hidden"
                 }`}
               >
-                <p className="pr-2 text-sm leading-relaxed">{item.answer}</p>
+                <p className="pr-2 text-sm leading-relaxed text-midnight/75">{item.answer}</p>
               </div>
             </article>
           );

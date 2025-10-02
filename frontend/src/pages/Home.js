@@ -10,7 +10,7 @@ import ConsultationSection from "../components/ConsultationSection";
 
 const Home = () => {
   return (
-    <div className="relative space-y-10 pb-24 sm:space-y-16">
+    <div className="relative space-y-16 pb-24 sm:space-y-20">
       <Hero />
       <HowItWorks />
       <section className="mx-auto max-w-5xl surface-panel" aria-labelledby="booking-heading">

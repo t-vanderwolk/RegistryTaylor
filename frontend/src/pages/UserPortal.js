@@ -24,10 +24,10 @@ const notes = [
   { id: 32, mentor: "Registry With Taylor", message: "VIP retailer has new drop next Monday—recommend early reservation.", timestamp: "Yesterday" },
 ];
 
-const Journal = () => (
+const BlogSection = () => (
   <section className="space-y-4">
     <header className="space-y-1">
-      <h2 className="font-heading text-lg text-blueberry">Taylor-Made Journal</h2>
+      <h2 className="font-heading text-lg text-blueberry">Taylor-Made Blog</h2>
       <p className="text-sm font-body text-darkText/70">Seasonal reminders, registry highlights, and concierge notes tailored to your due date.</p>
     </header>
     <div className="grid gap-4 md:grid-cols-2">
@@ -236,7 +236,7 @@ const UserPortal = () => {
           </p>
         </section>
 
-        <Journal />
+        <BlogSection />
         <Schedule />
         <Wishlist />
         <MentorNotes />

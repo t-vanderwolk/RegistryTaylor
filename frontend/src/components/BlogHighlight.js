@@ -14,16 +14,16 @@ const BlogHighlight = () => {
         <div className="space-y-6 text-center md:text-left">
           <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">Pastel Perspectives</p>
           <h2 className="text-4xl font-serif font-heading text-blueberry">
-            Visit the <span className="font-cursive text-primary">Taylor-Made</span> Journal
+            Visit the <span className="font-cursive text-primary">Taylor-Made</span> Blog
           </h2>
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-neutral-600 md:mx-0">
-            Swing by the journal for real registry picks, nursery ideas, and planning tips. It’s our way of keeping baby prep fun, calm, and on your terms.
+            Swing by the blog for real registry picks, nursery ideas, and planning tips. It’s our way of keeping baby prep fun, calm, and on your terms.
           </p>
           <Link
             to="/blog"
             className="inline-flex items-center justify-center rounded-full border border-babyBlue/35 bg-white px-9 py-3 text-xs font-heading uppercase tracking-[0.4em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
-            Explore the Journal
+            Explore the Blog
           </Link>
         </div>
 

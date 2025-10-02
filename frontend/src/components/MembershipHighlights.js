@@ -25,7 +25,7 @@ const MembershipHighlights = () => (
   <section
     id="membership"
     tabIndex="-1"
-    className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-[3.5rem] border border-babyPink/40 bg-gradient-to-br from-white via-babyPink/12 to-white px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:px-16"
+    className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-[3.5rem] border border-babyPink/40 bg-softMint/50 px-6 py-16 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10 md:px-16"
   >
     <div className="pointer-events-none absolute -top-28 left-24 h-72 w-72 rounded-full bg-babyPink/30 blur-3xl" aria-hidden="true" />
     <div className="pointer-events-none absolute -bottom-32 right-16 h-80 w-80 rounded-full bg-babyPink/28 blur-3xl" aria-hidden="true" />
@@ -33,15 +33,17 @@ const MembershipHighlights = () => (
 
     <div className="relative grid gap-12 md:grid-cols-[1.1fr,0.9fr] md:items-center">
       <div className="space-y-6 text-center md:text-left">
-        <p className="text-xs font-heading uppercase tracking-[0.55em] text-blueberry/70">Membership</p>
-        <h2 className="text-4xl font-heading text-blueberry sm:text-5xl">The Taylor-Made Membership</h2>
+        <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">Membership</p>
+        <h2 className="text-4xl font-serif font-heading text-blueberry sm:text-5xl">
+          The <span className="font-cursive text-primary">Taylor-Made</span> Membership
+        </h2>
         <span className="gold-divider md:ml-0" aria-hidden="true" />
-        <p className="mx-auto max-w-xl text-base leading-relaxed text-midnight/75 md:mx-0">
+        <p className="mx-auto max-w-xl text-base leading-relaxed text-neutral-600 md:mx-0">
           Memberships are invitation-only and run seasonally, meeting you where you are. You’ll get hands-on planning, trusted vendor recs, and an easy place to keep decisions sorted.
         </p>
         <Link
           to="/membership"
-          className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-white px-10 py-3 text-xs font-heading uppercase tracking-[0.4em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/45 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-white px-10 py-3 text-xs font-heading uppercase tracking-[0.4em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/45 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
         >
           View Membership Guide
         </Link>
@@ -61,10 +63,10 @@ const MembershipHighlights = () => (
       {perks.map((perk) => (
         <article
           key={perk.title}
-          className="rounded-[2.8rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-dreamy"
+          className="rounded-[2.8rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-white hover:shadow-md"
         >
-          <h3 className="text-xl font-heading text-blueberry">{perk.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-midnight/75">{perk.description}</p>
+          <h3 className="text-xl font-serif font-heading text-blueberry">{perk.title}</h3>
+          <p className="mt-3 text-sm leading-relaxed text-neutral-600">{perk.description}</p>
         </article>
       ))}
     </div>

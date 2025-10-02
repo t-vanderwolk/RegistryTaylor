@@ -111,27 +111,29 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-transparent">
+    <header className="sticky top-0 z-50 bg-white/65 backdrop-blur-md transition-shadow">
       <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6">
-        <div className="relative flex items-center justify-between gap-4 rounded-full border border-babyPink/40 bg-white/75 px-4 py-3 shadow-dreamy backdrop-blur-xl sm:px-6 md:px-8">
+        <div className="relative flex items-center justify-between gap-4 rounded-full border border-primary/25 bg-white/90 px-4 py-3 shadow-soft ring-1 ring-white/60 sm:px-6 md:px-8">
+          <div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-softPink/45 via-white/85 to-softMint/45" aria-hidden="true" />
           <Link
             to="/"
-            className="flex items-center gap-3"
+            className="group flex items-center gap-3 rounded-full border border-primary/30 bg-white/90 px-3 py-2 transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            aria-label="Return to Taylor-Made Baby Co. home"
             onClick={handleHomeClick}
           >
             <span
               aria-hidden="true"
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-babyPink/55 bg-white/90 shadow-soft"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-primary/35 bg-softPink/50 shadow-soft transition group-hover:scale-105"
             >
               <span className="flex items-center gap-1">
-                <span className="font-script text-[1.5rem] leading-none text-blueberry/90">T</span>
-                <span className="font-script text-[1.25rem] leading-none text-babyPink/80">M</span>
+                <span className="font-cursive text-[1.45rem] leading-none text-primary">T</span>
+                <span className="font-cursive text-[1.2rem] leading-none text-primary/75">M</span>
               </span>
             </span>
-            <span className="hidden text-xs font-babyco uppercase tracking-[0.38em] text-blueberry/65 sm:inline">
-              Registry Concierge
+            <span className="hidden flex-col leading-tight text-left sm:flex">
+              <span className="font-cursive text-xl leading-none text-primary">Taylor-Made</span>
+              <span className="mt-1 text-[0.62rem] font-serif uppercase tracking-[0.32em] text-neutral-600">Baby Co.</span>
             </span>
-            <span className="sr-only">Return to home</span>
           </Link>
 
           <nav className="hidden flex-1 justify-center md:flex" aria-label="Primary">
@@ -141,9 +143,9 @@ const Navbar = () => {
                   <a
                     href={link.to}
                     onClick={(event) => handleAnchorNavigation(event, link)}
-                    className="group relative inline-flex items-center rounded-full px-4 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry/75 transition hover:text-blueberry focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    className="group relative inline-flex items-center rounded-full px-4 py-2 text-[0.7rem] font-heading uppercase tracking-[0.32em] text-neutral-600 transition hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                   >
-                    <span className="absolute inset-x-2 bottom-1 h-1 rounded-full bg-babyPink/60 opacity-0 transition group-hover:opacity-100" aria-hidden="true" />
+                    <span className="absolute inset-x-2 bottom-1 h-1 rounded-full bg-primary/60 opacity-0 transition group-hover:opacity-100" aria-hidden="true" />
                     <span className="relative">{link.label}</span>
                   </a>
                 </li>
@@ -159,14 +161,14 @@ const Navbar = () => {
                   handleAnchorNavigation(event, requestInviteLink);
                 }
               }}
-              className="inline-flex items-center justify-center rounded-full border border-babyPink/55 bg-white px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-babyPink/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               aria-label="Request an invite"
             >
               Request Invite
             </a>
             <Link
               to={portalHome}
-              className="inline-flex items-center justify-center rounded-full border border-babyPink/55 bg-blueberry/90 px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-cream shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="inline-flex items-center justify-center rounded-full border border-primary/30 bg-white px-6 py-2 text-xs font-heading uppercase tracking-[0.32em] text-primary shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               {token ? "Portal" : "Member Login"}
             </Link>
@@ -174,7 +176,7 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={logout}
-                className="inline-flex items-center justify-center rounded-full border border-babyPink/45 bg-white/85 px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-babyPink/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                className="inline-flex items-center justify-center rounded-full border border-primary/20 bg-white/85 px-6 py-2 text-xs font-heading uppercase tracking-[0.32em] text-neutral-600 shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softMint/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
                 Log Out
               </button>
@@ -183,7 +185,7 @@ const Navbar = () => {
 
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full border border-babyPink/55 bg-white/85 p-2 text-blueberry shadow-soft transition duration-200 hover:bg-babyPink/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
+            className="inline-flex items-center justify-center rounded-full border border-primary/30 bg-white/90 p-2.5 text-primary shadow-soft transition duration-200 hover:scale-105 hover:bg-softPink/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((current) => !current)}
@@ -196,7 +198,7 @@ const Navbar = () => {
       {isMenuOpen && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-midnight/20 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-primary/20 backdrop-blur-sm md:hidden"
             aria-hidden="true"
             onClick={closeMenu}
           />
@@ -204,13 +206,13 @@ const Navbar = () => {
             aria-label="Mobile"
             className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-50 md:hidden"
           >
-            <ul className="space-y-3 rounded-[2.5rem] border border-babyPink/55 bg-white/95 p-6 shadow-dreamy backdrop-blur">
+            <ul className="space-y-3 rounded-[2.5rem] border border-primary/30 bg-white/96 p-6 shadow-dreamy backdrop-blur">
               {navLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.to}
                     onClick={(event) => handleAnchorNavigation(event, link)}
-                    className="block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] text-blueberry/80 transition hover:bg-babyPink/35 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
+                    className="block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.32em] text-neutral-600 transition hover:bg-softPink/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   >
                     {link.label}
                   </a>
@@ -220,7 +222,7 @@ const Navbar = () => {
                 <Link
                   to="/request-invite"
                   onClick={closeMenu}
-                  className="block rounded-full border border-babyPink/55 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
+                  className="block rounded-full bg-primary px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-0.5 hover:scale-105 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
                 >
                   Request Invite
                 </Link>
@@ -229,7 +231,7 @@ const Navbar = () => {
                 <Link
                   to={portalHome}
                   onClick={closeMenu}
-                  className="block rounded-full border border-babyPink/55 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.35em] text-blueberry transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
+                  className="block rounded-full border border-primary/30 bg-white px-4 py-3 text-center text-xs font-heading uppercase tracking-[0.32em] text-primary transition hover:-translate-y-0.5 hover:scale-105 hover:bg-softPink/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 >
                   {token ? "Portal" : "Member Login"}
                 </Link>
@@ -242,7 +244,7 @@ const Navbar = () => {
                       logout();
                       closeMenu();
                     }}
-                    className="w-full rounded-full border border-babyPink/55 bg-blueberry/90 px-4 py-3 text-xs font-heading uppercase tracking-[0.35em] text-cream transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-midnight focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/60"
+                    className="w-full rounded-full border border-primary/30 bg-white/90 px-4 py-3 text-xs font-heading uppercase tracking-[0.32em] text-neutral-600 transition hover:-translate-y-0.5 hover:scale-105 hover:bg-softMint/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                   >
                     Log Out
                   </button>

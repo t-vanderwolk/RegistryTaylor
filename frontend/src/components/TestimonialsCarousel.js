@@ -103,30 +103,33 @@ const TestimonialsCarousel = () => {
     <section
       id="testimonials"
       tabIndex="-1"
-      className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-[3.75rem] border border-babyPink/40 bg-gradient-to-br from-babyPink/18 via-white/90 to-softBeige/70 px-6 py-16 text-blueberry shadow-soft backdrop-blur-lg sm:px-10 md:px-16"
+      className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-[3.75rem] border border-babyPink/40 bg-gradient-to-br from-babyPink/18 via-white/90 to-softBeige/70 px-6 py-16 text-blueberry shadow-soft backdrop-blur-lg motion-safe:animate-fade-in-up sm:px-10 md:px-16"
     >
       <div className="pointer-events-none absolute -left-28 top-10 h-64 w-64 rounded-full bg-babyPink/40 blur-3xl" aria-hidden="true" />
       <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-babyPink/28 blur-3xl" aria-hidden="true" />
 
       <header className="relative text-center">
-        <p className="text-xs font-heading uppercase tracking-[0.55em] text-blueberry/60">Private Praise</p>
-        <h2 className="mt-4 text-4xl font-heading text-blueberry sm:text-5xl">Kind Words from Taylor’s Families</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-midnight/70">
+        <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">Private Praise</p>
+        <h2 className="mt-4 text-4xl font-serif font-heading text-blueberry sm:text-5xl">Kind Words from Taylor’s Families</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-neutral-600">
           We get to celebrate big milestones with our clients. Here’s what they’ve said once the nursery is ready and the party lights are down.
         </p>
       </header>
 
       <div className="relative mt-12 grid gap-10 md:grid-cols-[1.05fr,0.75fr] md:items-center">
-        <figure className="relative overflow-hidden rounded-[3rem] border border-babyPink/35 bg-white/88 p-8 text-center shadow-soft backdrop-blur" aria-live="polite">
-          <span className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full border border-babyPink/50 bg-babyPink/20 text-4xl text-blueberry/70">
+        <figure className="relative overflow-hidden rounded-[3rem] border border-babyPink/35 bg-white/88 p-10 text-left shadow-soft backdrop-blur" aria-live="polite">
+          <span
+            className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full border border-primary/40 bg-softPink/70 text-4xl text-primary/80"
+            aria-hidden="true"
+          >
             “
           </span>
-          <blockquote className="mt-6 space-y-4 text-lg leading-relaxed text-midnight/80">
+          <blockquote className="space-y-4 rounded-lg border-l-4 border-primary bg-softBeige/40 p-6 text-base italic leading-relaxed text-neutral-600 shadow-[0_10px_30px_-24px_rgba(89,68,87,0.35)] sm:text-lg">
             {paragraphs.map((paragraph, paragraphIndex) => (
               <p key={paragraphIndex}>{paragraph}</p>
             ))}
           </blockquote>
-          <figcaption className="mt-6 text-sm font-heading uppercase tracking-[0.45em] text-blueberry/60">
+          <figcaption className="mt-6 text-sm font-heading uppercase tracking-[0.32em] text-primary/80">
             {detail ? `${author} · ${detail}` : author}
           </figcaption>
         </figure>
@@ -141,21 +144,21 @@ const TestimonialsCarousel = () => {
             />
           </div>
           <div>
-            <p className="text-[0.7rem] font-heading uppercase tracking-[0.45em] text-blueberry/60">Why families love us</p>
-            <ul className="mt-4 space-y-3 text-sm text-midnight/75">
+            <p className="text-[0.7rem] font-heading uppercase tracking-[0.32em] text-primary/80">Why families love us</p>
+            <ul className="mt-4 space-y-3 text-sm text-neutral-600">
               <li>• 140+ families supported with registries tailored to their lifestyle.</li>
               <li>• Trusted help getting nurseries ready across Phoenix and beyond.</li>
               <li>• Clear schedules and updates so you can relax and enjoy the ride.</li>
             </ul>
           </div>
           <div className="rounded-[2.5rem] border border-babyBlue/25 bg-gradient-to-br from-softBeige/70 via-white to-babyPink/25 px-6 py-5">
-            <p className="text-xs font-heading uppercase tracking-[0.45em] text-blueberry/60">Request a private consultation</p>
+            <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">Request a private consultation</p>
             <p className="mt-2 font-babyco text-base text-blueberry">
               Ready for a calmer plan? Taylor will walk you through what’s possible and build a path that fits your family.
             </p>
             <Link
               to="/testimonials"
-              className="mt-4 inline-flex items-center justify-center rounded-full border border-babyBlue/35 bg-white px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+              className="mt-4 inline-flex items-center justify-center rounded-full border border-babyBlue/35 bg-white px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-105 hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
             >
               Read More Stories
             </Link>

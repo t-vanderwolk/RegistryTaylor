@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SparklesIcon } from "@heroicons/react/24/outline";
-import Section from "../components/UI/Section";
 import EmptyState from "../components/UI/EmptyState";
 import api from "../lib/api";
+import blogHeroImage from "../assets/nursery-1.jpeg";
+import blogImageOne from "../assets/happy-baby.jpeg";
+import blogImageTwo from "../assets/mom-support.jpeg";
+import blogImageThree from "../assets/video-chat.jpeg";
+import blogImageFour from "../assets/baby-blanket.jpeg";
 
 const fallbackPosts = [
   {
@@ -13,7 +17,7 @@ const fallbackPosts = [
     category: "Registry",
     excerpt:
       "From carriers to bottles, here’s what parents actually reach for every day—and what can stay on the shelf.",
-    visibility: 'public',
+    visibility: "public",
   },
   {
     id: "nursery-that-grows",
@@ -22,9 +26,11 @@ const fallbackPosts = [
     category: "Nursery",
     excerpt:
       "Set up a calm, functional space that transitions smoothly from newborn naps to toddler play.",
-    visibility: 'public',
+    visibility: "public",
   },
 ];
+
+const blogGallery = [blogImageOne, blogImageTwo, blogImageThree, blogImageFour];
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -117,7 +123,7 @@ const Blog = () => {
           email: undefined,
           question: payload.question,
           answer: null,
-          status: 'pending',
+          status: "pending",
           created_at: new Date().toISOString(),
         },
         ...current,
@@ -135,152 +141,228 @@ const Blog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream via-pastelPurple/15 to-cream text-darkText">
-      <Section title="Taylor-Made Blog" center tightTop compact className="bg-white/75">
-        <div className="mx-auto flex max-w-4xl flex-col items-center space-y-10 text-center">
-          <p className="font-body text-lg leading-relaxed text-darkText/75 sm:text-xl">
-            Cozy up with planning tips, product roundups, and gentle encouragement as you prepare for baby. These highlights give you a taste of the support my clients enjoy inside the Taylor-Made experience.
+    <div className="relative space-y-16 pb-24 pt-16 sm:space-y-20">
+      <section className="relative mx-auto max-w-6xl overflow-hidden rounded-[3.5rem] border border-primary/30 bg-softPink px-6 py-16 text-center shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+        <img
+          src={blogHeroImage}
+          alt="Curated nursery with pastel accents"
+          className="absolute inset-0 h-full w-full object-cover opacity-25"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-white/70" aria-hidden="true" />
+        <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Taylor-Made Blog</p>
+          <h1 className="flex flex-col items-center gap-2 text-4xl text-blueberry sm:text-5xl md:text-6xl">
+            <span className="font-cursive text-primary drop-shadow-sm sm:text-6xl md:text-7xl">Taylor-Made</span>
+            <span className="font-serif uppercase tracking-[0.32em] text-sm text-neutral-700 sm:text-base md:text-lg">Baby Co. Blog</span>
+          </h1>
+          <p className="text-base leading-relaxed text-neutral-600 sm:text-lg">
+            Cozy up with registry insights, nursery styling diaries, and concierge tips curated to keep your planning calm, personal, and joyfully on pace.
           </p>
           {loadingPosts && posts.length === 0 && (
-            <p className="text-sm text-darkText/60">Loading latest posts…</p>
+            <p className="text-sm text-neutral-500">Loading the latest pastel pages…</p>
           )}
+          <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
+            <Link
+              to="/membership"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
+            >
+              Explore Memberships
+            </Link>
+            <a
+              href="#qa"
+              className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-primary shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink"
+            >
+              Ask a Question
+            </a>
+          </div>
         </div>
-      </Section>
+      </section>
 
-      <Section tightTop compact className="bg-white/85">
-        <div className="grid gap-8 md:grid-cols-2">
+      <section className="mx-auto max-w-6xl space-y-8 rounded-[3.25rem] border border-primary/25 bg-white px-6 py-14 shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+        <header className="text-center">
+          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Fresh Highlights</p>
+          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">
+            Latest on the <span className="font-cursive text-primary">Taylor-Made</span> Blog
+          </h2>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
+            These stories offer a glimpse inside the concierge experience. From product picks to celebration playbooks, each one carries Taylor’s signature attention to detail.
+          </p>
+        </header>
+        <div className="space-y-6">
           {posts.map((post, index) => (
             <article
               key={post.slug || post.id || `post-${index}`}
-              className="rounded-3xl border border-pastelPurple/30 bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-dreamy"
+              className="group flex flex-col overflow-hidden rounded-[2.5rem] border border-primary/20 bg-white text-left shadow-soft transition duration-300 hover:-translate-y-2 hover:shadow-md"
             >
-              <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.3em] text-darkText/60">
-                <span>{post.category}</span>
-                {post.visibility === 'members_only' && (
-                  <span className="text-gold flex items-center gap-1">🔒 Members Only</span>
+              <figure className="relative h-64 w-full overflow-hidden">
+                <img
+                  src={blogGallery[index % blogGallery.length]}
+                  alt={post.title || "Taylor-Made blog story"}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </figure>
+              <div className="flex flex-wrap items-center justify-between gap-3 px-8 pt-6 text-[0.7rem] font-heading uppercase tracking-[0.28em] text-neutral-500">
+                <span>{post.category || "Blog"}</span>
+                {post.visibility === "members_only" && <span className="flex items-center gap-1 text-primary">🔒 Members Only</span>}
+              </div>
+              <div className="space-y-4 px-8 pb-6">
+                <h3 className="text-3xl font-serif text-blueberry sm:text-4xl">{post.title}</h3>
+                {post.excerpt && (
+                  <p className="text-base leading-relaxed text-neutral-600 sm:text-lg">{post.excerpt}</p>
                 )}
               </div>
-              <h3 className="mt-3 font-heading text-2xl font-semibold text-blueberry">{post.title}</h3>
-              {post.excerpt && (
-                <p className="mt-4 font-body text-sm leading-relaxed text-darkText/70">{post.excerpt}</p>
-              )}
-              <div className="mt-5 flex items-center gap-3">
-                {post.visibility === 'members_only' ? (
+              <div className="flex flex-wrap items-center gap-4 px-8 pb-8">
+                {post.visibility === "members_only" ? (
                   <button
                     type="button"
                     onClick={navigateToPrivateBlog}
-                    className="inline-flex items-center bg-transparent text-sm font-heading uppercase tracking-[0.18em] text-gold underline hover:text-blueberry"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
                   >
                     Enter Private Blog
                   </button>
                 ) : (
                   <Link
                     to={`/blog/${post.slug || post.id}`}
-                    className="inline-flex items-center text-sm font-heading uppercase tracking-[0.18em] text-gold underline hover:text-blueberry"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
                   >
-                    Read More →
+                    Read Article
                   </Link>
                 )}
+                <span className="text-xs font-heading uppercase tracking-[0.28em] text-neutral-400">
+                  {post.readLength ? `${post.readLength} read` : "Concierge insights"}
+                </span>
               </div>
             </article>
           ))}
         </div>
-      </Section>
+      </section>
 
-      <Section title="Q & A w/ Tay" compact className="bg-alt-purple">
-        <div className="space-y-10">
-          <div className="mx-auto max-w-3xl text-center text-darkText/75">
-            <p className="font-body text-base leading-relaxed">
-              Curious about registry strategy, concierge touches, or prepping for baby? Drop your question and I’ll handpick favorites to answer in upcoming posts and newsletters.
+      <section id="qa" className="mx-auto max-w-6xl space-y-10 rounded-[3.25rem] border border-primary/25 bg-softMint px-6 py-16 shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+        <header className="text-center">
+          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Q &amp; A with Tay</p>
+          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">Ask the Concierge</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
+            Wondering about registry timelines, nursery palettes, or celebration etiquette? Submit your questions and Taylor will answer favorites in upcoming spotlights.
+          </p>
+        </header>
+
+        <form
+          onSubmit={handleSubmitQuestion}
+          className="mx-auto grid w-full max-w-3xl gap-5 rounded-[2.75rem] border border-primary/25 bg-white p-6 shadow-soft"
+        >
+          <label className="text-sm font-heading uppercase tracking-[0.3em] text-primary/70">
+            Name
+            <input
+              type="text"
+              value={form.name}
+              onChange={handleInputChange("name")}
+              placeholder="Taylor Fan"
+              className="mt-2 w-full rounded-2xl border border-primary/25 bg-white px-4 py-3 text-sm text-neutral-700 shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              required
+            />
+          </label>
+          <label className="text-sm font-heading uppercase tracking-[0.3em] text-primary/70">
+            Email
+            <input
+              type="email"
+              value={form.email}
+              onChange={handleInputChange("email")}
+              placeholder="you@example.com"
+              className="mt-2 w-full rounded-2xl border border-primary/25 bg-white px-4 py-3 text-sm text-neutral-700 shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              required
+            />
+          </label>
+          <label className="text-sm font-heading uppercase tracking-[0.3em] text-primary/70">
+            Your Question
+            <textarea
+              value={form.question}
+              onChange={handleInputChange("question")}
+              placeholder="Ask Taylor anything about concierge planning, gifting, or milestone moments."
+              rows={4}
+              className="mt-2 w-full rounded-2xl border border-primary/25 bg-white px-4 py-3 text-sm text-neutral-700 shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+            />
+          </label>
+          <button type="submit" className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md">
+            Submit Question
+          </button>
+          {feedback.status !== "idle" && (
+            <p
+              className={`text-center text-xs font-heading uppercase tracking-[0.3em] ${
+                feedback.status === "success" ? "text-primary" : "text-red-400"
+              }`}
+            >
+              {feedback.message}
             </p>
-          </div>
+          )}
+        </form>
 
-          <form onSubmit={handleSubmitQuestion} className="mx-auto grid w-full max-w-3xl gap-5 rounded-3xl border border-pastelPurple/40 bg-white/95 p-6 shadow-soft">
-              <label className="text-sm font-heading uppercase tracking-[0.3em] text-darkText/60">
-                Name
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={handleInputChange("name")}
-                  placeholder="Taylor Fan"
-                  className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyBlue focus:outline-none"
-                  required
-                />
-              </label>
-              <label className="text-sm font-heading uppercase tracking-[0.3em] text-darkText/60">
-                Email
-                <input
-                  type="email"
-                  value={form.email}
-                  onChange={handleInputChange("email")}
-                  placeholder="you@example.com"
-                  className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyBlue focus:outline-none"
-                  required
-                />
-              </label>
-            <label className="text-sm font-heading uppercase tracking-[0.3em] text-darkText/60">
-              Your Question
-              <textarea
-                value={form.question}
-                onChange={handleInputChange("question")}
-                placeholder="Ask Taylor anything about concierge planning, gifting, or milestone moments."
-                rows={4}
-                className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyBlue focus:outline-none"
-              />
-            </label>
-            <button type="submit" className="btn-primary text-xs sm:text-sm">
-              Submit Question
-            </button>
-            {feedback.status !== "idle" && (
-              <p
-                className={`text-center text-xs font-heading uppercase tracking-[0.3em] ${
-                  feedback.status === "success" ? "text-gold" : "text-rose-500"
-                }`}
-              >
-                {feedback.message}
-              </p>
-            )}
-          </form>
-
-          <section className="mx-auto grid w-full max-w-5xl gap-8">
-            {loadingQuestions ? (
-              <EmptyState
-                title="Gathering questions"
-                description="We’re polishing the latest submissions."
-                icon={SparklesIcon}
-              />
-            ) : questions.length === 0 ? (
-              <EmptyState
-                title="No questions yet"
-                description="Be the first to submit a question and see it answered here."
-                icon={SparklesIcon}
-              />
-            ) : (
-              <div className="grid gap-8 md:grid-cols-2">
-                {questions.map((item) => (
-                  <article
-                    key={item.id}
-                    className="rounded-3xl border border-pastelPurple/40 bg-white/95 p-6 text-left shadow-soft"
-                  >
-                    <header className="flex items-center justify-between text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">
-                      <span>{item.username || "Anonymous"}</span>
-                      <span className="text-gold">Q & A</span>
-                    </header>
-                    <p className="mt-4 font-heading text-lg text-blueberry">{item.question}</p>
-                    {item.status === 'published' && item.answer ? (
-                      <p className="mt-4 font-body text-sm leading-relaxed text-darkText/70">{item.answer}</p>
-                    ) : (
-                      <p className="mt-4 font-body text-sm italic text-darkText/60">
-                        Taylor is curating a response
-                      </p>
-                    )}
-                  </article>
-                ))}
-              </div>
-            )}
-          </section>
+        <div className="mx-auto w-full max-w-5xl">
+          {loadingQuestions ? (
+            <EmptyState
+              title="Gathering questions"
+              description="We’re polishing the latest submissions."
+              icon={SparklesIcon}
+              className="bg-softPink"
+            />
+          ) : questions.length === 0 ? (
+            <EmptyState
+              title="No questions yet"
+              description="Be the first to submit a question and see it answered here."
+              icon={SparklesIcon}
+              className="bg-softPink"
+            />
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2">
+              {questions.map((item) => (
+                <article
+                  key={item.id}
+                  className="rounded-[2.5rem] border border-primary/25 bg-white p-6 text-left shadow-soft"
+                >
+                  <header className="flex items-center justify-between text-xs font-heading uppercase tracking-[0.3em] text-neutral-500">
+                    <span>{item.username || "Anonymous"}</span>
+                    <span className="text-primary">Q &amp; A</span>
+                  </header>
+                  <p className="mt-4 font-serif text-lg text-blueberry">{item.question}</p>
+                  {item.status === "published" && item.answer ? (
+                    <p className="mt-4 text-sm leading-relaxed text-neutral-600">{item.answer}</p>
+                  ) : (
+                    <p className="mt-4 text-sm italic text-neutral-500">Taylor is curating a response</p>
+                  )}
+                </article>
+              ))}
+            </div>
+          )}
         </div>
-      </Section>
+      </section>
+
+      <section className="mx-auto max-w-6xl overflow-hidden rounded-[3.5rem] border border-primary/30 bg-softBeige px-6 py-16 text-center shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+        <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Stay in the Loop</p>
+          <h3 className="flex flex-col items-center gap-2 text-3xl text-blueberry sm:text-4xl">
+            <span className="font-cursive text-primary drop-shadow-sm">Taylor-Made</span>
+            <span className="font-serif text-neutral-700">From Blog to Bespoke</span>
+          </h3>
+          <p className="text-sm leading-relaxed text-neutral-600 sm:text-base">
+            Loving the stories? Step into the concierge experience for personalized registries, nursery styling, and celebration planning made just for your family.
+          </p>
+          <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
+            >
+              Book a Consultation
+            </Link>
+            <Link
+              to="/membership"
+              className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-primary shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink"
+            >
+              View Membership Guide
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

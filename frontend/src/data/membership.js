@@ -136,7 +136,7 @@ export const conciergePillars = [
 export const membershipBenefits = [
   {
     icon: "📒",
-    title: "Taylor-Made Journal",
+    title: "Taylor-Made Blog",
     summary: "Private guides, registry intel, launches, and seasonal checklists tailored to your due date.",
     details: [
       "Curated gear comparisons and travel checklists",
@@ -185,7 +185,7 @@ export const membershipJourneySteps = [
   {
     step: "Step 4",
     title: "Ongoing Access",
-    body: "Stay supported through the Taylor-Made Journal, Mentor Circle, and discreet check-ins whenever you need them.",
+    body: "Stay supported through the Taylor-Made Blog, Mentor Circle, and discreet check-ins whenever you need them.",
   },
 ];
 

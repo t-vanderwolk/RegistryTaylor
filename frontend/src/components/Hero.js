@@ -110,10 +110,10 @@ const Hero = () => {
               Invite-only baby planning concierge
             </div>
 
-            <span className="block font-script text-6xl leading-none text-blueberry drop-shadow-[0_18px_24px_rgba(91,81,98,0.28)] sm:text-7xl">
+            <span className="block font-script text-6xl leading-none text-blueberry drop-shadow-[0_18px_24px_rgba(91,81,98,0.28)] sm:text-7xl lg:text-center">
               Taylor-Made
             </span>
-            <h1 className="text-3xl font-heading leading-tight text-blueberry sm:text-4xl md:text-5xl">
+            <h1 className="text-3xl font-heading leading-tight text-blueberry sm:text-4xl md:text-5xl lg:mx-auto lg:text-center">
               Baby Co.
             </h1>
             <span className="gold-divider" aria-hidden="true" />

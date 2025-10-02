@@ -1,34 +1,48 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import profileMom from "../assets/profile-mom.jpeg";
 
 const BlogHighlight = () => {
   return (
     <section
       id="blog"
-      className="mx-auto mt-16 max-w-5xl surface-panel"
+      className="relative mx-auto mt-20 max-w-6xl overflow-hidden rounded-[3.5rem] border border-babyPink/40 bg-gradient-to-br from-babyPink/18 via-white to-softBeige/85 px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:px-16"
     >
-      <div className="flex flex-col gap-6 text-center md:flex-row md:items-center md:text-left">
-        <div className="md:w-2/3">
-          <p className="text-xs font-heading uppercase tracking-[0.45em] text-blueberry/60">Pastel Perspectives</p>
-          <h2 className="mt-3 text-3xl font-heading text-blueberry">Visit the Taylor-Made Blog</h2>
-          <p className="mt-3 text-sm text-midnight/75">
-            Explore registry roundups, nursery inspiration, and concierge-approved prep tips designed to ease your planning journey. Fresh posts drop every month to keep your baby prep joyful and calm.
+      <div className="pointer-events-none absolute -right-28 top-10 h-72 w-72 rounded-full bg-babyPink/30 blur-3xl" aria-hidden="true" />
+
+      <div className="relative grid gap-10 md:grid-cols-[1.1fr,0.9fr] md:items-center">
+        <div className="space-y-6 text-center md:text-left">
+          <p className="text-xs font-heading uppercase tracking-[0.5em] text-blueberry/70">Pastel Perspectives</p>
+          <h2 className="text-4xl font-heading text-blueberry">Visit the Taylor-Made Journal</h2>
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-midnight/75 md:mx-0">
+            Swing by the journal for real registry picks, nursery ideas, and planning tips. It’s our way of keeping baby prep fun, calm, and on your terms.
           </p>
+          <Link
+            to="/blog"
+            className="inline-flex items-center justify-center rounded-full border border-babyBlue/35 bg-white px-9 py-3 text-xs font-heading uppercase tracking-[0.4em] text-blueberry shadow-soft transition hover:-translate-y-1 hover:scale-[1.02] hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          >
+            Explore the Journal
+          </Link>
         </div>
-        <div className="md:w-1/3">
-          <div className="surface-card bg-softBeige/70 text-left shadow-soft">
-            <p className="text-xs font-heading uppercase tracking-[0.35em] text-blueberry/60">Featured Story</p>
-            <h3 className="mt-2 text-xl font-heading text-blueberry">The Soft-Launch Registry Checklist</h3>
-            <p className="mt-3 text-sm text-midnight/80">
-              Peek at Taylor’s go-to essentials for busy parents balancing style, support, and sanity.
-            </p>
-            <Link
-              to="/blog"
-              className="mt-5 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
-            >
-              Read the blog
-            </Link>
-          </div>
+
+        <div className="relative">
+          <div className="absolute -left-10 top-6 h-32 w-32 rounded-full bg-babyPink/35 blur-3xl" aria-hidden="true" />
+          <article className="relative overflow-hidden rounded-[3rem] border border-babyPink/35 bg-white/88 shadow-dreamy backdrop-blur">
+            <img src={profileMom} alt="Expectant parent journaling baby prep ideas" className="h-60 w-full object-cover" loading="lazy" />
+            <div className="space-y-3 px-7 py-6 text-left">
+              <p className="text-xs font-heading uppercase tracking-[0.4em] text-blueberry/60">Featured story</p>
+              <h3 className="text-2xl font-heading text-blueberry">The Soft-Launch Registry Checklist</h3>
+              <p className="text-sm leading-relaxed text-midnight/75">
+                Taylor’s go-to plan for sharing your registry without awkward moments—plus reminders for thank-yous and gift tracking.
+              </p>
+              <Link
+                to="/blog"
+                className="inline-flex items-center justify-center rounded-full border border-babyBlue/35 bg-white px-6 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-softBeige focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+              >
+                Read more
+              </Link>
+            </div>
+          </article>
         </div>
       </div>
     </section>

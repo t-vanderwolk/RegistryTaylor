@@ -8,7 +8,7 @@ export const portalNavItems = [
   { to: "/client-portal/services", label: "Support Hub" },
   { to: "/client-portal/memories", label: "Memories" },
   { to: "/client-portal/messages", label: "Messages" },
-  { to: "/client-portal/private-blog", label: "Private Blog" },
+  { to: "/client-portal/community-forum", label: "Community Forum" },
   { to: "/client-portal/bio", label: "Profile" },
 ];
 

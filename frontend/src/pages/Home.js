@@ -60,14 +60,14 @@ const Home = () => {
 
   return (
     <div className="relative space-y-16 pb-24 sm:space-y-20">
-      <section className="relative isolate flex min-h-[70vh] w-full items-start overflow-hidden rounded-b-[3.5rem] bg-softBeige/40 pt-16 pb-10 shadow-soft sm:pt-20 sm:pb-14 md:pt-24 md:pb-16">
+      <section className="relative isolate flex min-h-[70vh] w-full items-center overflow-hidden rounded-b-[3.5rem] bg-softBeige/40 shadow-soft">
         <img
           src={heroImage}
           alt="Tender moment of a parent holding their baby's hands"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-white/65" aria-hidden="true" />
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 pt-4 pb-14 text-center motion-safe:animate-fade-in-up sm:gap-8 sm:px-10 sm:pt-6 sm:pb-16 md:pt-10 md:pb-20">
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 py-24 text-center motion-safe:animate-fade-in-up sm:gap-8 sm:px-10 md:py-28">
           <span className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">
             From registry dreams to nursery reveals
           </span>
@@ -75,9 +75,7 @@ const Home = () => {
             <span className="font-cursive text-5xl text-primary drop-shadow-sm sm:text-6xl md:text-7xl">
               Taylor-Made
             </span>
-            <span className="font-serif uppercase tracking-[0.32em] text-sm text-gray-900 sm:text-base md:text-lg">
-              Baby Co.
-            </span>
+            <span className="font-serif uppercase tracking-[0.32em] text-sm text-gray-900 sm:text-base md:text-lg">Baby Co.</span>
           </h1>
           <p className="max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
             From registry to nursery — thoughtfully tailored for your growing family. Let Taylor choreograph the details so you can savor every gentle milestone.

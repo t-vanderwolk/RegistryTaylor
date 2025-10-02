@@ -28,6 +28,17 @@ const fallbackPosts = [
       "Set up a calm, functional space that transitions smoothly from newborn naps to toddler play.",
     visibility: "public",
   },
+  {
+    id: "stroller-styles-demystified",
+    slug: "stroller-styles-demystified",
+    title: "Stroller Styles, Demystified",
+    category: "Guides",
+    author: "Taylor Vanderwolk",
+    publishedAt: "2024-09-15T10:00:00Z",
+    excerpt:
+      "Confused about modular versus travel systems, or which stroller grows with two kids? This Taylor-Made guide breaks every stroller style into plain-language essentials—complete with quick comparison chart and concierge tips.",
+    visibility: "public",
+  },
 ];
 
 const blogGallery = [blogImageOne, blogImageTwo, blogImageThree, blogImageFour];
@@ -136,8 +147,8 @@ const Blog = () => {
     }
   };
 
-  const navigateToPrivateBlog = () => {
-    navigate("/private-blog");
+  const navigateToCommunityForum = () => {
+    navigate("/community-forum");
   };
 
   return (
@@ -157,7 +168,7 @@ const Blog = () => {
             <span className="font-serif uppercase tracking-[0.32em] text-sm text-neutral-700 sm:text-base md:text-lg">Baby Co. Blog</span>
           </h1>
           <p className="text-base leading-relaxed text-neutral-600 sm:text-lg">
-            Cozy up with registry insights, nursery styling diaries, and concierge tips curated to keep your planning calm, personal, and joyfully on pace.
+            Let’s face it—stroller shopping can feel like learning a new language. If “modular,” “travel system,” or “convertible” make you pause, you’re in the right place.
           </p>
           {loadingPosts && posts.length === 0 && (
             <p className="text-sm text-neutral-500">Loading the latest pastel pages…</p>
@@ -179,7 +190,50 @@ const Blog = () => {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl space-y-8 rounded-[3.25rem] border border-primary/25 bg-white px-6 py-14 shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+      <section className="mx-auto max-w-6xl rounded-[3.25rem] border border-primary/25 bg-softMint px-6 py-16 text-left shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+        <header className="space-y-3 text-center md:text-left">
+          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">🍼 Stroller Styles, Demystified</p>
+          <h2 className="text-3xl font-serif text-blueberry sm:text-4xl md:text-5xl">What’s the Difference Between All Those Stroller Types?</h2>
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-neutral-6
+00 sm:text-base md:mx-0">
+            This guide clears the clutter by covering core features first (Modular, Travel System), then rolling through every stroller category. Whether you’re registry-new or registry-repeat, this layout keeps decisions confident and informed.
+          </p>
+        </header>
+
+        <article className="mt-8 rounded-[2.5rem] border border-primary/20 bg-white p-6 shadow-soft">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[0.7rem] font-heading uppercase tracking-[0.28em] text-neutral-500">
+            <span>Guides</span>
+            <span className="text-primary">Feature Post</span>
+          </div>
+          <div className="mt-4 space-y-4">
+            <h3 className="text-3xl font-serif text-blueberry sm:text-4xl">Stroller Styles, Demystified</h3>
+            <p className="text-base leading-relaxed text-neutral-600 sm:text-lg">
+              Confused about modular versus travel systems, or which stroller grows with two kids? This Taylor-Made guide breaks every stroller style into plain-language essentials—complete with quick comparison chart and concierge tips.
+            </p>
+            <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
+              <span>By Taylor Vanderwolk</span>
+              <span aria-hidden="true">•</span>
+              <span>{new Date("2024-09-15T10:00:00Z").toLocaleDateString()}</span>
+            </div>
+          </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/blog/stroller-styles-demystified"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
+            >
+              Read the Full Guide
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-primary shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink"
+            >
+              Book a Stroller Consult
+            </Link>
+          </div>
+        </article>
+      </section>
+
+      {/* <section className="mx-auto max-w-6xl space-y-8 rounded-[3.25rem] border border-primary/25 bg-white px-6 py-14 shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
         <header className="text-center">
           <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Fresh Highlights</p>
           <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">
@@ -212,15 +266,20 @@ const Blog = () => {
                 {post.excerpt && (
                   <p className="text-base leading-relaxed text-neutral-600 sm:text-lg">{post.excerpt}</p>
                 )}
+                <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
+                  {post.author && <span>By {post.author}</span>}
+                  {post.publishedAt && post.author && <span aria-hidden="true">•</span>}
+                  {post.publishedAt && <span>{new Date(post.publishedAt).toLocaleDateString()}</span>}
+                </div>
               </div>
               <div className="flex flex-wrap items-center gap-4 px-8 pb-8">
                 {post.visibility === "members_only" ? (
                   <button
                     type="button"
-                    onClick={navigateToPrivateBlog}
+                    onClick={navigateToCommunityForum}
                     className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
                   >
-                    Enter Private Blog
+                    Visit Community Forum
                   </button>
                 ) : (
                   <Link
@@ -237,7 +296,7 @@ const Blog = () => {
             </article>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section id="qa" className="mx-auto max-w-6xl space-y-10 rounded-[3.25rem] border border-primary/25 bg-softMint px-6 py-16 shadow-soft motion-safe:animate-fade-in-up sm:px-10 md:px-16">
         <header className="text-center">

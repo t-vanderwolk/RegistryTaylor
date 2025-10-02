@@ -135,11 +135,11 @@ const buildChecklist = (profile, journey) => {
       cta: profile?.mentor_preference ? "Schedule call" : "Share preference",
     },
     {
-      title: "Drop a memory in the Private Blog",
+      title: "Share a memory in the Community Forum",
       detail: "Capture a note for your concierge lounge or invite mentors into the moment.",
       done: false,
-      link: "/private-blog",
-      cta: "Open Private Blog",
+      link: "/community-forum",
+      cta: "Open Community Forum",
     },
   ];
 
@@ -379,8 +379,8 @@ const MyJourney = () => {
           <MemoryCard
             title="Registry wins"
             detail="Snapshot the items you said yes to and why they felt right."
-            actionLabel="Document in Private Blog"
-            to="/private-blog"
+            actionLabel="Share in Community Forum"
+            to="/community-forum"
           />
   <MemoryCard
     title="Nursery progress"
@@ -391,8 +391,8 @@ const MyJourney = () => {
           <MemoryCard
             title="Heartbeat moments"
             detail="Capture the little memories: playlists, cravings, loved ones&rsquo; reactions."
-            actionLabel="Add a note"
-            to="/private-blog"
+            actionLabel="Add to Community Forum"
+            to="/community-forum"
           />
         </div>
         <div className="mt-8 rounded-[2rem] border border-pastelPurple/40 bg-white px-6 py-5 shadow-soft">

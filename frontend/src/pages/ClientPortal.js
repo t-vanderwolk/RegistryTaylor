@@ -5,7 +5,7 @@ import PortalNav, { portalNavItems } from "../components/Layout/PortalNav";
 import Dashboard from "./client/Dashboard";
 import Bio from "./client/Bio";
 import MyJourney from "./client/MyJourney";
-import PrivateBlog from "./PrivateBlog";
+import CommunityForum from "./CommunityForum";
 import ClientMessages from "./client/Messages";
 import Services from "./client/Services";
 import Memories from "./client/Memories";
@@ -49,8 +49,9 @@ const ClientPortal = () => {
             <Route path="registry/*" element={<Navigate to="/client-portal/registry" replace />} />
             <Route path="memories/*" element={<Navigate to="/client-portal/memories" replace />} />
             <Route path="messages" element={<ClientMessages />} />
-            <Route path="blog" element={<Navigate to="private-blog" replace />} />
-            <Route path="private-blog" element={<PrivateBlog />} />
+            <Route path="blog" element={<Navigate to="community-forum" replace />} />
+            <Route path="private-blog" element={<Navigate to="community-forum" replace />} />
+            <Route path="community-forum" element={<CommunityForum />} />
             <Route path="services" element={<Services />} />
             <Route path="*" element={<Navigate to="." replace />} />
           </Routes>

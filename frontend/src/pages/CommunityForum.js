@@ -35,7 +35,7 @@ const formatTimestamp = (timestamp) => {
   }
 };
 
-const PrivateForum = () => {
+const CommunityForum = () => {
   const { token, role } = useAuth();
   const {
     threads,
@@ -263,7 +263,7 @@ const PrivateForum = () => {
     <main className="min-h-screen bg-cream/70 px-6 py-12">
       <div className="mx-auto max-w-5xl space-y-10">
         <header className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
-          <h1 className="font-playful text-4xl text-blueberry">Private Forum</h1>
+          <h1 className="font-playful text-4xl text-blueberry">Community Forum</h1>
           <p className="mt-3 text-sm font-body text-darkText/70">
             A confidential space for Taylor, mentors, and invited families to compare notes, share wins, and crowdsource concierge inspiration.
           </p>
@@ -397,7 +397,7 @@ const PrivateForum = () => {
         <section className="space-y-5">
           {!isAuthenticated ? (
             <div className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 px-6 py-10 text-center text-sm font-body text-darkText/70 shadow-soft">
-              Sign in to read and contribute to private discussions.
+              Sign in to read and contribute to community discussions.
             </div>
           ) : filteredThreads.length === 0 ? (
             <div className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 px-6 py-10 text-center text-sm font-body text-darkText/70 shadow-soft">
@@ -603,4 +603,4 @@ const PrivateForum = () => {
   );
 };
 
-export default PrivateForum;
+export default CommunityForum;

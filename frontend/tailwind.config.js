@@ -17,7 +17,10 @@ module.exports = {
         blush: "#F6E6ED",
         lavender: "#F1ECF7",
         moss: "#AEBFAF",
-        gold: "#E2D6A5"
+        gold: "#E2D6A5",
+        softPink: "#FCE8EF",
+        softMint: "#E5F4F1",
+        primary: "#C38BA8"
       },
       fontFamily: {
         heading: ["'Playfair Display'", "serif"],
@@ -25,7 +28,8 @@ module.exports = {
         playful: ["'Playfair Display'", "serif"],
         blocky: ["'Inter'", "sans-serif"],
         script: ["'Great Vibes'", "cursive"],
-        babyco: ["'Cormorant Garamond'", "serif"]
+        babyco: ["'Cormorant Garamond'", "serif"],
+        cursive: ["'Great Vibes'", "cursive"]
       },
       boxShadow: {
         toy: "0 6px 12px rgba(0, 0, 0, 0.08)",
@@ -39,7 +43,8 @@ module.exports = {
       animation: {
         bounceSlow: "bounceSlow 2.6s ease-in-out infinite",
         float: "float 6s ease-in-out infinite",
-        wiggle: "wiggle 1s ease-in-out infinite"
+        wiggle: "wiggle 1s ease-in-out infinite",
+        "fade-in-up": "fadeInUp 0.7s ease-out both"
       },
       keyframes: {
         bounceSlow: {
@@ -53,6 +58,11 @@ module.exports = {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" }
+        },
+        fadeInUp: {
+          "0%": { opacity: 0, transform: "translateY(24px)" },
+          "60%": { opacity: 1, transform: "translateY(-6px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" }
         }
       }
     }

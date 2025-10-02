@@ -25,16 +25,16 @@ const FAQAccordion = () => {
     <section
       id="faq"
       tabIndex="-1"
-      className="relative mx-auto mt-20 max-w-5xl overflow-hidden rounded-[3rem] border border-babyBlue/20 bg-white/90 px-6 py-14 shadow-soft backdrop-blur-sm sm:px-10"
+      className="relative mx-auto mt-20 max-w-5xl overflow-hidden rounded-[3rem] border border-babyBlue/20 bg-softBeige/70 px-6 py-14 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10"
     >
       <div className="pointer-events-none absolute -right-24 top-10 h-56 w-56 rounded-full bg-babyBlue/30 blur-3xl" aria-hidden="true" />
 
       <header className="relative text-center">
-        <p className="text-xs font-heading uppercase tracking-[0.55em] text-blueberry/70">
+        <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">
           Curious Minds
         </p>
-        <h2 className="mt-4 text-3xl font-heading text-blueberry sm:text-4xl">Frequently Asked Questions</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-midnight/75">
+        <h2 className="mt-4 text-3xl font-serif font-heading text-blueberry sm:text-4xl">Frequently Asked Questions</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-neutral-600">
           A few of the thoughtful questions parents ask before joining our concierge family.
         </p>
       </header>
@@ -47,12 +47,12 @@ const FAQAccordion = () => {
           return (
             <article
               key={item.question}
-              className="rounded-[2.6rem] border border-babyBlue/25 bg-white/80 p-5 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-dreamy"
+              className="rounded-[2.6rem] border border-babyBlue/25 bg-white/85 p-5 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md"
             >
               <button
                 id={buttonId}
                 type="button"
-                className="flex w-full items-center justify-between gap-4 text-left text-base font-heading text-blueberry focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                className="flex w-full items-center justify-between gap-4 text-left text-base font-serif font-heading text-blueberry focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setActiveIndex((current) => (current === index ? -1 : index))}
@@ -64,11 +64,11 @@ const FAQAccordion = () => {
                 id={panelId}
                 role="region"
                 aria-labelledby={buttonId}
-                className={`mt-3 text-sm text-midnight/70 transition-[max-height] duration-300 ease-in-out ${
+                className={`mt-3 text-sm text-neutral-600 transition-[max-height] duration-300 ease-in-out ${
                   isOpen ? "max-h-60" : "max-h-0 overflow-hidden"
                 }`}
               >
-                <p className="pr-2 text-sm leading-relaxed text-midnight/75">{item.answer}</p>
+                <p className="pr-2 text-sm leading-relaxed text-neutral-600">{item.answer}</p>
               </div>
             </article>
           );

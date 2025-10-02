@@ -28,19 +28,19 @@ const HowItWorks = () => (
   <section
     id="how-it-works"
     tabIndex="-1"
-    className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-[3.5rem] border border-babyPink/40 bg-gradient-to-tr from-babyPink/12 via-white/90 to-white px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:px-16"
+    className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-[3.5rem] border border-babyPink/40 bg-softPink/40 px-6 py-16 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10 md:px-16"
   >
     <div className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-babyPink/35 blur-3xl" aria-hidden="true" />
     <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-babyPink/25 blur-3xl" aria-hidden="true" />
     <div className="pointer-events-none absolute left-1/2 top-12 h-1 w-40 -translate-x-1/2 bg-gradient-to-r from-transparent via-babyPink/40 to-transparent" aria-hidden="true" />
 
     <header className="relative text-center">
-      <p className="text-xs font-heading uppercase tracking-[0.55em] text-blueberry/70">
+      <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">
         Signature Journey
       </p>
-      <h2 className="mt-4 text-4xl font-heading text-blueberry">How It Works</h2>
+      <h2 className="mt-4 text-4xl font-serif font-heading text-blueberry">How It Works</h2>
       <span className="gold-divider" aria-hidden="true" />
-      <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-midnight/75">
+      <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-neutral-600">
         We move from first chat to final reveal with clear checklists, real support, and plenty of excitement along the way.
       </p>
     </header>
@@ -49,7 +49,7 @@ const HowItWorks = () => (
       {steps.map((step, index) => (
         <article
           key={step.title}
-          className="group flex h-full flex-col gap-5 rounded-[2.8rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:bg-white hover:shadow-dreamy"
+          className="group flex h-full flex-col gap-5 rounded-[2.8rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:scale-105 hover:bg-white hover:shadow-md"
         >
           <div className="relative overflow-hidden rounded-[2.4rem]">
             <img
@@ -60,8 +60,8 @@ const HowItWorks = () => (
             />
           </div>
           <div className="space-y-3 text-left">
-            <h3 className="text-2xl font-heading text-blueberry">{step.title}</h3>
-            <p className="text-sm leading-relaxed text-midnight/75">{step.description}</p>
+            <h3 className="text-2xl font-serif font-heading text-blueberry">{step.title}</h3>
+            <p className="text-sm leading-relaxed text-neutral-600">{step.description}</p>
           </div>
         </article>
       ))}

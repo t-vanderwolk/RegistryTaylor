@@ -5,7 +5,7 @@
 
 @layer base {
   body {
-    @apply bg-softBeige text-midnight font-body font-normal;
+    @apply bg-softBeige text-neutral-600 font-body font-normal;
     background-image:
       radial-gradient(circle at 15% 20%, rgba(251, 239, 242, 0.45) 0, rgba(251, 239, 242, 0) 55%),
       radial-gradient(circle at 85% 18%, rgba(211, 228, 247, 0.35) 0, rgba(211, 228, 247, 0) 55%),
@@ -20,7 +20,7 @@
   h4,
   h5,
   h6 {
-    @apply font-heading font-semibold text-blueberry;
+    @apply font-serif font-heading font-semibold text-blueberry;
   }
 
   ::selection {

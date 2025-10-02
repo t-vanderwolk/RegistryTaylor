@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import babyFeet from "../assets/baby-feet.jpeg";
 
@@ -92,6 +92,14 @@ const TestimonialsCarousel = () => {
 
   const showPrevious = () => setIndex((current) => (current - 1 + testimonials.length) % testimonials.length);
   const showNext = () => setIndex((current) => (current + 1) % testimonials.length);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % testimonials.length);
+    }, 10000);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   const { quote, author, detail } = testimonials[index];
   const paragraphs = quote

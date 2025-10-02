@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -11,7 +11,7 @@ import Mentors from "./pages/Mentors";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
-import PrivateBlog from "./pages/PrivateBlog";
+import CommunityForum from "./pages/CommunityForum";
 import Portal from "./pages/Portal";
 import AdminPortal from "./pages/AdminPortal";
 import ClientPortal from "./pages/ClientPortal";
@@ -54,7 +54,8 @@ const AppRoutes = () => {
           <Route path="/request-invite" element={<RequestInvite />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/private-blog" element={<PrivateBlog />} />
+          <Route path="/community-forum" element={<CommunityForum />} />
+          <Route path="/private-blog" element={<Navigate to="/community-forum" replace />} />
           <Route path="/portal" element={<Portal />} />
           <Route path="/create-profile" element={<CreateProfile />} />
           <Route path="/admin-portal/*" element={<AdminPortal />} />

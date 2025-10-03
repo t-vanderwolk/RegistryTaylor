@@ -20,8 +20,8 @@ exports.seed = async (knex) => {
   if (hasBlogQuestions) {
     await knex('blog_questions').del().catch(() => {});
   }
-  const hasPrivateBlog = await knex.schema.hasTable('private_blog_posts');
-  if (hasPrivateBlog) {
+  const hasForumPosts = await knex.schema.hasTable('private_blog_posts');
+  if (hasForumPosts) {
     await knex('private_blog_posts').del().catch(() => {});
   }
 
@@ -163,17 +163,6 @@ exports.seed = async (knex) => {
     await knex('blog_posts').insert([
       {
         id: uuid(),
-        title: 'Taylor-Made Concierge Preview',
-        slug: 'taylor-made-concierge-preview',
-        category: 'Announcements',
-        excerpt: 'Peek inside the white-glove experience we curate for every family joining the Taylor-Made lounge.',
-        content:
-          'Welcome to the Taylor-Made blog! This preview shares the signature milestones we orchestrate for concierge families — from registry couture to nursery styling and celebration logistics. Members can log into the private lounge for extended guides and checklists.',
-        visibility: 'public',
-        author_id: adminId,
-      },
-      {
-        id: uuid(),
         title: 'Mentor Notes: Nursery Glow-Up Checklist',
         slug: 'mentor-notes-nursery-glow-up',
         category: 'Mentor Notes',
@@ -186,7 +175,7 @@ exports.seed = async (knex) => {
     ]);
   }
 
-  if (hasPrivateBlog) {
+  if (hasForumPosts) {
     await knex('private_blog_posts').insert([
       {
         id: uuid(),

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import HowItWorks from "../components/HowItWorks";
 import FAQAccordion from "../components/FAQAccordion";
 import MembershipHighlights from "../components/MembershipHighlights";
-import BlogHighlight from "../components/BlogHighlight";
 import TestimonialsCarousel from "../components/TestimonialsCarousel";
 import InviteForm from "../components/InviteForm";
 import ConsultationSection from "../components/ConsultationSection";
@@ -136,7 +135,6 @@ const Home = () => {
       </section>
       <FAQAccordion />
       <MembershipHighlights />
-      <BlogHighlight />
       <TestimonialsCarousel />
       <InviteForm />
 

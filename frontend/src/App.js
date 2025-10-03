@@ -11,6 +11,7 @@ import Mentors from "./pages/Mentors";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import CommunityForum from "./pages/CommunityForum";
 import Portal from "./pages/Portal";
 import AdminPortal from "./pages/AdminPortal";
@@ -54,6 +55,7 @@ const AppRoutes = () => {
           <Route path="/request-invite" element={<RequestInvite />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/community-forum" element={<CommunityForum />} />
           <Route path="/private-blog" element={<Navigate to="/community-forum" replace />} />
           <Route path="/portal" element={<Portal />} />

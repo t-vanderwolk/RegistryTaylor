@@ -54,6 +54,13 @@ const ensureUniqueSlug = async (baseSlug, { excludeId } = {}) => {
   return candidate;
 };
 
+const estimateReadMinutes = (content) => {
+  if (!content) return null;
+  const words = content.split(/\s+/).filter(Boolean).length;
+  if (!words) return null;
+  return Math.max(1, Math.round(words / 200));
+};
+
 const serializePost = (record) => ({
   id: record.id,
   title: record.title,
@@ -66,6 +73,7 @@ const serializePost = (record) => ({
   publishedAt: record.published_at,
   createdAt: record.created_at,
   updatedAt: record.updated_at,
+  readMinutes: estimateReadMinutes(record.content),
 });
 
 exports.listPosts = async (req, res, next) => {

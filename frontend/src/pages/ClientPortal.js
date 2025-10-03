@@ -52,6 +52,10 @@ const ClientPortal = () => {
             <Route path="blog" element={<Navigate to="community-forum" replace />} />
             <Route path="private-blog" element={<Navigate to="community-forum" replace />} />
             <Route path="community-forum" element={<CommunityForum />} />
+            <Route
+              path="guides/stroller-styles-demystified"
+              element={<Navigate to="/blog/stroller-styles-demystified" replace />}
+            />
             <Route path="services" element={<Services />} />
             <Route path="*" element={<Navigate to="." replace />} />
           </Routes>

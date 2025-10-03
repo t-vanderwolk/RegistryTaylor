@@ -1,6 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const blogController = require('../../controllers/blog.controller');
+const requireAuth = require('../../middleware/requireAuth');
+const requireRole = require('../../middleware/requireRole');
 
 const router = express.Router();
 
@@ -23,5 +25,8 @@ const attachUserIfPresent = (req, _res, next) => {
 
 router.get('/', attachUserIfPresent, blogController.listPosts);
 router.get('/:slug', attachUserIfPresent, blogController.getPostBySlug);
+router.post('/', requireAuth, requireRole('admin'), blogController.createPost);
+router.put('/:id', requireAuth, requireRole('admin'), blogController.updatePost);
+router.delete('/:id', requireAuth, requireRole('admin'), blogController.archivePost);
 
 module.exports = router;

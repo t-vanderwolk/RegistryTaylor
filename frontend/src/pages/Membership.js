@@ -9,63 +9,6 @@ import {
 import membershipHeroPrimary from "../assets/couple-happy.jpeg";
 import membershipHeroSecondary from "../assets/belly-hug.jpeg";
 
-const previewHighlights = [
-  {
-    icon: "🎀",
-    title: "Curated Starter Collections",
-    blurb:
-      "Browse registry essentials and nursery mood boards tailored to your family’s style before committing to a package.",
-  },
-  {
-    icon: "💬",
-    title: "Direct Concierge Messaging",
-    blurb:
-      "Chat with Taylor or your mentor, share inspiration, and preview how concierge guidance flows inside the portal.",
-  },
-  {
-    icon: "📋",
-    title: "Guided Intake",
-    blurb:
-      "Complete a light onboarding that captures your timeline, support needs, and design vibe—so your full concierge plan starts strong.",
-  },
-];
-
-const previewTimeline = [
-  {
-    phase: "01",
-    title: "Request Preview Access",
-    description: "Receive a 7-day invite to explore the Taylor-Made portal and curated starter content.",
-  },
-  {
-    phase: "02",
-    title: "Sample Concierge Touchpoints",
-    description: "Message Taylor, review starter collections, and see how mentoring and planning align with your family.",
-  },
-  {
-    phase: "03",
-    title: "Choose Your Concierge Path",
-    description: "Upgrade to Essentials, Signature, or Bespoke when you’re ready—or select à la carte concierge services.",
-  },
-];
-
-const previewFaqs = [
-  {
-    question: "Is the preview complimentary?",
-    answer:
-      "Yes. The concierge preview is invite-only but free. It lets you try the planning suite before you commit to a membership tier.",
-  },
-  {
-    question: "How long do I have access?",
-    answer:
-      "You have seven days from your invite to explore. Most families upgrade within the first 48 hours once they see how tailored the concierge flow feels.",
-  },
-  {
-    question: "Can I book services without a full membership?",
-    answer:
-      "Absolutely. After previewing, you can upgrade to a tier or pick à la carte offerings—registry builds, nursery design, events, and more.",
-  },
-];
-
 const HeroHighlight = ({ icon, title, blurb }) => (
   <article className="surface-card flex flex-col items-start gap-3 text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
     <span className="text-2xl">{icon}</span>
@@ -206,49 +149,6 @@ const Membership = () => {
           {membershipHeroHighlights.map((item) => (
             <HeroHighlight key={item.title} {...item} />
           ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl space-y-10 rounded-[3.5rem] border border-primary/25 bg-white/92 px-6 py-16 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10 md:px-16">
-        <header className="text-center">
-          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Try Before You Join</p>
-          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">Taylor-Made Concierge Preview</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
-            Sample the concierge suite with a guided preview. Explore curated collections, message Taylor, and experience concierge touchpoints before selecting your membership tier.
-          </p>
-        </header>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {previewHighlights.map((item) => (
-            <HeroHighlight key={item.title} {...item} />
-          ))}
-        </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {previewTimeline.map(({ phase, title, description }) => (
-            <article key={title} className="surface-card h-full text-left text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
-              <span className="text-xs font-heading uppercase tracking-[0.6em] text-primary/70">{phase}</span>
-              <h3 className="mt-3 font-serif text-lg text-blueberry">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-neutral-600">{description}</p>
-            </article>
-          ))}
-        </div>
-        <div className="space-y-4">
-          {previewFaqs.map(({ question, answer }) => (
-            <article key={question} className="surface-card text-left text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
-              <h3 className="text-sm font-heading uppercase tracking-[0.3em] text-primary/70">{question}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-neutral-600">{answer}</p>
-            </article>
-          ))}
-        </div>
-        <div className="flex flex-col items-center gap-3 text-center text-sm text-neutral-600">
-          <p>Ready to explore? Request your preview invite and spend a week inside the concierge suite before you choose a membership.</p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link to="/request-invite" className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md">
-              Request Preview Invite
-            </Link>
-            <Link to="/contact" className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-primary shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink/45">
-              Discuss Your Options
-            </Link>
-          </div>
         </div>
       </section>
 

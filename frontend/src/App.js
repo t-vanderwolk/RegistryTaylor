@@ -57,7 +57,7 @@ const AppRoutes = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/community-forum" element={<CommunityForum />} />
-          <Route path="/private-blog" element={<Navigate to="/community-forum" replace />} />
+          <Route path="/forum" element={<Navigate to="/community-forum" replace />} />
           <Route path="/portal" element={<Portal />} />
           <Route path="/create-profile" element={<CreateProfile />} />
           <Route path="/admin-portal/*" element={<AdminPortal />} />

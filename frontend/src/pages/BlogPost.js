@@ -177,11 +177,11 @@ const BlogPost = () => {
       <section className="relative mx-auto max-w-5xl overflow-hidden rounded-[3.5rem] border border-primary/25 bg-white text-left shadow-soft">
         <img src={heroImage} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" />
         <div className="absolute inset-0 bg-white/80" aria-hidden="true" />
-        <div className="relative flex flex-col gap-6 px-8 py-16 sm:px-12">
+        <div className="relative flex flex-col gap-6 px-6 py-12 sm:px-12 sm:py-16">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="self-start rounded-full border border-primary/20 bg-white/70 px-4 py-2 text-xs font-heading uppercase tracking-[0.32em] text-primary transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink"
+            className="inline-flex w-full items-center justify-center rounded-full border border-primary/20 bg-white/70 px-4 py-2 text-xs font-heading uppercase tracking-[0.32em] text-primary transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink sm:w-auto sm:self-start"
           >
             Back
           </button>
@@ -263,7 +263,7 @@ const BlogPost = () => {
                 <div className="flex flex-wrap items-center gap-4 px-8 pb-8">
                   <Link
                     to={`/blog/${item.slug || item.id}`}
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md sm:w-auto"
                   >
                     Read Article
                   </Link>

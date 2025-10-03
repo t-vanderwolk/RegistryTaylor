@@ -2391,7 +2391,7 @@ const BlogManager = () => {
               value={form.slug}
               onChange={handleInputChange('slug')}
               className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
-              placeholder="taylor-made-concierge-preview"
+              placeholder="stroller-styles-demystified"
             />
           </label>
           <label className="text-sm">

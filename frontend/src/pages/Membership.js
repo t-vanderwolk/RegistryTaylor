@@ -1,42 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+import PageHero from "../components/UI/PageHero";
+import Button from "../components/UI/Button";
+import SectionDivider from "../components/UI/SectionDivider";
+
 import {
   membershipHeroHighlights,
   membershipTiers,
   conciergePillars,
   membershipBenefits,
 } from "../data/membership";
+
 import membershipHeroPrimary from "../assets/couple-happy.jpeg";
 import membershipHeroSecondary from "../assets/belly-hug.jpeg";
 
+const cardBaseClasses =
+  "flex h-full flex-col gap-4 rounded-3xl border border-primary/20 bg-white/95 p-6 text-blueberry shadow-soft transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-dreamy";
+
+const fadeInClass = "motion-safe:animate-fade-in-up";
+
 const HeroHighlight = ({ icon, title, blurb }) => (
-  <article className="surface-card flex flex-col items-start gap-3 text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
+  <article className={`${cardBaseClasses} text-left`}>
     <span className="text-2xl">{icon}</span>
-    <h3 className="font-serif text-lg">{title}</h3>
-    <p className="text-sm leading-relaxed text-neutral-600">{blurb}</p>
+    <h3 className="font-heading text-lg">{title}</h3>
+    <p className="text-sm leading-relaxed text-blueberry/75">{blurb}</p>
   </article>
 );
 
 const PackageCard = ({ pkg }) => (
-  <article className="surface-card flex h-full flex-col gap-4 text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
+  <article className={cardBaseClasses}>
     <header className="space-y-2">
       {pkg.tag && (
-        <p className="text-[0.65rem] uppercase tracking-[0.32em] text-primary/70">{pkg.tag}</p>
+        <p className="text-[0.65rem] font-heading uppercase tracking-[0.35em] text-primary/70">{pkg.tag}</p>
       )}
-      <h3 className="font-serif text-2xl text-blueberry">{pkg.name}</h3>
+      <h3 className="font-heading text-2xl text-blueberry">{pkg.name}</h3>
       {pkg.startingPrice && (
-        <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">
+        <p className="text-xs font-heading uppercase tracking-[0.28em] text-blueberry/60">
           {pkg.startingPrice.startsWith("$") ? `Starting at ${pkg.startingPrice}` : pkg.startingPrice}
         </p>
       )}
     </header>
-    <p className="text-sm leading-relaxed text-neutral-600">{pkg.intro}</p>
+    <p className="text-sm leading-relaxed text-blueberry/75">{pkg.intro}</p>
     {pkg.headline && (
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/70">
-        {pkg.headline}
-      </p>
+      <p className="text-xs font-heading uppercase tracking-[0.25em] text-primary/70">{pkg.headline}</p>
     )}
-    <ul className="space-y-2 text-sm text-neutral-600">
+    <ul className="space-y-2 text-sm text-blueberry/75">
       {pkg.items.map((item) => (
         <li key={item} className="flex items-start gap-2">
           <span className="mt-1 text-primary">◆</span>
@@ -44,25 +53,22 @@ const PackageCard = ({ pkg }) => (
         </li>
       ))}
     </ul>
-    <Link
-      to="/contact"
-      className="mt-auto inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.25em] text-primary transition hover:-translate-y-0.5 hover:scale-105 hover:bg-softPink/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-    >
+    <Button as="link" to="/contact" size="sm" className="mt-auto bg-primary !text-white px-6 py-3">
       Start with {pkg.name}
-    </Link>
+    </Button>
   </article>
 );
 
 const PillarCard = ({ icon, title, blurb, points }) => (
-  <article className="surface-card flex flex-col gap-3 text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
+  <article className={cardBaseClasses}>
     <div className="flex items-start gap-3">
       <span className="text-3xl">{icon}</span>
       <div>
-        <h3 className="font-serif text-xl">{title}</h3>
-        <p className="mt-2 text-sm text-neutral-600">{blurb}</p>
+        <h3 className="font-heading text-xl">{title}</h3>
+        <p className="mt-2 text-sm text-blueberry/75">{blurb}</p>
       </div>
     </div>
-    <ul className="space-y-2 text-sm text-neutral-600">
+    <ul className="space-y-2 text-sm text-blueberry/75">
       {points.map((point) => (
         <li key={point} className="flex items-start gap-2">
           <span className="mt-1 text-primary">•</span>
@@ -73,15 +79,15 @@ const PillarCard = ({ icon, title, blurb, points }) => (
   </article>
 );
 
-const MembershipCard = ({ icon, title, summary, details = [] }) => (
-  <article className="surface-card flex flex-col gap-3 text-blueberry transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md">
+const MembershipBenefitCard = ({ icon, title, summary, details = [] }) => (
+  <article className={cardBaseClasses}>
     <div className="flex items-center gap-3">
       <span className="text-3xl">{icon}</span>
-      <h3 className="font-serif text-xl">{title}</h3>
+      <h3 className="font-heading text-xl">{title}</h3>
     </div>
-    <p className="text-sm text-neutral-600">{summary}</p>
+    <p className="text-sm text-blueberry/75">{summary}</p>
     {details.length > 0 && (
-      <ul className="space-y-2 text-sm text-neutral-600">
+      <ul className="space-y-2 text-sm text-blueberry/75">
         {details.map((point) => (
           <li key={point} className="flex items-start gap-2">
             <span className="mt-1 text-primary">•</span>
@@ -95,88 +101,71 @@ const MembershipCard = ({ icon, title, summary, details = [] }) => (
 
 const Membership = () => {
   return (
-    <div className="relative space-y-16 pb-24 pt-16 sm:space-y-20">
-      <section className="relative mx-auto max-w-6xl overflow-hidden rounded-[3.75rem] border border-primary/30 bg-gradient-to-br from-softPink/45 via-white/92 to-softMint/40 px-6 py-16 shadow-soft backdrop-blur-lg motion-safe:animate-fade-in-up sm:px-10 md:px-16">
-        <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-softPink/50 blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute -bottom-28 right-12 h-80 w-80 rounded-full bg-softMint/45 blur-3xl" aria-hidden="true" />
-        <div className="relative grid gap-10 lg:grid-cols-[1.05fr,0.95fr] lg:items-center">
-          <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
-            <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Invite-Only Concierge</p>
-            <h1 className="flex flex-col items-center gap-2 text-4xl text-blueberry sm:text-5xl md:text-6xl">
-              <span className="font-cursive text-primary drop-shadow-sm sm:text-6xl md:text-7xl">Taylor-Made</span>
-              <span className="font-serif text-neutral-700">Concierge Memberships</span>
-            </h1>
-            <p className="max-w-3xl text-base leading-relaxed text-neutral-600 sm:text-lg">
-              Every Taylor-Made client is welcomed with a personal invitation, a bespoke plan, and concierge-level execution. From the first whisper of registry ideas to the final nursery reveal, each detail is choreographed with gentle precision.
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md"
-              >
-                Request Invitation
-              </Link>
-              <a
-                href="#packages"
-                className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-primary shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink/45"
-              >
-                View Packages
-              </a>
+    <div className="space-y-24 pb-28 pt-16 sm:space-y-28">
+      <PageHero
+        backgroundImage={membershipHeroPrimary}
+        eyebrow="Concierge Membership"
+        subtitle="Concierge Memberships"
+        description="Memberships scale from curated registries to full celebration concierge. Your season, your pace, Taylor’s soft guidance."
+        primaryCta={{ label: "Book a Consultation", to: "/contact", className: "px-9 py-3" }}
+        secondaryCta={{ label: "Request Invite", href: "#request-invite", as: "a", className: "px-9 py-3" }}
+      >
+        <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
+          <div className="space-y-8 text-left">
+            <div className="grid gap-4 sm:grid-cols-3">
+              {membershipHeroHighlights.map((item) => (
+                <HeroHighlight key={item.title} {...item} />
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-6 rounded-[3rem] border border-gold/25 bg-white/90 px-5 py-5 shadow-soft backdrop-blur-sm">
+              <div className="text-left">
+                <p className="text-xs font-heading uppercase tracking-[0.35em] text-primary/80">Swift onboarding</p>
+                <p className="mt-1 text-sm text-blueberry/75">Video consult, inspiration boards, and concierge roadmap within 72 hours.</p>
+              </div>
+              <Button as="link" to="/request-invite" size="sm" className="bg-primary !text-white px-6 py-3">
+                Request Invite
+              </Button>
             </div>
           </div>
-          <div className="relative hidden h-full w-full justify-end lg:flex">
-            <div className="relative flex w-full max-w-md flex-col gap-5">
-              <div className="overflow-hidden rounded-[3rem] border border-white/80 shadow-dreamy">
-                <img
-                  src={membershipHeroPrimary}
-                  alt="Expecting parents reviewing concierge plans"
-                  className="h-80 w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="ml-auto w-3/4 overflow-hidden rounded-[2.5rem] border border-white/70 shadow-soft">
-                <img
-                  src={membershipHeroSecondary}
-                  alt="Concierge sharing swatches with a couple"
-                  className="h-56 w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-            </div>
+          <div className="grid w-full gap-4 sm:grid-cols-2 sm:auto-rows-[200px] lg:auto-rows-[240px]">
+            <figure className="sm:col-span-2 sm:row-span-2 overflow-hidden rounded-[2.75rem] border border-white/70 shadow-soft transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-dreamy">
+              <img src={membershipHeroPrimary} alt="Expecting parents reviewing concierge plans" className="h-full w-full object-cover" loading="lazy" />
+            </figure>
+            <figure className="overflow-hidden rounded-[2.75rem] border border-white/70 shadow-soft transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-dreamy">
+              <img src={membershipHeroSecondary} alt="Concierge sharing swatches" className="h-full w-full object-cover" loading="lazy" />
+            </figure>
           </div>
         </div>
-        <div className="relative mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {membershipHeroHighlights.map((item) => (
-            <HeroHighlight key={item.title} {...item} />
-          ))}
-        </div>
-      </section>
+      </PageHero>
 
-      <section id="packages" className="mx-auto max-w-6xl space-y-10 rounded-[3.5rem] border border-primary/25 bg-softPink/35 px-6 py-16 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+      <section className={`mx-auto max-w-[1200px] rounded-[3.25rem] border border-primary/25 bg-softPink/35 px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:px-16 ${fadeInClass}`} id="packages">
         <header className="text-center">
-          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Packages</p>
-          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">Taylor-Made Baby Co. Packages</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
-            Choose a membership tier that reflects your season. Each package scales concierge support, design direction, and celebration planning—always with Taylor’s signature discretion.
+          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Packages</p>
+          <h2 className="mt-3 text-3xl font-heading text-blueberry sm:text-4xl">Taylor-Made Baby Co. Packages</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-blueberry/75 sm:text-base">
+            Choose a membership tier that reflects your season. Each package scales concierge support, design direction, and celebration planning — always with Taylor’s signature discretion.
           </p>
+          <div className="mx-auto h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/30 via-gold/60 to-gold/30" />
         </header>
         <div className="grid gap-6 lg:grid-cols-3">
           {membershipTiers.map((pkg) => (
             <PackageCard key={pkg.id} pkg={pkg} />
           ))}
         </div>
-        <p className="mt-6 text-center text-xs uppercase tracking-[0.3em] text-primary/80">
+        <SectionDivider className="my-10" />
+        <p className="text-center text-xs font-heading uppercase tracking-[0.3em] text-primary/80">
           Essentials anchors the must-haves · Signature delivers the dream-life ease · Bespoke remains invite-only for limitless support
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl space-y-10 rounded-[3.5rem] border border-primary/25 bg-white/92 px-6 py-16 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+      <section className={`mx-auto max-w-[1200px] rounded-[3.25rem] border border-primary/25 bg-white/95 px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:px-16 ${fadeInClass}`}>
         <header className="text-center">
-          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Concierge Pillars</p>
-          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">Signature Concierge Services</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
-            These pillars shape every package. Mix, layer, and expand them as your family grows—each one personally directed by Taylor for a seamless experience.
+          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Concierge Pillars</p>
+          <h2 className="mt-3 text-3xl font-heading text-blueberry sm:text-4xl">Signature Concierge Services</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-blueberry/75 sm:text-base">
+            These pillars shape every package. Mix, layer, and expand them as your family grows — each one personally directed by Taylor for a seamless experience.
           </p>
+          <div className="mx-auto h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/30 via-gold/60 to-gold/30" />
         </header>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {conciergePillars.map((pillar) => (
@@ -185,24 +174,27 @@ const Membership = () => {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl space-y-10 rounded-[3.5rem] border border-primary/25 bg-softMint/40 px-6 py-16 shadow-soft backdrop-blur-sm motion-safe:animate-fade-in-up sm:px-10 md:px-16">
+      <section className={`mx-auto max-w-[1200px] rounded-[3.25rem] border border-primary/25 bg-softMint/40 px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:px-16 ${fadeInClass}`}>
         <header className="text-center">
-          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Membership Moments</p>
-          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">Membership Keeps You Connected</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
+          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Membership Moments</p>
+          <h2 className="mt-3 text-3xl font-heading text-blueberry sm:text-4xl">Membership Keeps You Connected</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-blueberry/75 sm:text-base">
             Membership opens a private circle of insight, camaraderie, and ongoing touchpoints. Whether you prefer curated guides, mentor access, or white-glove discretion, you are never navigating motherhood alone.
           </p>
+          <div className="mx-auto h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/30 via-gold/60 to-gold/30" />
         </header>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {membershipBenefits.map((highlight) => (
-            <MembershipCard key={highlight.title} {...highlight} />
+            <MembershipBenefitCard key={highlight.title} {...highlight} />
           ))}
         </div>
-        <div className="flex flex-col items-center gap-3 text-center text-sm text-neutral-600">
-          <p>Ready to step inside? Share your details and Taylor will confirm invitation availability within 24 hours.</p>
-          <Link to="/contact" className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-xs font-heading uppercase tracking-[0.32em] text-white shadow-soft transition hover:-translate-y-1 hover:scale-105 hover:shadow-md">
+        <div className="flex w-full flex-col items-center gap-3 pt-8 sm:flex-row sm:justify-center">
+          <Button as="link" to="/contact" size="md" className="bg-primary !text-white px-8 py-3">
             Request Membership Chat
-          </Link>
+          </Button>
+          <Button as="link" to="/request-invite" size="md" variant="white" className="px-8 py-3">
+            Request Invite
+          </Button>
         </div>
       </section>
     </div>

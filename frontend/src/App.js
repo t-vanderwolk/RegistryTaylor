@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import CarSeatsSimplified from "./pages/CarSeatsSimplified";
 import CommunityForum from "./pages/CommunityForum";
 import Portal from "./pages/Portal";
 import AdminPortal from "./pages/AdminPortal";
@@ -56,6 +57,7 @@ const AppRoutes = () => {
           <Route path="/faq" element={<Faq />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/car-seats-simplified" element={<CarSeatsSimplified />} />
           <Route path="/community-forum" element={<CommunityForum />} />
           <Route path="/forum" element={<Navigate to="/community-forum" replace />} />
           <Route path="/portal" element={<Portal />} />

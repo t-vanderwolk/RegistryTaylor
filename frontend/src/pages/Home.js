@@ -11,11 +11,7 @@ import PageHero from "../components/UI/PageHero";
 import Button from "../components/UI/Button";
 import api from "../lib/api";
 
-import heroBackdrop from "../assets/belly-upclose.jpeg";
-import heroPrimary from "../assets/belly-sideview.jpeg";
-import heroSecondary from "../assets/ultrasounds.jpeg";
-import heroAccent from "../assets/blue-baby.jpeg";
-import heroHighlight from "../assets/cozy-baby.jpeg";
+import heroBackdrop from "../assets/nursery-1.jpeg";
 
 const highlightCards = [
   {
@@ -39,27 +35,6 @@ const statHighlights = [
   { label: "Private Clientele", value: "Five families per season" },
   { label: "Design Footprint", value: "Tempe · Phoenix · Scottsdale · Cape Cod" },
   { label: "Always Curating", value: "Soft palettes, warm welcomes, thoughtful keepsakes" },
-];
-
-const heroCollage = [
-  {
-    src: heroPrimary,
-    alt: "Soft side profile of an expecting parent",
-    className: "sm:col-span-2 sm:row-span-2",
-  },
-  {
-    src: heroSecondary,
-    alt: "Ultrasound prints styled atop a linen board",
-  },
-  {
-    src: heroAccent,
-    alt: "Peaceful newborn portrait wrapped in gentle blues",
-  },
-  {
-    src: heroHighlight,
-    alt: "Cozy newborn moment layered in pastels",
-    className: "sm:col-span-2",
-  },
 ];
 
 const fadeInClass = "motion-safe:animate-fade-in-up";
@@ -121,81 +96,65 @@ const Home = () => {
         primaryCta={{ label: "Request Invite", href: "#request-invite", as: "a", className: "px-9 py-3" }}
         secondaryCta={{ label: "Explore Memberships", to: "/membership", className: "px-9 py-3" }}
       >
-        <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
-          <div className="flex flex-col gap-8 text-left">
-            <div className="grid gap-4 sm:grid-cols-3">
-              {highlightCards.map((item) => (
-                <article
-                  key={item.title}
-                  className="flex h-full flex-col gap-2 rounded-3xl border border-gold/25 bg-white/90 p-5 text-blueberry shadow-soft transition duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-dreamy"
-                >
-                  <span className="text-2xl">{item.icon}</span>
-                  <h3 className="font-heading text-lg text-blueberry">{item.title}</h3>
-                  <p className="text-sm text-blueberry/75 leading-relaxed">{item.copy}</p>
-                </article>
-              ))}
-            </div>
-
-            <form
-              onSubmit={handleVerification}
-              className="flex w-full flex-col gap-3 rounded-[3rem] border border-gold/30 bg-white/90 px-5 py-5 shadow-soft backdrop-blur-sm sm:flex-row sm:items-center"
-            >
-              <label htmlFor="hero-invite-code" className="sr-only">
-                Invite code
-              </label>
-              <input
-                id="hero-invite-code"
-                type="text"
-                value={inviteCode}
-                onChange={(event) => {
-                  setInviteCode(event.target.value.toUpperCase());
-                  if (error) setError("");
-                  if (status !== "idle") setStatus("idle");
-                }}
-                placeholder="Private invite code"
-                className="h-12 flex-1 rounded-full border border-primary/25 bg-white px-5 font-body text-sm tracking-[0.2em] text-blueberry shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                autoComplete="off"
-              />
-              <Button
-                type="submit"
-                size="sm"
-                className={`px-7 py-3 ${status === "loading" ? "opacity-75" : ""}`}
-                disabled={status === "loading"}
-              >
-                {status === "loading" ? "Verifying…" : "Verify"}
-              </Button>
-            </form>
-            <div className="min-h-[1.25rem] text-sm text-primary" aria-live="polite">
-              {status === "error" && <span className="text-red-400">{error}</span>}
-              {status === "success" && <span>Code accepted! Redirecting…</span>}
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-5 rounded-[2.75rem] border border-gold/25 bg-gradient-to-r from-white/0 via-softPink/20 to-white/0 px-5 py-5 shadow-soft backdrop-blur-sm lg:justify-start">
-              {statHighlights.map((item) => (
-                <div key={item.label} className="space-y-1 text-center lg:text-left">
-                  <p className="inline-block rounded-full bg-softPink/70 px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-blueberry">
-                    {item.label}
-                  </p>
-                  <p className="inline-block rounded-full bg-white/90 px-4 py-1 font-heading text-sm text-blueberry/80">
-                    {item.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid w-full gap-4 sm:grid-cols-2 sm:auto-rows-[200px] lg:auto-rows-[240px]">
-            {heroCollage.map(({ src, alt, className }) => (
-              <figure
-                key={alt}
-                className={`overflow-hidden rounded-[2.75rem] border border-white/70 shadow-soft transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-dreamy ${className || ""}`}
-              >
-                <img src={src} alt={alt} className="h-full w-full object-cover" loading="lazy" />
-              </figure>
+        <div className="mx-auto max-w-3xl space-y-7 text-center text-blueberry">
+          <p className="text-sm leading-relaxed text-blueberry/80 sm:text-base">
+            Taylor serves a limited number of private families each season, guiding registries, nursery styling, and celebration plans with calm structure and thoughtful detail.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 text-xs font-heading uppercase tracking-[0.32em] text-blueberry/60">
+            {statHighlights.map((item) => (
+              <span key={item.label} className="rounded-full bg-white/80 px-4 py-2 shadow-soft">
+                {item.label}: {item.value}
+              </span>
             ))}
           </div>
         </div>
       </PageHero>
+
+      <section className={`mx-auto max-w-[1100px] space-y-8 rounded-[3.5rem] border border-primary/20 bg-white/95 px-6 py-16 text-center shadow-soft backdrop-blur-sm sm:px-14 ${fadeInClass}`}>
+        <h2 className="text-2xl font-heading text-blueberry sm:text-3xl">Concierge Services</h2>
+        <p className="mx-auto max-w-3xl text-sm leading-relaxed text-blueberry/75 sm:text-base">
+          Each experience blends registry guidance, nursery styling, and celebration planning with the same meticulous care Taylor brings to every family.
+        </p>
+        <ul className="space-y-6">
+          {highlightCards.map((item) => (
+            <li
+              key={item.title}
+              className="mx-auto flex max-w-2xl flex-col items-center gap-5 rounded-[2.75rem] border border-primary/20 bg-white px-8 py-10 text-center shadow-soft ring-1 ring-gold/30 transition duration-300 hover:-translate-y-1 hover:shadow-dreamy"
+            >
+              <p className="font-serif text-xl uppercase tracking-[0.4em] text-blueberry">{item.title}</p>
+              <p className="text-sm leading-7 text-blueberry/70 sm:text-base">{item.copy}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={`mx-auto max-w-[720px] rounded-[3.25rem] border border-primary/20 bg-white/95 px-6 py-12 text-center shadow-soft backdrop-blur-sm sm:px-12 ${fadeInClass}`}>
+        <h2 className="text-2xl font-heading text-blueberry sm:text-3xl">Already invited?</h2>
+        <p className="mt-3 text-sm leading-relaxed text-blueberry/75 sm:text-base">Enter your private concierge code to confirm your spot and create your profile.</p>
+        <form onSubmit={handleVerification} className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <label htmlFor="hero-invite-code" className="sr-only">Invite code</label>
+          <input
+            id="hero-invite-code"
+            type="text"
+            value={inviteCode}
+            onChange={(event) => {
+              setInviteCode(event.target.value.toUpperCase());
+              if (error) setError("");
+              if (status !== "idle") setStatus("idle");
+            }}
+            placeholder="Enter invite code"
+            className="h-12 flex-1 rounded-full border border-primary/25 bg-white px-5 font-body text-sm tracking-[0.2em] text-blueberry shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+            autoComplete="off"
+          />
+          <Button type="submit" size="sm" className={`px-7 py-3 ${status === "loading" ? "opacity-75" : ""}`} disabled={status === "loading"}>
+            {status === "loading" ? "Verifying…" : "Verify"}
+          </Button>
+        </form>
+        <div className="mt-2 min-h-[1.25rem] text-sm" aria-live="polite">
+          {status === "error" && <span className="text-red-400">{error}</span>}
+          {status === "success" && <span className="text-primary">Code accepted! Redirecting…</span>}
+        </div>
+      </section>
 
       <section className={`mx-auto max-w-[1200px] rounded-[3rem] border border-primary/25 bg-white/95 px-6 py-16 shadow-soft sm:px-10 md:px-16 ${fadeInClass}`}>
         <ConsultationSection />

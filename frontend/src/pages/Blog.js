@@ -16,6 +16,7 @@ import blogImageThree from "../assets/video-chat.jpeg";
 import blogImageFour from "../assets/baby-blanket.jpeg";
 import strollerPreviewImage from "../assets/baby-bump.jpeg";
 import strollerDetailImage from "../assets/belly-rub.jpeg";
+import carSeatHighlightImage from "../assets/baby-feet.jpeg";
 
 const fadeInClass = "motion-safe:animate-fade-in-up";
 
@@ -26,6 +27,11 @@ const postVisuals = {
     featuredImage: strollerPreviewImage,
     detailImage: strollerDetailImage,
     alt: "Taylor leading a stroller styling consultation",
+  },
+  "car-seats-simplified": {
+    featuredImage: carSeatHighlightImage,
+    detailImage: carSeatHighlightImage,
+    alt: "Taylor comparing car seats in a pastel nursery",
   },
 };
 
@@ -166,7 +172,22 @@ export default function Blog() {
     }
   };
 
-  const previewPosts = posts;
+  const carSeatPlaceholder = {
+    id: 'car-seats-simplified-preview',
+    slug: 'car-seats-simplified',
+    title: 'Car Seats, Simplified',
+    category: 'Guides',
+    excerpt:
+      "Compare infant, convertible, rotating, one-for-life, booster, and travel seats with Taylor's concierge checklist.",
+    content: '',
+    visibility: 'public',
+    publishedAt: null,
+  };
+
+  const hasCarSeatPost = posts.some((post) => post.slug === 'car-seats-simplified');
+  const previewPosts = hasCarSeatPost
+    ? posts
+    : [carSeatPlaceholder, ...posts];
 
   return (
     <div className="relative space-y-20 pb-28 pt-16 sm:space-y-24">
@@ -179,19 +200,22 @@ export default function Blog() {
       />
 
       <section
-        className={`mx-auto max-w-[1200px] rounded-[3.25rem] border border-primary/25 bg-softPink px-6 py-16 text-left shadow-soft sm:px-10 md:px-16 ${fadeInClass}`}
+        className={`relative mx-auto max-w-[1200px] overflow-hidden rounded-[3.25rem] border border-primary/25 bg-softMint px-6 py-16 text-left shadow-soft backdrop-blur-sm sm:px-10 md:px-16 ${fadeInClass}`}
       >
-        <header className="space-y-3 text-center md:text-left">
-          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Featured Guides</p>
+        <div className="pointer-events-none absolute -left-16 top-0 h-64 w-64 rounded-full bg-softPink/35 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-softMint/35 blur-3xl" aria-hidden="true" />
+
+        <header className="relative space-y-3 text-center md:text-left">
+          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">🧺 Featured Guides</p>
           <h2 className="text-3xl font-heading text-blueberry sm:text-4xl md:text-5xl">Taylor-Made Highlights</h2>
           <p className="mx-auto max-w-3xl text-sm leading-relaxed text-blueberry/80 sm:text-base md:mx-0">
             Curated stroller strategy, registry wins, and concierge stories that set the tone for calm planning.
           </p>
-          <div className="h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/30 via-gold/60 to-gold/30 md:mx-0" />
+          <div className="h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/25 via-gold/60 to-gold/25 md:mx-0" />
         </header>
 
         {loadingPosts ? (
-          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="relative mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: 3 }).map((_, index) => (
               <div
                 key={`post-skeleton-${index}`}
@@ -225,13 +249,15 @@ export default function Blog() {
             />
           </div>
         ) : (
-          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="relative mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {previewPosts.map((post, index) => {
               const isFeatureCard = index === 0;
+              const isCarSeatPost = post.slug === 'car-seats-simplified';
+
               return (
                 <article
                   key={post.slug || post.id || `post-${index}`}
-                  className={`group flex h-full flex-col overflow-hidden rounded-3xl border bg-white/95 text-left shadow-soft transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-dreamy ${
+                  className={`group flex h-full flex-col overflow-hidden rounded-[2.75rem] border bg-white/95 text-left shadow-soft transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-dreamy ${
                     isFeatureCard ? "border-gold/35" : "border-primary/20"
                   }`}
                 >
@@ -242,10 +268,15 @@ export default function Blog() {
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-blueberry/0 transition duration-300 group-hover:bg-blueberry/5" />
+                    <div className="absolute inset-0 bg-blueberry/0 transition duration-300 group-hover:bg-blueberry/10" />
                     {isFeatureCard && (
                       <span className="absolute right-5 top-5 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/95 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-gold shadow-soft">
                         Feature Post
+                      </span>
+                    )}
+                    {isCarSeatPost && !isFeatureCard && (
+                      <span className="absolute right-5 top-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-softPink/70 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-primary shadow-soft">
+                        Car Seats
                       </span>
                     )}
                   </figure>
@@ -254,6 +285,7 @@ export default function Blog() {
                       <span>{post.category || "Concierge Notes"}</span>
                       {post.visibility === "members_only" && <span className="flex items-center gap-1 text-primary">🔒 Members Only</span>}
                       <span className="inline-flex items-center text-[0.6rem] text-primary/70">{computeReadLength(post)}</span>
+                      {isCarSeatPost && <span className="rounded-full bg-softMint/70 px-2 py-1 text-[0.58rem] text-blueberry">Deep Dive</span>}
                     </div>
                     <h3 className="text-2xl font-heading text-blueberry sm:text-3xl">{post.title}</h3>
                     <p className="text-sm leading-relaxed text-blueberry/80 sm:text-base">{getPreviewText(post)}</p>
@@ -279,11 +311,11 @@ export default function Blog() {
                     ) : (
                       <Button
                         as="link"
-                        to={`/blog/${post.slug || post.id}`}
+                        to={isCarSeatPost ? "/car-seats-simplified" : `/blog/${post.slug || post.id}`}
                         size="sm"
                         className="bg-primary !text-white px-6 py-3"
                       >
-                        Read Article
+                        {isCarSeatPost ? 'View Comparison' : 'Read Article'}
                       </Button>
                     )}
                   </div>

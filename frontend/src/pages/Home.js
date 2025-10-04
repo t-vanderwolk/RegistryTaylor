@@ -1,170 +1,190 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
+import PageTitle from "../components/UI/PageTitle";
 import HowItWorks from "../components/HowItWorks";
 import FAQAccordion from "../components/FAQAccordion";
 import MembershipHighlights from "../components/MembershipHighlights";
-import TestimonialsCarousel from "../components/TestimonialsCarousel";
 import InviteForm from "../components/InviteForm";
-import ConsultationSection from "../components/ConsultationSection";
-import PageHero from "../components/UI/PageHero";
-import Button from "../components/UI/Button";
-import api from "../lib/api";
-
+import TestimonialsCarousel from "../components/TestimonialsCarousel";
 import heroBackdrop from "../assets/nursery-1.jpeg";
 
-const highlightCards = [
+const services = [
   {
-    title: "Registry Suites",
-    copy: "Curated lists, gentle timelines, and gifting tips shaped for your circle of loved ones.",
-    icon: "🛍️",
+    title: "Registry",
+    description: "Curated essentials, perfectly timed checklists, and gifting etiquette tailored to your circle.",
   },
   {
-    title: "Nursery Editorials",
-    copy: "Layouts, paint palettes, and styling days that turn inspiration into a lived-in retreat.",
-    icon: "🛏️",
+    title: "Nursery Design",
+    description: "Spatial planning, palettes, and furnishings that turn inspiration into a calming retreat.",
   },
   {
-    title: "Celebration Concierge",
-    copy: "Showers, sip & sees, and welcome-home moments coordinated from RSVP to final bow.",
-    icon: "🎀",
+    title: "Concierge Care",
+    description: "Weekly touchpoints, vendor introductions, and celebration coordination without the overwhelm.",
+  },
+  {
+    title: "Postpartum Support",
+    description: "Recovery-friendly plans, caregiver scheduling, and resources for the fourth trimester.",
   },
 ];
 
 const statHighlights = [
   { label: "Private Clientele", value: "Five families per season" },
   { label: "Design Footprint", value: "Tempe · Phoenix · Scottsdale · Cape Cod" },
-  { label: "Always Curating", value: "Soft palettes, warm welcomes, thoughtful keepsakes" },
+  { label: "Always Curating", value: "Soft palettes, warm welcomes, thoughtful detail" },
 ];
 
-const fadeInClass = "motion-safe:animate-fade-in-up";
+const heroTestimonialsFallback = [
+  {
+    quote:
+      "Taylor orchestrated our Scottsdale shower, registry, and hospital bag—all I had to do was show up and say yes. Our guests still talk about the details.",
+    name: "Claire & Mateo · Scottsdale",
+  },
+  {
+    quote:
+      "She walked our condo virtually, sourced every nursery piece, and had it styled before we came home from the hospital. It felt like stepping into a dream.",
+    name: "Priya & Nikhil · Phoenix",
+  },
+  {
+    quote:
+      "Weekly concierge check-ins, vetted vendors, and a postpartum menu meant zero guesswork. Taylor truly became a part of our family’s celebration story.",
+    name: "Jordan & Elise · Tempe",
+  },
+];
 
-const Home = () => {
-  const navigate = useNavigate();
-  const [inviteCode, setInviteCode] = useState("");
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState("");
+const heroTestimonials = TestimonialsCarousel.length > 0 ?TestimonialsCarousel.slice(0, 3) : heroTestimonialsFallback;
 
-  const handleVerification = async (event) => {
-    event.preventDefault();
-    const trimmed = inviteCode.trim().toUpperCase();
+const TestimonialCarouselSection = () => {
+  const [active, setActive] = useState(0);
+  const total = heroTestimonials.length;
 
-    if (!trimmed) {
-      setError("Please enter your invite code.");
-      setStatus("error");
-      return;
-    }
+  const current = useMemo(() => heroTestimonials[active], [active]);
 
-    setStatus("loading");
-    setError("");
-
-    try {
-      const response = await api.get(`/api/v1/auth/invites/${encodeURIComponent(trimmed)}`);
-      const invite = response.data?.data;
-      if (!invite) {
-        throw new Error("That invite code was not found. Please confirm with Taylor.");
-      }
-
-      setStatus("success");
-      setInviteCode("");
-
-      navigate("/create-profile", {
-        state: {
-          inviteCode: invite.code,
-          role: invite.role,
-          invitedEmail: invite.assigned_email || "",
-          inviteInfo: invite,
-        },
-      });
-    } catch (err) {
-      setStatus("error");
-      setError(
-        err.response?.data?.error?.message ||
-          err.message ||
-          "That invite code was not found. Please confirm with Taylor."
-      );
-    }
-  };
+  const goTo = (index) => setActive((index + total) % total);
 
   return (
-    <div className="space-y-24 pb-28 pt-16 sm:space-y-28">
-      <PageHero
-        backgroundImage={heroBackdrop}
-        eyebrow="Invite-only Concierge"
-        subtitle="Baby Co."
-        description="Taylor choreographs registries, nursery styling, and celebration planning so every reveal feels gentle, personal, and joyfully ready."
-        primaryCta={{ label: "Request Invite", href: "#request-invite", as: "a", className: "px-9 py-3" }}
-        secondaryCta={{ label: "Explore Memberships", to: "/membership", className: "px-9 py-3" }}
-      >
-        <div className="mx-auto max-w-3xl space-y-7 text-center text-blueberry">
-          <p className="text-sm leading-relaxed text-blueberry/80 sm:text-base">
-            Taylor serves a limited number of private families each season, guiding registries, nursery styling, and celebration plans with calm structure and thoughtful detail.
+    <section className="mx-auto max-w-4xl rounded-2xl border border-[#C8A2C8]/30 bg-white/80 p-6 text-center shadow-md backdrop-blur-sm">
+      <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">Client Reflections</p>
+      <p className="mt-4 text-2xl font-serif text-[#332E4F]">“{current.quote}”</p>
+      <p className="mt-4 text-sm text-[#5E5873]">{current.name}</p>
+      <div className="mt-6 flex items-center justify-center gap-2">
+        {heroTestimonials.map((_, index) => (
+          <button
+            key={`dot-${index}`}
+            type="button"
+            onClick={() => goTo(index)}
+            className={`h-3 w-3 rounded-full transition ${
+              index === active ? "bg-[#C8A2C8]" : "bg-[#D8F3DC]"
+            }`}
+            aria-label={`View testimonial ${index + 1}`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Home = () => {
+  return (
+    <div className="space-y-24 bg-[#FFF8F2] pb-24 pt-16 text-[#332E4F] sm:space-y-28">
+      <section className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#F7E5EE] via-[#FFF8F2] to-[#E4CFDA] p-6 text-center shadow-md sm:p-10">
+        <img
+          src={heroBackdrop}
+          alt="Sunlit nursery inspiration"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25 mix-blend-multiply"
+        />
+        <div className="relative space-y-6">
+          <PageTitle eyebrow="Invite-Only Concierge" subtitle="Baby Co." />
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
+            Taylor choreographs registries, nursery styling, and celebration planning so every reveal feels gentle, personal, and joyfully ready.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 text-xs font-heading uppercase tracking-[0.32em] text-blueberry/60">
+          <div className="relative z-10 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/request-invite"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#C17BA5] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105 hover:shadow-lg"
+            >
+              Request Invite
+            </Link>
+            <Link
+              to="/membership"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[#C17BA5]/70 bg-white/85 px-8 py-3 text-sm font-semibold text-[#5E5873] shadow-md transition hover:scale-105 hover:shadow-lg"
+            >
+              Explore Memberships
+            </Link>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/request-invite"
+              className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#C17BA5]/60 bg-[#FCECF4]/90 px-6 py-2 text-xs font-heading uppercase tracking-[0.4em] text-[#AF7C9D] shadow-sm transition hover:scale-105"
+            >
+              Now Accepting Clients
+            </Link>
             {statHighlights.map((item) => (
-              <span key={item.label} className="rounded-full bg-white/80 px-4 py-2 shadow-soft">
+              <span key={item.label} className="rounded-full border border-[#E3CAD6]/60 bg-white/80 px-5 py-2 text-[0.65rem] font-heading uppercase tracking-[0.4em] text-[#7F6B74] shadow-sm">
                 {item.label}: {item.value}
               </span>
             ))}
           </div>
         </div>
-      </PageHero>
-
-      <section className={`mx-auto max-w-[1100px] space-y-8 rounded-[3.5rem] border border-primary/20 bg-white/95 px-6 py-16 text-center shadow-soft backdrop-blur-sm sm:px-14 ${fadeInClass}`}>
-        <h2 className="text-2xl font-heading text-blueberry sm:text-3xl">Concierge Services</h2>
-        <p className="mx-auto max-w-3xl text-sm leading-relaxed text-blueberry/75 sm:text-base">
-          Each experience blends registry guidance, nursery styling, and celebration planning with the same meticulous care Taylor brings to every family.
-        </p>
-        <ul className="space-y-6">
-          {highlightCards.map((item) => (
-            <li
-              key={item.title}
-              className="mx-auto flex max-w-2xl flex-col items-center gap-5 rounded-[2.75rem] border border-primary/20 bg-white px-8 py-10 text-center shadow-soft ring-1 ring-gold/30 transition duration-300 hover:-translate-y-1 hover:shadow-dreamy"
-            >
-              <p className="font-serif text-xl uppercase tracking-[0.4em] text-blueberry">{item.title}</p>
-              <p className="text-sm leading-7 text-blueberry/70 sm:text-base">{item.copy}</p>
-            </li>
-          ))}
-        </ul>
       </section>
 
-      <section className={`mx-auto max-w-[720px] rounded-[3.25rem] border border-primary/20 bg-white/95 px-6 py-12 text-center shadow-soft backdrop-blur-sm sm:px-12 ${fadeInClass}`}>
-        <h2 className="text-2xl font-heading text-blueberry sm:text-3xl">Already invited?</h2>
-        <p className="mt-3 text-sm leading-relaxed text-blueberry/75 sm:text-base">Enter your private concierge code to confirm your spot and create your profile.</p>
-        <form onSubmit={handleVerification} className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <label htmlFor="hero-invite-code" className="sr-only">Invite code</label>
-          <input
-            id="hero-invite-code"
-            type="text"
-            value={inviteCode}
-            onChange={(event) => {
-              setInviteCode(event.target.value.toUpperCase());
-              if (error) setError("");
-              if (status !== "idle") setStatus("idle");
-            }}
-            placeholder="Enter invite code"
-            className="h-12 flex-1 rounded-full border border-primary/25 bg-white px-5 font-body text-sm tracking-[0.2em] text-blueberry shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-            autoComplete="off"
-          />
-          <Button type="submit" size="sm" className={`px-7 py-3 ${status === "loading" ? "opacity-75" : ""}`} disabled={status === "loading"}>
-            {status === "loading" ? "Verifying…" : "Verify"}
-          </Button>
-        </form>
-        <div className="mt-2 min-h-[1.25rem] text-sm" aria-live="polite">
-          {status === "error" && <span className="text-red-400">{error}</span>}
-          {status === "success" && <span className="text-primary">Code accepted! Redirecting…</span>}
+      <section className="mx-auto w-full max-w-6xl space-y-6 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
+        <header className="space-y-3 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">What We Handle</p>
+          <h2 className="text-2xl font-serif text-[#332E4F] sm:text-3xl">Every detail, softened for you</h2>
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
+            Four pillars of concierge care designed to keep planning joyful, organized, and uniquely you.
+          </p>
+        </header>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((service) => (
+            <article
+              key={service.title}
+              className="flex h-full flex-col gap-3 rounded-2xl border border-[#C8A2C8]/30 bg-[#FFF8F2]/70 p-6 text-left shadow-md transition hover:-translate-y-1 hover:shadow-lg"
+            >
+              <h3 className="text-lg font-serif text-[#332E4F]">{service.title}</h3>
+              <p className="text-sm leading-relaxed text-[#5E5873]">{service.description}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className={`mx-auto max-w-[1200px] rounded-[3rem] border border-primary/25 bg-white/95 px-6 py-16 shadow-soft sm:px-10 md:px-16 ${fadeInClass}`}>
-        <ConsultationSection />
+      <TestimonialCarouselSection />
+
+      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
+        <HowItWorks />
       </section>
 
-      <HowItWorks />
-      <MembershipHighlights />
-      <TestimonialsCarousel />
-      <FAQAccordion />
-      <InviteForm />
+      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
+        <MembershipHighlights />
+      </section>
+
+      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
+        <TestimonialsCarousel />
+      </section>
+
+      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
+        <FAQAccordion />
+      </section>
+
+      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
+        <InviteForm />
+      </section>
+
+      <section className="mx-auto flex max-w-5xl flex-col gap-4 rounded-2xl bg-gradient-to-r from-[#C8A2C8]/80 via-[#D8F3DC]/80 to-[#FADADD]/80 p-6 text-center text-[#332E4F] shadow-md sm:p-10">
+        <h2 className="text-2xl font-serif sm:text-3xl">Join the Membership</h2>
+        <p className="text-sm leading-relaxed text-[#5E5873] sm:text-base">
+          Step into a worry-free pregnancy season with concierge support, curated plans, and heartfelt celebration.
+        </p>
+        <div>
+          <Link
+            to="/membership"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#332E4F] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105 hover:shadow-lg"
+          >
+            Explore Membership Tiers
+          </Link>
+        </div>
+      </section>
     </div>
   );
 };

@@ -1,15 +1,11 @@
-// src/pages/Blog.js
-
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { SparklesIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { BookmarkIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import PageTitle from "../components/UI/PageTitle";
 
 import EmptyState from "../components/UI/EmptyState";
-import Button from "../components/UI/Button";
-import PageHero from "../components/UI/PageHero";
 import api from "../lib/api";
 
-import blogHeroImage from "../assets/nursery-1.jpeg";
 import blogImageOne from "../assets/happy-baby.jpeg";
 import blogImageTwo from "../assets/mom-support.jpeg";
 import blogImageThree from "../assets/video-chat.jpeg";
@@ -18,7 +14,14 @@ import strollerPreviewImage from "../assets/baby-bump.jpeg";
 import strollerDetailImage from "../assets/belly-rub.jpeg";
 import carSeatHighlightImage from "../assets/baby-feet.jpeg";
 
-const fadeInClass = "motion-safe:animate-fade-in-up";
+const FILTERS = ["All", "Trimester 1", "Trimester 2", "Trimester 3", "Wellness", "Gear"];
+const FILTER_MAP = {
+  "Trimester 1": ["trimester 1", "first trimester", "trimester-1"],
+  "Trimester 2": ["trimester 2", "second trimester", "trimester-2"],
+  "Trimester 3": ["trimester 3", "third trimester", "trimester-3"],
+  Wellness: ["wellness", "care", "mind", "body"],
+  Gear: ["gear", "registry", "product"],
+};
 
 const blogGallery = [blogImageOne, blogImageTwo, blogImageThree, blogImageFour];
 
@@ -33,22 +36,6 @@ const postVisuals = {
     detailImage: carSeatHighlightImage,
     alt: "Taylor comparing car seats in a pastel nursery",
   },
-};
-
-const getPreviewText = (post) => {
-  if (!post) return "";
-  if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
-  if (post.content && post.content.trim()) {
-    const text = post.content.replace(/\s+/g, " ").trim();
-    return text.length > 220 ? `${text.slice(0, 220)}…` : text;
-  }
-  return "Concierge insight penned by Taylor-Made.";
-};
-
-const getCardImage = (post, index) => {
-  const visual = postVisuals[post?.slug];
-  if (visual?.detailImage) return visual.detailImage;
-  return blogGallery[index % blogGallery.length];
 };
 
 const formatDate = (value) => {
@@ -67,14 +54,73 @@ const computeReadLength = (post) => {
   return `${Math.max(1, Math.round(words / 200))} min read`;
 };
 
-const authorLabel = (post) => post?.author || "Taylor-Made Baby Co.";
+const getPreviewText = (post) => {
+  if (!post) return "";
+  if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
+  if (post.content && post.content.trim()) {
+    const text = post.content.replace(/\s+/g, " ").trim();
+    return text.length > 180 ? `${text.slice(0, 180)}…` : text;
+  }
+  return "Concierge insight penned by Taylor-Made.";
+};
+
+const getCardImage = (post, index) => {
+  const visual = postVisuals[post?.slug];
+  if (visual?.detailImage) return visual.detailImage;
+  return blogGallery[index % blogGallery.length];
+};
+
+const matchesFilter = (post, filter) => {
+  if (filter === "All") return true;
+  const haystack = [post?.category, post?.title, ...(post?.tags || []), post?.excerpt]
+    .join(" ")
+    .toLowerCase();
+  const keywords = FILTER_MAP[filter] || [];
+  return keywords.some((keyword) => haystack.includes(keyword));
+};
+
+const popularReads = [
+  {
+    title: "Designing a Sanctuary Nursery",
+    description: "Palette formulas, lighting, and styling tricks for a serene retreat.",
+  },
+  {
+    title: "Registry Must-Haves",
+    description: "Taylor’s checklist for gear that grows with the fourth trimester in mind.",
+  },
+  {
+    title: "Celebration Etiquette",
+    description: "Hosting timelines and thank-you touches to keep gatherings heartfelt.",
+  },
+];
+
+const weeklyFocus = [
+  {
+    title: "Week 24: Travel-Friendly Gear",
+    blurb: "Compare lightweight strollers and car seats that simplify holiday trips.",
+  },
+  {
+    title: "Mindful Moments",
+    blurb: "Five-minute rituals to balance planning with rest.",
+  },
+];
+
+const carSeatPlaceholder = {
+  id: 'car-seats-simplified-placeholder',
+  slug: 'car-seats-simplified',
+  title: 'Car Seats, Simplified',
+  category: 'Guides',
+  excerpt:
+    "Compare infant, convertible, rotating, and booster seats with Taylor's concierge checklist and concierge tips.",
+  readMinutes: 5,
+  author: 'Taylor-Made Baby Co.',
+};
 
 export default function Blog() {
-  const navigate = useNavigate();
-
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [postsError, setPostsError] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState("All");
   const [questions, setQuestions] = useState([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
   const [form, setForm] = useState({ name: "", email: "", question: "" });
@@ -108,7 +154,7 @@ export default function Blog() {
         if (!active) return;
         const data = Array.isArray(response.data?.data) ? response.data.data : [];
         setQuestions(data);
-      } catch (error) {
+      } catch (_error) {
         if (active) setQuestions([]);
       } finally {
         if (active) setLoadingQuestions(false);
@@ -172,295 +218,222 @@ export default function Blog() {
     }
   };
 
-  const carSeatPlaceholder = {
-    id: 'car-seats-simplified-preview',
-    slug: 'car-seats-simplified',
-    title: 'Car Seats, Simplified',
-    category: 'Guides',
-    excerpt:
-      "Compare infant, convertible, rotating, one-for-life, booster, and travel seats with Taylor's concierge checklist.",
-    content: '',
-    visibility: 'public',
-    publishedAt: null,
-  };
+  const postsWithCarSeat = useMemo(() => {
+    if (posts.some((post) => post.slug === 'car-seats-simplified')) return posts;
+    return [carSeatPlaceholder, ...posts];
+  }, [posts]);
 
-  const hasCarSeatPost = posts.some((post) => post.slug === 'car-seats-simplified');
-  const previewPosts = hasCarSeatPost
-    ? posts
-    : [carSeatPlaceholder, ...posts];
+  const filteredPosts = useMemo(
+    () => postsWithCarSeat.filter((post) => matchesFilter(post, selectedFilter)),
+    [postsWithCarSeat, selectedFilter],
+  );
 
   return (
-    <div className="relative space-y-20 pb-28 pt-16 sm:space-y-24">
-      <PageHero
-        backgroundImage={blogHeroImage}
-        subtitle="Baby Blog"
-        description="Boutique stroller wisdom, curated registry picks, and concierge moments designed to keep planning soft, playful, and wholly you."
-        primaryCta={{ label: "Explore Memberships", to: "/membership", variant: "primary", className: "px-9 py-3" }}
-        secondaryCta={{ label: "Ask a Question", as: "a", href: "#qa", variant: "primary", className: "px-9 py-3" }}
-      />
+    <div className="space-y-24 bg-[#FFF8F2] pb-24 pt-16 text-[#332E4F] sm:space-y-28">
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-6 rounded-2xl bg-gradient-to-br from-[#F7E5EE] via-[#FFF8F2] to-[#E4CFDA] p-6 text-center shadow-md sm:p-10">
+        <PageTitle eyebrow="Concierge Notes" subtitle="Journal" />
+        <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
+          Explore planning checklists, nursery inspiration, celebratory etiquette, and postpartum care from Taylor’s pastel desk.
+        </p>
+      </section>
 
-      <section
-        className={`relative mx-auto max-w-[1200px] overflow-hidden rounded-[3.25rem] border border-primary/25 bg-softMint px-6 py-16 text-left shadow-soft backdrop-blur-sm sm:px-10 md:px-16 ${fadeInClass}`}
-      >
-        <div className="pointer-events-none absolute -left-16 top-0 h-64 w-64 rounded-full bg-softPink/35 blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-softMint/35 blur-3xl" aria-hidden="true" />
-
-        <header className="relative space-y-3 text-center md:text-left">
-          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">🧺 Featured Guides</p>
-          <h2 className="text-3xl font-heading text-blueberry sm:text-4xl md:text-5xl">Taylor-Made Highlights</h2>
-          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-blueberry/80 sm:text-base md:mx-0">
-            Curated stroller strategy, registry wins, and concierge stories that set the tone for calm planning.
-          </p>
-          <div className="h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/25 via-gold/60 to-gold/25 md:mx-0" />
-        </header>
-
-        {loadingPosts ? (
-          <div className="relative mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={`post-skeleton-${index}`}
-                className="animate-pulse rounded-3xl border border-primary/20 bg-white/90 p-8 shadow-inner"
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 lg:flex-row">
+        <div className="flex-1 space-y-8">
+          <div className="flex flex-wrap gap-3">
+            {FILTERS.map((filter) => (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setSelectedFilter(filter)}
+                className={`min-h-[40px] rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] shadow-sm transition ${
+                  selectedFilter === filter
+                    ? "border-[#C17BA5] bg-[#C17BA5] text-white"
+                    : "border-[#C17BA5]/30 bg-white/80 text-[#5E5873]"
+                }`}
               >
-                <div className="mb-6 h-48 w-full rounded-[2rem] bg-softPink/35" />
-                <div className="mb-3 h-3 w-24 rounded-full bg-softPink/25" />
-                <div className="mb-3 h-5 w-3/4 rounded-full bg-softPink/20" />
-                <div className="mb-2 h-3 w-full rounded-full bg-softPink/20" />
-                <div className="mb-2 h-3 w-2/3 rounded-full bg-softPink/20" />
-                <div className="h-10 w-full rounded-full bg-softPink/20" />
-              </div>
+                {filter}
+              </button>
             ))}
           </div>
-        ) : postsError ? (
-          <div className="mt-8">
+
+          {postsError && (
             <EmptyState
-              title="Blog is having a moment"
+              title="We had trouble"
               description={postsError}
               icon={SparklesIcon}
-              className="bg-softPink"
+              className="bg-[#FADADD]"
             />
-          </div>
-        ) : previewPosts.length === 0 ? (
-          <div className="mt-8">
-            <EmptyState
-              title="More stories coming soon"
-              description="Taylor is polishing the next batch of concierge insights. Check back shortly."
-              icon={SparklesIcon}
-              className="bg-softPink"
-            />
-          </div>
-        ) : (
-          <div className="relative mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {previewPosts.map((post, index) => {
-              const isFeatureCard = index === 0;
-              const isCarSeatPost = post.slug === 'car-seats-simplified';
+          )}
 
-              return (
+          {loadingPosts ? (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="h-64 animate-pulse rounded-2xl bg-white/70 shadow-md" />
+              ))}
+            </div>
+          ) : filteredPosts.length === 0 ? (
+            <EmptyState
+              title="Fresh stories are brewing"
+              description="Taylor is polishing the next batch of concierge insights. Check back after your matcha latte."
+              icon={SparklesIcon}
+              className="bg-[#D8F3DC]"
+            />
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {filteredPosts.map((post, index) => (
                 <article
                   key={post.slug || post.id || `post-${index}`}
-                  className={`group flex h-full flex-col overflow-hidden rounded-[2.75rem] border bg-white/95 text-left shadow-soft transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-dreamy ${
-                    isFeatureCard ? "border-gold/35" : "border-primary/20"
-                  }`}
+                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#E2CAD9]/60 bg-white/85 shadow-md backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-lg"
                 >
                   <figure className="relative h-48 w-full overflow-hidden">
                     <img
                       src={getCardImage(post, index)}
-                      alt={postVisuals[post?.slug]?.alt || post.title || "Taylor-Made blog story"}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
+                      alt={post.title || "Taylor-Made blog story"}
+                      className="h-full w-full object-cover transition duration-500 hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-blueberry/0 transition duration-300 group-hover:bg-blueberry/10" />
-                    {isFeatureCard && (
-                      <span className="absolute right-5 top-5 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/95 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-gold shadow-soft">
-                        Feature Post
-                      </span>
-                    )}
-                    {isCarSeatPost && !isFeatureCard && (
-                      <span className="absolute right-5 top-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-softPink/70 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-primary shadow-soft">
-                        Car Seats
-                      </span>
-                    )}
+                    <span className="absolute left-4 top-4 rounded-full bg-[#FFF8F2]/90 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-[#332E4F] shadow-sm">
+                      {computeReadLength(post)}
+                    </span>
                   </figure>
-                  <div className="flex flex-1 flex-col gap-4 px-8 pb-6 pt-6">
-                    <div className="flex flex-wrap items-center gap-3 text-[0.7rem] font-heading uppercase tracking-[0.28em] text-blueberry/60">
-                      <span>{post.category || "Concierge Notes"}</span>
-                      {post.visibility === "members_only" && <span className="flex items-center gap-1 text-primary">🔒 Members Only</span>}
-                      <span className="inline-flex items-center text-[0.6rem] text-primary/70">{computeReadLength(post)}</span>
-                      {isCarSeatPost && <span className="rounded-full bg-softMint/70 px-2 py-1 text-[0.58rem] text-blueberry">Deep Dive</span>}
+                  <div className="flex flex-1 flex-col gap-4 p-6">
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A2C8]">
+                        {post.category || "Concierge Notes"}
+                      </p>
+                      <h2 className="text-xl font-serif text-[#332E4F]">{post.title}</h2>
+                      <p className="text-sm leading-relaxed text-[#5E5873]">{getPreviewText(post)}</p>
                     </div>
-                    <h3 className="text-2xl font-heading text-blueberry sm:text-3xl">{post.title}</h3>
-                    <p className="text-sm leading-relaxed text-blueberry/80 sm:text-base">{getPreviewText(post)}</p>
-                    <div className="mt-auto flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-blueberry/60">
-                      <span>By {authorLabel(post)}</span>
-                      {post.publishedAt && (
-                        <>
-                          <span aria-hidden="true">•</span>
-                          <span>{formatDate(post.publishedAt)}</span>
-                        </>
-                      )}
+                    <div className="mt-auto space-y-2 text-xs text-[#5E5873]">
+                      <p>By {post.author || "Taylor-Made Baby Co."}</p>
+                      {post.publishedAt && <p>{formatDate(post.publishedAt)}</p>}
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        to={post.slug === 'car-seats-simplified' ? '/car-seats-simplified' : `/blog/${post.slug || post.id}`}
+                        className="inline-flex min-h-[40px] flex-1 items-center justify-center rounded-full bg-[#C17BA5] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-sm transition hover:scale-105"
+                      >
+                        Read Story
+                      </Link>
+                      <button
+                        type="button"
+                        className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-[#C17BA5]/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#5E5873] shadow-sm transition hover:scale-105"
+                      >
+                        <BookmarkIcon className="h-4 w-4" aria-hidden="true" />
+                        Save for Later
+                      </button>
                     </div>
                   </div>
-                  <div className="flex flex-wrap items-center gap-4 px-8 pb-8">
-                    {post.visibility === "members_only" ? (
-                      <Button
-                        size="sm"
-                        className="bg-primary !text-white px-6 py-3"
-                        onClick={() => navigate("/community-forum")}
-                      >
-                        Visit Community Forum
-                      </Button>
-                    ) : (
-                      <Button
-                        as="link"
-                        to={isCarSeatPost ? "/car-seats-simplified" : `/blog/${post.slug || post.id}`}
-                        size="sm"
-                        className="bg-primary !text-white px-6 py-3"
-                      >
-                        {isCarSeatPost ? 'View Comparison' : 'Read Article'}
-                      </Button>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-      <section
-        id="qa"
-        className={`mx-auto max-w-[1200px] space-y-10 rounded-[3.25rem] border border-primary/25 bg-softMint px-6 py-16 shadow-soft sm:px-10 md:px-16 ${fadeInClass}`}
-      >
-        <header className="text-center">
-          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Q &amp; A with Tay</p>
-          <h2 className="mt-3 text-3xl font-heading text-blueberry sm:text-4xl">Ask the Concierge</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-blueberry/80 sm:text-base">
-            Wondering about registry timelines, nursery palettes, or celebration etiquette? Submit your questions and Taylor will answer favorites in upcoming spotlights.
-          </p>
-          <div className="mx-auto h-0.5 w-16 rounded-full bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10" />
-        </header>
-
-        <form
-          onSubmit={handleSubmitQuestion}
-          className="mx-auto grid w-full max-w-3xl gap-5 rounded-[3rem] border border-gold/30 bg-gradient-to-br from-softMint/65 via-white/92 to-pastelPurple/60 p-8 shadow-soft backdrop-blur-sm"
-        >
-          <label className="text-xs font-heading uppercase tracking-[0.35em] text-primary/80">
-            Name
-            <input
-              type="text"
-              value={form.name}
-              onChange={handleInputChange("name")}
-              placeholder="Taylor Fan"
-              className="mt-2 w-full rounded-full border border-primary/25 bg-white/95 px-5 py-3 text-sm text-blueberry/80 shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:italic placeholder:text-blueberry/40"
-              required
-            />
-          </label>
-          <label className="text-xs font-heading uppercase tracking-[0.35em] text-primary/80">
-            Email
-            <input
-              type="email"
-              value={form.email}
-              onChange={handleInputChange("email")}
-              placeholder="you@example.com"
-              className="mt-2 w-full rounded-full border border-primary/25 bg-white/95 px-5 py-3 text-sm text-blueberry/80 shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:italic placeholder:text-blueberry/40"
-              required
-            />
-          </label>
-          <label className="text-xs font-heading uppercase tracking-[0.35em] text-primary/80">
-            Your Question
-            <textarea
-              value={form.question}
-              onChange={handleInputChange("question")}
-              placeholder="Ask Taylor anything about concierge planning, gifting, or milestone moments."
-              rows={4}
-              className="mt-2 w-full rounded-[2rem] border border-primary/25 bg-white/95 px-5 py-3 text-sm text-blueberry/80 shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 placeholder:italic placeholder:text-blueberry/40"
-            />
-          </label>
-          <Button type="submit" size="md" className="bg-primary !text-white px-8 py-3">
-            Submit Question
-          </Button>
-          {feedback.status !== "idle" && (
-            <p
-              className={`text-center text-xs font-heading uppercase tracking-[0.35em] ${
-                feedback.status === "success" ? "text-primary" : "text-red-400"
-              }`}
-            >
-              {feedback.message}
-            </p>
-          )}
-        </form>
-
-        <div className="mx-auto w-full max-w-5xl">
-          {loadingQuestions ? (
-            <EmptyState
-              title="Gathering questions"
-              description="We’re reviewing submissions right now."
-              icon={SparklesIcon}
-              className="bg-softPink"
-            />
-          ) : questions.length === 0 ? (
-            <EmptyState
-              title="No questions yet"
-              description="Be the first to ask — your concierge reply could be featured next."
-              icon={SparklesIcon}
-              className="bg-softPink"
-            />
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2">
-              {questions.map((item) => (
-                <article
-                  key={item.id}
-                  className="flex h-full flex-col justify-between rounded-3xl border border-gold/25 bg-white/95 p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-dreamy backdrop-blur-sm"
-                >
-                  <header className="flex items-center justify-between text-xs font-heading uppercase tracking-[0.35em] text-primary/70">
-                    <span className="flex items-center gap-2 text-blueberry/70">
-                      <SparklesIcon className="h-4 w-4 text-primary/70" />
-                      {item.username || "Anonymous"}
-                    </span>
-                    <span className="rounded-full border border-primary/30 bg-softPink/60 px-3 py-1 text-[0.6rem] tracking-[0.35em] text-blueberry/70">
-                      Q &amp; A
-                    </span>
-                  </header>
-                  <p className="mt-5 font-heading text-lg text-blueberry sm:text-xl">{item.question}</p>
-                  {item.status === "published" && item.answer ? (
-                    <p className="mt-4 text-sm italic leading-relaxed text-blueberry/75">{item.answer}</p>
-                  ) : (
-                    <p className="mt-4 text-sm italic text-blueberry/60">Taylor is crafting a response…</p>
-                  )}
                 </article>
               ))}
             </div>
           )}
         </div>
-      </section>
+
+        <aside className="hidden w-full max-w-sm flex-none space-y-6 rounded-2xl border border-[#E2CAD9]/60 bg-white/80 p-6 text-left shadow-md backdrop-blur-sm lg:sticky lg:top-24 lg:block">
+          <section className="space-y-3">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#C8A2C8]">Popular Reads</h3>
+            <ul className="space-y-4">
+              {popularReads.map((item) => (
+                <li key={item.title} className="rounded-2xl border border-[#E5CEDA]/50 bg-white/85 p-4 shadow-sm">
+                  <p className="font-serif text-lg text-[#332E4F]">{item.title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#5E5873]">{item.description}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className="space-y-3">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#C8A2C8]">This Week’s Focus</h3>
+            <ul className="space-y-4">
+              {weeklyFocus.map((item) => (
+                <li key={item.title} className="rounded-2xl border border-[#DCC0D0]/40 bg-[#F7E5EE]/60 p-4 shadow-sm">
+                  <p className="font-serif text-lg text-[#332E4F]">{item.title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#5E5873]">{item.blurb}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </aside>
+      </div>
 
       <section
-        className={`relative mx-auto max-w-[1200px] overflow-hidden rounded-[3.75rem] border border-gold/25 px-6 py-16 text-center shadow-dreamy sm:px-10 md:px-20 md:py-20 ${fadeInClass}`}
+        id="qa"
+        className="mx-auto max-w-6xl space-y-8 rounded-2xl border border-[#C8A2C8]/30 bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-softBeige/85 via-softPink/70 to-pastelPurple/60" aria-hidden="true" />
-        <div className="absolute inset-0 opacity-40" aria-hidden="true">
-          <div className="absolute -top-32 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-white/30 blur-3xl" />
-          <div className="absolute bottom-[-6rem] left-10 h-52 w-52 rounded-full bg-softMint/50 blur-3xl" />
-          <div className="absolute right-10 top-10 h-48 w-48 rounded-full bg-babyPink/50 blur-3xl" />
-        </div>
-        <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 px-4 text-center">
-          <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Stay in the Loop</p>
-          <h3 className="text-3xl font-heading text-blueberry sm:text-4xl">
-            <span className="font-script text-primary drop-shadow-sm">Taylor-Made</span>
-            <span className="block font-heading text-blueberry">From Blog to Bespoke</span>
-          </h3>
-          <div className="mx-auto h-0.5 w-16 rounded-full bg-gradient-to-r from-gold/30 via-gold/60 to-gold/30" />
-          <p className="text-sm leading-relaxed text-blueberry/80 sm:text-base">
-            Loving the stories? Step into the concierge experience with tailored registries, nursery styling, and gifting curated just for you.
+        <header className="space-y-3 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">Q &amp; A with Tay</p>
+          <h2 className="text-2xl font-serif text-[#332E4F] sm:text-3xl">Ask the Concierge</h2>
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
+            Wondering about registry timelines, nursery palettes, or celebration etiquette? Submit your questions and Taylor will answer favorites in upcoming spotlights.
           </p>
-          <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:justify-center">
-            <Button as="link" to="/contact" size="md" className="bg-primary !text-white px-9 py-3">
-              Book a Consultation
-            </Button>
-            <Button as="link" to="/membership" size="md" className="bg-primary !text-white px-9 py-3">
-              View Membership Guide
-            </Button>
+        </header>
+
+        <form onSubmit={handleSubmitQuestion} className="grid gap-4 sm:grid-cols-2">
+          <label className="flex flex-col gap-2 text-sm text-[#5E5873]">
+            Name
+            <input
+              type="text"
+              value={form.name}
+              onChange={handleInputChange("name")}
+              className="rounded-full border border-[#C8A2C8]/40 bg-white px-4 py-3 shadow-inner focus:border-[#C8A2C8] focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]/40"
+              placeholder="Your name"
+              required
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm text-[#5E5873]">
+            Email
+            <input
+              type="email"
+              value={form.email}
+              onChange={handleInputChange("email")}
+              className="rounded-full border border-[#C8A2C8]/40 bg-white px-4 py-3 shadow-inner focus:border-[#C8A2C8] focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]/40"
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+          <label className="sm:col-span-2">
+            <span className="mb-2 block text-sm text-[#5E5873]">Question</span>
+            <textarea
+              rows={4}
+              value={form.question}
+              onChange={handleInputChange("question")}
+              className="w-full rounded-2xl border border-[#C8A2C8]/40 bg-white px-4 py-3 text-sm shadow-inner focus:border-[#C8A2C8] focus:outline-none focus:ring-2 focus:ring-[#C8A2C8]/40"
+              placeholder="Ask Taylor anything about pregnancy planning"
+              required
+            />
+          </label>
+          <div className="sm:col-span-2">
+            <button
+              type="submit"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#C17BA5] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105"
+            >
+              Submit Question
+            </button>
           </div>
-        </div>
+          <div className="sm:col-span-2 text-sm text-[#5E5873]" aria-live="polite">
+            {feedback.status === "error" && <span className="text-[#C0392B]">{feedback.message}</span>}
+            {feedback.status === "success" && <span className="text-[#2E7D32]">{feedback.message}</span>}
+          </div>
+        </form>
+
+        <section className="space-y-4">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#C8A2C8]">Recent Submissions</h3>
+          {loadingQuestions ? (
+            <p className="text-sm text-[#5E5873]">Loading questions…</p>
+          ) : questions.length === 0 ? (
+            <p className="text-sm text-[#5E5873]">Be the first to ask Taylor a question this week.</p>
+          ) : (
+            <ul className="space-y-3">
+              {questions.map((question) => (
+                <li key={question.id} className="rounded-2xl bg-[#FFF8F2]/80 p-4 text-left shadow-sm">
+                  <p className="text-sm font-semibold text-[#332E4F]">{question.username}</p>
+                  <p className="text-sm leading-relaxed text-[#5E5873]">{question.question}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-[#C8A2C8]">{question.status}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </section>
     </div>
   );

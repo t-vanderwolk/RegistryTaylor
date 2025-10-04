@@ -1,53 +1,33 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import PageHero from "../components/UI/PageHero";
-import Button from "../components/UI/Button";
-import SectionDivider from "../components/UI/SectionDivider";
+import heroBackdrop from "../assets/video-chat.jpeg";
+import PageTitle from "../components/UI/PageTitle";
 
-import portalIllustration from "../assets/video-chat.jpeg";
-
-const CTA_CARDS = [
-  {
-    title: "Members",
-    description: "Review curated plans, RSVP to private events, and bookmark bespoke recommendations.",
-    icon: "🌸",
-  },
-  {
-    title: "Mentors",
-    description: "Share concierge insight, respond to families, and coordinate specialty support.",
-    icon: "🕊️",
-  },
-  {
-    title: "Admin",
-    description: "Oversee invites, concierge requests, and premium add-ons with graceful precision.",
-    icon: "✨",
-  },
-];
-
-const cardClass =
-  "flex h-full flex-col gap-3 rounded-3xl border border-primary/20 bg-white/95 p-6 text-blueberry shadow-soft transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-dreamy";
-
-const fadeInClass = "motion-safe:animate-fade-in-up";
+const portalDestinations = {
+  admin: "/admin-portal",
+  mentor: "/mentor-portal",
+  client: "/client-portal",
+};
 
 const Portal = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const { login: loginUser, loading: authLoading, error: authError } = useAuth();
-  const [login, setLogin] = useState({ email: "", password: "" });
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [status, setStatus] = useState({ loading: false, error: null, success: false });
 
   const handleChange = (field) => (event) => {
-    setLogin((current) => ({ ...current, [field]: event.target.value }));
-    setStatus((current) => ({ ...current, error: null, success: false }));
+    setCredentials((prev) => ({ ...prev, [field]: event.target.value }));
+    setStatus({ loading: false, error: null, success: false });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus({ loading: true, error: null, success: false });
 
-    const result = await loginUser(login.email.trim(), login.password);
+    const result = await loginUser(credentials.email.trim(), credentials.password);
     if (!result.success) {
       setStatus({ loading: false, error: result.error || authError || "Unable to sign in.", success: false });
       return;
@@ -56,138 +36,121 @@ const Portal = () => {
     const user = result.user;
     const searchParams = new URLSearchParams(location.search);
     const redirectTo = location.state?.redirectTo || searchParams.get("redirect");
-    const destinations = {
-      admin: "/admin-portal",
-      mentor: "/mentor-portal",
-      client: "/client-portal",
-    };
 
     if (redirectTo) {
-      setStatus({ loading: false, error: null, success: true });
       navigate(redirectTo, { replace: true });
       return;
     }
 
-    if (user?.role && destinations[user.role]) {
-      setStatus({ loading: false, error: null, success: true });
-      navigate(destinations[user.role], { replace: true });
+    if (user?.role && portalDestinations[user.role]) {
+      navigate(portalDestinations[user.role], { replace: true });
       return;
     }
 
-    setStatus({ loading: false, error: null, success: true });
+    navigate("/client-portal", { replace: true });
   };
 
   return (
-    <div className="space-y-20 pb-24 pt-16 sm:space-y-24">
-      <PageHero
-        backgroundImage={portalIllustration}
-        eyebrow="Concierge Portal"
-        subtitle="Portal Access"
-        description="Sign in to your pastel planning lounge. Tailored registries, nursery roadmaps, and celebration checklists stay polished here for your family and mentors."
-        primaryCta={{ label: "Need an Invite?", to: "/request-invite", className: "px-9 py-3" }}
-        secondaryCta={{ label: "Contact Taylor", to: "/contact", className: "px-9 py-3" }}
-      />
+    <div className="space-y-20 bg-[#FFF8F2] pb-24 pt-16 text-[#4A3B2E] sm:space-y-24">
+      <section className="relative mx-auto flex w-full max-w-5xl flex-col gap-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#F7E5EE] via-[#FFF8F2] to-[#E4CFDA] p-6 text-center shadow-md sm:p-12">
+        <img
+          src={heroBackdrop}
+          alt="Concierge video chat"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-multiply"
+        />
+        <div className="relative space-y-4">
+          <PageTitle eyebrow="Private Member Portal" subtitle="Member Login" />
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
+            Lifetime concierge access begins here. Sign in to reach your registries, celebration plans, community, and concierge messaging.
+          </p>
+        </div>
+      </section>
 
-      <section
-        className={`mx-auto grid max-w-[1200px] gap-8 rounded-[3.25rem] border border-primary/25 bg-white/95 px-6 py-16 shadow-soft backdrop-blur-sm sm:px-10 md:grid-cols-[0.95fr,1fr] md:px-16 ${fadeInClass}`}
-      >
-        <aside className="flex flex-col gap-6">
-          <header className="space-y-3 text-center md:text-left">
-            <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Private Sign-In</p>
-            <h2 className="text-3xl font-heading text-blueberry sm:text-4xl">Welcome Back</h2>
-            <p className="text-sm leading-relaxed text-blueberry/70">
-              Use the credentials shared by your concierge lead. Access adjusts instantly based on your role.
+      <section className="mx-auto grid w-full max-w-5xl gap-10 rounded-2xl border border-[#E3CAD6]/50 bg-white/85 p-6 shadow-md backdrop-blur-sm sm:grid-cols-[1.1fr,0.9fr] sm:p-10">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <header className="space-y-3 text-left">
+            <h2 className="text-xl font-serif text-[#4A3B2E]">Member Login</h2>
+            <p className="text-sm leading-relaxed text-[#5E5873]">
+              Enter the credentials shared by your concierge lead. Access adjusts instantly based on your membership tier.
             </p>
           </header>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div aria-live="polite" className="space-y-2">
-              {(status.error || authError) && (
-                <p className="rounded-3xl border border-primary/35 bg-softPink/40 px-4 py-3 text-sm text-blueberry/75">
-                  {status.error || authError}
-                </p>
-              )}
-              {status.success && (
-                <p className="rounded-3xl border border-primary/35 bg-softMint/40 px-4 py-3 text-sm text-blueberry/75">
-                  Signed in successfully. Redirecting to your tailored workspace…
-                </p>
-              )}
-            </div>
+          {(status.error || authError) && (
+            <p className="rounded-2xl border border-[#E9CADB] bg-[#FCECF4] px-4 py-3 text-sm text-[#7F6B74]" aria-live="polite">
+              {status.error || authError}
+            </p>
+          )}
 
-            <label className="block text-sm text-blueberry/70">
-              Email Address
-              <input
-                type="email"
-                value={login.email}
-                onChange={handleChange("email")}
-                placeholder="you@example.com"
-                className="mt-2 w-full rounded-full border border-primary/25 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                required
-              />
-            </label>
+          <label className="block text-sm text-[#5E5873]">
+            Email Address
+            <input
+              type="email"
+              value={credentials.email}
+              onChange={handleChange("email")}
+              placeholder="you@example.com"
+              required
+              className="mt-2 w-full rounded-full border border-[#C17BA5]/40 bg-white px-4 py-3 text-sm text-[#4A3B2E] shadow-inner focus:border-[#C17BA5] focus:outline-none focus:ring-2 focus:ring-[#C17BA5]/40"
+            />
+          </label>
 
-            <label className="block text-sm text-blueberry/70">
-              Password
-              <input
-                type="password"
-                value={login.password}
-                onChange={handleChange("password")}
-                placeholder="Enter your password"
-                className="mt-2 w-full rounded-full border border-primary/25 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                required
-              />
-            </label>
+          <label className="block text-sm text-[#5E5873]">
+            Password
+            <input
+              type="password"
+              value={credentials.password}
+              onChange={handleChange("password")}
+              placeholder="Enter your password"
+              required
+              className="mt-2 w-full rounded-full border border-[#C17BA5]/40 bg-white px-4 py-3 text-sm text-[#4A3B2E] shadow-inner focus:border-[#C17BA5] focus:outline-none focus:ring-2 focus:ring-[#C17BA5]/40"
+            />
+          </label>
 
-            <Button
-              type="submit"
-              size="md"
-              className={`w-full bg-primary !text-white px-6 py-3 ${status.loading || authLoading ? "opacity-75" : ""}`}
-              disabled={status.loading || authLoading}
+          <button
+            type="submit"
+            className={`inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-[#C17BA5] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105 ${
+              status.loading || authLoading ? "cursor-not-allowed opacity-75" : ""
+            }`}
+            disabled={status.loading || authLoading}
+          >
+            {status.loading || authLoading ? "Signing In…" : "Sign In"}
+          </button>
+
+          <p className="text-xs text-[#7F6B74]">
+            Trouble logging in? Email{' '}
+            <a className="font-semibold text-[#AF7C9D] underline" href="mailto:RegistryWithTaylor@gmail.com">
+              RegistryWithTaylor@gmail.com
+            </a>{' '}
+            for a refreshed link.
+          </p>
+        </form>
+
+        <aside className="flex flex-col gap-5 rounded-2xl border border-[#E3CAD6]/40 bg-white/90 p-6 text-left shadow-inner">
+          <div className="space-y-3">
+            <h3 className="text-lg font-serif text-[#4A3B2E]">Not a member yet?</h3>
+            <p className="text-sm leading-relaxed text-[#5E5873]">
+              Taylor serves a limited number of families each season. Request an invite or explore membership tiers to secure lifetime access.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/request-invite"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#C17BA5] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105"
             >
-              {status.loading || authLoading ? "Signing In…" : "Sign In"}
-            </Button>
-
-            <p className="text-center text-[0.7rem] text-blueberry/60">
-              Experiencing trouble? Contact your concierge lead for a password reset or temporary access link.
-            </p>
-          </form>
+              Request Invite
+            </Link>
+            <Link
+              to="/membership"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[#C17BA5]/60 bg-white/85 px-6 py-3 text-sm font-semibold text-[#5E5873] shadow-md transition hover:scale-105"
+            >
+              Explore Memberships
+            </Link>
+          </div>
+          <ul className="space-y-3 text-xs uppercase tracking-[0.4em] text-[#7F6B74]">
+            <li>Private clientele · lifetime concierge access</li>
+            <li>Design footprint · Tempe · Phoenix · Scottsdale · Cape Cod</li>
+            <li>Celebrations · Registries · Nursery Styling</li>
+          </ul>
         </aside>
-
-        <section className="flex flex-col gap-6">
-          <div className="space-y-4 text-left">
-            <p className="text-xs font-heading uppercase tracking-[0.45em] text-primary/80">Taylor-Made Baby Co.</p>
-            <h2 className="text-3xl font-heading text-blueberry sm:text-4xl">Concierge Portal Access</h2>
-            <SectionDivider className="my-4" />
-            <p className="text-sm leading-relaxed text-blueberry/75 sm:text-base">
-              Welcome to your private planning lounge. Sign in to view bespoke registries, concierge touchpoints, family messages, and upcoming celebrations curated just for you.
-            </p>
-          </div>
-
-          <div className="overflow-hidden rounded-[2.75rem] border border-primary/20 shadow-soft">
-            <img src={portalIllustration} alt="Concierge video call" className="h-56 w-full object-cover" loading="lazy" />
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CTA_CARDS.map(({ title, description, icon }) => (
-              <article key={title} className={cardClass}>
-                <span className="text-2xl">{icon}</span>
-                <h3 className="text-sm font-heading uppercase tracking-[0.35em] text-primary/80">{title}</h3>
-                <p className="text-xs text-blueberry/70 leading-relaxed">{description}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="rounded-3xl border border-primary/25 bg-softPink/45 p-6 text-left shadow-soft">
-            <p className="text-sm leading-relaxed text-blueberry/75">
-              Need concierge attention before logging in? Email
-              {" "}
-              <a className="font-heading text-primary underline decoration-babyPink/60" href="mailto:RegistryWihTaylor@gmail.com">
-                RegistryWihTaylor@gmail.com
-              </a>
-              {" "}or text the private hotline and Taylor will reply within 24 hours.
-            </p>
-          </div>
-        </section>
       </section>
     </div>
   );

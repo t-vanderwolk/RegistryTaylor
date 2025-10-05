@@ -50,7 +50,7 @@ const Footer = () => {
             </li>
             <li>
               <a href="tel:+14805551234" className="text-blueberry transition hover:text-babyBlue" aria-label="Call Taylor-Made Baby Co.">
-                +1 (480) 555-1234
+                +1 (505) 660-5436
               </a>
             </li>
             <li className="text-sm">

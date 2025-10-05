@@ -551,7 +551,7 @@ const CreateProfile = () => {
                         ? "cursor-not-allowed border border-babyBlue/20 bg-babyBlue/10"
                         : "border border-babyBlue/40 bg-white"
                     }`}
-                    placeholder="RegistryWihTaylor@gmail.com"
+                    placeholder="RegistryWithTaylor@gmail.com"
                     required
                   />
                   {errors.email && <p className="mt-1 text-xs text-babyPink">{errors.email}</p>}

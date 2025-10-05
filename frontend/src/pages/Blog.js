@@ -1,3 +1,47 @@
+// Create a new React component called CarSeatConfidence for the Taylor-Made Baby Co. blog.
+// Follow the same design structure, styling, and tone as Blog.js and stroller-styles-demystified.js.
+// The page title should be “Car Seat Confidence: Understanding Infant, Convertible & Booster Seats.”
+//
+// ✅ Visual Style:
+// - Soft, pastel boutique aesthetic (softPink, softMint, lavender, babyBlue, gold).
+// - Use elegant serif headings and clean sans-serif body text.
+// - Rounded sections (rounded-[3.5rem]), drop-shadow (shadow-soft), gentle gradients.
+//
+// ✅ Layout & Content Structure:
+// 1. **Hero Section**
+//    - Full-width pastel gradient background with a soft overlay image: “carseat-baby.jpeg” from assets.
+//    - Title: “Car Seat Confidence” in script font with subtitle “Understanding Infant, Convertible & Booster Seats.”
+//    - Brief one-sentence intro under the title.
+//
+// 2. **Section: Infant Car Seats**
+//    - Explain key features (rear-facing, travel system compatible, lightweight).
+//    - Include a “Taylor Tip” blockquote in italics about using car seat adapters with strollers.
+//
+// 3. **Section: Convertible Car Seats**
+//    - Describe standard, rotating, and travel-convertible subtypes.
+//    - Include a small bullet list comparing lifespan and ease of installation.
+//
+// 4. **Section: Booster Car Seats**
+//    - Explain when to transition from convertible to booster.
+//    - Subsection: “Backless Booster” with short description.
+//
+// 5. **Comparison Table**
+//    - A soft rounded table comparing Infant vs Convertible vs Booster across criteria: Age Range, Orientation, Portability, Longevity, Travel Compatibility.
+//
+// 6. **CTA Section**
+//    - “Still unsure which is right for your family?”
+//    - Add two buttons: “Book a Consultation” (links to /contact) and “Explore Membership” (links to /membership).
+//
+// ✅ Accessibility & UX:
+// - Make responsive with Tailwind classes.
+// - Ensure color contrast and readable line spacing.
+// - Add `alt` text to all images.
+//
+// ✅ Output:
+// - Fully self-contained functional React component ready to import into the routes.
+// - Use your existing Tailwind color tokens (e.g., bg-softPink, text-blueberry, etc.).
+// - Match animation style (motion-safe:animate-fade-in-up).
+
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookmarkIcon, SparklesIcon } from "@heroicons/react/24/outline";

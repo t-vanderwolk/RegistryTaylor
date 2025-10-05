@@ -44,8 +44,8 @@ const Footer = () => {
           <p>Ready to chat with Taylor? Reach out directly.</p>
           <ul className="space-y-2">
             <li>
-              <a href="mailto:RegistryWihTaylor@gmail.com" className="text-blueberry transition hover:text-babyBlue" aria-label="Email Taylor-Made Baby Co.">
-                RegistryWihTaylor@gmail.com
+              <a href="mailto:RegistryWithTaylor@gmail.com" className="text-blueberry transition hover:text-babyBlue" aria-label="Email Taylor-Made Baby Co.">
+                RegistryWithTaylor@gmail.com
               </a>
             </li>
             <li>

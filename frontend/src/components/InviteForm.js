@@ -39,7 +39,7 @@ const InviteForm = () => {
     } catch (error) {
       const errorMessage =
         error.response?.data?.error?.message ||
-        "We couldn’t send your request just yet. Email RegistryWihTaylor@gmail.com and we’ll take care of you.";
+        "We couldn’t send your request just yet. Email RegistryWithTaylor@gmail.com and we’ll take care of you.";
       setStatus({ state: "error", message: errorMessage });
     } finally {
       setIsSubmitting(false);
@@ -111,7 +111,7 @@ const InviteForm = () => {
           </label>
           <div className="flex flex-col items-center justify-between gap-3 rounded-3xl border border-babyPink/35 bg-white/85 px-5 py-4 text-xs font-body uppercase tracking-[0.35em] text-neutral-600 sm:flex-row">
             <span className="normal-case tracking-normal">
-              Questions? Email <a className="font-semibold text-blueberry underline" href="mailto:RegistryWihTaylor@gmail.com">RegistryWihTaylor@gmail.com</a>
+              Questions? Email <a className="font-semibold text-blueberry underline" href="mailto:RegistryWithTaylor@gmail.com">RegistryWithTaylor@gmail.com</a>
             </span>
             <button
               type="submit"

@@ -1,10 +1,12 @@
 exports.seed = async (knex) => {
-  const hasTable = await knex.schema.hasTable('blog_posts');
+  const hasTable = await knex.schema.hasTable("blog_posts");
   if (!hasTable) return;
 
-  await knex('blog_posts').where({ slug: 'stroller-styles-demystified' }).del();
+  // Ensure idempotency
+  await knex("blog_posts").where({ slug: "stroller-styles-demystified" }).del();
 
-  const content = `# 🍼 *Stroller Styles, Demystified:*
+  const content = `
+# 🍼 *Stroller Styles, Demystified:*
 ### What’s the Difference Between Modular, Travel System, Umbrella, Travel, Compact, Full-Size, Single-to-Double, Double & Jogging Strollers?
 
 Let’s face it—stroller shopping can feel like learning a new language. If terms like “modular,” “travel system,” or “convertible” leave you scratching your head, you’re not alone.
@@ -175,16 +177,20 @@ Jogging strollers are built for movement—with large air-filled tires, excellen
 At **Taylor-Made Baby Co.**, we simplify all things stroller—from technical specs to lifestyle fit. Whether you want a compact reversible ride or a fully loaded frame that grows with your family, we’re here to guide you.
 
 🍼 **Book your one-on-one stroller consultation today.**  
-We’ll help you find the perfect fit—modular or not.`;
+We’ll help you find the perfect fit—modular or not.
+`.trim();
 
-  await knex('blog_posts').insert({
-    title: 'Stroller Styles, Demystified',
-    slug: 'stroller-styles-demystified',
-    category: 'Guides',
+  await knex("blog_posts").insert({
+    title: "Stroller Styles, Demystified",
+    slug: "stroller-styles-demystified",
+    category: "Guides",
     excerpt:
-      'Confused about modular versus travel systems, or which stroller grows with two kids? This Taylor-Made guide breaks every stroller style into plain-language essentials—complete with quick comparison chart and concierge tips.',
+      "Confused about modular versus travel systems, or which stroller grows with two kids? This Taylor-Made guide breaks every stroller style into plain-language essentials—complete with quick comparison chart and concierge tips.",
     content,
-    visibility: 'public',
-    published_at: new Date('2024-09-15T10:00:00Z'),
+    visibility: "public",
+    published_at: new Date("2024-09-15T10:00:00Z"),
+    updated_at: knex.fn.now(),
   });
+
+  console.log("✅ Seeded: Stroller Styles, Demystified");
 };

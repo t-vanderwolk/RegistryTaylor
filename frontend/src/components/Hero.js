@@ -118,8 +118,7 @@ const Hero = () => {
             </h1>
             <span className="gold-divider" aria-hidden="true" />
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-midnight/85 sm:text-lg lg:mx-0">
-              Welcome to your calm corner of baby prep. We tailor registries, nursery styling, and celebration planning so every reveal feels gentle, personal, and joyfully ready.
-            </p>
+            Because Parenting should start with confidence not confusion </p>
           </div>
 
           <div className="grid w-full gap-4 text-left sm:grid-cols-3">

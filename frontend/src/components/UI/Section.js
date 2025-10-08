@@ -1,17 +1,11 @@
 import React from "react";
+import ResponsiveContainer from "./ResponsiveContainer";
+import SectionHeader from "./SectionHeader";
 
-/**
- * Section Component
- *
- * Props:
- * - title: optional heading text
- * - children: section content
- * - className: optional extra Tailwind classes
- * - center: boolean -> center-align text (Hero, CTA, etc.)
- * - index: number -> auto alternates layout
- */
 const Section = ({
   title,
+  eyebrow,
+  description,
   children,
   className = "",
   center = false,
@@ -20,47 +14,54 @@ const Section = ({
   compact = false,
   ...rest
 }) => {
-  const isReversed = index % 2 === 1 && !center; // alternate only if not a centered section
+  const isReversed = index % 2 === 1 && !center;
+  const outerSpacing = tightTop
+    ? "py-12 sm:py-14 lg:py-16"
+    : "py-16 sm:py-20 lg:py-28";
   const padding = compact
-    ? "gap-8 md:gap-12 px-6 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16"
-    : "gap-10 md:gap-16 px-6 py-14 sm:px-10 sm:py-20 md:px-16 md:py-24";
+    ? "px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16"
+    : "px-6 py-12 sm:px-12 sm:py-16 lg:px-16 lg:py-20";
+
+  const panelClasses = [
+    "relative overflow-hidden rounded-[2.75rem] border border-gold/20 bg-cream/95 shadow-soft backdrop-blur-sm transition duration-500 ease-out",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <section
-      className={`cc-container ${tightTop ? "my-14 sm:my-16 md:my-20" : "my-20 sm:my-24 md:my-32"}`}
+    <ResponsiveContainer
+      as="section"
+      className={outerSpacing}
+      padded={false}
       {...rest}
     >
-      <div
-        className={`
-          relative rounded-[2.5rem] border border-babyBlue/20
-          bg-white/95 shadow-soft transition duration-500 ease-out backdrop-blur-sm
-          ${className}
-        `}
-      >
-        {/* Inner content */}
+      <div className={panelClasses}>
         <div
-          className={`relative z-10 flex flex-col md:flex-row space-y-10 md:space-y-0 ${
-            isReversed ? "md:flex-row-reverse" : ""
-          } ${padding}`}
+          className={[
+            "relative z-10 flex flex-col gap-10 sm:gap-12 lg:gap-14",
+            isReversed ? "md:flex-row-reverse" : "md:flex-row",
+            center ? "md:flex-col" : "",
+            padding,
+          ]
+            .filter(Boolean)
+            .join(" ")}
         >
-          <div className={`${center ? "text-center w-full" : "flex-1"}`}>
-            {title && (
-              <h2
-                className={`font-playful text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6 tracking-tight text-darkText ${
-                  center ? "text-center" : "text-left"
-                }`}
-              >
-                {title}
-              </h2>
-            )}
-            {title && (
-              <div className={`${center ? "mx-auto" : ""} h-1 w-12 sm:w-16 rounded-full bg-babyBlue/70 mb-6`} />
-            )}
-            <div className="text-darkText/85 leading-relaxed font-body">{children}</div>
+          {(title || eyebrow || description) && (
+            <SectionHeader
+              eyebrow={eyebrow}
+              title={title}
+              description={description}
+              align={center ? "center" : "left"}
+              className={center ? "w-full" : "md:max-w-sm"}
+            />
+          )}
+          <div className={center ? "w-full" : "flex-1 font-body text-darkText/80"}>
+            {children}
           </div>
         </div>
       </div>
-    </section>
+    </ResponsiveContainer>
   );
 };
 

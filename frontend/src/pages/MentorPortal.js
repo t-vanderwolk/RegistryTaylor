@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { NavLink, useLocation, useNavigate, Routes, Route } from "react-router-dom";
 import api from "../lib/api";
 import RegistryBoard from "../components/registry/RegistryBoard";
+import { MentorDashboard, AvailabilityManager } from "../features/mentors";
 
 const notifications = [
   { id: 1, mentee: "Avery P.", detail: "New registry update submitted", time: "5m ago" },
@@ -709,20 +710,30 @@ const ResourceLibrary = () => {
   );
 };
 
-const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropdownOpen, setIsDropdownOpen }) => {
+const MentorPortalLayout = ({
+  profile,
+  onSignOut,
+  isOnline,
+  setIsOnline,
+  isDropdownOpen,
+  setIsDropdownOpen,
+  basePath,
+}) => {
   const links = useMemo(
     () => [
-      { to: "/mentor-portal", label: "Dashboard" },
-      { to: "/mentor-portal/registry-support", label: "Registry Support" },
-      { to: "/mentor-portal/personal-shopping", label: "Personal Shopping" },
-      { to: "/mentor-portal/nursery-design", label: "Nursery Design" },
-      { to: "/mentor-portal/in-law-interface", label: "In-Law Interface" },
-      { to: "/mentor-portal/events", label: "Events & Celebrations" },
-      { to: "/mentor-portal/messages", label: "Messages" },
-      { to: "/mentor-portal/notes", label: "Notes" },
-      { to: "/mentor-portal/resources", label: "Resource Library" },
+      { to: basePath, label: "Dashboard", end: true },
+      { to: `${basePath}/snapshot`, label: "Concierge Snapshot" },
+      { to: `${basePath}/availability`, label: "Availability" },
+      { to: `${basePath}/registry-support`, label: "Registry Support" },
+      { to: `${basePath}/personal-shopping`, label: "Personal Shopping" },
+      { to: `${basePath}/nursery-design`, label: "Nursery Design" },
+      { to: `${basePath}/in-law-interface`, label: "In-Law Interface" },
+      { to: `${basePath}/events`, label: "Events & Celebrations" },
+      { to: `${basePath}/messages`, label: "Messages" },
+      { to: `${basePath}/notes`, label: "Notes" },
+      { to: `${basePath}/resources`, label: "Resource Library" },
     ],
-    [],
+    [basePath],
   );
 
   return (
@@ -801,7 +812,7 @@ const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropd
               <li key={link.to}>
                 <NavLink
                   to={link.to}
-                  end={link.to === "/mentor-portal"}
+                  end={Boolean(link.end)}
                   className={({ isActive }) =>
                     `flex items-center justify-between rounded-2xl px-4 py-3 font-body text-sm transition ${
                       isActive
@@ -823,7 +834,10 @@ const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropd
         </nav>
         <main className="flex-1 rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-6 shadow-soft">
           <Routes>
-            <Route index element={<MentorPortalDashboard profile={profile} />} />
+            <Route index element={<MentorDashboard />} />
+            <Route path="dashboard" element={<MentorDashboard />} />
+            <Route path="availability" element={<AvailabilityManager />} />
+            <Route path="snapshot" element={<MentorPortalDashboard profile={profile} />} />
             <Route path="registry-support" element={<RegistrySupport />} />
             <Route path="personal-shopping" element={<PersonalShopping />} />
             <Route path="nursery-design" element={<NurseryDesign />} />
@@ -832,7 +846,7 @@ const MentorPortalLayout = ({ profile, onSignOut, isOnline, setIsOnline, isDropd
             <Route path="messages" element={<Messages />} />
             <Route path="notes" element={<Notes />} />
             <Route path="resources" element={<ResourceLibrary />} />
-            <Route path="*" element={<MentorPortalDashboard profile={profile} />} />
+            <Route path="*" element={<MentorDashboard />} />
           </Routes>
         </main>
       </div>
@@ -851,6 +865,7 @@ const MentorPortal = () => {
   const [state, setState] = useState({ status: "loading", data: null, error: null });
   const [isOnline, setIsOnline] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const basePath = location.pathname.startsWith("/mentor") ? "/mentor" : "/mentor-portal";
 
   useEffect(() => {
     const token = localStorage.getItem("tm_token");
@@ -955,6 +970,7 @@ const MentorPortal = () => {
       setIsOnline={setIsOnline}
       isDropdownOpen={isDropdownOpen}
       setIsDropdownOpen={setIsDropdownOpen}
+      basePath={basePath}
     />
   );
 };

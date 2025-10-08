@@ -3,76 +3,69 @@ import { CheckCircleIcon, SparklesIcon, StarIcon, UserGroupIcon } from "@heroico
 import { Link } from "react-router-dom";
 import PageTitle from "../components/UI/PageTitle";
 
-const pricingTiers = [
+const membershipTiers = [
   {
-    name: "Community",
-    price: "$500 one-time",
-    description: "Lifetime community access, seasonal digital salons, and members-only resource drops.",
+    id: "community-salon",
+    name: "Community Salon",
+    investment: "$680",
+    cadence: "per family",
+    description: "Digital concierge touchpoints, quarterly salons, and access to Taylor’s private resource library.",
     features: [
-      "Members-only forum",
-      "Quarterly virtual salons",
-      "Exclusive resource library"
+      "Seasonal planning salons with live Q&A",
+      "Digital resource library & checklists",
+      "Members-only community lounge",
     ],
-    background: "bg-[#FCECF4]",
-    border: "border-[#E9CADB]/70",
-  },
-  {
-    name: "Essentials",
-    price: "$1,499 one-time",
-    description: "Digital planning suite, curated resource library, and community Q&A access.",
-    features: [
-      "Interactive planning hub",
-      "Seasonal group salons",
-      "Downloadable checklists"
-    ],
-    background: "bg-[#FBEEF6]",
+    background: "bg-[#FAEEF6]",
     border: "border-[#EFD3E4]/70",
   },
   {
-    name: "Concierge",
-    price: "$3,499 one-time",
-    description: "Most popular for hands-on support across registries, celebrations, and scheduling.",
+    id: "signature-concierge",
+    name: "Signature Concierge",
+    investment: "From $3,600",
+    cadence: "per pregnancy",
+    description: "Most-loved tier for registry orchestration, nursery styling, and event production support.",
     features: [
-      "Concierge consult series",
-      "Registry curation & tracking",
-      "Event styling guidance",
-      "Lifetime concierge messaging"
+      "Weekly concierge check-ins",
+      "Registry design & gifting etiquette",
+      "Nursery floor plan + styling support",
+      "Celebration planning + vendor curation",
     ],
     background: "bg-[#F5DFEA]",
     border: "border-[#DABFD2]/70",
-    popular: true,
+    highlight: "Most loved",
   },
   {
-    name: "VIP",
-    price: "$6,499 one-time",
-    description: "White-glove planning, 24/7 concierge, couture nursery design, and celebration hosting.",
+    id: "bespoke-retainer",
+    name: "Bespoke Retainer",
+    investment: "By invitation",
+    cadence: "seasonal",
+    description: "A private retainer for families seeking 24/7 concierge access, travel coordination, and couture reveals.",
     features: [
       "24/7 concierge hotline",
-      "Private vendor sourcing",
-      "In-home nursery styling",
-      "Celebration hosting support"
+      "Private travel & relocation planning",
+      "Couture nursery + celebration production",
+      "Family lifestyle management under NDA",
     ],
     background: "bg-[#EAD8E6]",
     border: "border-[#D6BBD0]",
   },
 ];
 
-const benefits = [
-  { title: "Registry", description: "Tiered recommendations and gifting etiquette", icon: SparklesIcon },
-  { title: "Scheduling", description: "Appointments, workshops, and celebration timelines", icon: UserGroupIcon },
-  { title: "Checklists", description: "Week-by-week planning playbooks", icon: CheckCircleIcon },
-  { title: "Community", description: "Member forum and expert office hours", icon: UserGroupIcon },
-  { title: "Postpartum Care", description: "Fourth trimester guides and support matching", icon: StarIcon },
+const membershipBenefits = [
+  { title: "Registry Concierge", description: "Multi-retailer lists, white-glove returns, and gifting etiquette tailored to your circle.", icon: SparklesIcon },
+  { title: "Rhythm Planning", description: "Timelines, appointments, and travel plans coordinated around how you actually live.", icon: UserGroupIcon },
+  { title: "Nursery & Home", description: "Floor plans, scent layering, and styling days that keep your home feeling like you.", icon: CheckCircleIcon },
+  { title: "Fourth Trimester Care", description: "Night nurse introductions, postpartum rituals, and daily check-ins for calm nights.", icon: StarIcon },
 ];
 
-const testimonials = [
+const memberReflections = [
   {
-    quote: "The concierge tier gave us confidence to make decisions quickly—and stay excited for every reveal.",
-    name: "Harper & Leo",
+    quote: "Our concierge tier felt like a deep exhale. Taylor anticipated everything — from registry drops to how our families celebrate.",
+    name: "Avery & Jordan Parker",
   },
   {
-    quote: "Taylor’s team handled vendors, registries, and a VIP shower while we focused on rest.",
-    name: "Maya & Jordan",
+    quote: "Bespoke made cross-country living seamless. The team orchestrated vendors quietly while we focused on rest.",
+    name: "Sloane & Carter Wells",
   },
 ];
 
@@ -82,7 +75,7 @@ const Membership = () => {
       <section className="mx-auto flex w-full max-w-5xl flex-col gap-6 rounded-2xl bg-gradient-to-br from-[#F7E5EE] via-[#FFF8F2] to-[#E4CFDA] p-6 text-center shadow-md sm:p-12">
         <PageTitle eyebrow="Memberships" subtitle="Membership" />
         <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
-          Every tier is curated for calm decision making, thoughtful celebrations, and joyful preparation. A single investment unlocks lifetime concierge access.
+          Membership opens the door to calm decision making, heartfelt celebrations, and gentle accountability. Choose the tier that fits your season — every option includes Taylor’s personal oversight and NDA-backed discretion.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
@@ -102,19 +95,20 @@ const Membership = () => {
 
       <section className="mx-auto w-full max-w-6xl space-y-8 px-6">
         <div className="grid gap-6 lg:grid-cols-3">
-          {pricingTiers.map((tier) => (
+          {membershipTiers.map((tier) => (
             <article
               key={tier.name}
               className={`relative flex h-full flex-col gap-6 rounded-2xl border ${tier.border} ${tier.background} p-6 shadow-md transition hover:-translate-y-1 hover:shadow-lg`}
             >
-              {tier.popular && (
+              {tier.highlight && (
                 <span className="absolute right-6 top-6 rounded-full bg-[#C17BA5] px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-white shadow-sm">
-                  Most Popular
+                  {tier.highlight}
                 </span>
               )}
               <div className="space-y-2 text-left">
                 <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#5E5873]">{tier.name}</p>
-                <h2 className="text-3xl font-serif text-[#4A3B2E]">{tier.price}</h2>
+                <h2 className="text-3xl font-serif text-[#4A3B2E]">{tier.investment}</h2>
+                <p className="text-xs uppercase tracking-[0.35em] text-[#5E5873]/70">{tier.cadence}</p>
                 <p className="text-sm leading-relaxed text-[#5E5873]">{tier.description}</p>
               </div>
               <ul className="space-y-3 text-sm text-[#332E4F]">
@@ -130,7 +124,7 @@ const Membership = () => {
                   to="/contact"
                   className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-[#C17BA5] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105"
                 >
-                  Join for Life
+                  Explore This Tier
                 </Link>
               </div>
             </article>
@@ -141,13 +135,13 @@ const Membership = () => {
       <section className="mx-auto max-w-6xl space-y-8 px-6">
         <header className="space-y-3 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">Benefits</p>
-          <h2 className="text-2xl font-serif text-[#332E4F] sm:text-3xl">Membership unlocks curated calm</h2>
+          <h2 className="text-2xl font-serif text-[#332E4F] sm:text-3xl">Every tier comes with concierge care</h2>
           <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
-            Concierge support wraps every milestone—registries, nurseries, celebrations, and postpartum care—in soft structure and actionable plans.
+            From first trimester calm to fourth trimester care, Taylor-Made wraps every milestone in thoughtful structure so you can stay present.
           </p>
         </header>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {benefits.map(({ title, description, icon: Icon }) => (
+          {membershipBenefits.map(({ title, description, icon: Icon }) => (
             <article
               key={title}
               className="flex h-full flex-col gap-4 rounded-2xl border border-[#E2CAD9]/60 bg-white/85 p-6 text-left shadow-md backdrop-blur-sm"
@@ -163,10 +157,10 @@ const Membership = () => {
       <section className="mx-auto max-w-5xl space-y-6 rounded-2xl border border-[#C8A2C8]/30 bg-white/80 p-6 text-center shadow-md backdrop-blur-sm sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">Member Love</p>
         <div className="grid gap-6 sm:grid-cols-2">
-          {testimonials.map((testimonial) => (
-            <article key={testimonial.name} className="flex h-full flex-col gap-4 rounded-2xl border border-[#E5CFDA]/50 bg-white/90 p-6 text-left shadow-sm">
-              <p className="text-lg font-serif text-[#332E4F]">“{testimonial.quote}”</p>
-              <p className="text-sm text-[#5E5873]">{testimonial.name}</p>
+          {memberReflections.map((reflection) => (
+            <article key={reflection.name} className="flex h-full flex-col gap-4 rounded-2xl border border-[#E5CFDA]/50 bg-white/90 p-6 text-left shadow-sm">
+              <p className="text-lg font-serif text-[#332E4F]">“{reflection.quote}”</p>
+              <p className="text-sm text-[#5E5873]">{reflection.name}</p>
             </article>
           ))}
         </div>
@@ -182,7 +176,7 @@ const Membership = () => {
             to="/request-invite"
             className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#C17BA5] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105 hover:shadow-lg"
           >
-            Secure Lifetime Access
+            Secure Your Invite
           </Link>
         </div>
       </section>

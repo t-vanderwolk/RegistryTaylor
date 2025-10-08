@@ -1,7 +1,7 @@
-import React from "react";
-import { Routes, Route, Navigate, NavLink } from "react-router-dom";
+import React, { useMemo } from "react";
+import { Routes, Route, Navigate, NavLink, useLocation } from "react-router-dom";
 import Topbar from "../components/Layout/Topbar";
-import PortalNav, { portalNavItems } from "../components/Layout/PortalNav";
+import PortalNav, { buildPortalNavItems, getClientPortalBasePath } from "../components/Layout/PortalNav";
 import Dashboard from "./client/Dashboard";
 import Bio from "./client/Bio";
 import MyJourney from "./client/MyJourney";
@@ -12,15 +12,19 @@ import Memories from "./client/Memories";
 import Registry from "./client/Registry";
 
 const ClientPortal = () => {
+  const location = useLocation();
+  const basePath = getClientPortalBasePath(location.pathname);
+  const navItems = useMemo(() => buildPortalNavItems(basePath), [basePath]);
+
   return (
     <div className="min-h-screen bg-cream/40 text-darkText">
       <Topbar />
       <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col lg:flex-row">
-        <PortalNav />
+        <PortalNav basePath={basePath} />
         <main className="flex-1 space-y-8 px-4 py-8 lg:px-10">
           <div className="sticky top-[72px] z-20 mb-6 border-b border-babyPink/30 bg-cream/80 backdrop-blur lg:hidden">
             <div className="flex gap-3 overflow-x-auto px-1 pb-3 pt-4">
-              {portalNavItems.map(({ to, label, end }) => (
+              {navItems.map(({ to, label, end }) => (
                 <NavLink
                   key={`mobile-${to}`}
                   to={to}
@@ -44,10 +48,10 @@ const ClientPortal = () => {
             <Route path="journey" element={<MyJourney />} />
             <Route path="registry" element={<Registry />} />
             <Route path="memories" element={<Memories />} />
-            <Route path="bio/*" element={<Navigate to="/client-portal/bio" replace />} />
-            <Route path="journey/*" element={<Navigate to="/client-portal/journey" replace />} />
-            <Route path="registry/*" element={<Navigate to="/client-portal/registry" replace />} />
-            <Route path="memories/*" element={<Navigate to="/client-portal/memories" replace />} />
+            <Route path="bio/*" element={<Navigate to={`${basePath}/bio`} replace />} />
+            <Route path="journey/*" element={<Navigate to={`${basePath}/journey`} replace />} />
+            <Route path="registry/*" element={<Navigate to={`${basePath}/registry`} replace />} />
+            <Route path="memories/*" element={<Navigate to={`${basePath}/memories`} replace />} />
             <Route path="messages" element={<ClientMessages />} />
             <Route path="blog" element={<Navigate to="community-forum" replace />} />
             <Route path="forum" element={<Navigate to="community-forum" replace />} />

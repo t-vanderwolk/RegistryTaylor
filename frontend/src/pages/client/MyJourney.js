@@ -122,7 +122,7 @@ const buildChecklist = (profile, journey) => {
       title: "Refresh your Bio",
       detail: "Keep us posted on nursery inspiration and celebration plans.",
       done: Boolean(profile?.family_intro),
-      link: "/client-portal/bio",
+      link: "../bio",
       cta: "Update Bio",
     },
     {
@@ -131,7 +131,7 @@ const buildChecklist = (profile, journey) => {
         ? `Schedule your next touchpoint with ${profile.mentor_preference}.`
         : "Let us know if you have a mentor preference so we can align the right specialist.",
       done: Boolean(profile?.mentor_preference),
-      link: "/client-portal/services",
+      link: "../services",
       cta: profile?.mentor_preference ? "Schedule call" : "Share preference",
     },
     {
@@ -148,7 +148,7 @@ const buildChecklist = (profile, journey) => {
       title: "Add your due date",
       detail: "Set the countdown so we can pace deliveries and celebration touchpoints.",
       done: false,
-      link: "/client-portal/bio",
+      link: "../bio",
       cta: "Add due date",
     });
   }
@@ -386,7 +386,7 @@ const MyJourney = () => {
     title="Nursery progress"
     detail="Upload photos or key decisions so your mentor can align merch drops."
     actionLabel="Share update"
-    to="/client-portal/memories"
+    to="../memories"
   />
           <MemoryCard
             title="Heartbeat moments"

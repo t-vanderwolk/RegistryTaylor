@@ -1,104 +1,111 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
-// Dummy data (replace with real testimonials)
 const testimonials = [
   {
-    name: "Emily R.",
-    role: "First-Time Mom",
-    quote: `TaylorMade Baby Co. made everything so much easier. 
-I didn’t have to stress about what to buy or when to do things — it was all organized for me. 
-It felt like having a wedding planner for pregnancy.`,
+    id: "avery-parker",
+    family: "Avery & Jordan Parker",
+    milestone: "Signature nursery reveal + concierge membership",
+    quote:
+      "“Taylor handled every vendor conversation and even stocked our pantry before we came home. We walked into a nursery that felt like us — calm, custom, and photo ready.”",
   },
   {
-    name: "Sarah L.",
-    role: "Second Pregnancy",
-    quote: `The concierge support was incredible. 
-Whenever I felt overwhelmed, I could just send a quick message and get clarity. 
-It gave me peace of mind every step of the way.`,
+    id: "claire-serrano",
+    family: "Claire & Mateo Serrano",
+    milestone: "Cape Cod shower weekend + travel registry concierge",
+    quote:
+      "“The way Taylor managed house guests, gifting, and last-minute weather pivots was unreal. All we had to do was toast, laugh, and soak up the weekend with our people.”",
   },
   {
-    name: "Amanda D.",
-    role: "Working Mom-to-Be",
-    quote: `The membership saved me so much time. 
-The checklists and reminders kept me on track. 
-It felt like a supportive friend who always knew what was next.`,
+    id: "priya-shah",
+    family: "Priya & Nikhil Shah",
+    milestone: "Fourth trimester support & newborn travel planning",
+    quote:
+      "“In the middle of newborn life, Taylor’s nightly check-ins, travel prep, and vetted experts gave us peace of mind. We felt supported, not scheduled.”",
   },
 ];
 
 const TestimonialsCarousel = () => {
-  const [index, setIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeTestimonial = useMemo(() => testimonials[activeIndex], [activeIndex]);
 
-  const handleNext = () => {
-    setIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const handlePrev = () => {
-    setIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
+  const goTo = (nextIndex) => {
+    const total = testimonials.length;
+    setActiveIndex((nextIndex + total) % total);
   };
 
   return (
-    <section className="relative mx-auto max-w-4xl px-6 py-12 text-center">
-      <h2 className="mb-8 text-2xl font-serif text-[#5E5873] sm:text-3xl">
-        What Moms Are Saying
-      </h2>
+    <section
+      id="member-voices"
+      className="relative mx-auto mt-4 max-w-4xl overflow-hidden rounded-[3rem] border border-babyPink/35 bg-white/85 px-6 py-12 text-center shadow-soft backdrop-blur motion-safe:animate-fade-in-up sm:px-10"
+    >
+      <div className="pointer-events-none absolute -left-20 top-4 h-52 w-52 rounded-full bg-babyPink/30 blur-3xl" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-16 bottom-4 h-44 w-44 rounded-full bg-babyBlue/25 blur-3xl" aria-hidden="true" />
 
-      <div className="relative overflow-hidden rounded-2xl bg-white/80 p-8 shadow-md ring-1 ring-pink-100">
+      <header className="relative space-y-2">
+        <p className="text-xs font-heading uppercase tracking-[0.32em] text-primary/80">Member reflections</p>
+        <h2 className="text-3xl font-serif text-blueberry sm:text-4xl">Warm words from our circle</h2>
+        <p className="mx-auto max-w-2xl text-sm leading-relaxed text-neutral-600 sm:text-base">
+          Concierge families share how Taylor-Made support felt in real life — because calm planning is the point.
+        </p>
+      </header>
+
+      <div className="relative mt-10">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
+          <motion.figure
+            key={activeTestimonial.id}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="mx-auto max-w-3xl space-y-6 rounded-[2.5rem] border border-babyPink/30 bg-white/95 px-6 py-8 shadow-soft"
           >
-            <blockquote className="space-y-3 text-sm leading-relaxed text-[#5E5873] sm:text-base">
-              {testimonials[index].quote
-                .split(/\n+/g) // <-- FIX: split on newlines safely
-                .map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
+            <blockquote className="space-y-4 text-left text-base leading-relaxed text-blueberry/85 sm:text-lg">
+              <p>{activeTestimonial.quote}</p>
             </blockquote>
-
-            <footer className="mt-6 text-sm font-semibold text-pink-600">
-              — {testimonials[index].name},{" "}
-              <span className="font-normal text-[#8A8595]">
-                {testimonials[index].role}
-              </span>
-            </footer>
-          </motion.div>
+            <figcaption className="space-y-1 text-left text-sm uppercase tracking-[0.28em] text-neutral-500">
+              <span className="block font-semibold text-blueberry">{activeTestimonial.family}</span>
+              <span className="block text-neutral-500/80">{activeTestimonial.milestone}</span>
+            </figcaption>
+          </motion.figure>
         </AnimatePresence>
       </div>
 
-      {/* Controls */}
-      <div className="mt-8 flex items-center justify-center gap-4">
+      <div className="relative mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
         <button
-          onClick={handlePrev}
-          className="rounded-full bg-pink-100 px-4 py-2 text-sm font-medium text-pink-700 shadow hover:bg-pink-200"
+          type="button"
+          onClick={() => goTo(activeIndex - 1)}
+          className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-white/95 px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-softPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/50"
         >
-          ← Previous
+          Previous
         </button>
+        <div className="flex items-center gap-3">
+          {testimonials.map((testimonial, index) => (
+            <button
+              key={testimonial.id}
+              type="button"
+              onClick={() => goTo(index)}
+              className={`h-3 w-3 rounded-full transition ${index === activeIndex ? "bg-babyPink" : "bg-babyPink/30"}`}
+              aria-label={`View reflection from ${testimonial.family}`}
+            />
+          ))}
+        </div>
         <button
-          onClick={handleNext}
-          className="rounded-full bg-pink-100 px-4 py-2 text-sm font-medium text-pink-700 shadow hover:bg-pink-200"
+          type="button"
+          onClick={() => goTo(activeIndex + 1)}
+          className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-white/95 px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-softPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/50"
         >
-          Next →
+          Next
         </button>
       </div>
-
-      {/* Dots */}
-      <div className="mt-4 flex justify-center gap-2">
-        {testimonials.map((_, i) => (
-          <span
-            key={i}
-            className={`h-2 w-2 rounded-full ${
-              i === index ? "bg-pink-500" : "bg-pink-200"
-            }`}
-          />
-        ))}
-      </div>
+      <p className="mt-6 text-sm text-neutral-600">
+        Ready for your own concierge story?{" "}
+        <Link to="/membership" className="font-semibold text-blueberry underline">
+          Explore membership tiers
+        </Link>
+        .
+      </p>
     </section>
   );
 };

@@ -394,9 +394,9 @@ const CreateProfile = () => {
       localStorage.removeItem(storageKey);
 
       const destinationsByRole = {
-        client: "/client-portal",
-        mentor: "/mentor-portal",
-        admin: "/admin-portal",
+        client: "/dashboard",
+        mentor: "/mentor",
+        admin: "/admin",
       };
 
       const destination = destinationsByRole[result.user.role] || "/portal";

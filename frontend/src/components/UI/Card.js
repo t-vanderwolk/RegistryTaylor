@@ -2,9 +2,9 @@ import React from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 
 const PLACEHOLDER_GRADIENTS = {
-  pink: "from-babyPink/90 via-pastelPurple/40 to-babyPink/30",
-  blue: "from-babyBlue/90 via-pastelPurple/40 to-babyBlue/30",
-  purple: "from-pastelPurple/90 via-babyPink/40 to-pastelPurple/25",
+  pink: "from-babyPink/90 via-mauve/35 to-babyPink/40",
+  blueberry: "from-blueberry/90 via-mauve/35 to-blueberry/30",
+  mauve: "from-mauve/90 via-babyPink/30 to-mauve/25",
 };
 
 const Card = ({
@@ -21,19 +21,19 @@ const Card = ({
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl bg-white/95 p-6 sm:p-7 shadow-lg ring-1 ring-pastelPurple/25 transition-transform duration-200 ease-out hover:-translate-y-1 hover:shadow-2xl ${className}`.trim()}
+      className={`group relative overflow-hidden rounded-[2rem] border border-gold/25 bg-cream/95 p-6 sm:p-7 shadow-soft transition-transform duration-300 ease-out hover:-translate-y-1 hover:shadow-dreamy ${className}`.trim()}
     >
       {(image || icon) && (
-        <div className="relative mb-5 overflow-hidden rounded-2xl">
+        <div className="relative mb-6 overflow-hidden rounded-3xl">
           {image ? (
             <img
               src={image}
               alt="Concierge lifestyle"
-              className="h-40 w-full object-cover transition duration-200 group-hover:scale-[1.03]"
+              className="h-44 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
             />
           ) : (
             <div
-              className={`flex h-40 w-full items-center justify-center bg-gradient-to-br ${gradient} text-white/90 transition duration-200 group-hover:scale-[1.02]`}
+              className={`flex h-44 w-full items-center justify-center bg-gradient-to-br ${gradient} text-cream transition duration-300 group-hover:scale-[1.02]`}
             >
               {icon || <SparklesIcon className="h-10 w-10" aria-hidden="true" />}
             </div>
@@ -56,13 +56,13 @@ const Card = ({
         )}
 
         {children && (
-          <div className="font-body text-sm leading-relaxed text-darkText/80 sm:text-base space-y-3">
+          <div className="space-y-3 font-body text-sm leading-relaxed text-darkText/80 sm:text-base">
             {children}
           </div>
         )}
 
         {footer && (
-          <footer className="mt-auto pt-4 font-body text-xs uppercase tracking-[0.25em] text-gold">
+          <footer className="mt-auto pt-4 font-heading text-[0.7rem] uppercase tracking-[0.3em] text-accent">
             {footer}
           </footer>
         )}

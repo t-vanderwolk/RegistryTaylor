@@ -4,23 +4,25 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        babyPink: "#FBEFF2",
-        babyBlue: "#D3E4F7",
-        pastelPurple: "#EDE6F8",
-        softBeige: "#F8F4EC",
-        cream: "#FFFCF8",
-        midnight: "#433D4A",
-        darkText: "#433D4A",
-        blueberry: "#5B5162",
-        deepLilac: "#6F6577",
-        skyMist: "#EBF2FB",
-        blush: "#F6E6ED",
-        lavender: "#F1ECF7",
-        moss: "#AEBFAF",
-        gold: "#E2D6A5",
-        softPink: "#FCE8EF",
-        softMint: "#E5F4F1",
-        primary: "#C38BA8"
+        babyPink: "#FADADD",
+        babyBlue: "#D7E5F4",
+        pastelPurple: "#E7DFF0",
+        mauve: "#A68AB2",
+        softBeige: "#F5EBE1",
+        cream: "#FFF8F2",
+        midnight: "#3E3A47",
+        darkText: "#3E3A47",
+        blueberry: "#4B4F6A",
+        deepLilac: "#7C6E8B",
+        skyMist: "#E9F1F8",
+        blush: "#F5E3EA",
+        lavender: "#EEE6F5",
+        moss: "#A8B8AA",
+        gold: "#D4AF37",
+        softPink: "#F6DDE8",
+        softMint: "#E4F3F0",
+        primary: "#A68AB2",
+        accent: "#D4AF37"
       },
       fontFamily: {
         heading: ["'Playfair Display'", "serif"],
@@ -32,13 +34,13 @@ module.exports = {
         cursive: ["'Great Vibes'", "cursive"]
       },
       boxShadow: {
-        toy: "0 6px 12px rgba(0, 0, 0, 0.08)",
-        pop: "0 18px 30px -20px rgba(250, 218, 221, 0.45)",
-        dreamy: "0 24px 60px -30px rgba(58, 61, 77, 0.28)",
-        soft: "0 16px 45px -32px rgba(58, 61, 77, 0.24)"
+        toy: "0 6px 16px rgba(78, 79, 106, 0.12)",
+        pop: "0 18px 40px -22px rgba(166, 138, 178, 0.45)",
+        dreamy: "0 28px 70px -34px rgba(62, 58, 71, 0.32)",
+        soft: "0 18px 50px -28px rgba(75, 79, 106, 0.28)"
       },
       borderRadius: {
-        bubble: "2.5rem"
+        bubble: "2.75rem"
       },
       animation: {
         bounceSlow: "bounceSlow 2.6s ease-in-out infinite",

@@ -11,9 +11,9 @@ const Navbar = () => {
 
   const portalDestinations = useMemo(
     () => ({
-      admin: "/admin-portal",
-      mentor: "/mentor-portal",
-      client: "/client-portal",
+      admin: "/admin",
+      mentor: "/mentor",
+      client: "/dashboard",
     }),
     []
   );

@@ -22,7 +22,7 @@ import UserPortal from "./pages/UserPortal";
 import CreateProfile from "./pages/CreateProfile";
 import RequestInvite from "./pages/RequestInvite";
 import "./styles/App.css";
-import ProtectedRoute from "./components/Layout/ProtectedRoute";
+import { RoleGuard } from "./features";
 
 const NotFound = () => (
   <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-darkText">
@@ -35,7 +35,8 @@ const NotFound = () => (
 
 const AppRoutes = () => {
   const location = useLocation();
-  const hideChrome = location.pathname.startsWith("/admin-portal");
+  const hideChrome =
+    location.pathname.startsWith("/admin-portal") || location.pathname.startsWith("/admin");
 
   return (
     <>
@@ -61,17 +62,43 @@ const AppRoutes = () => {
           <Route path="/community-forum" element={<CommunityForum />} />
           <Route path="/forum" element={<Navigate to="/community-forum" replace />} />
           <Route path="/portal" element={<Portal />} />
+          <Route path="/login" element={<Portal />} />
           <Route path="/create-profile" element={<CreateProfile />} />
-          <Route path="/admin-portal/*" element={<AdminPortal />} />
+          <Route path="/register" element={<CreateProfile />} />
+          <Route path="/invite" element={<RequestInvite />} />
           <Route
-            path="/client-portal/*"
+            path="/admin/*"
             element={
-              <ProtectedRoute allowedRoles={["client"]}>
-                <ClientPortal />
-              </ProtectedRoute>
+              <RoleGuard allow={["ADMIN"]}>
+                <AdminPortal />
+              </RoleGuard>
             }
           />
-          <Route path="/mentor-portal/*" element={<MentorPortal />} />
+          <Route
+            path="/admin-portal/*"
+            element={<Navigate to="/admin" replace />}
+          />
+          <Route
+            path="/dashboard/*"
+            element={
+              <RoleGuard allow={["CLIENT", "ADMIN"]}>
+                <ClientPortal />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="/client-portal/*"
+            element={<Navigate to="/dashboard" replace />}
+          />
+          <Route
+            path="/mentor/*"
+            element={
+              <RoleGuard allow={["MENTOR", "ADMIN"]}>
+                <MentorPortal />
+              </RoleGuard>
+            }
+          />
+          <Route path="/mentor-portal/*" element={<Navigate to="/mentor" replace />} />
           <Route path="/user-portal" element={<UserPortal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

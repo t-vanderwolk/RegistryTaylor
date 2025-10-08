@@ -7,6 +7,8 @@ import {
   BookmarkSquareIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+import { BookingForm } from "../../features/clients";
+import { useSafeFetch } from "../../hooks/useSafeFetch";
 
 const servicePackages = [
   {
@@ -138,6 +140,10 @@ const statusStyles = {
 };
 
 const Services = () => {
+  const { data } = useSafeFetch("/api/me", {}, { fallback: {} });
+  const mentorId = data?.mentor?.id || "mentor-demo";
+  const mentorName = data?.mentor?.name || data?.mentor?.preferred || "Taylor";
+
   return (
     <div className="space-y-8">
       <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
@@ -152,6 +158,18 @@ const Services = () => {
         </header>
       </section>
 
+      <section className="rounded-[2.5rem] border border-gold/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-3">
+          <h2 className="text-2xl font-serif text-blueberry">Request time with {mentorName}</h2>
+          <p className="text-sm text-darkText/70">
+            Choose your preferred window and Taylor will confirm within one business day.
+          </p>
+        </div>
+        <div className="mt-6">
+          <BookingForm mentorId={mentorId} />
+        </div>
+      </section>
+
       <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-2">
@@ -161,7 +179,7 @@ const Services = () => {
             </p>
           </div>
           <Link
-            to="/client-portal/messages"
+            to="../messages"
             className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
           >
             Ask Taylor about tiers
@@ -226,7 +244,7 @@ const Services = () => {
               </header>
               <p className="mt-3 flex-1 text-sm font-body leading-relaxed text-darkText/75">{experience.copy}</p>
               <Link
-                to="/client-portal/messages"
+                to="../messages"
                 className="mt-5 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry transition hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
               >
                 Hold my spot
@@ -245,7 +263,7 @@ const Services = () => {
             </p>
           </div>
           <Link
-            to="/client-portal/messages"
+            to="../messages"
             className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
           >
             Request updates
@@ -300,7 +318,7 @@ const Services = () => {
               <h3 className="mt-4 font-heading text-lg text-blueberry">{item.title}</h3>
               <p className="mt-2 text-sm font-body leading-relaxed text-darkText/70">{item.blurb}</p>
               <Link
-                to="/client-portal/messages"
+                to="../messages"
                 className="mt-4 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
               >
                 Personalize for me

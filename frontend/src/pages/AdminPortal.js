@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { NavLink, Routes, Route, Navigate, useNavigate, Link } from "react-router-dom";
+import { NavLink, Routes, Route, Navigate, useNavigate, useLocation, Link } from "react-router-dom";
 import {
   ResponsiveContainer,
   LineChart,
@@ -253,7 +253,7 @@ const InviteManagement = ({ onApproved }) => {
 };
 
 /* ------------------ SIDEBAR ------------------ */
-const SidebarContent = ({ items, onClose, showClose }) => (
+const SidebarContent = ({ items, basePath, onClose, showClose }) => (
   <div className="flex h-full flex-col">
     <div className="flex items-center justify-between">
       <div>
@@ -274,7 +274,7 @@ const SidebarContent = ({ items, onClose, showClose }) => (
       {items.map((item) => (
         <NavLink
           key={item.id}
-          to={`/admin-portal/${item.path}`}
+          to={`${basePath}/${item.path}`}
           className={({ isActive }) =>
             `block rounded-2xl px-4 py-3 shadow-md backdrop-blur-md transition ${
               isActive
@@ -292,7 +292,7 @@ const SidebarContent = ({ items, onClose, showClose }) => (
   </div>
 );
 
-const Sidebar = ({ items, isOpen, onClose }) => (
+const Sidebar = ({ items, basePath, isOpen, onClose }) => (
   <>
     <div
       className={`fixed inset-0 z-30 bg-slate-900/40 transition-opacity duration-200 lg:hidden ${
@@ -306,12 +306,12 @@ const Sidebar = ({ items, isOpen, onClose }) => (
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <SidebarContent items={items} onClose={onClose} showClose />
+      <SidebarContent items={items} basePath={basePath} onClose={onClose} showClose />
     </aside>
 
     <div className="relative hidden lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-white/20 lg:bg-white/40 lg:px-6 lg:py-8 lg:shadow-xl lg:backdrop-blur-xl">
       <div className="sticky top-10">
-        <SidebarContent items={items} onClose={undefined} showClose={false} />
+        <SidebarContent items={items} basePath={basePath} onClose={undefined} showClose={false} />
       </div>
     </div>
   </>
@@ -361,7 +361,7 @@ const Topbar = ({ adminName, onToggleSidebar, onSignOut }) => {
 };
 
 /* ------------------ DASHBOARD ------------------ */
-const AdminDashboard = () => {
+const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
   const { stats, recentInvites, engagement, loading, error, reload } = useAdminMetrics();
   const [questions, setQuestions] = useState([]);
   const [questionsLoading, setQuestionsLoading] = useState(true);
@@ -508,7 +508,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex items-center gap-3">
           <Link
-            to="/admin-portal/messages"
+            to={`${dashboardBasePath}/messages`}
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-babyPink/60 bg-white text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
             aria-label="View Messages"
           >
@@ -2513,6 +2513,8 @@ const BlogManager = () => {
 const AdminPortal = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const basePath = location.pathname.startsWith("/admin") ? "/admin" : "/admin-portal";
   const profile = useMemo(() => {
     const stored = localStorage.getItem("tm_user");
     if (!stored) return null;
@@ -2532,21 +2534,21 @@ const AdminPortal = () => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-cream via-white to-babyBlue/20 text-darkText">
-      <Sidebar items={NAV_ITEMS} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar items={NAV_ITEMS} basePath={basePath} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex flex-1 flex-col">
         <Topbar adminName={adminName} onToggleSidebar={() => setSidebarOpen((v) => !v)} onSignOut={handleSignOut} />
         <main className="flex-1 px-6 py-8 lg:px-10">
           <div className="mx-auto w-full max-w-6xl space-y-8">
             <Routes>
               <Route index element={<Navigate to="dashboard" replace />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminDashboard basePath={basePath} />} />
               <Route
                 path="invites"
                 element={
                   <InviteManagement
                     onApproved={(request) => {
                       const destination = request?.requested_role === 'mentor' ? 'mentors' : 'clients';
-                      navigate(`/admin-portal/${destination}`);
+                      navigate(`${basePath}/${destination}`);
                     }}
                   />
                 }

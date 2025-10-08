@@ -277,7 +277,7 @@ const Memories = () => {
         <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-darkText/60">
           <span>Want a printable keepsake?</span>
           <Link
-            to="/client-portal/messages"
+            to="../messages"
             className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
           >
             Ask Taylor for a memory book

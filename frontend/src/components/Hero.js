@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import heroPrimary from "../assets/belly-sideview.jpeg";
 import heroSecondary from "../assets/ultrasound-pics.jpeg";
 import heroAccent from "../assets/blue-baby.jpeg";
 import heroHighlight from "../assets/cozy-baby.jpeg";
 import api from "../lib/api";
+import Button from "./UI/Button";
+import ResponsiveContainer from "./UI/ResponsiveContainer";
 
 const highlightCards = [
   {
     title: "Registry Suites",
-    copy: "Curated lists, gentle timelines, and gifting tips shaped for your circle of loved ones.",
+    copy: "Curated essentials, gentle timelines, and gifting etiquette tailored to your circle.",
   },
   {
     title: "Nursery Editorials",
-    copy: "Layouts, paint palettes, and styling days that turn inspiration into a lived-in retreat.",
+    copy: "Layouts, palettes, and styling days that turn inspiration into a calming retreat.",
   },
   {
     title: "Celebration Concierge",
@@ -48,11 +51,23 @@ const heroCollage = [
   },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
+};
+
 const Hero = () => {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
+
+  const message = useMemo(() => {
+    if (status === "error") return error;
+    if (status === "success")
+      return "Invite accepted — we can’t wait to welcome you inside.";
+    return "";
+  }, [status, error]);
 
   const handleVerification = async (event) => {
     event.preventDefault();
@@ -60,6 +75,7 @@ const Hero = () => {
 
     if (!trimmed) {
       setError("Please enter your invite code.");
+      setStatus("error");
       return;
     }
 
@@ -86,11 +102,11 @@ const Hero = () => {
         },
       });
     } catch (err) {
-      const message =
+      const messageText =
         err.response?.data?.error?.message ||
         err.message ||
         "That invite code was not found. Please confirm with Taylor.";
-      setError(message);
+      setError(messageText);
       setStatus("error");
     }
   };
@@ -98,121 +114,162 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative mx-auto mt-16 max-w-6xl overflow-hidden rounded-[4rem] border border-babyPink/35 bg-gradient-to-br from-babyPink/18 via-white/95 to-softBeige/70 px-6 py-14 text-midnight shadow-dreamy backdrop-blur-2xl sm:px-9 md:px-16 md:py-18"
+      className="relative isolate overflow-hidden rounded-b-[3.25rem] bg-gradient-to-br from-babyPink/70 via-cream to-softMint/55 text-blueberry"
     >
-      <div className="pointer-events-none absolute inset-y-0 -left-16 h-full w-72 rounded-full bg-babyPink/25 blur-3xl" aria-hidden="true" />
-      <div className="pointer-events-none absolute -top-24 right-10 h-80 w-80 rounded-full bg-babyBlue/20 blur-3xl" aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-babyPink/40 blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -right-36 top-6 h-72 w-72 rounded-full bg-mauve/30 blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-gold/25 blur-3xl"
+        aria-hidden="true"
+      />
 
-      <div className="relative grid gap-12 text-center lg:grid-cols-[1.15fr,0.9fr] lg:items-center lg:text-left">
-        <div className="flex flex-col gap-8">
-          <div className="space-y-4">
-            <div className="inline-flex items-center justify-center gap-3 rounded-full border border-babyPink/45 bg-white/90 px-6 py-2 text-[0.7rem] font-heading uppercase tracking-[0.45em] text-blueberry shadow-soft backdrop-blur-sm">
-              Invite-only baby planning concierge
-            </div>
-
-            <span className="block font-script text-6xl leading-none text-blueberry drop-shadow-[0_18px_24px_rgba(91,81,98,0.28)] sm:text-7xl lg:text-center">
-              Taylor-Made
-            </span>
-            <h1 className="text-4xl font-heading leading-tight text-blueberry sm:text-5xl md:text-6xl lg:mx-auto lg:text-center">
-              Baby Co.
-            </h1>
-            <span className="gold-divider" aria-hidden="true" />
-            <p className="mx-auto max-w-3xl text-base leading-relaxed text-midnight/85 sm:text-lg lg:mx-0">
-            Because Parenting should start with confidence not confusion </p>
-          </div>
-
-          <div className="grid w-full gap-4 text-left sm:grid-cols-3">
-            {highlightCards.map((item) => (
-              <article
-                key={item.title}
-                className="h-full rounded-[2.25rem] border border-babyPink/40 bg-white/95 p-5 text-center shadow-soft backdrop-blur-sm transition duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-dreamy lg:text-left"
-              >
-                <p className="text-xs font-heading uppercase tracking-[0.35em] text-blueberry/70">{item.title}</p>
-                <p className="mt-3 text-sm text-midnight/75">{item.copy}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
-            <a
-              href="#request-invite"
-              className="inline-flex w-full max-w-xs items-center justify-center rounded-full bg-babyPink px-10 py-3 text-sm font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:bg-babyPink/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-auto"
-            >
-              Request Invite
-            </a>
-            <Link
-              to="/membership"
-              className="inline-flex w-full max-w-xs items-center justify-center rounded-full border border-babyPink/40 bg-white/95 px-10 py-3 text-sm font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/45 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-auto"
-            >
-              Explore Memberships
-            </Link>
-          </div>
-
-          <form
-            onSubmit={handleVerification}
-            className="flex w-full max-w-2xl flex-col gap-3 self-center rounded-[3.5rem] border border-babyPink/35 bg-white/92 px-5 py-4 text-center shadow-soft backdrop-blur-sm sm:flex-row sm:items-center lg:self-start"
+      <ResponsiveContainer padded className="pt-20 pb-24 sm:pt-24 lg:pt-28">
+        <div className="relative grid gap-14 text-center lg:grid-cols-[1.15fr,0.9fr] lg:items-center lg:text-left">
+          <motion.div
+            className="flex flex-col gap-10"
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.8 }}
           >
-            <label htmlFor="hero-invite-code" className="sr-only">
-              Invite code
-            </label>
-            <input
-              id="hero-invite-code"
-              type="text"
-              value={code}
-              onChange={(event) => {
-                setCode(event.target.value.toUpperCase());
-                if (error) setError("");
-                if (status !== "idle") setStatus("idle");
-              }}
-              placeholder="Private invite code"
-              className="h-12 flex-1 rounded-full border border-babyPink/35 bg-white px-5 font-body text-sm tracking-[0.18em] text-blueberry shadow-inner focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyPink/30"
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="h-12 w-full rounded-full border border-babyPink/40 bg-white px-6 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-babyPink/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyPink/50 sm:w-auto"
-            >
-              {status === "loading" ? "Verifying…" : "Verify Code"}
-            </button>
-          </form>
-          <div className="min-h-[1rem] text-sm text-blueberry" aria-live="polite">
-            {status === "error" && <span className="text-red-400">{error}</span>}
-            {status === "success" && <span className="text-blueberry">Code accepted! Redirecting…</span>}
-          </div>
-
-          <div className="flex w-full flex-wrap items-center justify-center gap-5 rounded-[2.75rem] border border-babyPink/35 bg-gradient-to-r from-white/0 via-babyPink/18 to-white/0 px-5 py-5 text-center shadow-soft backdrop-blur-sm lg:justify-start">
-            {statHighlights.map((item) => (
-              <div key={item.label} className="space-y-1">
-                <p className="inline-block rounded-full bg-babyPink/65 px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-midnight">
-                  {item.label}
+            <div className="space-y-5">
+              <span className="inline-flex w-full max-w-xs items-center justify-center rounded-full border border-mauve/40 bg-cream/90 px-4 py-2 text-[0.7rem] font-heading uppercase tracking-[0.4em] text-mauve/90 shadow-soft sm:max-w-sm sm:px-6">
+                Invite-only baby planning concierge
+              </span>
+              <div className="space-y-3">
+                <p className="font-script text-6xl leading-none text-blueberry drop-shadow-[0_18px_28px_rgba(62,58,71,0.28)] sm:text-7xl">
+                  Taylor-Made
                 </p>
-                <p className="inline-block rounded-full bg-white/80 px-4 py-1 font-babyco text-sm text-midnight">
-                  {item.value}
+                <h1 className="text-4xl font-heading leading-tight text-blueberry sm:text-5xl md:text-6xl">
+                  Baby Co.
+                </h1>
+                <div className="mx-auto h-1 w-14 rounded-full bg-gold/70 lg:mx-0" aria-hidden="true" />
+                <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-darkText/80 sm:text-lg lg:mx-0">
+                  Because parenthood should start with confidence, not confusion. We curate registry suites,
+                  design nurseries, and coordinate celebrations with a concierge touch.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className="grid w-full gap-4 sm:grid-cols-2 sm:auto-rows-[200px] lg:auto-rows-[240px] lg:text-left">
-          {heroCollage.map((item) => (
-            <figure
-              key={item.alt}
-              className={`overflow-hidden rounded-[2.75rem] border border-babyPink/35 bg-white/90 shadow-soft backdrop-blur-sm transition duration-500 hover:shadow-dreamy ${
-                item.className || ""
-              }`}
+            <div className="grid w-full gap-4 text-left sm:grid-cols-3">
+              {highlightCards.map((item) => (
+                <article
+                  key={item.title}
+                  className="group h-full rounded-[1.85rem] border border-gold/25 bg-cream/90 p-5 text-center shadow-soft transition duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-dreamy sm:text-left"
+                >
+                  <p className="font-heading text-[0.7rem] uppercase tracking-[0.35em] text-mauve/80">
+                    {item.title}
+                  </p>
+                  <p className="mt-3 font-body text-sm leading-relaxed text-darkText/70">{item.copy}</p>
+                  <span
+                    className="mt-4 inline-flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-blueberry/55"
+                    aria-hidden="true"
+                  >
+                    Gentle guidance
+                    <span className="inline-block h-1 w-6 rounded-full bg-gold/75" />
+                  </span>
+                </article>
+              ))}
+            </div>
+
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+              <Button as="a" href="#request-invite" variant="gold" size="md" className="w-full sm:w-auto">
+                Request Invite
+              </Button>
+              <Button as={Link} to="/membership" variant="outline" size="md" className="w-full sm:w-auto">
+                Explore Memberships
+              </Button>
+            </div>
+
+            <motion.form
+              onSubmit={handleVerification}
+              className="flex w-full max-w-2xl flex-col gap-3 self-center rounded-full border border-mauve/35 bg-white/95 px-5 py-4 text-center shadow-soft backdrop-blur md:flex-row md:items-center lg:self-start"
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <img
-                src={item.src}
-                alt={item.alt}
-                className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
-                loading="lazy"
+              <label htmlFor="hero-invite-code" className="sr-only">
+                Invite code
+              </label>
+              <input
+                id="hero-invite-code"
+                type="text"
+                value={code}
+                onChange={(event) => {
+                  setCode(event.target.value.toUpperCase());
+                  if (status !== "idle") {
+                    setStatus("idle");
+                    setError("");
+                  }
+                }}
+                placeholder="Private invite code"
+                className="min-h-[48px] flex-1 rounded-full border border-mauve/35 bg-cream px-5 font-body text-sm tracking-[0.18em] text-blueberry shadow-inner focus:border-mauve focus:outline-none focus:ring-2 focus:ring-mauve/30"
+                autoComplete="off"
+                inputMode="text"
               />
-            </figure>
-          ))}
-        </div>
+              <Button
+                type="submit"
+                variant="mauve"
+                size="md"
+                className="w-full md:w-auto"
+                disabled={status === "loading"}
+              >
+                {status === "loading" ? "Verifying…" : "Verify Code"}
+              </Button>
+            </motion.form>
+            <div className="min-h-[1.25rem] font-body text-sm text-blueberry" aria-live="polite">
+              {message && (
+                <span className={status === "error" ? "text-rose-500" : "text-blueberry/80"}>{message}</span>
+              )}
+            </div>
 
-      </div>
+            <div className="flex flex-wrap items-center justify-center gap-5 rounded-full border border-gold/25 bg-gradient-to-r from-white/0 via-babyPink/25 to-white/5 px-6 py-5 text-center shadow-soft backdrop-blur lg:justify-start">
+              {statHighlights.map((item) => (
+                <div key={item.label} className="space-y-1">
+                  <p className="inline-flex rounded-full bg-babyPink/60 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-blueberry">
+                    {item.label}
+                  </p>
+                  <p className="inline-flex rounded-full bg-white/80 px-4 py-1 font-body text-sm text-darkText/80">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="grid w-full gap-4 sm:auto-rows-[220px] sm:grid-cols-2 lg:auto-rows-[240px]"
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.9, delay: 0.1 }}
+          >
+            {heroCollage.map((item) => (
+              <figure
+                key={item.alt}
+                className={`group relative overflow-hidden rounded-[2.5rem] border border-gold/25 bg-white/85 shadow-soft transition duration-500 hover:-translate-y-1 hover:shadow-dreamy ${item.className || ""}`}
+              >
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-br from-babyPink/20 via-transparent to-blueberry/22 opacity-0 transition group-hover:opacity-75"
+                  aria-hidden="true"
+                />
+              </figure>
+            ))}
+          </motion.div>
+        </div>
+      </ResponsiveContainer>
     </section>
   );
 };

@@ -5,9 +5,9 @@ import heroBackdrop from "../assets/video-chat.jpeg";
 import PageTitle from "../components/UI/PageTitle";
 
 const portalDestinations = {
-  admin: "/admin-portal",
-  mentor: "/mentor-portal",
-  client: "/client-portal",
+  admin: "/admin",
+  mentor: "/mentor",
+  client: "/dashboard",
 };
 
 const Portal = () => {
@@ -47,7 +47,7 @@ const Portal = () => {
       return;
     }
 
-    navigate("/client-portal", { replace: true });
+    navigate("/dashboard", { replace: true });
   };
 
   return (

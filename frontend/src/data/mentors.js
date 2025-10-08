@@ -1,30 +1,38 @@
-export const mentorProfiles = [
+export const mentorSpotlights = [
   {
-    id: "first-time",
-    title: "First-Time Mom",
-    subtitle: "Coastal | Creative Director",
-    description: "Navigated IVF, cross-country moves, and a high-visibility career with grace and humor.",
-    tags: ["ivf", "career", "coastal"],
+    id: "morgan-ellis",
+    name: "Morgan Ellis",
+    location: "Paradise Valley · Cape Cod",
+    livedExperience: "Luxury travel planner turned concierge mom mentor",
+    story:
+      "Morgan guided her own cross-country pregnancy while running a boutique travel firm. She now partners with Taylor’s private clients on registry curation, nursery styling, and celebration etiquette—always with a gentle, confidentiality-first touch.",
+    focus: ["Registry concierge", "Nursery styling", "Celebration hosting"],
+    familiesSupported: 42,
+    welcomeNote:
+      "“I’m here to be your sounding board, stylist, and secret weapon when the calendar feels full.”",
   },
   {
-    id: "twin",
-    title: "Twin Mom",
-    subtitle: "NYC | Luxury Fashion",
-    description: "Specializes in sleep training multiples, travel logistics, and extended family integration.",
-    tags: ["multiples", "travel", "extended family"],
+    id: "naomi-james",
+    name: "Naomi James",
+    location: "Phoenix · Virtual",
+    livedExperience: "Twins + toddler transitions while leading a creative studio",
+    story:
+      "Naomi blends smart systems with heart. She loves helping families layer postpartum care, night nurse scheduling, and sibling integration so everyone feels held in those first ninety days.",
+    focus: ["Fourth trimester planning", "Sibling integration", "Night nurse pairing"],
+    familiesSupported: 28,
+    welcomeNote:
+      "“Let’s give you space to recover, bond, and actually enjoy those first, tiny milestones.”",
   },
   {
-    id: "working",
-    title: "Working Mom",
-    subtitle: "LA | Entertainment",
-    description: "Balances production schedules, childcare rotations, and discreet public appearances.",
-    tags: ["production", "childcare", "press"],
-  },
-  {
-    id: "second-time",
-    title: "Second-Time Mom",
-    subtitle: "Austin | Tech Founder",
-    description: "Blends toddler transitions with newborn prep through gentle routines and curated gear swaps.",
-    tags: ["toddler", "gear", "routines"],
+    id: "sloane-carter",
+    name: "Sloane Carter",
+    location: "Scottsdale · Remote",
+    livedExperience: "Corporate events lead turned celebration concierge",
+    story:
+      "Sloane has produced intimate sip & sees and high-profile showers with the Taylor-Made team for five seasons. She thrives on designing meaningful experiences that feel polished yet deeply personal.",
+    focus: ["Celebration production", "Gifting strategy", "Discreet vendor management"],
+    familiesSupported: 35,
+    welcomeNote:
+      "“Every guest should feel welcomed. Every detail should whisper your story.”",
   },
 ];

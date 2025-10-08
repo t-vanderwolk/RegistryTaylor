@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 const apiV1 = require('./routes/v1');
+const api = require('./routes/api');
 
 const app = express();
 
@@ -44,5 +45,6 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1', apiV1);
+app.use('/api', api);
 
 module.exports = app;

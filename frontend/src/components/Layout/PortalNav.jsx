@@ -1,22 +1,29 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useMemo } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
-export const portalNavItems = [
-  { to: "/client-portal", label: "Dashboard", end: true },
-  { to: "/client-portal/journey", label: "Journey" },
-  { to: "/client-portal/registry", label: "Registry" },
-  { to: "/client-portal/services", label: "Support Hub" },
-  { to: "/client-portal/memories", label: "Memories" },
-  { to: "/client-portal/messages", label: "Messages" },
-  { to: "/client-portal/community-forum", label: "Community Forum" },
-  { to: "/client-portal/bio", label: "Profile" },
+const buildPortalNavItems = (basePath) => [
+  { to: basePath, label: "Dashboard", end: true },
+  { to: `${basePath}/journey`, label: "Journey" },
+  { to: `${basePath}/registry`, label: "Registry" },
+  { to: `${basePath}/services`, label: "Support Hub" },
+  { to: `${basePath}/memories`, label: "Memories" },
+  { to: `${basePath}/messages`, label: "Messages" },
+  { to: `${basePath}/community-forum`, label: "Community Forum" },
+  { to: `${basePath}/bio`, label: "Profile" },
 ];
 
-const PortalNav = () => {
+export const getClientPortalBasePath = (pathname) =>
+  pathname.startsWith("/dashboard") ? "/dashboard" : "/client-portal";
+
+const PortalNav = ({ basePath: providedBase }) => {
+  const location = useLocation();
+  const basePath = providedBase || getClientPortalBasePath(location.pathname);
+  const navItems = useMemo(() => buildPortalNavItems(basePath), [basePath]);
+
   return (
     <nav className="sticky top-[88px] hidden h-[calc(100vh-88px)] w-64 flex-col gap-3 overflow-y-auto border-r border-babyPink/30 bg-white/70 p-6 backdrop-blur-lg lg:flex">
       <div className="space-y-1">
-        {portalNavItems.map(({ to, label, end }) => (
+        {navItems.map(({ to, label, end }) => (
           <NavLink
             key={to}
             to={to}
@@ -38,3 +45,4 @@ const PortalNav = () => {
 };
 
 export default PortalNav;
+export { buildPortalNavItems };

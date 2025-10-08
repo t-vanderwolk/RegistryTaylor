@@ -74,7 +74,7 @@ export const buildFocusItems = (milestones) => {
         title: "Everything is polished",
         description: "Take a moment to celebrate—your concierge team is now managing finishing touches.",
         cta: "Send Taylor a thank-you",
-        link: "/client-portal/messages",
+        link: "../messages",
       },
     ];
   }
@@ -84,7 +84,7 @@ export const buildFocusItems = (milestones) => {
     title: item.title,
     description: item.detail,
     cta: "Share update",
-    link: "/client-portal/messages",
+    link: "../messages",
   }));
 };
 

@@ -1,16 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import Hero from "../components/Hero";
-import HeroSection from "../components/HeroSection";
-import PageTitle from "../components/UI/PageTitle";
 import HowItWorks from "../components/HowItWorks";
 import FAQAccordion from "../components/FAQAccordion";
 import MembershipHighlights from "../components/MembershipHighlights";
 import InviteForm from "../components/InviteForm";
 import TestimonialsCarousel from "../components/TestimonialsCarousel";
-import heroBackdrop from "../assets/nursery-1.jpeg";
-
-/* ---------------------- STATIC DATA ---------------------- */
+import Card from "../components/UI/Card";
+import Button from "../components/UI/Button";
+import ResponsiveContainer from "../components/UI/ResponsiveContainer";
+import SectionHeader from "../components/UI/SectionHeader";
 
 const services = [
   {
@@ -35,19 +35,7 @@ const services = [
   },
 ];
 
-const statHighlights = [
-  { label: "Private Clientele", value: "Five families per season" },
-  {
-    label: "Design Footprint",
-    value: "Tempe · Phoenix · Scottsdale · Cape Cod",
-  },
-  {
-    label: "Always Curating",
-    value: "Soft palettes, warm welcomes, thoughtful detail",
-  },
-];
-
-const heroTestimonialsFallback = [
+const testimonials = [
   {
     quote:
       "Taylor orchestrated our Scottsdale shower, registry, and hospital bag—all I had to do was show up and say yes. Our guests still talk about the details.",
@@ -60,169 +48,164 @@ const heroTestimonialsFallback = [
   },
   {
     quote:
-      "Weekly concierge check-ins, vetted vendors, and a postpartum menu meant zero guesswork. Taylor truly became a part of our family’s celebration story.",
+      "Weekly concierge check-ins, vetted vendors, and a postpartum menu meant zero guesswork. Taylor truly became part of our family’s celebration story.",
     name: "Jordan & Elise · Tempe",
   },
 ];
 
-/* ---------------------- TESTIMONIAL CAROUSEL ---------------------- */
-
-const TestimonialCarouselSection = () => {
-  const [active, setActive] = useState(0);
-  const total = heroTestimonialsFallback.length;
-  const current = useMemo(() => heroTestimonialsFallback[active], [active]);
-  const goTo = (index) => setActive((index + total) % total);
-
-  return (
-    <section className="mx-auto max-w-4xl rounded-2xl border border-[#C8A2C8]/30 bg-white/80 p-6 text-center shadow-md backdrop-blur-sm">
-      <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">
-        Client Reflections
-      </p>
-      <p className="mt-4 text-2xl font-serif text-[#332E4F]">
-        “{current.quote}”
-      </p>
-      <p className="mt-4 text-sm text-[#5E5873]">{current.name}</p>
-      <div className="mt-6 flex items-center justify-center gap-2">
-        {heroTestimonialsFallback.map((_, index) => (
-          <button
-            key={`dot-${index}`}
-            type="button"
-            onClick={() => goTo(index)}
-            className={`h-3 w-3 rounded-full transition ${
-              index === active ? "bg-[#C8A2C8]" : "bg-[#D8F3DC]"
-            }`}
-            aria-label={`View testimonial ${index + 1}`}
-          />
-        ))}
-      </div>
-    </section>
-  );
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
 };
 
-/* ---------------------- HOME PAGE ---------------------- */
-
 const Home = () => {
-  const [inviteCode, setInviteCode] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const handleValidation = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setMessage("");
-
-    try {
-      const res = await fetch("/api/invites/validate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: inviteCode }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.valid) {
-        setIsValid(true);
-        setMessage(
-          "Invite code accepted! 🎉 Welcome to Taylor-Made Baby Co."
-        );
-      } else {
-        setIsValid(false);
-        setMessage(
-          data.message ||
-            "Invalid invite code. Please try again or request a new one."
-        );
-      }
-    } catch (error) {
-      console.error("Validation error:", error);
-      setMessage("Something went wrong. Please try again later.");
-      setIsValid(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-<div className="space-y-24 bg-[#FFF8F2] pb-24 pt-0 text-[#332E4F] sm:space-y-28">  
-  {/* <HeroSection />    HERO SECTION */}
-  <Hero />
-     {/* HERO SECTION */}
+    <main className="space-y-24 bg-cream pb-24 text-blueberry sm:space-y-28">
+      <Hero />
 
-      {/* WHAT WE HANDLE */}
-      <section className="mx-auto w-full max-w-6xl space-y-6 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
-        <header className="space-y-3 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A2C8]">
-            What We Handle
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="rounded-[2.75rem] border border-gold/25 bg-white/92 p-6 shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8 }}
+        >
+          <SectionHeader
+            eyebrow="What We Handle"
+            title="Every detail, softened for you"
+            description="Four pillars of concierge care designed to keep planning joyful, organized, and uniquely you."
+          />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {services.map((service) => (
+              <Card key={service.title} title={service.title} variant="pink" className="h-full">
+                <p>{service.description}</p>
+              </Card>
+            ))}
+          </div>
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="rounded-[2.75rem] border border-gold/25 bg-white/92 p-6 shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-70px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.05 }}
+        >
+          <HowItWorks />
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="rounded-[2.75rem] border border-gold/25 bg-white/92 p-6 shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-70px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.08 }}
+        >
+          <MembershipHighlights />
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="rounded-[2.75rem] border border-gold/25 bg-white/92 p-6 shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-70px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.1 }}
+        >
+          <TestimonialsCarousel />
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="rounded-[2.75rem] border border-gold/25 bg-white/92 p-6 shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-70px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.12 }}
+        >
+          <FAQAccordion />
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="rounded-[2.75rem] border border-gold/25 bg-white/92 p-6 shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-70px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.14 }}
+        >
+          <InviteForm />
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="mx-auto max-w-4xl rounded-[2.75rem] border border-gold/25 bg-cream/92 p-6 text-center shadow-soft backdrop-blur sm:p-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-70px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.16 }}
+        >
+          <p className="text-xs font-heading uppercase tracking-[0.35em] text-mauve/80">
+            Client Reflections
           </p>
-          <h2 className="text-2xl font-serif text-[#332E4F] sm:text-3xl">
-            Every detail, softened for you
+          <div className="mt-6 space-y-8">
+            {testimonials.map((testimonial) => (
+              <blockquote key={testimonial.name} className="space-y-4">
+                <p className="font-heading text-2xl leading-relaxed text-blueberry sm:text-3xl">
+                  “{testimonial.quote}”
+                </p>
+                <footer className="font-body text-sm text-darkText/70 sm:text-base">
+                  {testimonial.name}
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+        </motion.div>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer as="section" padded>
+        <motion.div
+          className="mx-auto flex max-w-4xl flex-col gap-5 rounded-[2.75rem] border border-gold/35 bg-gradient-to-r from-mauve/20 via-babyPink/20 to-softMint/25 p-6 text-center shadow-soft backdrop-blur sm:p-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          transition={{ duration: 0.8, delay: 0.18 }}
+        >
+          <h2 className="font-heading text-3xl text-blueberry sm:text-4xl">
+            Join the membership
           </h2>
-          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
-            Four pillars of concierge care designed to keep planning joyful,
-            organized, and uniquely you.
+          <p className="mx-auto max-w-2xl font-body text-sm leading-relaxed text-darkText/75 sm:text-base">
+            Step into a worry-free pregnancy season with concierge support, curated plans, and heartfelt celebration.
+            Taylor and her mentor circle are ready to welcome you in.
           </p>
-        </header>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service) => (
-            <article
-              key={service.title}
-              className="flex h-full flex-col gap-3 rounded-2xl border border-[#C8A2C8]/30 bg-[#FFF8F2]/70 p-6 text-left shadow-md transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <h3 className="text-lg font-serif text-[#332E4F]">
-                {service.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#5E5873]">
-                {service.description}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      {/* <TestimonialCarouselSection /> */}
-      {/* <TestimonialsCarousel /> */}
-{/* <TestimonialCarouselSection /> */}
-      {/* OTHER SECTIONS */}
-      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
-        <HowItWorks />
-      </section>
-
-      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
-        <MembershipHighlights />
-      </section>
-
-      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
-        <TestimonialsCarousel />
-      </section>
-
-      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
-        <FAQAccordion />
-      </section>
-
-      <section className="mx-auto max-w-6xl space-y-10 rounded-2xl bg-white/80 p-6 shadow-md backdrop-blur-sm sm:p-10">
-        <InviteForm />
-      </section>
-
-      {/* MEMBERSHIP CTA */}
-      {/* <section className="mx-auto flex max-w-5xl flex-col gap-4 rounded-2xl bg-gradient-to-r from-[#C8A2C8]/80 via-[#D8F3DC]/80 to-[#FADADD]/80 p-6 text-center text-[#332E4F] shadow-md sm:p-10">
-        <h2 className="text-2xl font-serif sm:text-3xl">
-          Join the Membership
-        </h2>
-        <p className="text-sm leading-relaxed text-[#5E5873] sm:text-base">
-          Step into a worry-free pregnancy season with concierge support,
-          curated plans, and heartfelt celebration.
-        </p>
-        <div>
-          <Link
-            to="/membership"
-            className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#332E4F] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105 hover:shadow-lg"
-          >
-            Explore Membership Tiers
-          </Link>
-        </div>
-      </section> */}
-    </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button as={Link} to="/membership" variant="mauve" size="md" className="w-full sm:w-auto">
+              Explore Membership Tiers
+            </Button>
+            <Button as={Link} to="/request-invite" variant="outline" size="md" className="w-full sm:w-auto">
+              Request a Personal Walkthrough
+            </Button>
+          </div>
+        </motion.div>
+      </ResponsiveContainer>
+    </main>
   );
 };
 

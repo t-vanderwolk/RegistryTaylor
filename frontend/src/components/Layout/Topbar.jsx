@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { getClientPortalBasePath } from "./PortalNav";
 
 const Topbar = () => {
   const { user, logout } = useAuth();
+  const location = useLocation();
+  const homePath = getClientPortalBasePath(location.pathname);
 
   return (
     <header className="sticky top-0 z-30 border-b border-babyPink/40 bg-white/90 backdrop-blur-lg">
@@ -14,7 +17,7 @@ const Topbar = () => {
         </div>
         <div className="flex items-center gap-4">
           <Link
-            to="/client-portal"
+            to={homePath}
             className="inline-flex rounded-full border border-babyBlue/50 bg-babyBlue/10 px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyBlue/20"
           >
             Portal Home

@@ -3,33 +3,35 @@ import { Link } from "react-router-dom";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import Section from "../components/UI/Section";
 import Card from "../components/UI/Card";
-import { addOnCategories } from "../data/addOns";
+import { addOnCollections } from "../data/addOns";
 
-const ServiceCard = ({ name, blurb, betaPrice, futurePrice }) => (
+const ServiceCard = ({ name, highlight, investment, touches }) => (
   <Card
     variant="pink"
     title={name}
-    subtitle={blurb}
+    subtitle={highlight}
     icon={<SparklesIcon className="h-6 w-6" aria-hidden="true" />}
   >
-    <dl className="flex flex-wrap items-center gap-4 text-[0.75rem] uppercase tracking-[0.2em] text-blueberry/70">
-      <div className="flex items-center gap-2">
-        <dt className="text-gold">Beta</dt>
-        <dd>{betaPrice}</dd>
-      </div>
-      <span className="text-gold">/</span>
-      <div className="flex items-center gap-2">
-        <dt className="text-gold">Future</dt>
-        <dd>{futurePrice}</dd>
-      </div>
-    </dl>
-    <div className="pt-4">
-      <button
-        type="button"
-        className="inline-flex items-center justify-center rounded-full border border-babyPink/50 bg-white/90 px-5 py-2 text-xs font-heading uppercase tracking-[0.25em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+    <div className="mt-4 flex flex-wrap items-center gap-3 rounded-full bg-white/85 px-4 py-2 text-[0.7rem] font-heading uppercase tracking-[0.3em] text-blueberry/80 shadow-inner">
+      <span className="text-gold">Member Investment</span>
+      <span aria-hidden="true">•</span>
+      <span>{investment}</span>
+    </div>
+    <ul className="mt-5 space-y-2 text-left text-sm leading-relaxed text-blueberry/75">
+      {touches.map((touch) => (
+        <li key={touch} className="flex items-start gap-2">
+          <span className="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-babyPink/70" aria-hidden="true" />
+          <span>{touch}</span>
+        </li>
+      ))}
+    </ul>
+    <div className="pt-6">
+      <Link
+        to="/contact"
+        className="inline-flex w-full items-center justify-center rounded-full border border-babyPink/45 bg-white/90 px-5 py-2 text-xs font-heading uppercase tracking-[0.25em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
       >
-        Add to Journey
-      </button>
+        Reserve concierge date
+      </Link>
     </div>
   </Card>
 );
@@ -46,14 +48,14 @@ const AddOns = () => {
       >
         <div className="space-y-10">
           <p className="mx-auto max-w-3xl font-body text-base sm:text-lg leading-relaxed text-darkText/75">
-            Each service layers seamlessly onto your membership package. Select the moments you want elevated now, and we’ll handle timing, talent, and every last signature detail.
+            Add-ons are how we sprinkle extra magic onto your membership. Tell Taylor which milestone needs more care, and our concierge team will coordinate timing, talent, and keepsake touches.
           </p>
           <Link to="/contact" className="btn-primary px-7 py-3 text-xs sm:text-sm">
             Request Add-On Planning
           </Link>
         </div>
       </Section>
-      {addOnCategories.map((section) => (
+      {addOnCollections.map((section) => (
         <Section key={section.id} id={section.id} title={section.title} compact className="bg-alt-blue">
           <div className="space-y-10 text-darkText/75">
             <p className="font-body text-sm sm:text-base leading-relaxed">{section.description}</p>

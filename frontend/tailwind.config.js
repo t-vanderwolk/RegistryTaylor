@@ -1,82 +1,67 @@
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
-        primary: "#E7C8DD",
-        accent: "#D8BFD8",
-        mauveDeep: "rgb(166, 138, 178)",
-        ink: "#2E2E2E",
-        cream: "#FFF9F8",
-        blush: "#F4DCEB",
-        lilac: "#E4D7F1",
-        softGray: "#F1ECEB",
-        babyPink: "#FADADD",
-        babyBlue: "#D7E5F4",
-        pastelPurple: "#E7DFF0",
-        mauve: "#A68AB2",
-        softBeige: "#F5EBE1",
-        softPink: "#F6DDE8",
-        softMint: "#E4F3F0",
-        softGold: "#EAD9BA",
-        cloudWhite: "#F9F7F4",
-        midnight: "#3E3A47",
-        darkText: "#3E3A47",
-        blueberry: "#4B4F6A",
-        deepLilac: "#7C6E8B",
-        deepSlate: "#3C3842",
-        cozyGray: "#57545E",
-        skyMist: "#E9F1F8",
-        lavender: "#EEE6F5",
-        gold: "#D4AF37",
-        white: "#FFFFFF",
-        transparent: "transparent",
+        pink:  { DEFAULT: "#F5C9CF", 600: "#E9AEB6", 700: "#DB8C97" },   // Primary
+        beige: { DEFAULT: "#F6EDE5", 600: "#E9DBCF" },                   // Neutral
+        ivory: "#FFFCFA",                                               // Background
+        mauve: { DEFAULT: "#B48A9F", 600: "#A0708B" },                  // Accent for headings/details
+        gold:  { DEFAULT: "#D9C48E", 200: "#E7D8AD" },                  // Subtle detailing only
+        ink:   "#2A2626",                                               // Primary text color
+        charcoal: "#332E4F",                                            // Optional dark accent
       },
+
       fontFamily: {
-        heading: ["'Playfair Display'", "serif"],
-        body: ["'Inter'", "sans-serif"],
-        playful: ["'Playfair Display'", "serif"],
-        blocky: ["'Inter'", "sans-serif"],
-        script: ["'Great Vibes'", "cursive"],
-        babyco: ["'Cormorant Garamond'", "serif"],
-        cursive: ["'Great Vibes'", "cursive"]
+        display: ['"Great Vibes"', "cursive"],     // Cursive headings & “Taylor-Made”
+        body: ['"Nunito"', "sans-serif"],          // Main UI / body copy
       },
-      boxShadow: {
-        toy: "0 6px 16px rgba(78, 79, 106, 0.12)",
-        pop: "0 18px 40px -22px rgba(166, 138, 178, 0.45)",
-        dreamy: "0 28px 70px -34px rgba(62, 58, 71, 0.32)",
-        soft: "0 18px 50px -28px rgba(75, 79, 106, 0.28)"
-      },
+
       borderRadius: {
-        bubble: "2.75rem"
+        sm: "8px",
+        md: "12px",
+        lg: "20px",
+        xl: "28px",
+        full: "9999px",
       },
-      animation: {
-        bounceSlow: "bounceSlow 2.6s ease-in-out infinite",
-        float: "float 6s ease-in-out infinite",
-        wiggle: "wiggle 1s ease-in-out infinite",
-        "fade-in-up": "fadeInUp 0.7s ease-out both"
+
+      boxShadow: {
+        soft: "0 8px 30px rgba(0,0,0,0.05)",
+        md: "0 10px 25px rgba(0,0,0,0.08)",
+        lg: "0 12px 40px rgba(0,0,0,0.10)",
+        dreamy: "0 20px 40px -30px rgba(167,142,86,0.22)", // gold-glow variant
       },
+
+      backgroundImage: {
+        'blush-gradient':
+          "linear-gradient(180deg, rgba(248,244,236,0.96), rgba(237,230,248,0.12) 65%, transparent 100%)",
+      },
+
       keyframes: {
-        bounceSlow: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" }
-        },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" }
+          "50%": { transform: "translateY(-10px)" },
+        },
+        bob: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
         },
         wiggle: {
-          "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" }
+          "0%, 100%": { transform: "rotate(-1.5deg)" },
+          "50%": { transform: "rotate(1.5deg)" },
         },
-        fadeInUp: {
-          "0%": { opacity: 0, transform: "translateY(24px)" },
-          "60%": { opacity: 1, transform: "translateY(-6px)" },
-          "100%": { opacity: 1, transform: "translateY(0)" }
-        }
-      }
-    }
+      },
+
+      animation: {
+        float: "float 6s ease-in-out infinite",
+        bob: "bob 4s ease-in-out infinite",
+        wiggle: "wiggle 1.6s ease-in-out infinite",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };

@@ -8,18 +8,16 @@ const PageTitle = ({ eyebrow, subtitle, alignment = "center", className = "" }) 
       ? "items-end text-right"
       : "items-center text-center";
 
-  const containerClasses = [`flex flex-col gap-2`, alignmentClasses, className].filter(Boolean).join(" ");
+  const containerClasses = ["flex flex-col gap-3", alignmentClasses, className].filter(Boolean).join(" ");
 
   return (
     <div className={containerClasses}>
       {eyebrow && (
-        <span className="text-xs font-heading uppercase tracking-[0.45em] text-[#AF7C9D]">
-          {eyebrow}
-        </span>
+        <span className="text-xs font-heading uppercase tracking-[0.38em] text-charcoal/70">{eyebrow}</span>
       )}
-      <h1 className="text-4xl font-script text-[#C27AA6] sm:text-5xl md:text-6xl">Taylor-Made</h1>
+      <h1 className="text-4xl font-heading text-charcoal sm:text-5xl md:text-6xl">Taylor-Made</h1>
       {subtitle && (
-        <span className="text-sm font-heading uppercase tracking-[0.4em] text-[#77606E]">{subtitle}</span>
+        <span className="text-sm font-heading uppercase tracking-[0.4em] text-charcoal/60">{subtitle}</span>
       )}
     </div>
   );

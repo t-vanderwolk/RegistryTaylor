@@ -3,9 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import EmptyState from "../components/UI/EmptyState";
+import EmptyState from "../components/ui/EmptyState";
 import api from "../lib/api";
-import MarketingLayout from "../layouts/MarketingLayout";
+import PageWrapper from "../components/Layout/PageWrapper";
+import PageHeader from "../components/Layout/PageHeader";
+import CardSection from "../components/Layout/CardSection";
 import blogImageOne from "../assets/happy-baby.jpeg";
 import blogImageTwo from "../assets/mom-support.jpeg";
 import blogImageThree from "../assets/video-chat.jpeg";
@@ -142,9 +144,9 @@ const BlogPost = () => {
 
   if (status === "loading") {
     return (
-      <MarketingLayout>
-        <main className="bg-softBeige py-24">
-          <div className="mx-auto max-w-5xl rounded-[3rem] border border-primary/20 bg-white p-10 shadow-soft">
+      <PageWrapper backgroundClassName="bg-softBeige">
+        <CardSection variant="plain" contentClassName="" className="mx-auto max-w-5xl">
+          <div className="rounded-[3rem] border border-primary/20 bg-white p-10 shadow-soft">
             <div className="h-8 w-40 animate-pulse rounded-full bg-softPink/60" />
             <div className="mt-4 h-12 w-3/4 animate-pulse rounded-full bg-softPink/50" />
             <div className="mt-6 space-y-3">
@@ -153,36 +155,42 @@ const BlogPost = () => {
               ))}
             </div>
           </div>
-        </main>
-      </MarketingLayout>
+        </CardSection>
+      </PageWrapper>
     );
   }
 
   if (status !== "success" || !post) {
     return (
-      <MarketingLayout>
-        <main className="bg-softBeige py-24">
-          <div className="mx-auto max-w-4xl">
-            <EmptyState
-              title="Article not available"
-              description={error || "Taylor is tidying this page. Please try again soon."}
-              icon={SparklesIcon}
-              className="bg-softPink"
-              actionLabel="Return to blog"
-              onAction={() => navigate("/blog")}
-              action={null}
-            />
-          </div>
-        </main>
-      </MarketingLayout>
+      <PageWrapper backgroundClassName="bg-softBeige">
+        <CardSection variant="plain" contentClassName="" className="mx-auto max-w-4xl">
+          <EmptyState
+            title="Article not available"
+            description={error || "Taylor is tidying this page. Please try again soon."}
+            icon={SparklesIcon}
+            className="bg-softPink"
+            actionLabel="Return to blog"
+            onAction={() => navigate("/blog")}
+            action={null}
+          />
+        </CardSection>
+      </PageWrapper>
     );
   }
 
   return (
-    <MarketingLayout>
-      <div className="space-y-16 pb-24 pt-16">
-      <section className="relative mx-auto max-w-5xl overflow-hidden rounded-[3.5rem] border border-primary/25 bg-white text-left shadow-soft">
-        <img src={heroImage} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" />
+    <PageWrapper backgroundClassName="bg-softBeige">
+      <CardSection
+        variant="plain"
+        contentClassName=""
+        className="relative mx-auto max-w-5xl overflow-hidden rounded-[3.5rem] border border-primary/25 bg-white text-left shadow-soft"
+      >
+        <img
+          src={heroImage}
+          alt={post.title}
+          className="absolute inset-0 h-full w-full object-cover opacity-20"
+          loading="lazy"
+        />
         <div className="absolute inset-0 bg-white/80" aria-hidden="true" />
         <div className="relative flex flex-col gap-6 px-6 py-12 sm:px-12 sm:py-16">
           <button
@@ -192,32 +200,51 @@ const BlogPost = () => {
           >
             Back
           </button>
-          <div className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Taylor-Made Blog</div>
-          <h1 className="text-3xl font-serif text-blueberry sm:text-4xl md:text-5xl">{post.title}</h1>
-          {post.excerpt && <p className="max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">{post.excerpt}</p>}
-          <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
-            <span>{post.category || "Guides"}</span>
-            <span aria-hidden="true">•</span>
-            <span>By Taylor-Made Baby Co.</span>
-            {post.publishedAt && (
-              <>
-                <span aria-hidden="true">•</span>
-                <span>{formatDate(post.publishedAt)}</span>
-              </>
-            )}
-            <span aria-hidden="true">•</span>
-            <span>{computeReadLength(post)}</span>
-          </div>
+          <PageHeader
+            eyebrow="Taylor-Made Blog"
+            title={
+              <h1 className="text-3xl font-serif text-blueberry sm:text-4xl md:text-5xl">
+                {post.title}
+              </h1>
+            }
+            description={post.excerpt || undefined}
+            align="left"
+            className="gap-4 text-left"
+            eyebrowClassName="bg-white/60 text-primary/80"
+            descriptionClassName="max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base"
+          >
+            <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
+              <span>{post.category || "Guides"}</span>
+              <span aria-hidden="true">•</span>
+              <span>By Taylor-Made Baby Co.</span>
+              {post.publishedAt && (
+                <>
+                  <span aria-hidden="true">•</span>
+                  <span>{formatDate(post.publishedAt)}</span>
+                </>
+              )}
+              <span aria-hidden="true">•</span>
+              <span>{computeReadLength(post)}</span>
+            </div>
+          </PageHeader>
         </div>
-      </section>
+      </CardSection>
 
-      <section className="mx-auto max-w-4xl rounded-[3rem] border border-primary/25 bg-white px-6 py-12 shadow-soft sm:px-12">
+      <CardSection
+        variant="plain"
+        contentClassName=""
+        className="mx-auto max-w-4xl rounded-[3rem] border border-primary/25 bg-white px-6 py-12 shadow-soft sm:px-12"
+      >
         <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
           {post.content || ""}
         </ReactMarkdown>
-      </section>
+      </CardSection>
 
-      <section className="mx-auto max-w-5xl space-y-8 rounded-[3rem] border border-primary/25 bg-white px-6 py-14 shadow-soft sm:px-12">
+      <CardSection
+        variant="plain"
+        contentClassName=""
+        className="mx-auto max-w-5xl space-y-8 rounded-[3rem] border border-primary/25 bg-white px-6 py-14 shadow-soft sm:px-12"
+      >
         <header className="text-center sm:text-left">
           <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Fresh Highlights</p>
           <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">More Taylor-Made Stories</h2>
@@ -253,10 +280,14 @@ const BlogPost = () => {
                 <div className="flex flex-1 flex-col gap-4 px-8 pb-6 pt-6">
                   <div className="flex flex-wrap items-center justify-between gap-3 text-[0.7rem] font-heading uppercase tracking-[0.28em] text-neutral-500">
                     <span>{item.category || "Blog"}</span>
-                    {item.visibility === "members_only" && <span className="flex items-center gap-1 text-primary">🔒 Members Only</span>}
+                    {item.visibility === "members_only" && (
+                      <span className="flex items-center gap-1 text-primary">🔒 Members Only</span>
+                    )}
                   </div>
                   <h3 className="text-2xl font-serif text-blueberry sm:text-3xl">{item.title}</h3>
-                  {item.excerpt && <p className="text-sm leading-relaxed text-neutral-600 sm:text-base">{item.excerpt}</p>}
+                  {item.excerpt && (
+                    <p className="text-sm leading-relaxed text-neutral-600 sm:text-base">{item.excerpt}</p>
+                  )}
                   <div className="mt-auto flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
                     <span>By Taylor-Made Baby Co.</span>
                     {item.publishedAt && (
@@ -282,9 +313,8 @@ const BlogPost = () => {
             ))}
           </div>
         )}
-      </section>
-      </div>
-    </MarketingLayout>
+      </CardSection>
+    </PageWrapper>
   );
 };
 

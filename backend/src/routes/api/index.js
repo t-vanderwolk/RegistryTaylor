@@ -2,6 +2,8 @@ const express = require('express');
 const { v4: uuid } = require('uuid');
 const requireAuth = require('../../middleware/requireAuth');
 const db = require('../../db/connection');
+const inviteController = require('../../controllers/inviteController');
+const contactController = require('../../controllers/contactController');
 
 const router = express.Router();
 
@@ -153,12 +155,7 @@ router.get('/mentors', async (_req, res, next) => {
   }
 });
 
-router.post('/invites/redeem', (req, res) => {
-  const { code } = req.body || {};
-  if (typeof code === 'string' && code.trim().length >= 6) {
-    return res.json({ ok: true });
-  }
-  return res.status(400).json({ ok: false, error: 'Invalid code' });
-});
+router.post('/invites/redeem', inviteController.redeem);
+router.post('/contact', contactController.create);
 
 module.exports = router;

@@ -6,8 +6,9 @@ import heroSecondary from "../assets/ultrasound-pics.jpeg";
 import heroAccent from "../assets/blue-baby.jpeg";
 import heroHighlight from "../assets/cozy-baby.jpeg";
 import api from "../lib/api";
-import Button from "./UI/Button";
-import ResponsiveContainer from "./UI/ResponsiveContainer";
+import Button from "../design-system/Button";
+import Input from "../design-system/Input";
+import ResponsiveContainer from "./ui/ResponsiveContainer";
 
 const highlightCards = [
   {
@@ -114,22 +115,22 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden rounded-b-[3.25rem] bg-gradient-to-br from-babyPink/70 via-cream to-softMint/55 text-blueberry"
+      className="relative isolate overflow-hidden rounded-b-[3.25rem] bg-gradient-to-br from-blush/80 via-ivory to-cream text-charcoal"
     >
       <div
-        className="pointer-events-none absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-babyPink/40 blur-3xl"
+        className="pointer-events-none absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-blush/40 blur-[120px]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -right-36 top-6 h-72 w-72 rounded-full bg-mauve/30 blur-3xl"
+        className="pointer-events-none absolute -right-36 top-6 h-72 w-72 rounded-full bg-mauve/35 blur-[120px]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-gold/25 blur-3xl"
+        className="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-gold/30 blur-[120px]"
         aria-hidden="true"
       />
 
-      <ResponsiveContainer padded className="pt-20 pb-24 sm:pt-24 lg:pt-28">
+      <ResponsiveContainer padded className="pt-24 pb-24 sm:pt-28">
         <div className="relative grid gap-14 text-center lg:grid-cols-[1.15fr,0.9fr] lg:items-center lg:text-left">
           <motion.div
             className="flex flex-col gap-10"
@@ -143,14 +144,11 @@ const Hero = () => {
                 Invite-only baby planning concierge
               </span>
               <div className="space-y-3">
-                <p className="font-script text-6xl leading-none text-blueberry drop-shadow-[0_18px_28px_rgba(62,58,71,0.28)] sm:text-7xl">
-                  Taylor-Made
-                </p>
-                <h1 className="text-4xl font-heading leading-tight text-blueberry sm:text-5xl md:text-6xl">
-                  Baby Co.
+                <h1 className="text-4xl font-heading leading-tight text-charcoal sm:text-5xl md:text-6xl">
+                  Taylor-Made Baby Co.
                 </h1>
-                <div className="mx-auto h-1 w-14 rounded-full bg-gold/70 lg:mx-0" aria-hidden="true" />
-                <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-darkText/80 sm:text-lg lg:mx-0">
+                <div className="mx-auto h-[2px] w-16 rounded-full bg-gold lg:mx-0" aria-hidden="true" />
+                <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-charcoal/75 sm:text-lg lg:mx-0">
                   Because parenthood should start with confidence, not confusion. We curate registry suites,
                   design nurseries, and coordinate celebrations with a concierge touch.
                 </p>
@@ -161,28 +159,28 @@ const Hero = () => {
               {highlightCards.map((item) => (
                 <article
                   key={item.title}
-                  className="group h-full rounded-[1.85rem] border border-gold/25 bg-cream/90 p-5 text-center shadow-soft transition duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-dreamy sm:text-left"
+                  className="group h-full rounded-lg border border-charcoal/10 bg-white/95 p-5 text-center shadow-elevated-sm transition duration-150 hover:-translate-y-1 hover:shadow-elevated-md sm:text-left"
                 >
-                  <p className="font-heading text-[0.7rem] uppercase tracking-[0.35em] text-mauve/80">
+                  <p className="font-heading text-[0.68rem] uppercase tracking-[0.32em] text-charcoal/70">
                     {item.title}
                   </p>
-                  <p className="mt-3 font-body text-sm leading-relaxed text-darkText/70">{item.copy}</p>
+                  <p className="mt-3 font-body text-sm leading-relaxed text-charcoal/70">{item.copy}</p>
                   <span
-                    className="mt-4 inline-flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-blueberry/55"
+                    className="mt-4 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.28em] text-gold"
                     aria-hidden="true"
                   >
                     Gentle guidance
-                    <span className="inline-block h-1 w-6 rounded-full bg-gold/75" />
+                    <span className="inline-block h-[2px] w-6 rounded-full bg-gold" />
                   </span>
                 </article>
               ))}
             </div>
 
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
-              <Button as="a" href="#request-invite" variant="gold" size="md" className="w-full sm:w-auto">
+              <Button as="a" href="#request-invite" variant="primary" size="md" className="w-full sm:w-auto">
                 Request Invite
               </Button>
-              <Button as={Link} to="/membership" variant="outline" size="md" className="w-full sm:w-auto">
+              <Button as={Link} to="/membership" variant="secondary" size="md" className="w-full sm:w-auto">
                 Explore Memberships
               </Button>
             </div>
@@ -195,11 +193,9 @@ const Hero = () => {
               variants={fadeUp}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <label htmlFor="hero-invite-code" className="sr-only">
-                Invite code
-              </label>
-              <input
+              <Input
                 id="hero-invite-code"
+                label="Invite code"
                 type="text"
                 value={code}
                 onChange={(event) => {
@@ -210,33 +206,29 @@ const Hero = () => {
                   }
                 }}
                 placeholder="Private invite code"
-                className="min-h-[48px] flex-1 rounded-full border border-mauve/35 bg-cream px-5 font-body text-sm tracking-[0.18em] text-blueberry shadow-inner focus:border-mauve focus:outline-none focus:ring-2 focus:ring-mauve/30"
+                className="min-h-[48px] rounded-full border border-charcoal/10 bg-white px-5 font-body text-sm tracking-[0.18em] text-charcoal shadow-elevated-sm focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40"
                 autoComplete="off"
                 inputMode="text"
+                labelHidden
+                wrapperClassName="flex-1"
               />
-              <Button
-                type="submit"
-                variant="mauve"
-                size="md"
-                className="w-full md:w-auto"
-                disabled={status === "loading"}
-              >
+              <Button type="submit" size="md" className="w-full md:w-auto" disabled={status === "loading"}>
                 {status === "loading" ? "Verifying…" : "Verify Code"}
               </Button>
             </motion.form>
-            <div className="min-h-[1.25rem] font-body text-sm text-blueberry" aria-live="polite">
+            <div className="min-h-[1.25rem] font-body text-sm text-charcoal" aria-live="polite">
               {message && (
-                <span className={status === "error" ? "text-rose-500" : "text-blueberry/80"}>{message}</span>
+                <span className={status === "error" ? "text-rose-500" : "text-charcoal/70"}>{message}</span>
               )}
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-5 rounded-full border border-gold/25 bg-gradient-to-r from-white/0 via-babyPink/25 to-white/5 px-6 py-5 text-center shadow-soft backdrop-blur lg:justify-start">
+            <div className="flex flex-wrap items-center justify-center gap-5 rounded-full border border-gold/30 bg-gradient-to-r from-white/0 via-shell to-white/40 px-6 py-5 text-center shadow-elevated-sm backdrop-blur lg:justify-start">
               {statHighlights.map((item) => (
                 <div key={item.label} className="space-y-1">
-                  <p className="inline-flex rounded-full bg-babyPink/60 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-blueberry">
+                  <p className="inline-flex rounded-full bg-blush/50 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-charcoal">
                     {item.label}
                   </p>
-                  <p className="inline-flex rounded-full bg-white/80 px-4 py-1 font-body text-sm text-darkText/80">
+                  <p className="inline-flex rounded-full bg-white/90 px-4 py-1 font-body text-sm text-charcoal/75">
                     {item.value}
                   </p>
                 </div>
@@ -254,7 +246,7 @@ const Hero = () => {
             {heroCollage.map((item) => (
               <figure
                 key={item.alt}
-                className={`group relative overflow-hidden rounded-[2.5rem] border border-gold/25 bg-white/85 shadow-soft transition duration-500 hover:-translate-y-1 hover:shadow-dreamy ${item.className || ""}`}
+                className={`group relative overflow-hidden rounded-3xl border border-charcoal/15 bg-white/85 shadow-elevated-md transition duration-300 hover:-translate-y-1 hover:shadow-elevated-lg ${item.className || ""}`}
               >
                 <img
                   src={item.src}
@@ -262,7 +254,7 @@ const Hero = () => {
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
                 />
                 <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-br from-babyPink/20 via-transparent to-blueberry/22 opacity-0 transition group-hover:opacity-75"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blush/20 via-transparent to-charcoal/15 opacity-0 transition group-hover:opacity-75"
                   aria-hidden="true"
                 />
               </figure>

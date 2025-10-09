@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ClientOverview, ThreadView, BookingForm } from "../../features/clients";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
-import EmptyState from "../../components/UI/EmptyState";
+import EmptyState from "../../components/ui/EmptyState";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 16 },

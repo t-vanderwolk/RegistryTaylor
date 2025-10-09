@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Button from "./UI/Button";
+import Button from "../design-system/Button";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -13,37 +13,33 @@ const HeroSection = () => {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative mt-16 mb-16 overflow-hidden rounded-bubble 
-                 bg-gradient-to-b from-cream via-white to-babyPink/10 
-                 px-5 py-16 shadow-dreamy 
-                 sm:mt-20 sm:mb-20 sm:px-8 
-                 md:mt-28 md:mb-28 md:px-12 md:py-20"
+      className="relative mt-16 mb-16 overflow-hidden rounded-[3rem] bg-gradient-to-b from-ivory via-cream to-shell px-6 py-16 shadow-elevated-lg sm:mt-20 sm:mb-20 sm:px-10 md:mt-28 md:mb-28 md:px-14 md:py-20"
     >
       {/* Decorative floating elements */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 0.25, y: [0, -10, 0] }}
         transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-        className="absolute top-12 left-8 h-16 w-16 rounded-full bg-babyBlue/20 blur-2xl"
+        className="absolute top-12 left-8 h-16 w-16 rounded-full bg-mauve/20 blur-3xl"
       />
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 0.25, y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        className="absolute bottom-12 right-12 h-20 w-20 rounded-full bg-lilac/20 blur-2xl"
+        className="absolute bottom-12 right-12 h-20 w-20 rounded-full bg-blush/25 blur-3xl"
       />
 
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center text-darkText">
+      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center text-charcoal">
         
         {/* Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
-          className="font-playful text-4xl sm:text-5xl md:text-6xl"
+          className="font-heading text-4xl sm:text-5xl md:text-6xl"
         >
           Baby Prep,{" "}
-          <span className="text-transparent bg-gradient-to-r from-babyPink to-lilac bg-clip-text">
+          <span className="text-transparent bg-gradient-to-r from-blush to-mauve bg-clip-text">
             Taylor-Made
           </span>
           .
@@ -54,11 +50,11 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-          className="max-w-2xl font-body text-base leading-relaxed text-darkText/70 sm:text-lg"
+          className="max-w-2xl font-body text-base leading-relaxed text-charcoal/70 sm:text-lg"
         >
           An invite-only concierge for modern families who crave joyful planning without the overwhelm. 
           From registries to nursery reveals, everything we do is{" "}
-          <span className="italic text-darkText">bespoke, cozy, and completely you</span>.
+          <span className="italic text-charcoal">bespoke, cozy, and completely you</span>.
         </motion.p>
 
         {/* Call to Action */}
@@ -68,10 +64,10 @@ const HeroSection = () => {
           transition={{ delay: 0.4, duration: 0.4, ease: "easeOut" }}
           className="flex flex-wrap justify-center gap-3"
         >
-          <Button as={Link} to="/contact" variant="pink" size="lg" className="rounded-full shadow-toy hover:shadow-lg">
+          <Button as={Link} to="/contact" size="lg">
             Request Invitation
           </Button>
-          <Button as={Link} to="/membership" variant="purple" size="lg" className="rounded-full shadow-toy hover:shadow-lg">
+          <Button as={Link} to="/membership" variant="secondary" size="lg">
             Explore Memberships
           </Button>
         </motion.div>
@@ -81,7 +77,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
-          className="w-full max-w-md rounded-full bg-babyPink/10 p-2 pl-6 pr-2 shadow-inner backdrop-blur-md"
+          className="w-full max-w-md rounded-full border border-charcoal/10 bg-white/80 p-2 pl-6 pr-2 shadow-elevated-sm backdrop-blur"
           onSubmit={(event) => {
             event.preventDefault();
             const code = inviteCode.trim();
@@ -102,7 +98,7 @@ const HeroSection = () => {
           }}
         >
           <div className="flex items-center gap-2">
-            <span className="text-darkText/40">💌</span>
+            <span className="text-charcoal/40">💌</span>
             <input
               type="text"
               value={inviteCode}
@@ -111,14 +107,14 @@ const HeroSection = () => {
                 if (error) setError("");
               }}
               placeholder="Enter your private invite code"
-              className="w-full rounded-full border-none bg-transparent font-body text-sm text-darkText placeholder:text-darkText/40 focus:outline-none"
+              className="w-full rounded-full border-none bg-transparent font-body text-sm text-charcoal placeholder:text-charcoal/40 focus:outline-none"
             />
-            <Button type="submit" variant="pink" size="sm" className="whitespace-nowrap rounded-full shadow-toy hover:shadow-md">
+            <Button type="submit" size="sm" className="whitespace-nowrap">
               Verify Code
             </Button>
           </div>
           {error && (
-            <p className="mt-2 text-center text-xs font-body italic text-babyPink">
+            <p className="mt-2 text-center text-xs font-body italic text-rose-500">
               {error}
             </p>
           )}

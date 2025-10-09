@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { Navbar, Footer } from "./components/ui";
+import type { NavItem } from "./components/ui";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Membership from "./pages/Membership";
@@ -25,9 +25,9 @@ import "./styles/App.css";
 import { RoleGuard } from "./features";
 
 const NotFound = () => (
-  <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-darkText">
-    <h1 className="mb-4 text-5xl font-heading text-babyBlue">Page not found</h1>
-    <p className="max-w-xl text-lg font-body text-darkText/75">
+  <main className="flex min-h-screen flex-col items-center justify-center bg-ivory px-6 text-center text-charcoal">
+    <h1 className="mb-4 text-5xl font-heading text-charcoal">Page not found</h1>
+    <p className="max-w-xl text-lg font-body text-charcoal/70">
       The page you are looking for does not exist. Use the navigation above to return to your concierge dashboard.
     </p>
   </main>
@@ -47,6 +47,14 @@ const AppRoutes = () => {
     isMarketingPage ||
     standaloneLayoutPaths.has(location.pathname);
 
+  const defaultNav: NavItem[] = [
+    { label: "Home", to: "/" },
+    { label: "About", to: "/about" },
+    { label: "Membership", to: "/membership" },
+    { label: "Blog", to: "/blog" },
+    { label: "Contact", to: "/contact" },
+  ];
+
   return (
     <>
       {!hideChrome && (
@@ -54,8 +62,12 @@ const AppRoutes = () => {
           Skip to content
         </a>
       )}
-      {!hideChrome && <Navbar />}
-      <main id="main-content" tabIndex="-1" className="outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70">
+      {!hideChrome && <Navbar items={defaultNav} />}
+      <main
+        id="main-content"
+        tabIndex="-1"
+        className="outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

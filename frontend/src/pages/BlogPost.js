@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import EmptyState from "../components/UI/EmptyState";
 import api from "../lib/api";
+import MarketingLayout from "../layouts/MarketingLayout";
 import blogImageOne from "../assets/happy-baby.jpeg";
 import blogImageTwo from "../assets/mom-support.jpeg";
 import blogImageThree from "../assets/video-chat.jpeg";
@@ -141,39 +142,45 @@ const BlogPost = () => {
 
   if (status === "loading") {
     return (
-      <main className="bg-softBeige py-24">
-        <div className="mx-auto max-w-5xl rounded-[3rem] border border-primary/20 bg-white p-10 shadow-soft">
-          <div className="h-8 w-40 animate-pulse rounded-full bg-softPink/60" />
-          <div className="mt-4 h-12 w-3/4 animate-pulse rounded-full bg-softPink/50" />
-          <div className="mt-6 space-y-3">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <div key={`skeleton-${index}`} className="h-4 w-full animate-pulse rounded-full bg-softPink/40" />
-            ))}
+      <MarketingLayout>
+        <main className="bg-softBeige py-24">
+          <div className="mx-auto max-w-5xl rounded-[3rem] border border-primary/20 bg-white p-10 shadow-soft">
+            <div className="h-8 w-40 animate-pulse rounded-full bg-softPink/60" />
+            <div className="mt-4 h-12 w-3/4 animate-pulse rounded-full bg-softPink/50" />
+            <div className="mt-6 space-y-3">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="h-4 w-full animate-pulse rounded-full bg-softPink/40" />
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </MarketingLayout>
     );
   }
 
   if (status !== "success" || !post) {
     return (
-      <main className="bg-softBeige py-24">
-        <div className="mx-auto max-w-4xl">
-          <EmptyState
-            title="Article not available"
-            description={error || "Taylor is tidying this page. Please try again soon."}
-            icon={SparklesIcon}
-            className="bg-softPink"
-            actionLabel="Return to blog"
-            onAction={() => navigate("/blog")}
-          />
-        </div>
-      </main>
+      <MarketingLayout>
+        <main className="bg-softBeige py-24">
+          <div className="mx-auto max-w-4xl">
+            <EmptyState
+              title="Article not available"
+              description={error || "Taylor is tidying this page. Please try again soon."}
+              icon={SparklesIcon}
+              className="bg-softPink"
+              actionLabel="Return to blog"
+              onAction={() => navigate("/blog")}
+              action={null}
+            />
+          </div>
+        </main>
+      </MarketingLayout>
     );
   }
 
   return (
-    <div className="space-y-16 pb-24 pt-16">
+    <MarketingLayout>
+      <div className="space-y-16 pb-24 pt-16">
       <section className="relative mx-auto max-w-5xl overflow-hidden rounded-[3.5rem] border border-primary/25 bg-white text-left shadow-soft">
         <img src={heroImage} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" />
         <div className="absolute inset-0 bg-white/80" aria-hidden="true" />
@@ -276,7 +283,8 @@ const BlogPost = () => {
           </div>
         )}
       </section>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 };
 

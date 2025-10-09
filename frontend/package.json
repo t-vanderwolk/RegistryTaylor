@@ -44,6 +44,9 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.21",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.4.31",
     "postcss-attribute-case-insensitive": "^6.0.2",

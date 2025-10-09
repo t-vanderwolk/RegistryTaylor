@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import MarketingLayout from "../layouts/MarketingLayout";
+import Section from "../design-system/Section";
+import Card from "../design-system/Card";
+import Button from "../design-system/Button";
+import { H1, H2, P } from "../design-system/Typography";
+import Input from "../design-system/Input";
 import heroBackdrop from "../assets/video-chat.jpeg";
-import PageTitle from "../components/UI/PageTitle";
 
 const portalDestinations = {
   admin: "/admin",
   mentor: "/mentor",
   client: "/dashboard",
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
 };
 
 const Portal = () => {
@@ -51,108 +62,120 @@ const Portal = () => {
   };
 
   return (
-    <div className="space-y-20 bg-[#FFF8F2] pb-24 pt-16 text-[#4A3B2E] sm:space-y-24">
-      <section className="relative mx-auto flex w-full max-w-5xl flex-col gap-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#F7E5EE] via-[#FFF8F2] to-[#E4CFDA] p-6 text-center shadow-md sm:p-12">
-        <img
-          src={heroBackdrop}
-          alt="Concierge video chat"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-multiply"
-        />
-        <div className="relative space-y-4">
-          <PageTitle eyebrow="Private Member Portal" subtitle="Member Login" />
-          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
-            Lifetime concierge access begins here. Sign in to reach your registries, celebration plans, community, and concierge messaging.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto grid w-full max-w-5xl gap-10 rounded-2xl border border-[#E3CAD6]/50 bg-white/85 p-6 shadow-md backdrop-blur-sm sm:grid-cols-[1.1fr,0.9fr] sm:p-10">
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <header className="space-y-3 text-left">
-            <h2 className="text-xl font-serif text-[#4A3B2E]">Member Login</h2>
-            <p className="text-sm leading-relaxed text-[#5E5873]">
-              Enter the credentials shared by your concierge lead. Access adjusts instantly based on your membership tier.
-            </p>
-          </header>
-
-          {(status.error || authError) && (
-            <p className="rounded-2xl border border-[#E9CADB] bg-[#FCECF4] px-4 py-3 text-sm text-[#7F6B74]" aria-live="polite">
-              {status.error || authError}
-            </p>
-          )}
-
-          <label className="block text-sm text-[#5E5873]">
-            Email Address
-            <input
-              type="email"
-              value={credentials.email}
-              onChange={handleChange("email")}
-              placeholder="you@example.com"
-              required
-              className="mt-2 w-full rounded-full border border-[#C17BA5]/40 bg-white px-4 py-3 text-sm text-[#4A3B2E] shadow-inner focus:border-[#C17BA5] focus:outline-none focus:ring-2 focus:ring-[#C17BA5]/40"
-            />
-          </label>
-
-          <label className="block text-sm text-[#5E5873]">
-            Password
-            <input
-              type="password"
-              value={credentials.password}
-              onChange={handleChange("password")}
-              placeholder="Enter your password"
-              required
-              className="mt-2 w-full rounded-full border border-[#C17BA5]/40 bg-white px-4 py-3 text-sm text-[#4A3B2E] shadow-inner focus:border-[#C17BA5] focus:outline-none focus:ring-2 focus:ring-[#C17BA5]/40"
-            />
-          </label>
-
-          <button
-            type="submit"
-            className={`inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-[#C17BA5] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105 ${
-              status.loading || authLoading ? "cursor-not-allowed opacity-75" : ""
-            }`}
-            disabled={status.loading || authLoading}
+    <MarketingLayout>
+      <div className="space-y-20 bg-cream pb-24 pt-16 sm:space-y-28">
+        <Section>
+          <motion.div
+            className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/90 px-6 py-16 text-center shadow-[0_28px_70px_-30px_rgba(62,58,71,0.3)] sm:px-12"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            transition={{ duration: 0.8 }}
           >
-            {status.loading || authLoading ? "Signing In…" : "Sign In"}
-          </button>
+            <img
+              src={heroBackdrop}
+              alt="Concierge video chat"
+              className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-10"
+            />
+            <div className="relative space-y-4">
+              <span className="inline-flex items-center justify-center rounded-full bg-primary/40 px-5 py-2 text-xs font-heading uppercase tracking-[0.35em] text-ink">
+                Private Member Portal
+              </span>
+              <H1>Welcome back, concierge member</H1>
+              <P className="mx-auto max-w-2xl">
+                Sign in to access your registries, celebration plans, concierge messaging, and exclusive lounge notes.
+              </P>
+            </div>
+          </motion.div>
+        </Section>
 
-          <p className="text-xs text-[#7F6B74]">
-            Trouble logging in? Email{' '}
-            <a className="font-semibold text-[#AF7C9D] underline" href="mailto:RegistryWithTaylor@gmail.com">
-              RegistryWithTaylor@gmail.com
-            </a>{' '}
-            for a refreshed link.
-          </p>
-        </form>
+        <Section>
+          <motion.div
+            className="grid gap-8 lg:grid-cols-[1.05fr,0.95fr]"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeInUp}
+          >
+            <Card className="space-y-6 bg-white/95 shadow-soft">
+              <header className="space-y-3">
+                <H2 className="text-xl">Member login</H2>
+                <P>
+                  Enter the credentials shared by your concierge lead. Access adjusts instantly based on your membership tier.
+                </P>
+              </header>
+              {(status.error || authError) && (
+                <p className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-500" aria-live="polite">
+                  {status.error || authError}
+                </p>
+              )}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <Input
+                  id="portal-email"
+                  label="Email Address"
+                  type="email"
+                  value={credentials.email}
+                  onChange={handleChange("email")}
+                  placeholder="you@example.com"
+                  required
+                />
+                <Input
+                  id="portal-password"
+                  label="Password"
+                  type="password"
+                  value={credentials.password}
+                  onChange={handleChange("password")}
+                  placeholder="Enter your password"
+                  required
+                />
+                <Button
+                  type="submit"
+                  disabled={status.loading || authLoading}
+                  className="w-full bg-mauveDeep text-white shadow-[0_10px_30px_-18px_rgba(166,138,178,0.65)] hover:brightness-105"
+                >
+                  {status.loading || authLoading ? "Signing In…" : "Sign In"}
+                </Button>
+                <P className="text-xs text-ink/60">
+                  Trouble logging in? Email{' '}
+                  <a className="font-semibold text-mauveDeep underline" href="mailto:RegistryWithTaylor@gmail.com">
+                    RegistryWithTaylor@gmail.com
+                  </a>{' '}
+                  for a refreshed link.
+                </P>
+              </form>
+            </Card>
 
-        <aside className="flex flex-col gap-5 rounded-2xl border border-[#E3CAD6]/40 bg-white/90 p-6 text-left shadow-inner">
-          <div className="space-y-3">
-            <h3 className="text-lg font-serif text-[#4A3B2E]">Not a member yet?</h3>
-            <p className="text-sm leading-relaxed text-[#5E5873]">
-              Taylor serves a limited number of families each season. Request an invite or explore membership tiers to secure lifetime access.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              to="/request-invite"
-              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#C17BA5] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105"
-            >
-              Request Invite
-            </Link>
-            <Link
-              to="/membership"
-              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[#C17BA5]/60 bg-white/85 px-6 py-3 text-sm font-semibold text-[#5E5873] shadow-md transition hover:scale-105"
-            >
-              Explore Memberships
-            </Link>
-          </div>
-          <ul className="space-y-3 text-xs uppercase tracking-[0.4em] text-[#7F6B74]">
-            <li>Private clientele · lifetime concierge access</li>
-            <li>Design footprint · Tempe · Phoenix · Scottsdale · Cape Cod</li>
-            <li>Celebrations · Registries · Nursery Styling</li>
-          </ul>
-        </aside>
-      </section>
-    </div>
+            <Card className="space-y-6 bg-white/95 shadow-soft">
+              <div className="space-y-3">
+                <H2 className="text-xl">Not a member yet?</H2>
+                <P>
+                  Taylor serves a limited number of families each season. Request an invite or explore membership tiers to secure lifetime access.
+                </P>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/request-invite"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-mauveDeep px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-white shadow-soft transition hover:brightness-105"
+                >
+                  Request Invite
+                </Link>
+                <Link
+                  to="/membership"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-mauveDeep/60 bg-white/90 px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-ink shadow-soft transition hover:bg-mauveDeep/10"
+                >
+                  Membership Overview
+                </Link>
+              </div>
+              <ul className="space-y-3 text-xs uppercase tracking-[0.35em] text-ink/60">
+                <li>Private clientele · lifetime concierge access</li>
+                <li>Design footprint · Tempe · Phoenix · Scottsdale · Cape Cod</li>
+                <li>Celebrations · Registries · Nursery Styling</li>
+              </ul>
+            </Card>
+          </motion.div>
+        </Section>
+      </div>
+    </MarketingLayout>
   );
 };
 

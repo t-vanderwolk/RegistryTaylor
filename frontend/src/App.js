@@ -35,8 +35,17 @@ const NotFound = () => (
 
 const AppRoutes = () => {
   const location = useLocation();
+  const marketingPaths = new Set(["/", "/about", "/membership", "/mentors", "/contact", "/request-invite"]);
+  const marketingPrefixes = ["/blog"];
+  const isMarketingPage =
+    marketingPaths.has(location.pathname) ||
+    marketingPrefixes.some((prefix) => location.pathname.startsWith(prefix));
+  const standaloneLayoutPaths = new Set(["/portal", "/login"]);
   const hideChrome =
-    location.pathname.startsWith("/admin-portal") || location.pathname.startsWith("/admin");
+    location.pathname.startsWith("/admin-portal") ||
+    location.pathname.startsWith("/admin") ||
+    isMarketingPage ||
+    standaloneLayoutPaths.has(location.pathname);
 
   return (
     <>

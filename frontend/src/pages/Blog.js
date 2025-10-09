@@ -46,6 +46,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookmarkIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import PageTitle from "../components/UI/PageTitle";
+import MarketingLayout from "../layouts/MarketingLayout";
 
 import EmptyState from "../components/UI/EmptyState";
 import api from "../lib/api";
@@ -273,7 +274,8 @@ export default function Blog() {
   );
 
   return (
-    <div className="space-y-24 bg-[#FFF8F2] pb-24 pt-16 text-[#332E4F] sm:space-y-28">
+    <MarketingLayout>
+      <div className="space-y-24 bg-[#FFF8F2] pb-24 pt-16 text-[#332E4F] sm:space-y-28">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-6 rounded-2xl bg-gradient-to-br from-[#F7E5EE] via-[#FFF8F2] to-[#E4CFDA] p-6 text-center shadow-md sm:p-10">
         <PageTitle eyebrow="Concierge Notes" subtitle="Journal" />
         <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#5E5873] sm:text-base">
@@ -479,6 +481,7 @@ export default function Blog() {
           )}
         </section>
       </section>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }

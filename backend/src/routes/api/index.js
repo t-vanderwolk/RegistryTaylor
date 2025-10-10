@@ -4,6 +4,7 @@ const requireAuth = require('../../middleware/requireAuth');
 const db = require('../../db/connection');
 const inviteController = require('../../controllers/inviteController');
 const contactController = require('../../controllers/contactController');
+const academyController = require('../../controllers/academyController');
 
 const router = express.Router();
 
@@ -157,5 +158,15 @@ router.get('/mentors', async (_req, res, next) => {
 
 router.post('/invites/redeem', inviteController.redeem);
 router.post('/contact', contactController.create);
+router.post(
+  '/academy/workbook',
+  requireAuth,
+  (req, res, next) => academyController.saveWorkbookEntry(req, res, next)
+);
+router.get(
+  '/academy/workbook/:userId',
+  requireAuth,
+  (req, res, next) => academyController.getWorkbookForUser(req, res, next)
+);
 
 module.exports = router;

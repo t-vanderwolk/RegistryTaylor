@@ -10,6 +10,7 @@ const forumRouter = require('./forum');
 const blogQuestionsRouter = require('./blog-questions');
 const blogRouter = require('./blog');
 const inviteRequestRouter = require('./invite-requests');
+const academyRouter = require('./academy');
 
 router.use('/auth', authRouter);
 router.use('/admin', adminRouter);
@@ -21,5 +22,6 @@ router.use('/forum', forumRouter);
 router.use('/blog/questions', blogQuestionsRouter);
 router.use('/blog', blogRouter);
 router.use('/invite-requests', inviteRequestRouter);
+router.use('/academy', academyRouter);
 
 module.exports = router;

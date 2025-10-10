@@ -53,6 +53,7 @@ const ClientPortal = () => {
             <Route path="registry/*" element={<Navigate to={`${basePath}/registry`} replace />} />
             <Route path="memories/*" element={<Navigate to={`${basePath}/memories`} replace />} />
             <Route path="messages" element={<ClientMessages />} />
+            <Route path="academy/*" element={<Navigate to="/academy/overview" replace />} />
             <Route path="blog" element={<Navigate to="community-forum" replace />} />
             <Route path="forum" element={<Navigate to="community-forum" replace />} />
             <Route path="community-forum" element={<CommunityForum />} />

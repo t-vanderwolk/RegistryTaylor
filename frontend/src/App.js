@@ -21,6 +21,7 @@ import MentorPortal from "./pages/MentorPortal";
 import UserPortal from "./pages/UserPortal";
 import CreateProfile from "./pages/CreateProfile";
 import RequestInvite from "./pages/RequestInvite";
+import Academy from "./pages/Academy";
 import "./styles/App.css";
 import { RoleGuard } from "./features";
 
@@ -87,6 +88,14 @@ const AppRoutes = () => {
           <Route path="/create-profile" element={<CreateProfile />} />
           <Route path="/register" element={<CreateProfile />} />
           <Route path="/invite" element={<RequestInvite />} />
+          <Route
+            path="/academy/*"
+            element={
+              <RoleGuard allow={["CLIENT", "MENTOR", "ADMIN"]}>
+                <Academy />
+              </RoleGuard>
+            }
+          />
           <Route
             path="/admin/*"
             element={

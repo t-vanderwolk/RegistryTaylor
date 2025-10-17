@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate, Routes, Route, Navigate } from "reac
 import api from "../lib/api";
 import RegistryBoard from "../components/registry/RegistryBoard";
 import { MentorDashboard, AvailabilityManager } from "../features/mentors";
+import Academy from "./Academy";
 
 const notifications = [
   { id: 1, mentee: "Avery P.", detail: "New registry update submitted", time: "5m ago" },
@@ -729,7 +730,7 @@ const MentorPortalLayout = ({
       { to: `${basePath}/nursery-design`, label: "Nursery Design" },
       { to: `${basePath}/in-law-interface`, label: "In-Law Interface" },
       { to: `${basePath}/events`, label: "Events & Celebrations" },
-      { to: "/academy/overview", label: "Academy" },
+      { to: `${basePath}/academy`, label: "Academy" },
       { to: `${basePath}/messages`, label: "Messages" },
       { to: `${basePath}/notes`, label: "Notes" },
       { to: `${basePath}/resources`, label: "Resource Library" },
@@ -844,7 +845,7 @@ const MentorPortalLayout = ({
             <Route path="nursery-design" element={<NurseryDesign />} />
             <Route path="in-law-interface" element={<InLawInterface />} />
             <Route path="events" element={<EventsCelebrations />} />
-            <Route path="academy/*" element={<Navigate to="/academy/overview" replace />} />
+            <Route path="academy/*" element={<Academy />} />
             <Route path="messages" element={<Messages />} />
             <Route path="notes" element={<Notes />} />
             <Route path="resources" element={<ResourceLibrary />} />

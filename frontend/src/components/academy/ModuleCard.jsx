@@ -1,5 +1,7 @@
 import React from "react";
 import ProgressTracker from "./ProgressTracker";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const clampProgress = (value) => {
   if (typeof value !== "number" || Number.isNaN(value)) return 0;
@@ -22,20 +24,20 @@ const ModuleCard = ({ module, onSelect, isActive = false, disabled = false }) =>
   };
 
   return (
-    <button
+    <motion.button
       type="button"
       onClick={handleClick}
       className={[
-        "group flex w-full flex-col justify-between rounded-[2.5rem] border px-6 py-6 text-left transition duration-200",
-        "bg-white/95 shadow-soft backdrop-blur-sm",
+        "group flex w-full flex-col justify-between rounded-2xl border px-6 py-6 text-left shadow-soft backdrop-blur-sm transition duration-200",
         disabled ? "cursor-not-allowed opacity-60" : "hover:-translate-y-1 hover:shadow-dreamy",
-        isActive
-          ? "border-mauve/50 ring-4 ring-mauve/20"
-          : "border-charcoal/10",
+        isActive ? "border-mauve/50 ring-4 ring-mauve/20" : "border-charcoal/10",
       ].join(" ")}
       aria-pressed={isActive}
       disabled={disabled}
       data-module-id={id}
+      whileHover={!disabled ? { y: -4 } : undefined}
+      whileFocus={!disabled ? { y: -2 } : undefined}
+      transition={{ duration: 0.2, ease: "easeOut" }}
     >
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-3">
@@ -85,11 +87,12 @@ const ModuleCard = ({ module, onSelect, isActive = false, disabled = false }) =>
             />
           </div>
         </div>
-        <div className="hidden w-20 sm:block">
+        <div className="hidden w-24 sm:flex sm:flex-col sm:items-center sm:justify-center sm:gap-1">
           <ProgressTracker value={safeProgress} label="Complete" />
+          <ArrowRight className="h-4 w-4 text-tmMauve/70" aria-hidden />
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 };
 

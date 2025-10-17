@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ProgressTracker from "./ProgressTracker";
 import MentorNotesPanel from "./MentorNotesPanel";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
+import { useAuth } from "../../context/AuthContext";
+import useRegistry from "../../hooks/useRegistry";
+import * as Dialog from "@radix-ui/react-dialog";
 
 const normalizeArray = (value, length) => {
   if (!Array.isArray(value)) return Array.from({ length }, () => "");
@@ -49,6 +54,20 @@ const WorkbookPage = ({
   menteeName = "",
   progress,
 }) => {
+  const { user } = useAuth();
+  const { addItem: addRegistryItem } = useRegistry(user?.id, { autoLoad: false });
+  const [isRegistryOpen, setIsRegistryOpen] = useState(false);
+  const [registryStatus, setRegistryStatus] = useState("idle");
+  const [registryToast, setRegistryToast] = useState(null);
+  const [registryForm, setRegistryForm] = useState(() => ({
+    moduleId: module?.id || module?.slug || "",
+    productName: "",
+    brand: "",
+    productUrl: "",
+    category: module?.content?.journey || "Nursery",
+    mentorTag: "",
+  }));
+
   const reflectPrompts = useMemo(() => {
     if (!module?.content?.reflect) return [];
     return Array.isArray(module.content.reflect) ? module.content.reflect : [];
@@ -61,6 +80,12 @@ const WorkbookPage = ({
     normalizeArray(initialResponses.reflectAnswers || initialResponses.reflect, reflectPrompts.length)
   );
   const [journalDraft, setJournalDraft] = useState(() => extractJournalAnswer(initialResponses));
+  useEffect(() => {
+    setRegistryForm((prev) => ({
+      ...prev,
+      category: module?.content?.journey || prev.category || "Nursery",
+    }));
+  }, [module?.content?.journey]);
 
   const autosaveTimers = useRef({});
 
@@ -157,6 +182,72 @@ const WorkbookPage = ({
   }, [reflectPrompts, reflectDrafts]);
 
   const mentorNotesSaving = isSaving && entry?.id ? isSaving(entry.id) : false;
+
+  useEffect(() => {
+    if (!registryToast) return undefined;
+    const timer = setTimeout(() => setRegistryToast(null), 3200);
+    return () => clearTimeout(timer);
+  }, [registryToast]);
+
+  const handleRegistryOpenChange = (open) => {
+    setIsRegistryOpen(open);
+    if (open) {
+      setRegistryForm((prev) => ({
+        ...prev,
+        moduleId: module?.id || module?.slug || prev.moduleId,
+        category: module?.content?.journey || prev.category || "Nursery",
+      }));
+    } else {
+      setRegistryForm((prev) => ({
+        ...prev,
+        productName: "",
+        brand: "",
+        productUrl: "",
+        mentorTag: "",
+      }));
+    }
+  };
+
+  const handleRegistrySubmit = async (event) => {
+    event.preventDefault();
+    const moduleIdentifier = registryForm.moduleId || module?.id || module?.slug;
+    if (!moduleIdentifier) {
+      setRegistryToast({ tone: "error", message: "Module ID missing — cannot save registry item." });
+      return;
+    }
+    if (!registryForm.productName.trim()) {
+      setRegistryToast({ tone: "error", message: "Name your item before saving it to the registry." });
+      return;
+    }
+
+    setRegistryStatus("loading");
+    try {
+      await addRegistryItem({
+        moduleId: String(moduleIdentifier),
+        category: registryForm.category,
+        productName: registryForm.productName,
+        brand: registryForm.brand,
+        productUrl: registryForm.productUrl,
+        mentorTag: registryForm.mentorTag,
+      });
+      setRegistryToast({ tone: "success", message: "Added to your registry." });
+      setRegistryForm((prev) => ({
+        ...prev,
+        productName: "",
+        brand: "",
+        productUrl: "",
+        mentorTag: "",
+      }));
+      setIsRegistryOpen(false);
+    } catch (error) {
+      setRegistryToast({
+        tone: "error",
+        message: error.response?.data?.error || error.message || "Unable to save item right now.",
+      });
+    } finally {
+      setRegistryStatus("idle");
+    }
+  };
 
   return (
     <div className="space-y-8 rounded-[2.5rem] border border-charcoal/10 bg-white/90 p-6 shadow-soft backdrop-blur-sm md:p-8">
@@ -261,6 +352,132 @@ const WorkbookPage = ({
               </li>
             ))}
           </ul>
+          <Dialog.Root open={isRegistryOpen} onOpenChange={handleRegistryOpenChange}>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[1.75rem] border border-tmMauve/25 bg-white/90 p-4 shadow-soft">
+              <p className="text-xs font-heading uppercase tracking-[0.32em] text-tmMauve">
+                Capture this step in your registry
+              </p>
+              <Dialog.Trigger asChild>
+                <Button type="button" variant="primary" size="sm" aria-label="Add this action to registry">
+                  + Add to Registry
+                </Button>
+              </Dialog.Trigger>
+            </div>
+            <Dialog.Portal>
+              <Dialog.Overlay className="fixed inset-0 bg-charcoal/40 backdrop-blur-sm" />
+              <Dialog.Content className="fixed left-1/2 top-1/2 w-[min(90vw,480px)] -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border border-white/80 bg-white/95 p-6 shadow-dreamy focus:outline-none">
+                <Dialog.Title className="text-lg font-heading text-charcoal">Add to registry</Dialog.Title>
+                <Dialog.Description className="mt-1 text-sm font-body text-charcoal/70">
+                  Save this module action with a mentor tag or sourcing link.
+                </Dialog.Description>
+                <form onSubmit={handleRegistrySubmit} className="mt-4 space-y-3">
+                  <Input
+                    id="registry-module"
+                    label="Module reference"
+                    helperText="Prefills from the current module — adjust only if you are saving for another module."
+                    value={registryForm.moduleId}
+                    onChange={(event) =>
+                      setRegistryForm((prev) => ({
+                        ...prev,
+                        moduleId: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                  <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.28em] text-charcoal/60">
+                    Journey
+                    <select
+                      value={registryForm.category}
+                      onChange={(event) =>
+                        setRegistryForm((prev) => ({
+                          ...prev,
+                          category: event.target.value,
+                        }))
+                      }
+                      className="rounded-2xl border border-tmMauve/25 bg-white px-4 py-3 text-sm font-body text-charcoal shadow-soft focus:border-tmMauve focus:outline-none focus-visible:ring-2 focus-visible:ring-tmMauve/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    >
+                      <option value="Nursery">Nursery</option>
+                      <option value="Gear">Gear</option>
+                      <option value="Postpartum">Postpartum</option>
+                    </select>
+                  </label>
+                  <Input
+                    id="registry-product-name"
+                    label="Product name"
+                    value={registryForm.productName}
+                    onChange={(event) =>
+                      setRegistryForm((prev) => ({
+                        ...prev,
+                        productName: event.target.value,
+                      }))
+                    }
+                    placeholder="Feather-light stroller"
+                    required
+                  />
+                  <Input
+                    id="registry-brand"
+                    label="Brand"
+                    value={registryForm.brand}
+                    onChange={(event) =>
+                      setRegistryForm((prev) => ({
+                        ...prev,
+                        brand: event.target.value,
+                      }))
+                    }
+                    placeholder="Maison Bébé"
+                  />
+                  <Input
+                    id="registry-url"
+                    label="Product link"
+                    helperText="Paste the URL — we’ll append the Taylor affiliate ID automatically."
+                    value={registryForm.productUrl}
+                    onChange={(event) =>
+                      setRegistryForm((prev) => ({
+                        ...prev,
+                        productUrl: event.target.value,
+                      }))
+                    }
+                    placeholder="https://"
+                  />
+                  <Input
+                    id="registry-mentor"
+                    label="Mentor tag"
+                    helperText="Ping a mentor with @username"
+                    value={registryForm.mentorTag}
+                    onChange={(event) =>
+                      setRegistryForm((prev) => ({
+                        ...prev,
+                        mentorTag: event.target.value,
+                      }))
+                    }
+                    placeholder="@taylor"
+                  />
+                  <div className="mt-4 flex justify-end gap-3">
+                    <Dialog.Close asChild>
+                      <Button type="button" variant="ghost" size="sm">
+                        Cancel
+                      </Button>
+                    </Dialog.Close>
+                    <Button type="submit" variant="mauve" size="sm" disabled={registryStatus === "loading"}>
+                      {registryStatus === "loading" ? "Saving…" : "Save item"}
+                    </Button>
+                  </div>
+                </form>
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
+          {registryToast && (
+            <div
+              role="status"
+              className={`mt-3 rounded-2xl border px-3 py-2 text-xs font-body ${
+                registryToast.tone === "success"
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                  : "border-rose-200 bg-rose-50 text-rose-600"
+              }`}
+            >
+              {registryToast.message}
+            </div>
+          )}
         </section>
       )}
 

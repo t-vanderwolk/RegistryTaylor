@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
 export type NavItem = {
@@ -24,6 +24,17 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
     item: NavItem
   ) => {
     const { target, to } = item;
+    const normalizedPath = to.toLowerCase();
+
+    // ✅ Direct route for "About" (/how-it-works)
+    if (normalizedPath === "/how-it-works" || normalizedPath === "/howitworks") {
+      event.preventDefault();
+      navigate("/how-it-works");
+      closeMenu();
+      return;
+    }
+
+    // ✅ Scroll behavior for in-page sections (home only)
     if (target && location.pathname === "/") {
       event.preventDefault();
       const section = document.getElementById(target);
@@ -35,6 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
       }
     }
 
+    // ✅ Home button (scroll to top)
     if (to === "/") {
       event.preventDefault();
       if (location.pathname !== "/") {
@@ -43,42 +55,50 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
       closeMenu();
-    } else {
-      closeMenu();
+      return;
     }
+
+    // ✅ Default route
+    event.preventDefault();
+    navigate(to);
+    closeMenu();
   };
 
   return (
-    <header className="border-b border-gold/25 bg-gradient-to-b from-ivory via-ivory/95 to-ivory/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 md:px-10">
+    <header className="border-b border-tmGold/20 bg-gradient-to-r from-tmMauve via-tmMauve/95 to-tmBlush/90 text-tmIvory shadow-soft">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5 md:px-10">
+        {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-4 text-charcoal focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+          className="flex items-center gap-4 text-tmIvory focus:outline-none focus-visible:ring-2 focus-visible:ring-tmGold/40 focus-visible:ring-offset-2 focus-visible:ring-offset-tmMauve"
         >
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-gold/30 bg-white shadow-elevated-sm">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-tmIvory/40 bg-tmIvory/10 shadow-soft">
             <img
               src="/images/logo-mark.svg"
               alt="Taylor-Made Baby Co."
-              className="h-8 w-8"
+              className="h-8 w-8 object-contain"
               onError={(event) => {
                 (event.currentTarget as HTMLImageElement).style.display = "none";
               }}
             />
           </span>
-          <span className="flex flex-col leading-tight">
-            <span className="font-heading text-xl tracking-[0.12em] text-charcoal">Taylor-Made</span>
-            <span className="font-heading text-[0.7rem] uppercase tracking-[0.4em] text-charcoal/70">
+          <span className="flex flex-col leading-tight text-tmIvory">
+            <span className="font-display text-3xl tracking-tight">
+              Taylor-Made
+            </span>
+            <span className="font-heading text-[0.7rem] uppercase tracking-[0.5em] text-tmIvory/80">
               Baby Co.
             </span>
           </span>
         </Link>
 
-        <nav className="hidden gap-6 md:flex" aria-label="Primary navigation">
+        {/* Desktop Navigation */}
+        <nav className="hidden gap-3 md:flex" aria-label="Primary navigation">
           {items.map((item) => {
-            const path = item.to.split("#")[0];
+            const path = item.to.split("#")[0].toLowerCase();
             const isActive =
               (path === "/" && location.pathname === "/") ||
-              (path && path !== "/" && location.pathname.startsWith(path) && path.length > 1);
+              location.pathname.toLowerCase() === path;
 
             return (
               <a
@@ -86,12 +106,12 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
                 href={item.to}
                 onClick={(event) => handleNavigation(event, item)}
                 className={clsx(
-                  "relative inline-flex items-center text-sm font-heading uppercase tracking-[0.32em] transition duration-150",
-                  "after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:scale-x-0 after:bg-gold after:transition-transform after:duration-150 after:content-['']",
+                  "relative inline-flex items-center rounded-2xl border border-transparent px-4 py-2 text-[0.68rem] font-heading uppercase tracking-[0.3em] transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-tmGold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-tmMauve",
                   isActive
-                    ? "text-charcoal after:scale-x-100"
-                    : "text-charcoal/60 hover:text-charcoal hover:after:scale-x-100"
+                    ? "border-tmGold bg-tmIvory/10 text-tmIvory shadow-soft"
+                    : "text-tmIvory/85 hover:text-tmIvory hover:border-tmGold/60 hover:bg-tmIvory/10 hover:shadow-soft"
                 )}
+                aria-current={isActive ? "page" : undefined}
               >
                 {item.label}
               </a>
@@ -99,12 +119,13 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
           })}
         </nav>
 
+        {/* Mobile Menu Button */}
         <button
           type="button"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-charcoal/10 text-charcoal transition hover:bg-white/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-tmIvory/30 text-tmIvory transition hover:bg-tmIvory/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-tmGold/40 focus-visible:ring-offset-2 focus-visible:ring-offset-tmMauve md:hidden"
         >
           <span className="sr-only">Toggle navigation</span>
           <svg
@@ -124,24 +145,32 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
         </button>
       </div>
 
+      {/* Mobile Navigation */}
       {open && (
-        <div id="mobile-nav" className="border-t border-gold/20 bg-ivory/98 px-6 py-4 md:hidden">
+        <div
+          id="mobile-nav"
+          className="border-t border-tmGold/30 bg-gradient-to-r from-tmMauve via-tmMauve/95 to-tmBlush/90 px-6 py-4 text-tmIvory md:hidden backdrop-blur"
+        >
           <nav className="flex flex-col gap-3" aria-label="Mobile navigation">
-            {items.map((item) => (
-              <NavLink
-                key={item.label}
-                to={item.to}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  clsx(
-                    "rounded-lg px-4 py-3 text-sm font-heading uppercase tracking-[0.32em] transition duration-150",
-                    isActive ? "bg-white text-charcoal shadow-elevated-sm" : "text-charcoal/70 hover:bg-white/60"
-                  )
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            {items.map((item) => {
+              const isActive = location.pathname.toLowerCase() === item.to.split("#")[0].toLowerCase();
+              return (
+                <a
+                  key={item.label}
+                  href={item.to}
+                  onClick={(event) => handleNavigation(event, item)}
+                  className={clsx(
+                    "rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.3em] transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-tmGold/60",
+                    isActive
+                      ? "border border-tmGold/60 bg-tmIvory/10 text-tmIvory shadow-soft"
+                      : "text-tmIvory/80 hover:border hover:border-tmGold/40 hover:bg-tmIvory/5"
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
         </div>
       )}

@@ -6,6 +6,7 @@ import Dashboard from "./client/Dashboard";
 import Bio from "./client/Bio";
 import MyJourney from "./client/MyJourney";
 import CommunityForum from "./CommunityForum";
+import Academy from "./Academy";
 import ClientMessages from "./client/Messages";
 import Services from "./client/Services";
 import Memories from "./client/Memories";
@@ -53,7 +54,7 @@ const ClientPortal = () => {
             <Route path="registry/*" element={<Navigate to={`${basePath}/registry`} replace />} />
             <Route path="memories/*" element={<Navigate to={`${basePath}/memories`} replace />} />
             <Route path="messages" element={<ClientMessages />} />
-            <Route path="academy/*" element={<Navigate to="/academy/overview" replace />} />
+            <Route path="academy/*" element={<Academy />} />
             <Route path="blog" element={<Navigate to="community-forum" replace />} />
             <Route path="forum" element={<Navigate to="community-forum" replace />} />
             <Route path="community-forum" element={<CommunityForum />} />

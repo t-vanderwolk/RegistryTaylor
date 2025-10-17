@@ -1,8 +1,14 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import { Navbar, Footer } from "./components/ui";
-import type { NavItem } from "./components/ui";
+
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Membership from "./pages/Membership";
@@ -22,55 +28,70 @@ import UserPortal from "./pages/UserPortal";
 import CreateProfile from "./pages/CreateProfile";
 import RequestInvite from "./pages/RequestInvite";
 import Academy from "./pages/Academy";
-import "./styles/App.css";
 import { RoleGuard } from "./features";
+import HowItWorks from "./pages/HowItWorks";
+import "./styles/App.css";
 
 const NotFound = () => (
   <main className="flex min-h-screen flex-col items-center justify-center bg-ivory px-6 text-center text-charcoal">
     <h1 className="mb-4 text-5xl font-heading text-charcoal">Page not found</h1>
     <p className="max-w-xl text-lg font-body text-charcoal/70">
-      The page you are looking for does not exist. Use the navigation above to return to your concierge dashboard.
+      The page you are looking for does not exist. Use the navigation above to
+      return to your concierge dashboard.
     </p>
   </main>
 );
 
 const AppRoutes = () => {
   const location = useLocation();
-  const marketingPaths = new Set(["/", "/about", "/membership", "/mentors", "/contact", "/request-invite"]);
-  const marketingPrefixes = ["/blog"];
-  const isMarketingPage =
-    marketingPaths.has(location.pathname) ||
-    marketingPrefixes.some((prefix) => location.pathname.startsWith(prefix));
+
+  // Pages that use MarketingLayout (they already include Navbar + Footer)
+  const marketingPaths = new Set([
+    "/",
+    "/about",
+    "/membership",
+    "/mentors",
+    "/contact",
+    "/request-invite",
+    "/how-it-works",
+    "/blog",
+  ]);
+
+  const isMarketingPage = Array.from(marketingPaths).some((p) =>
+    location.pathname.startsWith(p)
+  );
+
+  // Standalone pages (no chrome)
   const standaloneLayoutPaths = new Set(["/portal", "/login"]);
   const hideChrome =
     location.pathname.startsWith("/admin-portal") ||
     location.pathname.startsWith("/admin") ||
-    isMarketingPage ||
     standaloneLayoutPaths.has(location.pathname);
 
-  const defaultNav: NavItem[] = [
+  // Default nav links for non-marketing pages
+  const defaultNav = [
     { label: "Home", to: "/" },
-    { label: "About", to: "/about" },
+    { label: "How It Works", to: "/how-it-works" },
     { label: "Membership", to: "/membership" },
     { label: "Blog", to: "/blog" },
-    { label: "Contact", to: "/contact" },
+    { label: "Request Invite", to: "/request-invite" },
+    { label: "Member Login", to: "/portal" },
   ];
 
   return (
     <>
-      {!hideChrome && (
-        <a href="#main-content" className="skip-link">
-          Skip to content
-        </a>
-      )}
-      {!hideChrome && <Navbar items={defaultNav} />}
+      {/* Show Navbar + Footer only for non-marketing, non-hidden pages */}
+      {!hideChrome && !isMarketingPage && <Navbar items={defaultNav} />}
+
       <main
         id="main-content"
         tabIndex="-1"
         className="outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
       >
         <Routes>
+          {/* Marketing / Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/about" element={<About />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/add-ons" element={<AddOns />} />
@@ -81,6 +102,8 @@ const AppRoutes = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/car-seats-simplified" element={<CarSeatsSimplified />} />
+
+          {/* Community + Portals */}
           <Route path="/community-forum" element={<CommunityForum />} />
           <Route path="/forum" element={<Navigate to="/community-forum" replace />} />
           <Route path="/portal" element={<Portal />} />
@@ -88,6 +111,8 @@ const AppRoutes = () => {
           <Route path="/create-profile" element={<CreateProfile />} />
           <Route path="/register" element={<CreateProfile />} />
           <Route path="/invite" element={<RequestInvite />} />
+
+          {/* Role-Restricted Routes */}
           <Route
             path="/academy/*"
             element={
@@ -104,10 +129,7 @@ const AppRoutes = () => {
               </RoleGuard>
             }
           />
-          <Route
-            path="/admin-portal/*"
-            element={<Navigate to="/admin" replace />}
-          />
+          <Route path="/admin-portal/*" element={<Navigate to="/admin" replace />} />
           <Route
             path="/dashboard/*"
             element={
@@ -116,10 +138,7 @@ const AppRoutes = () => {
               </RoleGuard>
             }
           />
-          <Route
-            path="/client-portal/*"
-            element={<Navigate to="/dashboard" replace />}
-          />
+          <Route path="/client-portal/*" element={<Navigate to="/dashboard" replace />} />
           <Route
             path="/mentor/*"
             element={
@@ -130,10 +149,13 @@ const AppRoutes = () => {
           />
           <Route path="/mentor-portal/*" element={<Navigate to="/mentor" replace />} />
           <Route path="/user-portal" element={<UserPortal />} />
+
+          {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!hideChrome && <Footer />}
+
+      {!hideChrome && !isMarketingPage && <Footer />}
     </>
   );
 };
@@ -146,12 +168,3 @@ const App = () => (
 );
 
 export default App;
-
-// import React from "react";
-// import TestTailwind from "./components/TestTailwind";
-
-// function App() {
-//   return <TestTailwind />;
-// }
-
-// export default App;

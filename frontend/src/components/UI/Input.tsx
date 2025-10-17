@@ -13,20 +13,28 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const helperId = helperText || error ? `${id}-helper` : undefined;
 
     return (
-      <label className={clsx("flex flex-col gap-2 font-body text-sm text-charcoal/80", className)}>
-        <span className={clsx("text-xs uppercase tracking-[0.28em]", labelHidden && "sr-only")}>{label}</span>
+      <label className={clsx("flex flex-col gap-2 font-body text-sm text-tmCharcoal/80", className)}>
+        <span
+          className={clsx(
+            "text-[0.7rem] font-heading uppercase tracking-[0.32em] text-tmCharcoal/70",
+            labelHidden && "sr-only"
+          )}
+        >
+          {label}
+        </span>
         <input
           id={id}
           ref={ref}
           aria-describedby={helperId}
           className={clsx(
-            "rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal shadow-elevated-sm transition duration-150 placeholder:text-charcoal/40 focus:border-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory",
-            error && "border-rose-400 focus:border-rose-400 focus-visible:ring-rose-200"
+            "rounded-2xl border border-tmCharcoal/15 bg-white/90 px-4 py-3 text-sm text-tmCharcoal shadow-soft transition duration-150 placeholder:text-tmCharcoal/40 focus:border-tmMauve focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tmMauve/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+            error &&
+              "border-rose-400 focus:border-rose-400 focus-visible:ring-rose-200 focus-visible:ring-offset-white focus-visible:ring-offset-0"
           )}
           {...rest}
         />
         {(helperText || error) && (
-          <span id={helperId} className={clsx("text-xs", error ? "text-rose-500" : "text-charcoal/60")}>
+          <span id={helperId} className={clsx("text-xs", error ? "text-rose-500" : "text-tmCharcoal/60")}>
             {error || helperText}
           </span>
         )}

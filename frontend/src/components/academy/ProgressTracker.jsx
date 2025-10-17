@@ -6,7 +6,11 @@ const ProgressTracker = ({ value = 0, label = "Progress" }) => {
   const chartData = useMemo(() => [{ name: "progress", value: clampedValue || 0.5 }], [clampedValue]);
 
   return (
-    <div className="flex flex-col items-center gap-1 rounded-full border border-mauve/20 bg-ivory/60 p-2 shadow-soft">
+    <div
+      className="flex flex-col items-center gap-1 rounded-full border border-mauve/20 bg-ivory/60 p-2 shadow-soft"
+      role="img"
+      aria-label={`${label} ${clampedValue}%`}
+    >
       <div className="h-16 w-16">
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart

@@ -1,17 +1,23 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAcademyContext } from "../Academy";
+import { motion } from "framer-motion";
+import Button from "../../design-system/Button";
+import { ArrowRight, BookOpen } from "lucide-react";
 
 const AcademyOverview = () => {
   const navigate = useNavigate();
-  const { modulesState } = useAcademyContext();
+  const { modulesState, buildPath } = useAcademyContext();
 
   const modules = useMemo(() => (Array.isArray(modulesState.data) ? modulesState.data : []), [modulesState.data]);
 
   if (modulesState.status === "loading" && !modules.length) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-16 text-center text-sm font-body text-charcoal/60">
-        <span className="text-2xl">⌛</span>
+      <div
+        className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-tmMauve/20 bg-white/70 px-6 py-16 text-center text-sm font-body text-charcoal/60 shadow-soft"
+        role="status"
+      >
+        <span className="h-12 w-12 animate-spin rounded-full border-2 border-tmMauve/10 border-t-transparent" />
         Loading academy modules…
       </div>
     );
@@ -26,20 +32,29 @@ const AcademyOverview = () => {
   }
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-10" aria-label="Academy overview">
       <header className="space-y-3">
-        <h2 className="font-playful text-2xl text-charcoal">Choose your next Taylor-Made experience</h2>
+        <p className="inline-flex items-center gap-2 rounded-full border border-tmMauve/25 bg-tmMauve/10 px-4 py-1 text-[0.7rem] font-heading uppercase tracking-[0.32em] text-tmMauve">
+          <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          Taylor-Made Academy
+        </p>
+        <h2 className="max-w-2xl font-heading text-2xl text-tmCharcoal sm:text-3xl">
+          Choose your next Taylor-Made experience
+        </h2>
         <p className="max-w-3xl text-sm font-body text-charcoal/70">
           Each module includes an immersive masterclass paired with a concierge workbook. Track your reflections, share
           entries with your mentor, and revisit anytime for refreshed guidance.
         </p>
       </header>
 
-      <section className="space-y-6">
-        {modules.map((module) => (
-          <article
+      <section className="space-y-6" aria-label="Available modules">
+        {modules.map((module, index) => (
+          <motion.article
             key={module.id}
-            className="space-y-4 rounded-3xl bg-softBeige/60 p-6 shadow-soft backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-dreamy"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.08, ease: "easeOut" }}
+            className="space-y-4 rounded-2xl border border-tmIvory/70 bg-white/85 p-6 shadow-soft backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-dreamy focus-within:ring-2 focus-within:ring-tmMauve/40"
           >
             <header className="space-y-1">
               <p className="text-[0.7rem] font-heading uppercase tracking-[0.32em] text-mauve/70">
@@ -51,18 +66,21 @@ const AcademyOverview = () => {
               )}
             </header>
             <footer className="flex flex-wrap items-center justify-between gap-3">
-              <button
+              <Button
                 type="button"
-                onClick={() => navigate(`/academy/modules/${module.id}`)}
-                className="rounded-full bg-mauve px-5 py-2 text-xs font-heading uppercase tracking-[0.28em] text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+                variant="primary"
+                size="sm"
+                onClick={() => navigate(buildPath("modules", module.id))}
+                className="w-full sm:w-auto"
               >
                 Open Module
-              </button>
+                <ArrowRight className="ml-2 h-3 w-3 shrink-0" aria-hidden />
+              </Button>
               <span className="text-[0.65rem] font-heading uppercase tracking-[0.32em] text-charcoal/50">
                 {module.completedPrompts ?? 0}/{module.totalPrompts ?? 0} reflections · {module.progress ?? 0}%
               </span>
             </footer>
-          </article>
+          </motion.article>
         ))}
       </section>
 

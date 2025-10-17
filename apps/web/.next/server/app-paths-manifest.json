@@ -1,0 +1,8 @@
+{
+  "/dashboard/academy/page": "app/dashboard/academy/page.js",
+  "/dashboard/academy/tracks/[slug]/page": "app/dashboard/academy/tracks/[slug]/page.js",
+  "/dashboard/mentor/page": "app/dashboard/mentor/page.js",
+  "/dashboard/community/page": "app/dashboard/community/page.js",
+  "/dashboard/academy/journeys/[slug]/page": "app/dashboard/academy/journeys/[slug]/page.js",
+  "/dashboard/academy/modules/[code]/page": "app/dashboard/academy/modules/[code]/page.js"
+}

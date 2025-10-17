@@ -2,68 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
 
 @layer base {
   :root {
-    --softBeige: #F6EDE5;
-    --ivory: #FFFCFA;
-    --mauve: #B48A9F;
-    --gold: #D9C48E;
-    --ink: #2A2626;
+    --tmMauve: #C8A1B4;
+    --tmBlush: #EAC9D1;
+    --tmIvory: #FFFAF8;
+    --tmGold: #D9C48E;
+    --tmCharcoal: #3E2F35;
   }
 
   body {
-    @apply bg-softBeige text-ink font-[Nunito] font-normal leading-relaxed;
+    @apply min-h-screen bg-tmIvory font-body text-tmCharcoal antialiased;
     background-image:
-      radial-gradient(circle at 15% 20%, rgba(251,239,242,0.45) 0, rgba(251,239,242,0) 55%),
-      radial-gradient(circle at 85% 18%, rgba(211,228,247,0.35) 0, rgba(211,228,247,0) 55%),
-      radial-gradient(circle at 20% 80%, rgba(237,230,248,0.3) 0, rgba(237,230,248,0) 50%),
-      linear-gradient(180deg, rgba(248,244,236,0.96), rgba(237,230,248,0.12) 65%, transparent 100%);
+      radial-gradient(circle at 20% 15%, rgba(200,161,180,0.18) 0%, rgba(200,161,180,0) 52%),
+      radial-gradient(circle at 75% 10%, rgba(234,201,209,0.22) 0%, rgba(234,201,209,0) 50%),
+      linear-gradient(160deg, rgba(255,250,248,1) 0%, rgba(255,255,255,0.96) 52%, rgba(255,255,255,0.9) 100%);
     background-attachment: fixed;
+    line-height: 1.65;
   }
 
-  /* h1{
-    font-family: 'Great Vibes', cursive;
-    @apply text-mauve tracking-wide font-medium;
-  } */
+  h1 {
+    @apply font-heading text-3xl leading-tight text-tmCharcoal sm:text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply font-heading text-2xl leading-snug text-tmCharcoal sm:text-3xl;
+  }
+
+  h3 {
+    @apply font-heading text-xl leading-snug text-tmCharcoal sm:text-2xl;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-lg leading-snug text-tmCharcoal;
+  }
+
+  p,
+  span,
+  li {
+    @apply font-body text-base leading-relaxed text-tmCharcoal/90;
+  }
+
+  strong {
+    @apply font-semibold text-tmCharcoal;
+  }
+
+  a {
+    @apply transition-colors duration-150 ease-out;
+  }
 
   ::selection {
-    background: rgba(211, 228, 247, 0.35);
-    color: #433d4a;
+    background: rgba(200, 161, 180, 0.28);
+    color: #3e2f35;
   }
 }
 
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-softBeige text-ink font-semibold tracking-[0.32em] uppercase shadow-md transition-transform duration-200 ease-out text-xs sm:text-sm px-6 sm:px-7 py-3;
+    @apply inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-tmMauve via-tmBlush to-tmMauve px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white shadow-soft transition duration-150 ease-out hover:shadow-dreamy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tmGold/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white/90 disabled:opacity-60 sm:text-sm sm:px-8;
   }
 
   .btn-primary:hover {
-    @apply -translate-y-1 scale-[1.02] shadow-lg border border-gold/30;
+    @apply -translate-y-1;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-ink/20 bg-ivory text-ink font-semibold tracking-[0.32em] uppercase transition-transform duration-200 ease-out text-xs sm:text-sm px-6 sm:px-7 py-3 shadow-sm;
-  }
-
-  .btn-secondary:hover {
-    @apply -translate-y-1 scale-[1.02] shadow-md border-gold/20;
+    @apply inline-flex items-center justify-center rounded-2xl border border-tmMauve/40 bg-white/80 px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-tmMauve shadow-soft transition duration-150 ease-out hover:-translate-y-1 hover:border-tmMauve hover:bg-tmMauve/10 hover:text-tmCharcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tmGold/35 focus-visible:ring-offset-2 focus-visible:ring-offset-white/90 disabled:opacity-60 sm:text-sm sm:px-8;
   }
 
   /* Surfaces */
   .surface-panel {
-    @apply rounded-[3rem] border border-ink/10 bg-ivory/95 px-5 py-10 shadow-sm backdrop-blur-sm sm:px-8 sm:py-12 md:px-12 md:py-14;
+    @apply rounded-[3rem] border border-white/60 bg-white/85 px-6 py-12 shadow-soft backdrop-blur-sm sm:px-10 md:px-14;
   }
 
   .surface-card {
-    @apply rounded-[2.5rem] border border-ink/10 bg-ivory/95 px-4 py-6 shadow-sm backdrop-blur-sm sm:px-6 sm:py-8;
+    @apply rounded-[2.5rem] border border-white/60 bg-white/90 px-6 py-6 shadow-surface backdrop-blur-sm transition duration-150 hover:-translate-y-1 hover:shadow-dreamy sm:px-8 sm:py-8;
   }
 
   /* Accent details */
   .badge-pill {
-    @apply inline-flex items-center justify-center rounded-full bg-softBeige/70 px-4 py-1 text-[0.65rem] uppercase tracking-[0.32em] text-ink font-semibold;
+    @apply inline-flex items-center justify-center rounded-full bg-tmBlush/30 px-4 py-1 text-[0.65rem] uppercase tracking-[0.32em] text-tmCharcoal font-semibold;
   }
 
   .gold-divider {
@@ -75,7 +98,7 @@
     background-image: linear-gradient(
       90deg,
       rgba(217,196,142,0),
-      rgba(217,196,142,0.3),
+      rgba(217,196,142,0.35),
       rgba(217,196,142,0)
     );
   }
@@ -118,16 +141,26 @@
     50% { transform: rotate(1.5deg); }
   }
 
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out both;
+  }
+
+  @keyframes fadeUp {
+    0% {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .divider-gold {
     height: 1px;
     width: 100%;
     margin: 4rem 0;
     border-radius: 9999px;
-    background: linear-gradient(
-      to right,
-      rgba(217,196,142,0.1),
-      rgba(217,196,142,0.3),
-      rgba(217,196,142,0.1)
-    );
+    background: linear-gradient(to right, rgba(200,161,180,0.08), rgba(217,196,142,0.3), rgba(234,201,209,0.1));
   }
 }

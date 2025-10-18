@@ -8,9 +8,17 @@
     "dev:web": "next dev apps/web",
     "build": "next build apps/web",
     "db:migrate": "knex migrate:latest --knexfile db/knexfile.ts",
-    "db:seed": "knex seed:run --knexfile db/knexfile.ts"
+    "db:seed": "knex seed:run --knexfile db/knexfile.ts",
+    "lint": "eslint apps --ext .ts,.tsx",
+    "lint:web": "eslint apps/web --ext .ts,.tsx",
+    "lint:api": "eslint apps/api --ext .ts",
+    "lint:fix": "eslint apps --ext .ts,.tsx --fix",
+    "lint:fix:web": "eslint apps/web --ext .ts,.tsx --fix",
+    "lint:fix:api": "eslint apps/api --ext .ts --fix",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^14.2.5",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
@@ -26,7 +34,15 @@
     "tailwindcss": "^3.4.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "eslint": "^9.0.0",
+    "@typescript-eslint/parser": "^8.46.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^14.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

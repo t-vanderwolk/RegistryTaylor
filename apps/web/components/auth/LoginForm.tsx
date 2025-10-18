@@ -34,7 +34,7 @@ export function LoginForm() {
       if (!response.ok || !json.success) {
         throw new Error(json.error || "Unable to log in.");
       }
-      router.replace("/dashboard/academy");
+      router.replace("/dashboard");
     } catch (err) {
       console.error(err);
       setStatus("idle");

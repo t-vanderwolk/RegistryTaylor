@@ -34,8 +34,8 @@ declare namespace __next_route_internal_types__ {
     | `/invite`
     | `/login`
     | `/dashboard`
-    | `/dashboard/admin`
     | `/dashboard/academy`
+    | `/dashboard/admin`
     | `/dashboard/community`
     | `/dashboard/mentor`
     | `/dashboard/registry`

@@ -8,12 +8,13 @@ import { authRouter } from "./routes/auth";
 import { affiliateRouter } from "./routes/affiliate";
 import { registryRouter } from "./routes/registry";
 import { academyRouter } from "./routes/academy";
+import { engagementRouter } from "./routes/engagement";
 
 dotenv.config();
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGINS ?? "")
+const allowedOrigins = (process.env.CORS_ORIGINS ?? "http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -37,6 +38,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/affiliate", affiliateRouter);
 app.use("/api/registry", registryRouter);
 app.use("/api", academyRouter);
+app.use("/api", engagementRouter);
 
 const port = Number(process.env.PORT ?? 4000);
 

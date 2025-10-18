@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { AffiliateProduct } from "../lib/types";
 import { API_BASE } from "../lib/api";
@@ -53,11 +54,13 @@ export function RegistryCard({
           <p className="text-sm font-semibold text-tmMauve">${product.price}</p>
         </div>
         {product.image_url && (
-          <div className="overflow-hidden rounded-xl border border-tmBlush/40 bg-white/60 shadow-soft">
-            <img
+          <div className="relative h-24 w-24 overflow-hidden rounded-xl border border-tmBlush/40 bg-white/60 shadow-soft">
+            <Image
               src={product.image_url}
               alt={product.name}
-              className="h-24 w-24 object-cover"
+              fill
+              sizes="96px"
+              className="object-cover"
             />
           </div>
         )}

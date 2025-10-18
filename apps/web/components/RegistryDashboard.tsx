@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { AffiliateProduct, RegistryItem } from "../lib/types";
@@ -161,11 +162,13 @@ export function RegistryDashboard({
                   </p>
                 </div>
                 {product.image_url && (
-                  <div className="overflow-hidden rounded-xl border border-tmBlush/40 bg-white/60 shadow-inner">
-                    <img
+                  <div className="relative h-24 w-24 overflow-hidden rounded-xl border border-tmBlush/40 bg-white/60 shadow-inner">
+                    <Image
                       src={product.image_url}
                       alt={product.name}
-                      className="h-24 w-24 object-cover transition duration-300 group-hover:scale-105"
+                      fill
+                      sizes="96px"
+                      className="object-cover transition duration-300 group-hover:scale-105"
                     />
                   </div>
                 )}

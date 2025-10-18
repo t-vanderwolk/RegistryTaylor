@@ -163,6 +163,12 @@ const Portal = () => {
               >
                 Membership Overview
               </Link>
+              <Link
+                to="/blog"
+                className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-mauveDeep/40 bg-white/80 px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-mauveDeep shadow-soft transition hover:border-mauveDeep hover:bg-mauveDeep/10"
+              >
+                Visit Our Blog
+              </Link>
             </div>
             <ul className="space-y-3 text-xs uppercase tracking-[0.35em] text-ink/60">
               <li>Private clientele · lifetime concierge access</li>

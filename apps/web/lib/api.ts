@@ -7,6 +7,10 @@ import {
   CommunityPost,
   AffiliateProduct,
   InviteRecord,
+  ReflectionPayload,
+  Reflection,
+  MentorFeedback,
+  RegistrySuggestion,
 } from "./types";
 
 const API_BASE_URL =
@@ -99,6 +103,50 @@ export async function getInviteCodes(): Promise<InviteRecord[]> {
   return apiFetch("/api/invite/list");
 }
 
+export async function getReflection(moduleCode: string): Promise<ReflectionPayload | null> {
+  return apiFetch<ReflectionPayload | null>(`/api/reflections?module=${encodeURIComponent(moduleCode)}`);
+}
+
+export async function saveReflection(payload: {
+  moduleCode: string;
+  content: string;
+  isAnonymous: boolean;
+}): Promise<Reflection> {
+  return apiFetch<Reflection>("/api/reflections", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function shareReflection(reflectionId: string): Promise<unknown> {
+  return apiFetch(`/api/reflections/${reflectionId}/share`, {
+    method: "POST",
+  });
+}
+
+export async function addMentorFeedback(reflectionId: string, content: string): Promise<MentorFeedback> {
+  return apiFetch<MentorFeedback>(`/api/reflections/${reflectionId}/mentor-feedback`, {
+    method: "POST",
+    body: JSON.stringify({ content }),
+  });
+}
+
+export async function getRegistrySuggestions(
+  moduleCode: string,
+  slideIdx: number
+): Promise<RegistrySuggestion[]> {
+  return apiFetch<RegistrySuggestion[]>(
+    `/api/registry/suggestions?module=${encodeURIComponent(moduleCode)}&slide=${slideIdx}`
+  );
+}
+
+export async function awardAchievement(achievementCode: string): Promise<unknown> {
+  return apiFetch("/api/achievements/award", {
+    method: "POST",
+    body: JSON.stringify({ achievementCode }),
+  });
+}
+
 function getServerCookieHeader(): string | null {
   if (typeof window !== "undefined") {
     return null;
@@ -106,7 +154,6 @@ function getServerCookieHeader(): string | null {
 
   try {
     // Dynamically require to avoid bundling in client builds.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
     const { cookies } = require("next/headers") as typeof import("next/headers");
     const cookieStore = cookies();
     const serialized = cookieStore

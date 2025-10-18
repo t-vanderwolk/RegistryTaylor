@@ -1,3 +1,19 @@
+export type LectureSlideInteractive = {
+  prompt: string;
+  options: string[];
+};
+
+export type LectureSlideDetail = {
+  educational: string;
+  interactive: LectureSlideInteractive;
+  takeaway: string;
+};
+
+export type LectureSlide = {
+  text: string;
+  detail?: LectureSlideDetail;
+};
+
 export type Journey = {
   id: string;
   slug: string;
@@ -39,7 +55,7 @@ export type ModuleContent = {
   id: string;
   module_id: string;
   explore: string;
-  lecture: { bullets: string[] };
+  lecture: { slides: LectureSlide[]; bullets?: string[] };
   journal_prompt: string;
   apply: { items: Array<{ id: string; text: string }> };
 };
@@ -120,3 +136,45 @@ export type InviteRecord = {
   used_by_username?: string | null;
   used_by_email?: string | null;
 };
+
+export type Reflection = {
+  id: string;
+  user_id: string;
+  module_code: string;
+  content: string;
+  is_shared: boolean;
+  is_anonymous: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ReflectionShare = {
+  id: string;
+  reflection_id: string;
+  post_id: string;
+  shared_at: string;
+};
+
+export type MentorFeedback = {
+  id: string;
+  reflection_id: string;
+  mentor_id: string;
+  content: string;
+  created_at: string;
+};
+
+export type ReflectionPayload = {
+  reflection: Reflection;
+  feedback: MentorFeedback[];
+  share: ReflectionShare | null;
+};
+
+export type Achievement = {
+  id: string;
+  code: string;
+  title: string;
+  description: string;
+  icon_svg: string;
+};
+
+export type RegistrySuggestion = AffiliateProduct;

@@ -1,0 +1,713 @@
+import { Knex } from "knex";
+
+const AFFILIATE_PARAM = "affid";
+const AFFILIATE_VALUE = "taylorvanderwolk";
+
+function withAff(url: string): string {
+  try {
+    const parsed = new URL(url);
+    if (!parsed.searchParams.has(AFFILIATE_PARAM)) {
+      parsed.searchParams.set(AFFILIATE_PARAM, AFFILIATE_VALUE);
+    }
+    return parsed.toString();
+  } catch {
+    if (url.includes("?")) {
+      const hasParam = new RegExp(`([?&])${AFFILIATE_PARAM}=`, "i").test(url);
+      return hasParam ? url : `${url}&${AFFILIATE_PARAM}=${AFFILIATE_VALUE}`;
+    }
+    return `${url}?${AFFILIATE_PARAM}=${AFFILIATE_VALUE}`;
+  }
+}
+
+type ProductSeed = {
+  category: string;
+  brand: string;
+  name: string;
+  imageUrl: string;
+  productUrl: string;
+  price: string;
+};
+
+const products: ProductSeed[] = [
+  // Cribs
+  {
+    category: "cribs",
+    brand: "Babyletto",
+    name: "Hudson 3-in-1 Convertible Crib",
+    imageUrl: "https://images.macrobaby.com/products/babyletto-hudson-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/babyletto-hudson-3-in-1-convertible-crib",
+    price: "399.00",
+  },
+  {
+    category: "cribs",
+    brand: "DaVinci",
+    name: "Jenny Lind Convertible Crib",
+    imageUrl: "https://images.macrobaby.com/products/davinci-jenny-lind-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/davinci-jenny-lind-4-in-1-convertible-crib",
+    price: "249.00",
+  },
+  {
+    category: "cribs",
+    brand: "Million Dollar Baby",
+    name: "Winston 4-in-1 Convertible Crib",
+    imageUrl: "https://images.macrobaby.com/products/mdb-winston-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/million-dollar-baby-classic-winston-4-in-1-crib",
+    price: "699.00",
+  },
+  {
+    category: "cribs",
+    brand: "Nestig",
+    name: "Wave Crib Bundle",
+    imageUrl: "https://images.macrobaby.com/products/nestig-wave-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/nestig-wave-crib-bundle",
+    price: "995.00",
+  },
+  {
+    category: "cribs",
+    brand: "Pottery Barn Kids",
+    name: "Emerson Extra-Wide Crib",
+    imageUrl: "https://images.macrobaby.com/products/pbk-emerson-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/pottery-barn-kids-emerson-extra-wide-crib",
+    price: "799.00",
+  },
+  {
+    category: "cribs",
+    brand: "Stokke",
+    name: "Sleepi Bed V3",
+    imageUrl: "https://images.macrobaby.com/products/stokke-sleepi-bed.jpg",
+    productUrl: "https://www.macrobaby.com/products/stokke-sleepi-bed-v3",
+    price: "699.00",
+  },
+  // Strollers
+  {
+    category: "strollers",
+    brand: "UPPAbaby",
+    name: "Vista V2 Stroller",
+    imageUrl: "https://images.macrobaby.com/products/uppababy-vista-v2.jpg",
+    productUrl: "https://www.macrobaby.com/products/uppababy-vista-v2-stroller",
+    price: "999.00",
+  },
+  {
+    category: "strollers",
+    brand: "Bugaboo",
+    name: "Fox 5 Complete Stroller",
+    imageUrl: "https://images.macrobaby.com/products/bugaboo-fox5.jpg",
+    productUrl: "https://www.macrobaby.com/products/bugaboo-fox5-complete-stroller",
+    price: "1299.00",
+  },
+  {
+    category: "strollers",
+    brand: "Nuna",
+    name: "Mixx Next Stroller",
+    imageUrl: "https://images.macrobaby.com/products/nuna-mixx-next.jpg",
+    productUrl: "https://www.macrobaby.com/products/nuna-mixx-next-stroller",
+    price: "799.00",
+  },
+  {
+    category: "strollers",
+    brand: "Baby Jogger",
+    name: "City Mini GT2 Stroller",
+    imageUrl: "https://images.macrobaby.com/products/baby-jogger-gt2.jpg",
+    productUrl: "https://www.macrobaby.com/products/baby-jogger-city-mini-gt2-stroller",
+    price: "399.00",
+  },
+  {
+    category: "strollers",
+    brand: "Thule",
+    name: "Urban Glide 2 Jogging Stroller",
+    imageUrl: "https://images.macrobaby.com/products/thule-urban-glide2.jpg",
+    productUrl: "https://www.macrobaby.com/products/thule-urban-glide-2-jogging-stroller",
+    price: "749.00",
+  },
+  {
+    category: "strollers",
+    brand: "Doona",
+    name: "Infant Car Seat & Stroller",
+    imageUrl: "https://images.macrobaby.com/products/doona-stroller.jpg",
+    productUrl: "https://www.macrobaby.com/products/doona-infant-car-seat-stroller",
+    price: "550.00",
+  },
+  // Car Seats
+  {
+    category: "car_seats",
+    brand: "Nuna",
+    name: "Pipa Aire RX Infant Car Seat",
+    imageUrl: "https://images.macrobaby.com/products/nuna-pipa-aire-rx.jpg",
+    productUrl: "https://www.macrobaby.com/products/nuna-pipa-aire-rx-infant-car-seat",
+    price: "550.00",
+  },
+  {
+    category: "car_seats",
+    brand: "Clek",
+    name: "Liing Infant Car Seat",
+    imageUrl: "https://images.macrobaby.com/products/clek-liing.jpg",
+    productUrl: "https://www.macrobaby.com/products/clek-liing-infant-car-seat",
+    price: "499.00",
+  },
+  {
+    category: "car_seats",
+    brand: "Britax",
+    name: "One4Life ClickTight Car Seat",
+    imageUrl: "https://images.macrobaby.com/products/britax-one4life.jpg",
+    productUrl: "https://www.macrobaby.com/products/britax-one4life-clicktight-all-in-one-car-seat",
+    price: "399.00",
+  },
+  {
+    category: "car_seats",
+    brand: "UPPAbaby",
+    name: "Mesa Max Infant Car Seat",
+    imageUrl: "https://images.macrobaby.com/products/uppababy-mesa-max.jpg",
+    productUrl: "https://www.macrobaby.com/products/uppababy-mesa-max-infant-car-seat",
+    price: "399.00",
+  },
+  {
+    category: "car_seats",
+    brand: "Graco",
+    name: "SnugRide SnugFit 35 Elite",
+    imageUrl: "https://images.macrobaby.com/products/graco-snugfit-elite.jpg",
+    productUrl: "https://www.macrobaby.com/products/graco-snugride-snugfit-35-elite-infant-car-seat",
+    price: "259.00",
+  },
+  {
+    category: "car_seats",
+    brand: "Cybex",
+    name: "Sirona S Convertible Car Seat",
+    imageUrl: "https://images.macrobaby.com/products/cybex-sirona-s.jpg",
+    productUrl: "https://www.macrobaby.com/products/cybex-sirona-s-convertible-car-seat",
+    price: "549.00",
+  },
+  // High Chairs
+  {
+    category: "highchairs",
+    brand: "Stokke",
+    name: "Tripp Trapp High Chair Bundle",
+    imageUrl: "https://images.macrobaby.com/products/stokke-tripp-trapp.jpg",
+    productUrl: "https://www.macrobaby.com/products/stokke-tripp-trapp-high-chair-bundle",
+    price: "349.00",
+  },
+  {
+    category: "highchairs",
+    brand: "Lalo",
+    name: "The Chair 2-in-1 High Chair",
+    imageUrl: "https://images.macrobaby.com/products/lalo-the-chair.jpg",
+    productUrl: "https://www.macrobaby.com/products/lalo-the-chair-2-in-1-high-chair",
+    price: "235.00",
+  },
+  {
+    category: "highchairs",
+    brand: "Inglesina",
+    name: "Fast Table Chair",
+    imageUrl: "https://images.macrobaby.com/products/inglesina-fast-table-chair.jpg",
+    productUrl: "https://www.macrobaby.com/products/inglesina-fast-table-chair",
+    price: "89.00",
+  },
+  {
+    category: "highchairs",
+    brand: "OXO Tot",
+    name: "Sprout Adjustable High Chair",
+    imageUrl: "https://images.macrobaby.com/products/oxo-sprout-highchair.jpg",
+    productUrl: "https://www.macrobaby.com/products/oxo-tot-sprout-adjustable-high-chair",
+    price: "299.00",
+  },
+  {
+    category: "highchairs",
+    brand: "Peg Perego",
+    name: "Siesta High Chair",
+    imageUrl: "https://images.macrobaby.com/products/peg-perego-siesta.jpg",
+    productUrl: "https://www.macrobaby.com/products/peg-perego-siesta-high-chair",
+    price: "329.00",
+  },
+  // Bottles
+  {
+    category: "bottles",
+    brand: "Comotomo",
+    name: "Silicone Bottles 8oz 2-Pack",
+    imageUrl: "https://images.macrobaby.com/products/comotomo-8oz-bottles.jpg",
+    productUrl: "https://www.macrobaby.com/products/comotomo-silicone-baby-bottle-8oz-2-pack",
+    price: "29.99",
+  },
+  {
+    category: "bottles",
+    brand: "Dr. Brown's",
+    name: "Options+ Anti-Colic Bottle Set",
+    imageUrl: "https://images.macrobaby.com/products/drbrowns-options-plus-set.jpg",
+    productUrl: "https://www.macrobaby.com/products/dr-browns-options-anti-colic-bottle-set",
+    price: "49.99",
+  },
+  {
+    category: "bottles",
+    brand: "Philips Avent",
+    name: "Natural Response Bottles",
+    imageUrl: "https://images.macrobaby.com/products/philips-avent-natural-response.jpg",
+    productUrl: "https://www.macrobaby.com/products/philips-avent-natural-response-bottles",
+    price: "21.99",
+  },
+  {
+    category: "bottles",
+    brand: "Nanobebe",
+    name: "Flexy Silicone Bottle Trio",
+    imageUrl: "https://images.macrobaby.com/products/nanobebe-flexy-trio.jpg",
+    productUrl: "https://www.macrobaby.com/products/nanobebe-flexy-silicone-bottle-trio",
+    price: "38.99",
+  },
+  {
+    category: "bottles",
+    brand: "Evenflo",
+    name: "Balance + Bottle Set",
+    imageUrl: "https://images.macrobaby.com/products/evenflo-balance-plus.jpg",
+    productUrl: "https://www.macrobaby.com/products/evenflo-balance-plus-bottle-set",
+    price: "24.99",
+  },
+  // Pumps
+  {
+    category: "pumps",
+    brand: "Spectra",
+    name: "S1 Plus Electric Breast Pump",
+    imageUrl: "https://images.macrobaby.com/products/spectra-s1-plus.jpg",
+    productUrl: "https://www.macrobaby.com/products/spectra-s1-plus-electric-breast-pump",
+    price: "200.00",
+  },
+  {
+    category: "pumps",
+    brand: "Medela",
+    name: "Symphony Plus Hospital-Grade Pump",
+    imageUrl: "https://images.macrobaby.com/products/medela-symphony-plus.jpg",
+    productUrl: "https://www.macrobaby.com/products/medela-symphony-plus-breast-pump",
+    price: "2099.00",
+  },
+  {
+    category: "pumps",
+    brand: "Elvie",
+    name: "Stride Double Electric Pump",
+    imageUrl: "https://images.macrobaby.com/products/elvie-stride.jpg",
+    productUrl: "https://www.macrobaby.com/products/elvie-stride-double-electric-breast-pump",
+    price: "269.99",
+  },
+  {
+    category: "pumps",
+    brand: "Willow",
+    name: "Go Wearable Breast Pump",
+    imageUrl: "https://images.macrobaby.com/products/willow-go-pump.jpg",
+    productUrl: "https://www.macrobaby.com/products/willow-go-wearable-breast-pump",
+    price: "349.99",
+  },
+  {
+    category: "pumps",
+    brand: "Baby Buddha",
+    name: "Portable Breast Pump Kit",
+    imageUrl: "https://images.macrobaby.com/products/baby-buddha-pump.jpg",
+    productUrl: "https://www.macrobaby.com/products/baby-buddha-portable-breast-pump",
+    price: "189.99",
+  },
+  // Swaddles
+  {
+    category: "swaddles",
+    brand: "Halo",
+    name: "Sleepsack Cotton Swaddle",
+    imageUrl: "https://images.macrobaby.com/products/halo-cotton-swaddle.jpg",
+    productUrl: "https://www.macrobaby.com/products/halo-sleepsack-cotton-swaddle",
+    price: "29.99",
+  },
+  {
+    category: "swaddles",
+    brand: "Love to Dream",
+    name: "Swaddle UP Original",
+    imageUrl: "https://images.macrobaby.com/products/love-to-dream-swaddle-up.jpg",
+    productUrl: "https://www.macrobaby.com/products/love-to-dream-swaddle-up-original",
+    price: "32.95",
+  },
+  {
+    category: "swaddles",
+    brand: "Aden + Anais",
+    name: "Essentials Easy Swaddle 2-Pack",
+    imageUrl: "https://images.macrobaby.com/products/aden-anais-easy-swaddle.jpg",
+    productUrl: "https://www.macrobaby.com/products/aden-anais-essentials-easy-swaddle",
+    price: "34.99",
+  },
+  {
+    category: "swaddles",
+    brand: "Copper Pearl",
+    name: "Premium Knit Swaddle",
+    imageUrl: "https://images.macrobaby.com/products/copper-pearl-swaddle.jpg",
+    productUrl: "https://www.macrobaby.com/products/copper-pearl-premium-knit-swaddle",
+    price: "27.95",
+  },
+  {
+    category: "swaddles",
+    brand: "Burt's Bees Baby",
+    name: "Beekeeper Wearable Blanket",
+    imageUrl: "https://images.macrobaby.com/products/burts-bees-beekeeper.jpg",
+    productUrl: "https://www.macrobaby.com/products/burts-bees-baby-beekeeper-wearable-blanket",
+    price: "24.95",
+  },
+  // Bouncers
+  {
+    category: "bouncers",
+    brand: "BabyBjorn",
+    name: "Balance Soft Bouncer",
+    imageUrl: "https://images.macrobaby.com/products/babybjorn-balance-soft.jpg",
+    productUrl: "https://www.macrobaby.com/products/babybjorn-bouncer-balance-soft",
+    price: "209.99",
+  },
+  {
+    category: "bouncers",
+    brand: "4moms",
+    name: "MamaRoo Multi-Motion Swing",
+    imageUrl: "https://images.macrobaby.com/products/4moms-mamaroo.jpg",
+    productUrl: "https://www.macrobaby.com/products/4moms-mamaroo-multi-motion-bouncer",
+    price: "269.99",
+  },
+  {
+    category: "bouncers",
+    brand: "Nuna",
+    name: "Leaf Grow Swing",
+    imageUrl: "https://images.macrobaby.com/products/nuna-leaf-grow.jpg",
+    productUrl: "https://www.macrobaby.com/products/nuna-leaf-grow-swing",
+    price: "289.95",
+  },
+  {
+    category: "bouncers",
+    brand: "Maxi-Cosi",
+    name: "Kori 2-in-1 Rocker",
+    imageUrl: "https://images.macrobaby.com/products/maxicosi-kori-rocker.jpg",
+    productUrl: "https://www.macrobaby.com/products/maxi-cosi-kori-2-in-1-rocker",
+    price: "139.99",
+  },
+  {
+    category: "bouncers",
+    brand: "Fisher-Price",
+    name: "Infant-to-Toddler Rocker",
+    imageUrl: "https://images.macrobaby.com/products/fisher-price-infant-toddler-rocker.jpg",
+    productUrl: "https://www.macrobaby.com/products/fisher-price-infant-to-toddler-rocker",
+    price: "59.99",
+  },
+  // Monitors
+  {
+    category: "monitors",
+    brand: "Nanit",
+    name: "Pro Smart Baby Monitor",
+    imageUrl: "https://images.macrobaby.com/products/nanit-pro-monitor.jpg",
+    productUrl: "https://www.macrobaby.com/products/nanit-pro-smart-baby-monitor",
+    price: "299.00",
+  },
+  {
+    category: "monitors",
+    brand: "Owlet",
+    name: "Dream Duo 2 Monitor & Sock",
+    imageUrl: "https://images.macrobaby.com/products/owlet-dream-duo2.jpg",
+    productUrl: "https://www.macrobaby.com/products/owlet-dream-duo-2-monitor-sock",
+    price: "399.00",
+  },
+  {
+    category: "monitors",
+    brand: "Motorola",
+    name: "PIP1510 Connect Video Monitor",
+    imageUrl: "https://images.macrobaby.com/products/motorola-pip1510.jpg",
+    productUrl: "https://www.macrobaby.com/products/motorola-pip1510-connect-video-baby-monitor",
+    price: "199.00",
+  },
+  {
+    category: "monitors",
+    brand: "Infant Optics",
+    name: "DXR-8 Pro Monitor",
+    imageUrl: "https://images.macrobaby.com/products/infant-optics-dxr8-pro.jpg",
+    productUrl: "https://www.macrobaby.com/products/infant-optics-dxr-8-pro-baby-monitor",
+    price: "229.99",
+  },
+  {
+    category: "monitors",
+    brand: "Cubo AI",
+    name: "Plus Smart Baby Monitor",
+    imageUrl: "https://images.macrobaby.com/products/cubo-ai-plus.jpg",
+    productUrl: "https://www.macrobaby.com/products/cubo-ai-plus-smart-baby-monitor",
+    price: "299.00",
+  },
+  // Tubs
+  {
+    category: "tubs",
+    brand: "Stokke",
+    name: "Flexi Bath with Newborn Support",
+    imageUrl: "https://images.macrobaby.com/products/stokke-flexi-bath.jpg",
+    productUrl: "https://www.macrobaby.com/products/stokke-flexi-bath-with-newborn-support",
+    price: "69.00",
+  },
+  {
+    category: "tubs",
+    brand: "The First Years",
+    name: "Sure Comfort Deluxe Tub",
+    imageUrl: "https://images.macrobaby.com/products/first-years-deluxe-tub.jpg",
+    productUrl: "https://www.macrobaby.com/products/the-first-years-sure-comfort-deluxe-tub",
+    price: "39.99",
+  },
+  {
+    category: "tubs",
+    brand: "Boon",
+    name: "Soak 3-Stage Bathtub",
+    imageUrl: "https://images.macrobaby.com/products/boon-soak-tub.jpg",
+    productUrl: "https://www.macrobaby.com/products/boon-soak-3-stage-baby-bathtub",
+    price: "34.99",
+  },
+  {
+    category: "tubs",
+    brand: "Skip Hop",
+    name: "Moby Smart Sling Tub",
+    imageUrl: "https://images.macrobaby.com/products/skip-hop-moby-tub.jpg",
+    productUrl: "https://www.macrobaby.com/products/skip-hop-moby-smart-sling-tub",
+    price: "44.99",
+  },
+  // Wagons
+  {
+    category: "wagons",
+    brand: "Veer",
+    name: "Cruiser All-Terrain Wagon",
+    imageUrl: "https://images.macrobaby.com/products/veer-cruiser.jpg",
+    productUrl: "https://www.macrobaby.com/products/veer-cruiser-all-terrain-wagon",
+    price: "699.00",
+  },
+  {
+    category: "wagons",
+    brand: "WonderFold",
+    name: "W2 Luxe Stroller Wagon",
+    imageUrl: "https://images.macrobaby.com/products/wonderfold-w2-luxe.jpg",
+    productUrl: "https://www.macrobaby.com/products/wonderfold-w2-luxe-stroller-wagon",
+    price: "659.00",
+  },
+  {
+    category: "wagons",
+    brand: "Keenz",
+    name: "7S 2-Passenger Stroller Wagon",
+    imageUrl: "https://images.macrobaby.com/products/keenz-7s-wagon.jpg",
+    productUrl: "https://www.macrobaby.com/products/keenz-7s-2-passenger-stroller-wagon",
+    price: "549.00",
+  },
+  {
+    category: "wagons",
+    brand: "Radio Flyer",
+    name: "City Luxe Stroll 'N Wagon",
+    imageUrl: "https://images.macrobaby.com/products/radio-flyer-city-luxe.jpg",
+    productUrl: "https://www.macrobaby.com/products/radio-flyer-city-luxe-stroll-n-wagon",
+    price: "199.00",
+  },
+  // Play Yards
+  {
+    category: "play_yards",
+    brand: "Guava Family",
+    name: "Lotus Travel Crib",
+    imageUrl: "https://images.macrobaby.com/products/guava-lotus-travel-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/guava-family-lotus-travel-crib",
+    price: "229.00",
+  },
+  {
+    category: "play_yards",
+    brand: "BabyBjorn",
+    name: "Travel Crib Light",
+    imageUrl: "https://images.macrobaby.com/products/babybjorn-travel-crib.jpg",
+    productUrl: "https://www.macrobaby.com/products/babybjorn-travel-crib-light",
+    price: "299.00",
+  },
+  {
+    category: "play_yards",
+    brand: "Nuna",
+    name: "Sena Aire Playard",
+    imageUrl: "https://images.macrobaby.com/products/nuna-sena-aire.jpg",
+    productUrl: "https://www.macrobaby.com/products/nuna-sena-aire-playard",
+    price: "399.95",
+  },
+  {
+    category: "play_yards",
+    brand: "4moms",
+    name: "Breeze Plus Playard",
+    imageUrl: "https://images.macrobaby.com/products/4moms-breeze-plus.jpg",
+    productUrl: "https://www.macrobaby.com/products/4moms-breeze-plus-playard",
+    price: "299.99",
+  },
+  {
+    category: "play_yards",
+    brand: "Graco",
+    name: "Pack 'n Play Close2Baby",
+    imageUrl: "https://images.macrobaby.com/products/graco-close2baby.jpg",
+    productUrl: "https://www.macrobaby.com/products/graco-pack-n-play-close2baby-playard",
+    price: "219.99",
+  },
+  // Carriers
+  {
+    category: "carriers",
+    brand: "Ergobaby",
+    name: "Omni Breeze Baby Carrier",
+    imageUrl: "https://images.macrobaby.com/products/ergobaby-omni-breeze.jpg",
+    productUrl: "https://www.macrobaby.com/products/ergobaby-omni-breeze-baby-carrier",
+    price: "199.00",
+  },
+  {
+    category: "carriers",
+    brand: "Tula",
+    name: "Explore Baby Carrier",
+    imageUrl: "https://images.macrobaby.com/products/tula-explore-carrier.jpg",
+    productUrl: "https://www.macrobaby.com/products/tula-explore-baby-carrier",
+    price: "199.00",
+  },
+  {
+    category: "carriers",
+    brand: "Artipoppe",
+    name: "Zeitgeist Baby Carrier",
+    imageUrl: "https://images.macrobaby.com/products/artipoppe-zeitgeist.jpg",
+    productUrl: "https://www.macrobaby.com/products/artipoppe-zeitgeist-baby-carrier",
+    price: "370.00",
+  },
+  {
+    category: "carriers",
+    brand: "Baby K'tan",
+    name: "Original Baby Carrier",
+    imageUrl: "https://images.macrobaby.com/products/baby-ktan-original.jpg",
+    productUrl: "https://www.macrobaby.com/products/baby-ktan-original-baby-carrier",
+    price: "59.99",
+  },
+  {
+    category: "carriers",
+    brand: "LILLEbaby",
+    name: "Complete All Seasons Carrier",
+    imageUrl: "https://images.macrobaby.com/products/lillebaby-complete-all-seasons.jpg",
+    productUrl: "https://www.macrobaby.com/products/lillebaby-complete-all-seasons-baby-carrier",
+    price: "149.99",
+  },
+  // Feeding Accessories
+  {
+    category: "feeding_accessories",
+    brand: "Beaba",
+    name: "Babycook Neo Food Maker",
+    imageUrl: "https://images.macrobaby.com/products/beaba-babycook-neo.jpg",
+    productUrl: "https://www.macrobaby.com/products/beaba-babycook-neo-food-maker",
+    price: "299.95",
+  },
+  {
+    category: "feeding_accessories",
+    brand: "OXO Tot",
+    name: "Baby Blocks Freezer Storage",
+    imageUrl: "https://images.macrobaby.com/products/oxo-baby-blocks.jpg",
+    productUrl: "https://www.macrobaby.com/products/oxo-tot-baby-blocks-freezer-storage",
+    price: "19.99",
+  },
+  {
+    category: "feeding_accessories",
+    brand: "ezpz",
+    name: "Happy Mat Silicone Placemat",
+    imageUrl: "https://images.macrobaby.com/products/ezpz-happy-mat.jpg",
+    productUrl: "https://www.macrobaby.com/products/ezpz-happy-mat-silicone-placemat",
+    price: "25.49",
+  },
+  {
+    category: "feeding_accessories",
+    brand: "BIBS",
+    name: "Colour Pacifier Set",
+    imageUrl: "https://images.macrobaby.com/products/bibs-colour-pacifier.jpg",
+    productUrl: "https://www.macrobaby.com/products/bibs-colour-pacifier-set",
+    price: "15.99",
+  },
+  {
+    category: "feeding_accessories",
+    brand: "Munchkin",
+    name: "LATCH Sterilize Bags",
+    imageUrl: "https://images.macrobaby.com/products/munchkin-latch-sterilize-bags.jpg",
+    productUrl: "https://www.macrobaby.com/products/munchkin-latch-sterilize-bags",
+    price: "10.99",
+  },
+  // Sleep Aids
+  {
+    category: "sleep_aids",
+    brand: "Hatch",
+    name: "Rest+ Sound Machine",
+    imageUrl: "https://images.macrobaby.com/products/hatch-rest-plus.jpg",
+    productUrl: "https://www.macrobaby.com/products/hatch-rest-plus-sound-machine",
+    price: "89.99",
+  },
+  {
+    category: "sleep_aids",
+    brand: "Yogasleep",
+    name: "Rohm Portable Sound Machine",
+    imageUrl: "https://images.macrobaby.com/products/yogasleep-rohm.jpg",
+    productUrl: "https://www.macrobaby.com/products/yogasleep-rohm-portable-sound-machine",
+    price: "34.99",
+  },
+  {
+    category: "sleep_aids",
+    brand: "Lullaby Earth",
+    name: "Breeze Breathable Crib Mattress",
+    imageUrl: "https://images.macrobaby.com/products/lullaby-earth-breeze.jpg",
+    productUrl: "https://www.macrobaby.com/products/lullaby-earth-breeze-breathable-crib-mattress",
+    price: "279.00",
+  },
+  {
+    category: "sleep_aids",
+    brand: "Little Unicorn",
+    name: "Deluxe Muslin Quilt",
+    imageUrl: "https://images.macrobaby.com/products/little-unicorn-muslin-quilt.jpg",
+    productUrl: "https://www.macrobaby.com/products/little-unicorn-deluxe-muslin-quilt",
+    price: "74.00",
+  },
+  // Postpartum
+  {
+    category: "postpartum",
+    brand: "Frida Mom",
+    name: "Postpartum Recovery Essentials Kit",
+    imageUrl: "https://images.macrobaby.com/products/frida-mom-recovery-kit.jpg",
+    productUrl: "https://www.macrobaby.com/products/frida-mom-postpartum-recovery-essentials-kit",
+    price: "54.99",
+  },
+  {
+    category: "postpartum",
+    brand: "Belly Bandit",
+    name: "Postpartum Luxe Belly Wrap",
+    imageUrl: "https://images.macrobaby.com/products/belly-bandit-luxe-wrap.jpg",
+    productUrl: "https://www.macrobaby.com/products/belly-bandit-postpartum-luxe-belly-wrap",
+    price: "99.95",
+  },
+  {
+    category: "postpartum",
+    brand: "Earth Mama",
+    name: "Organic Nipple Butter",
+    imageUrl: "https://images.macrobaby.com/products/earth-mama-nipple-butter.jpg",
+    productUrl: "https://www.macrobaby.com/products/earth-mama-organic-nipple-butter",
+    price: "12.99",
+  },
+  {
+    category: "postpartum",
+    brand: "Kindred Bravely",
+    name: "Sublime Hands-Free Pumping Bra",
+    imageUrl: "https://images.macrobaby.com/products/kindred-bravely-sublime-bra.jpg",
+    productUrl: "https://www.macrobaby.com/products/kindred-bravely-sublime-hands-free-pumping-bra",
+    price: "54.99",
+  },
+  {
+    category: "postpartum",
+    brand: "Haakaa",
+    name: "Silicone Breast Pump & Stopper",
+    imageUrl: "https://images.macrobaby.com/products/haakaa-silicone-pump.jpg",
+    productUrl: "https://www.macrobaby.com/products/haakaa-silicone-breast-pump-stopper",
+    price: "26.99",
+  },
+];
+
+export async function seed(knex: Knex): Promise<void> {
+  await knex.transaction(async (trx) => {
+    for (const product of products) {
+      await trx("affiliate_products")
+        .insert({
+          category: product.category,
+          brand: product.brand,
+          name: product.name,
+          image_url: product.imageUrl,
+          product_url: withAff(product.productUrl),
+          price: product.price,
+          active: true,
+        })
+        .onConflict(["brand", "name"])
+        .merge({
+          category: product.category,
+          image_url: product.imageUrl,
+          product_url: withAff(product.productUrl),
+          price: product.price,
+          active: true,
+        });
+    }
+  });
+}

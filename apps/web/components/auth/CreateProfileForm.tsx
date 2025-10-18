@@ -59,7 +59,7 @@ export function CreateProfileForm() {
 
       window.sessionStorage.removeItem("tm_invite_code");
       window.sessionStorage.removeItem("tm_invite_token");
-      router.replace("/dashboard/academy");
+      router.replace("/dashboard");
     } catch (err) {
       console.error(err);
       setStatus("idle");

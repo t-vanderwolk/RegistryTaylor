@@ -135,200 +135,200 @@ const Bio = () => {
 
   if (state.loading) {
     return (
-      <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/90 p-8 text-center shadow-soft backdrop-blur-sm">
-        <p className="font-heading text-blueberry">Polishing your concierge bio…</p>
+      <section className="rounded-[2.5rem] border border-blush/30 bg-white/90 p-8 text-center shadow-soft backdrop-blur-sm">
+        <p className="font-heading text-charcoal">Polishing your concierge bio…</p>
       </section>
     );
   }
 
   return (
     <div className="space-y-8">
-      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+      <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-2">
-          <span className="inline-flex items-center rounded-full border border-babyBlue/30 bg-babyBlue/10 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry">
+          <span className="inline-flex items-center rounded-full border border-mauve/30 bg-mauve/10 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal">
             Concierge Bio
           </span>
-          <h1 className="font-heading text-3xl text-blueberry">Your Family Snapshot</h1>
-          <p className="max-w-2xl text-sm font-body leading-relaxed text-darkText/70">
+          <h1 className="font-heading text-3xl text-charcoal">Your Family Snapshot</h1>
+          <p className="max-w-2xl text-sm font-body leading-relaxed text-charcoal/70">
             Keep this space updated so your concierge team can anticipate needs, tailor gifting touches, and coordinate white-glove support without asking twice.
           </p>
         </header>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-3xl border border-babyBlue/30 bg-babyBlue/10 px-5 py-4">
-            <p className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">Primary Contact</p>
-            <p className="mt-2 text-lg font-heading text-blueberry">{form.name || "Add your name"}</p>
+          <div className="rounded-3xl border border-mauve/30 bg-mauve/10 px-5 py-4">
+            <p className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/60">Primary Contact</p>
+            <p className="mt-2 text-lg font-heading text-charcoal">{form.name || "Add your name"}</p>
           </div>
-          <div className="rounded-3xl border border-babyPink/30 bg-babyPink/10 px-5 py-4">
-            <p className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">Portal Email</p>
-            <p className="mt-2 font-heading text-blueberry">{maskEmail}</p>
+          <div className="rounded-3xl border border-blush/30 bg-blush/10 px-5 py-4">
+            <p className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/60">Portal Email</p>
+            <p className="mt-2 font-heading text-charcoal">{maskEmail}</p>
           </div>
-          <div className="rounded-3xl border border-pastelPurple/40 bg-pastelPurple/10 px-5 py-4">
-            <p className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">Mentor Preference</p>
-            <p className="mt-2 font-heading text-blueberry">{form.mentor_preference || "Match me"}</p>
+          <div className="rounded-3xl border border-mauve/40 bg-mauve/10 px-5 py-4">
+            <p className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/60">Mentor Preference</p>
+            <p className="mt-2 font-heading text-charcoal">{form.mentor_preference || "Match me"}</p>
           </div>
         </div>
       </section>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
           <div className="space-y-2">
-            <h2 className="font-heading text-2xl text-blueberry">Contact Details</h2>
-            <p className="text-sm font-body text-darkText/70">Only your concierge circle sees this information.</p>
+            <h2 className="font-heading text-2xl text-charcoal">Contact Details</h2>
+            <p className="text-sm font-body text-charcoal/70">Only your concierge circle sees this information.</p>
           </div>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Full Name
               <input
                 type="text"
                 value={form.name}
                 onChange={handleChange("name")}
-                className="w-full rounded-2xl border border-babyBlue/30 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/30 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Your preferred name"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Mobile Number
               <input
                 type="tel"
                 value={form.phone}
                 onChange={handleChange("phone")}
-                className="w-full rounded-2xl border border-babyBlue/30 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/30 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="480-555-0100"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Zip Code
               <input
                 type="text"
                 value={form.zip_code}
                 onChange={handleChange("zip_code")}
-                className="w-full rounded-2xl border border-babyBlue/30 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/30 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="85251"
               />
             </label>
-            <div className="space-y-2 text-sm font-body text-darkText/70">
+            <div className="space-y-2 text-sm font-body text-charcoal/70">
               Concierge Email
               <input
                 type="text"
                 value={user?.email || ""}
                 readOnly
-                className="w-full cursor-not-allowed rounded-2xl border border-babyBlue/20 bg-slate-50/80 px-4 py-3 text-sm text-darkText/60"
+                className="w-full cursor-not-allowed rounded-2xl border border-mauve/20 bg-slate-50/80 px-4 py-3 text-sm text-charcoal/60"
               />
             </div>
           </div>
         </section>
 
-        <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
           <div className="space-y-2">
-            <h2 className="font-heading text-2xl text-blueberry">Family Details</h2>
-            <p className="text-sm font-body text-darkText/70">We use this to prep gifts, customize scripts, and update any mutual mentors.</p>
+            <h2 className="font-heading text-2xl text-charcoal">Family Details</h2>
+            <p className="text-sm font-body text-charcoal/70">We use this to prep gifts, customize scripts, and update any mutual mentors.</p>
           </div>
 
           <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Parent One Name
               <input
                 type="text"
                 value={form.parent_one_name}
                 onChange={handleChange("parent_one_name")}
-                className="w-full rounded-2xl border border-babyPink/40 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-blush/40 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Avery Parker"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Parent Two Name
               <input
                 type="text"
                 value={form.parent_two_name}
                 onChange={handleChange("parent_two_name")}
-                className="w-full rounded-2xl border border-babyPink/40 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-blush/40 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Jordan Parker"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Baby Name
               <input
                 type="text"
                 value={form.baby_name}
                 onChange={handleChange("baby_name")}
-                className="w-full rounded-2xl border border-pastelPurple/40 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/40 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Baby Parker"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Baby Style / Gender
               <input
                 type="text"
                 value={form.baby_gender}
                 onChange={handleChange("baby_gender")}
-                className="w-full rounded-2xl border border-pastelPurple/40 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/40 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Girl"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Due Date
               <input
                 type="date"
                 value={form.due_date || ""}
                 onChange={handleChange("due_date")}
-                className="w-full rounded-2xl border border-babyBlue/30 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/30 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
               />
             </label>
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Package Choice
               <input
                 type="text"
                 value={form.package_choice}
                 onChange={handleChange("package_choice")}
-                className="w-full rounded-2xl border border-babyBlue/30 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/30 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Signature Taylor-Made"
               />
             </label>
           </div>
         </section>
 
-        <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
           <div className="space-y-2">
-            <h2 className="font-heading text-2xl text-blueberry">Concierge Introduction</h2>
-            <p className="text-sm font-body text-darkText/70">
+            <h2 className="font-heading text-2xl text-charcoal">Concierge Introduction</h2>
+            <p className="text-sm font-body text-charcoal/70">
               Share a quick hello or special context so every mentor greets you with the right energy from the first call.
             </p>
           </div>
-          <label className="mt-6 block space-y-2 text-sm font-body text-darkText/70">
+          <label className="mt-6 block space-y-2 text-sm font-body text-charcoal/70">
             Your Brief Intro
             <textarea
               value={form.family_intro}
               onChange={handleChange("family_intro")}
               rows={4}
               maxLength={480}
-              className="w-full rounded-3xl border border-babyPink/40 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+              className="w-full rounded-3xl border border-blush/40 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
               placeholder="We’re blending modern desert neutrals with heirlooms and love surprise-and-delight moments."
             />
-            <span className="block text-right text-[0.65rem] font-heading uppercase tracking-[0.3em] text-darkText/50">
+            <span className="block text-right text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal/50">
               {form.family_intro.length}/480
             </span>
           </label>
         </section>
 
-        <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
           <div className="space-y-2">
-            <h2 className="font-heading text-2xl text-blueberry">Mentor Preferences</h2>
-            <p className="text-sm font-body text-darkText/70">Let us know if there is someone you adore working with or a vibe we should match.</p>
+            <h2 className="font-heading text-2xl text-charcoal">Mentor Preferences</h2>
+            <p className="text-sm font-body text-charcoal/70">Let us know if there is someone you adore working with or a vibe we should match.</p>
           </div>
           <div className="mt-6 grid gap-6 lg:grid-cols-[2fr,1fr]">
-            <label className="space-y-2 text-sm font-body text-darkText/70">
+            <label className="space-y-2 text-sm font-body text-charcoal/70">
               Preferred Mentor
               <input
                 type="text"
                 value={form.mentor_preference}
                 onChange={handleChange("mentor_preference")}
-                className="w-full rounded-2xl border border-pastelPurple/40 bg-white/95 px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+                className="w-full rounded-2xl border border-mauve/40 bg-white/95 px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
                 placeholder="Morgan Ellis"
               />
             </label>
-            <div className="rounded-3xl border border-babyBlue/30 bg-babyBlue/10 px-5 py-4 text-sm font-body leading-relaxed text-darkText/70">
-              <p className="font-heading text-sm text-blueberry">Why we ask</p>
+            <div className="rounded-3xl border border-mauve/30 bg-mauve/10 px-5 py-4 text-sm font-body leading-relaxed text-charcoal/70">
+              <p className="font-heading text-sm text-charcoal">Why we ask</p>
               <p>
                 Sharing your mentor vibe helps us route the right specialist, whether you crave registry strategy, nursery styling, or emotional concierge touches.
               </p>
@@ -340,14 +340,14 @@ const Bio = () => {
           <button
             type="submit"
             disabled={state.saving}
-            className={`rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+            className={`rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition ${
               state.saving ? "cursor-wait opacity-70" : "hover:-translate-y-1 hover:shadow-dreamy"
             }`}
           >
             {state.saving ? "Saving…" : "Save Bio"}
           </button>
           {state.success && (
-            <span className="text-sm font-heading uppercase tracking-[0.25em] text-blueberry">
+            <span className="text-sm font-heading uppercase tracking-[0.25em] text-charcoal">
               Saved and synced with concierge ✨
             </span>
           )}
@@ -359,10 +359,10 @@ const Bio = () => {
         </div>
       </form>
 
-      <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-0 shadow-soft backdrop-blur-sm">
-        <div className="space-y-3 border-b border-babyPink/30 px-8 py-6">
-          <h2 className="font-heading text-2xl text-blueberry">Need to refine something live?</h2>
-          <p className="text-sm font-body text-darkText/70">
+      <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-0 shadow-soft backdrop-blur-sm">
+        <div className="space-y-3 border-b border-blush/30 px-8 py-6">
+          <h2 className="font-heading text-2xl text-charcoal">Need to refine something live?</h2>
+          <p className="text-sm font-body text-charcoal/70">
             Book a quick concierge huddle to fine-tune registry picks, nursery progress, or celebration plans.
           </p>
         </div>

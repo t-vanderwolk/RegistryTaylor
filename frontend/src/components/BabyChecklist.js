@@ -19,8 +19,8 @@ export default function BabyChecklist() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-soft border border-softGold/25">
-      <h2 className="text-xl font-serif font-semibold text-deepSlate tracking-[0.2em] uppercase mb-4">
+    <div className="bg-white p-6 rounded-3xl shadow-soft border border-gold/25">
+      <h2 className="text-xl font-serif font-semibold text-charcoal tracking-[0.2em] uppercase mb-4">
         Baby Prep Checklist
       </h2>
       {items.map((item, index) => (

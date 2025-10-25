@@ -68,7 +68,7 @@
 //             <footer className="flex flex-wrap items-center justify-between gap-3">
 //               <Button
 //                 type="button"
-//                 variant="primary"
+//                 variant="mauve"
 //                 size="sm"
 //                 onClick={() => navigate(buildPath("modules", module.id))}
 //                 className="w-full sm:w-auto"

@@ -1,8 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Membership from "./pages/Membership";
@@ -23,105 +21,76 @@ import CreateProfile from "./pages/CreateProfile";
 import RequestInvite from "./pages/RequestInvite";
 import "./styles/App.css";
 import { RoleGuard } from "./features";
+import Layout from "./layouts/Layout";
 
 const NotFound = () => (
-  <main className="min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center text-darkText">
-    <h1 className="mb-4 text-5xl font-heading text-babyBlue">Page not found</h1>
-    <p className="max-w-xl text-lg font-body text-darkText/75">
+  <section className="section-padding bg-ivory text-center">
+    <h1 className="mb-4 font-heading text-4xl text-charcoal sm:text-5xl">Page not found</h1>
+    <p className="max-w-xl text-lg font-body text-charcoal/75">
       The page you are looking for does not exist. Use the navigation above to return to your concierge dashboard.
     </p>
-  </main>
+  </section>
 );
 
-const AppRoutes = () => {
-  const location = useLocation();
-  const marketingPaths = new Set(["/", "/about", "/membership", "/mentors", "/contact", "/request-invite"]);
-  const marketingPrefixes = ["/blog"];
-  const isMarketingPage =
-    marketingPaths.has(location.pathname) ||
-    marketingPrefixes.some((prefix) => location.pathname.startsWith(prefix));
-  const standaloneLayoutPaths = new Set(["/portal", "/login"]);
-  const hideChrome =
-    location.pathname.startsWith("/admin-portal") ||
-    location.pathname.startsWith("/admin") ||
-    isMarketingPage ||
-    standaloneLayoutPaths.has(location.pathname);
-
-  return (
-    <>
-      {!hideChrome && (
-        <a href="#main-content" className="skip-link">
-          Skip to content
-        </a>
-      )}
-      {!hideChrome && <Navbar />}
-      <main id="main-content" tabIndex="-1" className="outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/70">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/add-ons" element={<AddOns />} />
-          <Route path="/mentors" element={<Mentors />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/request-invite" element={<RequestInvite />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/car-seats-simplified" element={<CarSeatsSimplified />} />
-          <Route path="/community-forum" element={<CommunityForum />} />
-          <Route path="/forum" element={<Navigate to="/community-forum" replace />} />
-          <Route path="/portal" element={<Portal />} />
-          <Route path="/login" element={<Portal />} />
-          <Route path="/create-profile" element={<CreateProfile />} />
-          <Route path="/register" element={<CreateProfile />} />
-          <Route path="/invite" element={<RequestInvite />} />
-          <Route
-            path="/admin/*"
-            element={
-              <RoleGuard allow={["ADMIN"]}>
-                <AdminPortal />
-              </RoleGuard>
-            }
-          />
-          <Route
-            path="/admin-portal/*"
-            element={<Navigate to="/admin" replace />}
-          />
-          <Route
-            path="/dashboard/*"
-            element={
-              <RoleGuard allow={["CLIENT", "ADMIN"]}>
-                <ClientPortal />
-              </RoleGuard>
-            }
-          />
-          <Route
-            path="/client-portal/*"
-            element={<Navigate to="/dashboard" replace />}
-          />
-          <Route
-            path="/mentor/*"
-            element={
-              <RoleGuard allow={["MENTOR", "ADMIN"]}>
-                <MentorPortal />
-              </RoleGuard>
-            }
-          />
-          <Route path="/mentor-portal/*" element={<Navigate to="/mentor" replace />} />
-          <Route path="/user-portal" element={<UserPortal />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      {!hideChrome && <Footer />}
-    </>
-  );
-};
+const AppRoutes = () => (
+  <Routes>
+    <Route element={<Layout />}>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/membership" element={<Membership />} />
+      <Route path="/add-ons" element={<AddOns />} />
+      <Route path="/mentors" element={<Mentors />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/request-invite" element={<RequestInvite />} />
+      <Route path="/faq" element={<Faq />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="/car-seats-simplified" element={<CarSeatsSimplified />} />
+      <Route path="/community-forum" element={<CommunityForum />} />
+      <Route path="/forum" element={<Navigate to="/community-forum" replace />} />
+      <Route path="/portal" element={<Portal />} />
+      <Route path="/login" element={<Portal />} />
+      <Route path="/create-profile" element={<CreateProfile />} />
+      <Route path="/register" element={<CreateProfile />} />
+      <Route path="/invite" element={<RequestInvite />} />
+      <Route
+        path="/admin/*"
+        element={
+          <RoleGuard allow={["ADMIN"]}>
+            <AdminPortal />
+          </RoleGuard>
+        }
+      />
+      <Route path="/admin-portal/*" element={<Navigate to="/admin" replace />} />
+      <Route
+        path="/dashboard/*"
+        element={
+          <RoleGuard allow={["CLIENT", "ADMIN"]}>
+            <ClientPortal />
+          </RoleGuard>
+        }
+      />
+      <Route path="/client-portal/*" element={<Navigate to="/dashboard" replace />} />
+      <Route
+        path="/mentor/*"
+        element={
+          <RoleGuard allow={["MENTOR", "ADMIN"]}>
+            <MentorPortal />
+          </RoleGuard>
+        }
+      />
+      <Route path="/mentor-portal/*" element={<Navigate to="/mentor" replace />} />
+      <Route path="/user-portal" element={<UserPortal />} />
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  </Routes>
+);
 
 const App = () => (
-  <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+  <>
     <ScrollToTop />
     <AppRoutes />
-  </Router>
+  </>
 );
 
 export default App;

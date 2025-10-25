@@ -414,7 +414,7 @@ const CreateProfile = () => {
 
   if (inviteStatus === 'loading') {
     return (
-      <main className="min-h-screen bg-cream text-darkText flex items-center justify-center">
+      <main className="min-h-screen bg-ivory text-charcoal flex items-center justify-center">
         <p className="text-sm font-heading uppercase tracking-[0.3em] text-slate-500">
           Verifying your invite…
         </p>
@@ -424,14 +424,14 @@ const CreateProfile = () => {
 
   if (inviteStatus === 'error') {
     return (
-      <main className="min-h-screen bg-cream text-darkText flex items-center justify-center px-6">
-        <div className="w-full max-w-md rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 text-center shadow-soft">
-          <h1 className="font-playful text-3xl text-blueberry">We need a fresh invite</h1>
+      <main className="min-h-screen bg-ivory text-charcoal flex items-center justify-center px-6">
+        <div className="w-full max-w-md rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 text-center shadow-soft">
+          <h1 className="font-playful text-3xl text-charcoal">We need a fresh invite</h1>
           <p className="mt-3 text-sm text-slate-600">{inviteError}</p>
           <button
             type="button"
             onClick={() => navigate('/request-invite')}
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
           >
             Request Invite
           </button>
@@ -449,12 +449,12 @@ const CreateProfile = () => {
             <div className="flex items-center gap-2">
               <span
                 className={`inline-flex h-8 w-8 items-center justify-center rounded-full border text-[0.65rem] font-semibold ${
-                  isActive ? "border-babyPink bg-babyPink/40 text-blueberry" : "border-white/40 bg-white/40"
+                  isActive ? "border-blush bg-blush/40 text-charcoal" : "border-white/40 bg-white/40"
                 }`}
               >
                 {index + 1}
               </span>
-              <span className={isActive ? "text-blueberry" : undefined}>{step.label}</span>
+              <span className={isActive ? "text-charcoal" : undefined}>{step.label}</span>
             </div>
             {index < PROGRESS_STEPS.length - 1 && <span className="text-slate-300">—</span>}
           </React.Fragment>
@@ -464,14 +464,14 @@ const CreateProfile = () => {
   );
 
   return (
-    <main className="min-h-screen bg-cream text-darkText">
+    <main className="min-h-screen bg-ivory text-charcoal">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-8">
-        <div className="rounded-[2.75rem] border border-babyBlue/30 bg-gradient-to-br from-white via-cream to-babyBlue/20 p-10 shadow-soft">
+        <div className="rounded-[2.75rem] border border-mauve/30 bg-gradient-to-br from-white via-ivory to-mauve/20 p-10 shadow-soft">
           <div className="flex flex-col items-center gap-6 text-center">
             {renderProgress()}
             <div>
-              <p className="text-xs uppercase tracking-[0.4em] text-babyBlue">Create Profile</p>
-              <h1 className="mt-3 font-playful text-4xl text-blueberry">
+              <p className="text-xs uppercase tracking-[0.4em] text-mauve">Create Profile</p>
+              <h1 className="mt-3 font-playful text-4xl text-charcoal">
                 Welcome to Taylor Made Baby Planning
               </h1>
               <p className="mt-4 max-w-2xl text-sm text-slate-600">
@@ -481,9 +481,9 @@ const CreateProfile = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="mt-10 space-y-12">
-            <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+            <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-                <h2 className="font-heading text-lg text-blueberry">Family Basics</h2>
+                <h2 className="font-heading text-lg text-charcoal">Family Basics</h2>
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                   Tell us who we’re celebrating
                 </p>
@@ -495,11 +495,11 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.parentOneName}
                     onChange={handleInputChange("parentOneName")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="Taylor Made"
                     required
                   />
-                  {errors.parentOneName && <p className="mt-1 text-xs text-babyPink">{errors.parentOneName}</p>}
+                  {errors.parentOneName && <p className="mt-1 text-xs text-mauve">{errors.parentOneName}</p>}
                 </label>
 
                 <label className="text-sm">
@@ -508,7 +508,7 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.parentTwoName}
                     onChange={handleInputChange("parentTwoName")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="We love doting partners and grandparents too"
                   />
                 </label>
@@ -519,7 +519,7 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.babyName}
                     onChange={handleInputChange("babyName")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="Optional — we love surprises too!"
                   />
                 </label>
@@ -529,7 +529,7 @@ const CreateProfile = () => {
                   <select
                     value={formData.babyGender}
                     onChange={handleInputChange("babyGender")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                   >
                     {BABY_GENDER_OPTIONS.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -546,15 +546,15 @@ const CreateProfile = () => {
                     value={formData.email}
                     onChange={handleInputChange("email")}
                     readOnly={Boolean(invitedEmail)}
-                    className={`mt-2 w-full rounded-2xl px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none ${
+                    className={`mt-2 w-full rounded-2xl px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none ${
                       invitedEmail
-                        ? "cursor-not-allowed border border-babyBlue/20 bg-babyBlue/10"
-                        : "border border-babyBlue/40 bg-white"
+                        ? "cursor-not-allowed border border-mauve/20 bg-mauve/10"
+                        : "border border-mauve/40 bg-white"
                     }`}
                     placeholder="RegistryWithTaylor@gmail.com"
                     required
                   />
-                  {errors.email && <p className="mt-1 text-xs text-babyPink">{errors.email}</p>}
+                  {errors.email && <p className="mt-1 text-xs text-mauve">{errors.email}</p>}
                 </label>
 
                 <label className="text-sm">
@@ -563,11 +563,11 @@ const CreateProfile = () => {
                     type="password"
                     value={formData.password}
                     onChange={handleInputChange("password")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="Create a secure password"
                     required
                   />
-                  {errors.password && <p className="mt-1 text-xs text-babyPink">{errors.password}</p>}
+                  {errors.password && <p className="mt-1 text-xs text-mauve">{errors.password}</p>}
                 </label>
 
                 <label className="text-sm">
@@ -576,7 +576,7 @@ const CreateProfile = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={handleInputChange("phone")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="(123) 456-7890"
                   />
                 </label>
@@ -587,11 +587,11 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.zipCode}
                     onChange={handleInputChange("zipCode")}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="ZIP to tailor deliveries"
                     required
                   />
-                  {errors.zipCode && <p className="mt-1 text-xs text-babyPink">{errors.zipCode}</p>}
+                  {errors.zipCode && <p className="mt-1 text-xs text-mauve">{errors.zipCode}</p>}
                 </label>
 
                 <label className="text-sm lg:col-span-2">
@@ -600,17 +600,17 @@ const CreateProfile = () => {
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoChange}
-                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry file:mr-4 file:rounded-full file:border-0 file:bg-babyPink/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-blueberry"
+                    className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal file:mr-4 file:rounded-full file:border-0 file:bg-blush/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-charcoal"
                   />
                   {formData.photoDataUrl && (
-                    <div className="mt-4 inline-flex items-center gap-4 rounded-2xl border border-babyBlue/30 bg-babyBlue/10 p-4">
+                    <div className="mt-4 inline-flex items-center gap-4 rounded-2xl border border-mauve/30 bg-mauve/10 p-4">
                       <img
                         src={formData.photoDataUrl}
                         alt="Profile preview"
                         className="h-16 w-16 rounded-2xl object-cover"
                       />
                       <div>
-                        <p className="text-sm font-semibold text-blueberry">{formData.photoFileName}</p>
+                        <p className="text-sm font-semibold text-charcoal">{formData.photoFileName}</p>
                         <button
                           type="button"
                           onClick={() =>
@@ -620,7 +620,7 @@ const CreateProfile = () => {
                               photoFileName: "",
                             }))
                           }
-                          className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+                          className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
                         >
                           Remove photo
                         </button>
@@ -632,9 +632,9 @@ const CreateProfile = () => {
             </section>
 
             {role === "client" ? (
-              <section className="rounded-[2.5rem] border border-babyPink/35 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+              <section className="rounded-[2.5rem] border border-blush/35 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h2 className="font-heading text-lg text-blueberry">Client Concierge Details</h2>
+                  <h2 className="font-heading text-lg text-charcoal">Client Concierge Details</h2>
                   <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Shape your bespoke plan</p>
                 </div>
                 <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -644,10 +644,10 @@ const CreateProfile = () => {
                       type="date"
                       value={formData.dueDate}
                       onChange={handleInputChange("dueDate")}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       required
                     />
-                    {errors.dueDate && <p className="mt-1 text-xs text-babyPink">{errors.dueDate}</p>}
+                    {errors.dueDate && <p className="mt-1 text-xs text-mauve">{errors.dueDate}</p>}
                   </label>
 
                   <label className="text-sm">
@@ -655,7 +655,7 @@ const CreateProfile = () => {
                     <select
                       value={formData.packageChoice}
                       onChange={handleInputChange("packageChoice")}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       required
                     >
                       <option value="" disabled>
@@ -667,7 +667,7 @@ const CreateProfile = () => {
                         </option>
                       ))}
                     </select>
-                    {errors.packageChoice && <p className="mt-1 text-xs text-babyPink">{errors.packageChoice}</p>}
+                    {errors.packageChoice && <p className="mt-1 text-xs text-mauve">{errors.packageChoice}</p>}
                   </label>
 
                   <label className="text-sm lg:col-span-2">
@@ -675,7 +675,7 @@ const CreateProfile = () => {
                     <select
                       value={formData.mentorPreference}
                       onChange={handleInputChange("mentorPreference")}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     >
                       <option value="">Let Taylor match us</option>
                       {MENTOR_PREFERENCE_HINTS.map((pref) => (
@@ -691,9 +691,9 @@ const CreateProfile = () => {
                 </div>
               </section>
             ) : (
-              <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+              <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h2 className="font-heading text-lg text-blueberry">Mentor Welcome Details</h2>
+                  <h2 className="font-heading text-lg text-charcoal">Mentor Welcome Details</h2>
                   <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Help families find their guide</p>
                 </div>
                 <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -703,11 +703,11 @@ const CreateProfile = () => {
                       type="text"
                       value={formData.specialty}
                       onChange={handleInputChange("specialty")}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       placeholder="Sleep whisperer, registry guru..."
                       required
                     />
-                    {errors.specialty && <p className="mt-1 text-xs text-babyPink">{errors.specialty}</p>}
+                    {errors.specialty && <p className="mt-1 text-xs text-mauve">{errors.specialty}</p>}
                   </label>
 
                   <label className="text-sm">
@@ -715,7 +715,7 @@ const CreateProfile = () => {
                     <select
                       value={formData.availability}
                       onChange={handleInputChange("availability")}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       required
                     >
                       {MENTOR_AVAILABILITY.map((option) => (
@@ -724,7 +724,7 @@ const CreateProfile = () => {
                         </option>
                       ))}
                     </select>
-                    {errors.availability && <p className="mt-1 text-xs text-babyPink">{errors.availability}</p>}
+                    {errors.availability && <p className="mt-1 text-xs text-mauve">{errors.availability}</p>}
                   </label>
 
                   <label className="text-sm">
@@ -734,11 +734,11 @@ const CreateProfile = () => {
                       min="1"
                       value={formData.maxClients}
                       onChange={handleInputChange("maxClients")}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       placeholder="How many families feel cozy to support"
                       required
                     />
-                    {errors.maxClients && <p className="mt-1 text-xs text-babyPink">{errors.maxClients}</p>}
+                    {errors.maxClients && <p className="mt-1 text-xs text-mauve">{errors.maxClients}</p>}
                   </label>
 
                   <label className="text-sm lg:col-span-2">
@@ -747,11 +747,11 @@ const CreateProfile = () => {
                       value={formData.bio}
                       onChange={handleInputChange("bio")}
                       rows={4}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       placeholder="Share your story and what lights you up when guiding families."
                       required
                     />
-                    {errors.bio && <p className="mt-1 text-xs text-babyPink">{errors.bio}</p>}
+                    {errors.bio && <p className="mt-1 text-xs text-mauve">{errors.bio}</p>}
                   </label>
 
                   <label className="text-sm lg:col-span-2">
@@ -761,21 +761,21 @@ const CreateProfile = () => {
                       multiple
                       accept=".pdf,image/*"
                       onChange={handleCertificationsChange}
-                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry file:mr-4 file:rounded-full file:border-0 file:bg-babyPink/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-blueberry"
+                      className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal file:mr-4 file:rounded-full file:border-0 file:bg-blush/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-charcoal"
                     />
                     {formData.certificationFiles.length > 0 && (
-                      <ul className="mt-4 space-y-3 text-sm text-blueberry">
+                      <ul className="mt-4 space-y-3 text-sm text-charcoal">
                         {formData.certificationFiles.map((file) => (
                           <li
                             key={file.name}
-                            className="flex items-center justify-between rounded-2xl border border-pastelPurple/40 bg-pastelPurple/10 px-4 py-3"
+                            className="flex items-center justify-between rounded-2xl border border-mauve/40 bg-mauve/10 px-4 py-3"
                           >
                             <span>{file.name}</span>
                             <a
                               href={file.dataUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+                              className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
                             >
                               Preview
                             </a>
@@ -789,25 +789,25 @@ const CreateProfile = () => {
             )}
 
             {submitError && (
-              <p className="rounded-2xl border border-babyPink/40 bg-babyPink/20 px-4 py-3 text-sm text-blueberry">
+              <p className="rounded-2xl border border-blush/40 bg-blush/20 px-4 py-3 text-sm text-charcoal">
                 {submitError}
               </p>
             )}
 
-            <footer className="flex flex-col gap-3 rounded-[2.5rem] border border-babyBlue/25 bg-white/95 px-6 py-6 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+            <footer className="flex flex-col gap-3 rounded-[2.5rem] border border-mauve/25 bg-white/95 px-6 py-6 shadow-soft sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs uppercase tracking-[0.35em] text-slate-400">
                 Step 2 of 3 · Create profile
               </p>
               <button
                 type="submit"
                 disabled={submitting}
-                className={`inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+                className={`inline-flex items-center justify-center rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition ${
                   submitting ? "opacity-60" : "hover:-translate-y-1 hover:shadow-dreamy"
                 }`}
               >
                 {submitting ? (
                   <span className="inline-flex items-center gap-2">
-                    <span className="h-3 w-3 animate-spin rounded-full border-2 border-blueberry border-t-transparent" />
+                    <span className="h-3 w-3 animate-spin rounded-full border-2 border-mauve border-t-transparent" />
                     Saving…
                   </span>
                 ) : (

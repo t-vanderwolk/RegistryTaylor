@@ -6,7 +6,7 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon --watch src src/server.js",
-    "start": "NODE_ENV=production node src/server.js",
+    "start": "NODE_ENV=development node src/server.js",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
     "test": "NODE_ENV=test jest --runInBand"

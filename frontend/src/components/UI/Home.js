@@ -1,8 +1,15 @@
+// import React from "react";
+import { Button } from "../design-system/Button";
+import { Card } from "../design-system/Card";
+import { Section } from "../design-system/Section";
 import React from "react";
-import { Link } from "react-router-dom";
-import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
-import Section from "../components/ui/Section";
+// import HeroSection from "../components/HeroSection";
+// import HowItWorks from "../components/HowItWorks";
+// import MembershipHighlights from "../components/MembershipHighlights";
+// import FAQAccordion from "../components/FAQAccordion";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+console.log({ Button, Card, Section, HeroSection, HowItWorks, MembershipHighlights, FAQAccordion, Footer, Navbar });
 const navLinks = [
   { label: "Home", to: "/", target: "home" },
   { label: "How It Works", to: "/#how-it-works", target: "how-it-works" },
@@ -84,7 +91,7 @@ const HomeHero = () => (
           ready.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <Button as={Link} to="/request-invite" variant="primary" size="md">
+          <Button as={Link} to="/request-invite" variant="mauve" size="md">
             Request Invite
           </Button>
           <Button as={Link} to="/membership" variant="secondary" size="md">
@@ -191,7 +198,7 @@ const FinalCTA = () => (
         Taylor’s team will gather inspiration, align on milestones, and choreograph every touchpoint so you can savor the calm.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-4">
-        <Button as={Link} to="/request-invite" variant="primary">
+        <Button as={Link} to="/request-invite" variant="mauve">
           Request Your Invite
         </Button>
         <Button as={Link} to="/portal" variant="secondary">

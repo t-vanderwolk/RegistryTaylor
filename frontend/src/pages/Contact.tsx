@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import MarketingLayout from "../layouts/MarketingLayout";
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -14,8 +13,7 @@ const fadeInUp = {
 
 const Contact: React.FC = () => {
   return (
-    <MarketingLayout>
-      <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
         <Section>
           <motion.div
             className="space-y-4 text-center"
@@ -24,7 +22,7 @@ const Contact: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.9 }}
           >
-            <span className="inline-flex items-center justify-center rounded-full bg-primary/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-ink">
+            <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
               Contact Taylor
             </span>
             <H1 className="mx-auto max-w-4xl">
@@ -51,12 +49,12 @@ const Contact: React.FC = () => {
                 <Input id="contact-email" label="Email" type="email" placeholder="name@example.com" />
                 <Input id="contact-phone" label="Phone" type="tel" placeholder="(480) 555-0100" />
                 <Input id="contact-due-date" label="Due date or celebration date" placeholder="MM/DD/YYYY" />
-                <label htmlFor="contact-message" className="flex flex-col gap-2 font-body text-sm text-ink/90">
-                  <span className="text-xs uppercase tracking-[0.3em] text-ink/70">How can we help?</span>
+                <label htmlFor="contact-message" className="flex flex-col gap-2 font-body text-sm text-charcoal/90">
+                  <span className="text-xs uppercase tracking-[0.3em] text-charcoal/70">How can we help?</span>
                   <textarea
                     id="contact-message"
                     rows={4}
-                    className="rounded-2xl border border-primary/50 bg-cream px-4 py-3 text-ink shadow-[0_10px_24px_-18px_rgba(46,46,46,0.18)] transition focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                    className="rounded-2xl border border-mauve/50 bg-ivory px-4 py-3 text-charcoal shadow-[0_10px_24px_-18px_rgba(46,46,46,0.18)] transition focus:border-blush focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
                     placeholder="Tell Taylor about your registry, nursery, or celebration goals."
                   />
                 </label>
@@ -82,8 +80,7 @@ const Contact: React.FC = () => {
             </Card>
           </motion.div>
         </Section>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 };
 

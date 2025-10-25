@@ -5,11 +5,11 @@ import EmptyState from "../../components/ui/EmptyState";
 
 const Messages = () => {
   const { data, loading, error } = useSafeFetch("/api/me", {}, { fallback: {} });
-  const threadId = data?.threads?.[0]?.id || "primary";
+  const threadId = data?.threads?.[0]?.id || "mauve";
   const mentorNames = Array.isArray(data?.mentor?.team) ? data.mentor.team : [];
 
   if (loading) {
-    return <p className="text-sm text-darkText/70">Loading your thread…</p>;
+    return <p className="text-sm text-charcoal/70">Loading your thread…</p>;
   }
 
   if (error) {
@@ -22,12 +22,12 @@ const Messages = () => {
   }
 
   return (
-    <section className="space-y-6 rounded-[2.5rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft">
+    <section className="space-y-6 rounded-[2.5rem] border border-blush/40 bg-white/90 p-6 shadow-soft">
       <header className="text-center">
-        <p className="text-xs uppercase tracking-[0.35em] text-darkText/50">Concierge messages</p>
-        <h1 className="mt-2 text-3xl font-serif text-blueberry">Stay in touch with Taylor</h1>
+        <p className="text-xs uppercase tracking-[0.35em] text-charcoal/50">Concierge messages</p>
+        <h1 className="mt-2 text-3xl font-serif text-charcoal">Stay in touch with Taylor</h1>
         {mentorNames.length > 0 && (
-          <p className="mt-2 text-xs uppercase tracking-[0.3em] text-darkText/50">
+          <p className="mt-2 text-xs uppercase tracking-[0.3em] text-charcoal/50">
             Mentor team: {mentorNames.join(", ")}
           </p>
         )}

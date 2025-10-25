@@ -7,10 +7,10 @@ const initialMemories = [
     id: "nursery-progress",
     type: "photo",
     title: "Nursery paint day",
-    description: "Soft lavender accent wall is up and the crib is staged for final styling.",
+    description: "Soft lavender blush wall is up and the crib is staged for final styling.",
     capturedAt: "Apr 9, 2025",
     image: null,
-    accent: "bg-babyPink/35",
+    blush: "bg-blush/35",
     emoji: "🎨",
   },
   {
@@ -19,7 +19,7 @@ const initialMemories = [
     title: "Registry surprise",
     description: "Grandma mailed the vintage rocking horse we loved. Added to the memories tab and sent Taylor photos.",
     capturedAt: "Apr 2, 2025",
-    accent: "bg-babyBlue/30",
+    blush: "bg-mauve/30",
     emoji: "📦",
   },
   {
@@ -28,7 +28,7 @@ const initialMemories = [
     title: "Sip & See toast",
     description: "Pinned a quote we want on the welcome sign so the design team has it ready.",
     capturedAt: "Mar 28, 2025",
-    accent: "bg-pastelPurple/35",
+    blush: "bg-mauve/35",
     emoji: "🥂",
   },
 ];
@@ -70,7 +70,7 @@ const Memories = () => {
         day: "numeric",
         year: "numeric",
       }),
-      accent: "bg-babyBlue/25",
+      blush: "bg-mauve/25",
       emoji: "📝",
     };
 
@@ -110,7 +110,7 @@ const Memories = () => {
         year: "numeric",
       }),
       image: photoPreview,
-      accent: "bg-babyPink/25",
+      blush: "bg-blush/25",
       emoji: "📸",
     };
 
@@ -122,50 +122,50 @@ const Memories = () => {
 
   return (
     <div className="space-y-8">
-      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+      <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-4">
-          <span className="inline-flex items-center rounded-full border border-babyBlue/30 bg-babyBlue/20 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-blueberry">
+          <span className="inline-flex items-center rounded-full border border-mauve/30 bg-mauve/20 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-charcoal">
             Memories & Moments
           </span>
-          <h1 className="font-heading text-3xl text-blueberry sm:text-4xl">Capture the details Taylor should celebrate.</h1>
-          <p className="max-w-3xl text-sm font-body leading-relaxed text-darkText/70">
+          <h1 className="font-heading text-3xl text-charcoal sm:text-4xl">Capture the details Taylor should celebrate.</h1>
+          <p className="max-w-3xl text-sm font-body leading-relaxed text-charcoal/70">
             Add photos, notes, and little heartbeats of your journey. Everything here is private to your concierge circle and helps us personalize gifts, decor, and milestone surprises.
           </p>
         </header>
         {statusMessage && (
-          <p className="mt-6 rounded-3xl border border-babyBlue/30 bg-babyBlue/10 px-4 py-3 text-sm font-body text-blueberry">
+          <p className="mt-6 rounded-3xl border border-mauve/30 bg-mauve/10 px-4 py-3 text-sm font-body text-charcoal">
             {statusMessage}
           </p>
         )}
       </section>
 
-      <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+      <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="grid gap-6 lg:grid-cols-2">
-          <form onSubmit={handlePhotoSubmit} className="flex flex-col gap-4 rounded-[2rem] border border-babyPink/40 bg-babyPink/10 p-6">
+          <form onSubmit={handlePhotoSubmit} className="flex flex-col gap-4 rounded-[2rem] border border-blush/40 bg-blush/10 p-6">
             <header>
-              <p className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Upload a photo</p>
-              <h2 className="mt-2 font-heading text-xl text-blueberry">Share a nursery moment</h2>
-              <p className="mt-2 text-sm text-darkText/70">Images are stored securely and help Taylor storyboard reveals.</p>
+              <p className="text-xs font-heading uppercase tracking-[0.35em] text-charcoal/50">Upload a photo</p>
+              <h2 className="mt-2 font-heading text-xl text-charcoal">Share a nursery moment</h2>
+              <p className="mt-2 text-sm text-charcoal/70">Images are stored securely and help Taylor storyboard reveals.</p>
             </header>
-            <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry/70">
+            <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal/70">
               Photo title
               <input
                 type="text"
                 value={photoForm.title}
                 onChange={(event) => setPhotoForm((current) => ({ ...current, title: event.target.value }))}
                 placeholder="E.g. Crib styling sneak peek"
-                className="rounded-2xl border border-babyPink/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
+                className="rounded-2xl border border-blush/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none focus:ring-2 focus:ring-mauve/30"
               />
             </label>
-            <label className="flex flex-col gap-3 rounded-2xl border border-dotted border-babyPink/50 bg-white/80 px-4 py-6 text-center text-sm text-darkText/70">
+            <label className="flex flex-col gap-3 rounded-2xl border border-dotted border-blush/50 bg-white/80 px-4 py-6 text-center text-sm text-charcoal/70">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handlePhotoChange}
                 className="hidden"
               />
-              <span className="font-heading text-blueberry">Drag a file here or tap to browse</span>
-              <span className="text-xs text-darkText/50">PNG, JPG up to 10MB</span>
+              <span className="font-heading text-charcoal">Drag a file here or tap to browse</span>
+              <span className="text-xs text-charcoal/50">PNG, JPG up to 10MB</span>
               {photoPreview && (
                 <img
                   src={photoPreview}
@@ -176,41 +176,41 @@ const Memories = () => {
             </label>
             <button
               type="submit"
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
             >
               Save photo to memories
             </button>
           </form>
 
-          <form onSubmit={handleNoteSubmit} className="flex flex-col gap-4 rounded-[2rem] border border-babyBlue/30 bg-babyBlue/10 p-6">
+          <form onSubmit={handleNoteSubmit} className="flex flex-col gap-4 rounded-[2rem] border border-mauve/30 bg-mauve/10 p-6">
             <header>
-              <p className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Add a note</p>
-              <h2 className="mt-2 font-heading text-xl text-blueberry">Pin a memory or quote</h2>
-              <p className="mt-2 text-sm text-darkText/70">Perfect for recording kicks, cravings, song lyrics, or gratitude lists.</p>
+              <p className="text-xs font-heading uppercase tracking-[0.35em] text-charcoal/50">Add a note</p>
+              <h2 className="mt-2 font-heading text-xl text-charcoal">Pin a memory or quote</h2>
+              <p className="mt-2 text-sm text-charcoal/70">Perfect for recording kicks, cravings, song lyrics, or gratitude lists.</p>
             </header>
-            <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry/70">
+            <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal/70">
               Title
               <input
                 type="text"
                 value={noteForm.title}
                 onChange={(event) => setNoteForm((current) => ({ ...current, title: event.target.value }))}
                 placeholder="E.g. Baby's first hiccups"
-                className="rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
+                className="rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none focus:ring-2 focus:ring-mauve/30"
               />
             </label>
-            <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry/70">
+            <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal/70">
               Memory details
               <textarea
                 rows={5}
                 value={noteForm.description}
                 onChange={(event) => setNoteForm((current) => ({ ...current, description: event.target.value }))}
                 placeholder="Describe the moment so Taylor can weave it into gifts or styling."
-                className="rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
+                className="rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none focus:ring-2 focus:ring-mauve/30"
               />
             </label>
             <button
               type="submit"
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-babyBlue px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-mauve px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
             >
               Save note to memories
             </button>
@@ -218,23 +218,23 @@ const Memories = () => {
         </div>
       </section>
 
-      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+      <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-3">
-          <h2 className="font-heading text-2xl text-blueberry">Recent additions</h2>
-          <p className="text-sm font-body text-darkText/70">Your latest memories live here. Taylor and your mentor can view them instantly.</p>
+          <h2 className="font-heading text-2xl text-charcoal">Recent additions</h2>
+          <p className="text-sm font-body text-charcoal/70">Your latest memories live here. Taylor and your mentor can view them instantly.</p>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {memories.map((memory) => (
             <article
               key={memory.id}
-              className={`flex h-full flex-col gap-3 rounded-[2rem] border border-babyBlue/25 bg-white/95 p-6 shadow-soft`}
+              className={`flex h-full flex-col gap-3 rounded-[2rem] border border-mauve/25 bg-white/95 p-6 shadow-soft`}
             >
-              <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-blueberry ${memory.accent}`}>
+              <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-charcoal ${memory.blush}`}>
                 <span>{memory.emoji}</span>
                 <span>{memory.capturedAt}</span>
               </div>
-              <h3 className="font-heading text-lg text-blueberry">{memory.title}</h3>
-              <p className="text-sm font-body leading-relaxed text-darkText/75">{memory.description}</p>
+              <h3 className="font-heading text-lg text-charcoal">{memory.title}</h3>
+              <p className="text-sm font-body leading-relaxed text-charcoal/75">{memory.description}</p>
               {memory.image && (
                 <img
                   src={memory.image}
@@ -247,10 +247,10 @@ const Memories = () => {
         </div>
       </section>
 
-      <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/95 p-6 shadow-soft backdrop-blur-sm sm:p-8">
+      <section className="rounded-[2.5rem] border border-blush/30 bg-white/95 p-6 shadow-soft backdrop-blur-sm sm:p-8">
         <div className="space-y-3">
-          <h2 className="font-heading text-2xl text-blueberry">Pin your inspiration</h2>
-          <p className="text-sm font-body text-darkText/70">
+          <h2 className="font-heading text-2xl text-charcoal">Pin your inspiration</h2>
+          <p className="text-sm font-body text-charcoal/70">
             Drop the Pinterest board that captures your nursery vibe, shower dreams, or registry inspo. Taylor will reference it while curating your concierge plan.
           </p>
         </div>
@@ -259,26 +259,26 @@ const Memories = () => {
         </div>
       </section>
 
-      <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+      <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-3">
-          <h2 className="font-heading text-2xl text-blueberry">Need inspiration?</h2>
-          <p className="text-sm font-body text-darkText/70">Use these prompts to keep sharing magic. Taylor uses them to curate gifts, signage, and styling details.</p>
+          <h2 className="font-heading text-2xl text-charcoal">Need inspiration?</h2>
+          <p className="text-sm font-body text-charcoal/70">Use these prompts to keep sharing magic. Taylor uses them to curate gifts, signage, and styling details.</p>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {memoryPrompts.map((prompt) => (
             <article
               key={prompt}
-              className="rounded-[2rem] border border-pastelPurple/40 bg-white px-5 py-5 text-left shadow-soft"
+              className="rounded-[2rem] border border-mauve/40 bg-white px-5 py-5 text-left shadow-soft"
             >
-              <p className="font-heading text-blueberry">{prompt}</p>
+              <p className="font-heading text-charcoal">{prompt}</p>
             </article>
           ))}
         </div>
-        <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-darkText/60">
+        <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-charcoal/60">
           <span>Want a printable keepsake?</span>
           <Link
             to="../messages"
-            className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+            className="inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
           >
             Ask Taylor for a memory book
           </Link>

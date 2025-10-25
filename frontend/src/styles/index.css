@@ -1,16 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @layer base {
   body {
-    @apply bg-softBeige text-neutral-600 font-body font-normal;
+    @apply bg-ivory text-charcoal/80 font-body font-normal;
     background-image:
-      radial-gradient(circle at 15% 20%, rgba(251, 239, 242, 0.45) 0, rgba(251, 239, 242, 0) 55%),
-      radial-gradient(circle at 85% 18%, rgba(211, 228, 247, 0.35) 0, rgba(211, 228, 247, 0) 55%),
-      radial-gradient(circle at 20% 80%, rgba(237, 230, 248, 0.3) 0, rgba(237, 230, 248, 0) 50%),
-      linear-gradient(180deg, rgba(248, 244, 236, 0.96), rgba(237, 230, 248, 0.12) 65%, transparent 100%);
+      radial-gradient(circle at 15% 20%, rgba(232, 201, 209, 0.45) 0, rgba(234, 201, 209, 0) 55%),
+      radial-gradient(circle at 85% 18%, rgba(200, 161, 180, 0.28) 0, rgba(200, 161, 180, 0) 55%),
+      radial-gradient(circle at 20% 80%, rgba(255, 250, 248, 0.6) 0, rgba(255, 250, 248, 0) 50%),
+      linear-gradient(180deg, rgba(255, 250, 248, 0.96), rgba(200, 161, 180, 0.08) 65%, transparent 100%);
     background-attachment: fixed;
   }
 
@@ -20,7 +19,7 @@
   h4,
   h5,
   h6 {
-    @apply font-serif font-heading font-semibold text-blueberry;
+    @apply font-heading font-semibold text-charcoal;
   }
 
   ::selection {
@@ -36,7 +35,7 @@
     padding: 0.75rem 1.25rem;
     background: #433d4a;
     color: #fffcf8;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-weight: 600;
     border-radius: 999px;
     transition: transform 0.2s ease;
@@ -50,16 +49,16 @@
 }
 
 @layer components {
-  .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-babyPink text-blueberry font-semibold tracking-[0.35em] uppercase shadow-soft transition-transform duration-200 ease-out text-xs sm:text-sm px-6 sm:px-7 py-3;
+  .btn-mauve {
+    @apply inline-flex items-center justify-center rounded-full bg-blush text-charcoal font-semibold tracking-[0.35em] uppercase shadow-md transition-transform duration-200 ease-out text-xs sm:text-sm px-6 sm:px-7 py-3;
   }
 
-  .btn-primary:hover {
+  .btn-mauve:hover {
     @apply -translate-y-1 scale-[1.02] shadow-dreamy;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-babyBlue/40 bg-white text-blueberry font-semibold tracking-[0.35em] uppercase transition-transform duration-200 ease-out text-xs sm:text-sm px-6 sm:px-7 py-3 shadow-soft;
+    @apply inline-flex items-center justify-center rounded-full border border-mauve/40 bg-white text-charcoal font-semibold tracking-[0.35em] uppercase transition-transform duration-200 ease-out text-xs sm:text-sm px-6 sm:px-7 py-3 shadow-soft;
   }
 
   .btn-secondary:hover {
@@ -67,19 +66,19 @@
   }
 
   .surface-panel {
-    @apply rounded-[3rem] border border-babyBlue/20 bg-white/95 px-5 py-10 shadow-soft backdrop-blur-sm sm:px-8 sm:py-12 md:px-12 md:py-14;
+    @apply rounded-[3rem] border border-mauve/20 bg-white/95 px-5 py-10 shadow-soft backdrop-blur-sm sm:px-8 sm:py-12 md:px-12 md:py-14;
   }
 
   .surface-card {
-    @apply rounded-[2.5rem] border border-babyBlue/30 bg-white/95 px-4 py-6 shadow-soft backdrop-blur-sm sm:px-6 sm:py-8;
+    @apply rounded-[2.5rem] border border-mauve/30 bg-white/95 px-4 py-6 shadow-soft backdrop-blur-sm sm:px-6 sm:py-8;
   }
 
   .badge-pill {
-    @apply inline-flex items-center justify-center rounded-full bg-babyPink/70 px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-blueberry;
+    @apply inline-flex items-center justify-center rounded-full bg-blush/70 px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-charcoal;
   }
 
   .moodboard-card {
-    @apply rounded-[3rem] border border-babyPink/40 bg-white/85 p-4 shadow-soft backdrop-blur-sm transition duration-300 hover:-translate-y-2 hover:shadow-dreamy;
+    @apply rounded-[3rem] border border-blush/40 bg-white/85 p-4 shadow-soft backdrop-blur-sm transition duration-300 hover:-translate-y-2 hover:shadow-dreamy;
   }
 
   .gold-divider {
@@ -139,5 +138,9 @@
     50% {
       transform: rotate(1.5deg);
     }
+  }
+
+  .shadow-dreamy {
+    @apply shadow-lg shadow-mauve/20;
   }
 }

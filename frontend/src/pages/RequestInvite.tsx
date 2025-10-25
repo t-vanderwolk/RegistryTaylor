@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import MarketingLayout from "../layouts/MarketingLayout";
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -62,8 +61,7 @@ const RequestInvite: React.FC = () => {
   };
 
   return (
-    <MarketingLayout>
-      <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
         <Section>
           <motion.div
             className="space-y-6 text-center"
@@ -72,7 +70,7 @@ const RequestInvite: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.9 }}
           >
-            <span className="inline-flex items-center justify-center rounded-full bg-primary/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-ink">
+            <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
               Concierge applications
             </span>
             <H1 className="mx-auto max-w-4xl">
@@ -119,31 +117,31 @@ const RequestInvite: React.FC = () => {
                     "min-h-[1.25rem] font-body text-sm",
                     message
                       ? status === "success"
-                        ? "text-ink/90"
+                        ? "text-charcoal/90"
                         : status === "error"
                         ? "text-rose-500"
-                        : "text-ink/70"
-                      : "text-ink/60",
+                        : "text-charcoal/70"
+                      : "text-charcoal/60",
                   ].join(" ")}
                   aria-live="polite"
                 >
                   {message}
                 </p>
                 {inviteInfo && (
-                  <dl className="rounded-2xl border border-primary/40 bg-cream px-5 py-4 text-left">
-                    <div className="flex justify-between text-sm text-ink/80">
-                      <dt className="uppercase tracking-[0.25em] text-ink/60">Role</dt>
+                  <dl className="rounded-2xl border border-mauve/40 bg-ivory px-5 py-4 text-left">
+                    <div className="flex justify-between text-sm text-charcoal/80">
+                      <dt className="uppercase tracking-[0.25em] text-charcoal/60">Role</dt>
                       <dd>{String(inviteInfo.role).toUpperCase()}</dd>
                     </div>
                     {inviteInfo.assigned_email && (
-                      <div className="mt-2 flex justify-between text-sm text-ink/80">
-                        <dt className="uppercase tracking-[0.25em] text-ink/60">Email</dt>
+                      <div className="mt-2 flex justify-between text-sm text-charcoal/80">
+                        <dt className="uppercase tracking-[0.25em] text-charcoal/60">Email</dt>
                         <dd>{String(inviteInfo.assigned_email)}</dd>
                       </div>
                     )}
                     {inviteInfo.expires_at && (
-                      <div className="mt-2 flex justify-between text-sm text-ink/80">
-                        <dt className="uppercase tracking-[0.25em] text-ink/60">Expires</dt>
+                      <div className="mt-2 flex justify-between text-sm text-charcoal/80">
+                        <dt className="uppercase tracking-[0.25em] text-charcoal/60">Expires</dt>
                         <dd>{new Date(String(inviteInfo.expires_at)).toLocaleDateString()}</dd>
                       </div>
                     )}
@@ -164,8 +162,7 @@ const RequestInvite: React.FC = () => {
             </Card>
           </motion.div>
         </Section>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 };
 

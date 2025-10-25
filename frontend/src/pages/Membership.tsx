@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import MarketingLayout from "../layouts/MarketingLayout";
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -56,8 +55,7 @@ const fadeInUp = {
 
 const Membership: React.FC = () => {
   return (
-    <MarketingLayout>
-      <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
         <Section>
           <motion.div
             className="space-y-6 text-center"
@@ -66,7 +64,7 @@ const Membership: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.9 }}
           >
-            <span className="inline-flex items-center justify-center rounded-full bg-primary/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-ink">
+            <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
               Memberships
             </span>
             <H1>Choose the cadence that fits your family</H1>
@@ -99,22 +97,22 @@ const Membership: React.FC = () => {
                 className="relative flex h-full flex-col gap-5 bg-white/95"
               >
                 {tier.highlight && (
-                  <span className="absolute right-6 top-6 rounded-full bg-primary px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-ink shadow">
+                  <span className="absolute right-6 top-6 rounded-full bg-mauve px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-charcoal shadow">
                     {tier.highlight}
                   </span>
                 )}
                 <div className="space-y-2">
-                  <P className="text-xs font-semibold uppercase tracking-[0.35em] text-ink/70">
+                  <P className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal/70">
                     {tier.name}
                   </P>
-                  <H2 className="text-ink text-3xl">{tier.investment}</H2>
-                  <P className="text-xs uppercase tracking-[0.35em] text-ink/60">{tier.cadence}</P>
+                  <H2 className="text-charcoal text-3xl">{tier.investment}</H2>
+                  <P className="text-xs uppercase tracking-[0.35em] text-charcoal/60">{tier.cadence}</P>
                   <P>{tier.description}</P>
                 </div>
-                <ul className="space-y-3 text-sm text-ink/80 sm:text-base">
+                <ul className="space-y-3 text-sm text-charcoal/80 sm:text-base">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
-                      <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-primary" aria-hidden="true" />
+                      <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-mauve" aria-hidden="true" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -166,13 +164,13 @@ const Membership: React.FC = () => {
 
         <Section>
           <motion.div
-            className="mx-auto flex max-w-5xl flex-col gap-5 rounded-[2.75rem] bg-gradient-to-r from-primary/50 via-accent/40 to-primary/35 p-8 text-center shadow-[0_24px_60px_-28px_rgba(46,46,46,0.3)] sm:p-12"
+            className="mx-auto flex max-w-5xl flex-col gap-5 rounded-[2.75rem] bg-gradient-to-r from-mauve/50 via-blush/40 to-mauve/35 p-8 text-center shadow-[0_24px_60px_-28px_rgba(46,46,46,0.3)] sm:p-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
             variants={fadeInUp}
           >
-            <H2 className="text-ink">
+            <H2 className="text-charcoal">
               Secure your invite with complete confidence
             </H2>
             <P className="mx-auto max-w-3xl">
@@ -189,8 +187,7 @@ const Membership: React.FC = () => {
             </div>
           </motion.div>
         </Section>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 };
 

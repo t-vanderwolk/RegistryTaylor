@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 const path = require('path');
 const fs = require('fs');
 const http = require('http');

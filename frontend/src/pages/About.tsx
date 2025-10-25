@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import MarketingLayout from "../layouts/MarketingLayout";
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -14,12 +13,11 @@ const fadeInUp = {
 
 const About: React.FC = () => {
   return (
-    <MarketingLayout>
-      <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
         <Section>
           <div className="grid gap-10 lg:grid-cols-[0.9fr,1.1fr] lg:items-center">
             <motion.div
-              className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/85 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]"
+              className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/85 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]"
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
@@ -30,7 +28,7 @@ const About: React.FC = () => {
                 alt="Taylor, the concierge behind Taylor-Made Baby Co."
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/35" aria-hidden="true" />
+              <div className="absolute inset-0 bg-gradient-to-br from-mauve/30 via-transparent to-blush/35" aria-hidden="true" />
             </motion.div>
             <motion.div
               className="space-y-6"
@@ -39,7 +37,7 @@ const About: React.FC = () => {
               variants={fadeInUp}
               transition={{ duration: 0.9, delay: 0.1 }}
             >
-              <span className="inline-flex rounded-full bg-primary/40 px-5 py-2 text-xs uppercase tracking-[0.35em]">
+              <span className="inline-flex rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em]">
                 Meet Taylor
               </span>
               <H1>Gentle planning, heartfelt celebrations</H1>
@@ -89,8 +87,7 @@ const About: React.FC = () => {
             ))}
           </motion.div>
         </Section>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 };
 

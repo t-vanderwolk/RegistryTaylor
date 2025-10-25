@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import MarketingLayout from "../layouts/MarketingLayout";
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -63,8 +62,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <MarketingLayout>
-      <div className="space-y-20 bg-cream pb-24 pt-16 sm:space-y-28">
+    <div className="space-y-20 bg-ivory pb-24 pt-16 sm:space-y-28">
         <Section>
           <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
             <motion.div
@@ -74,10 +72,10 @@ const Home: React.FC = () => {
               variants={fadeInUp}
               transition={{ duration: 0.9 }}
             >
-              <span className="inline-flex items-center rounded-full bg-primary/40 px-5 py-2 text-xs font-body uppercase tracking-[0.35em] text-ink">
+              <span className="inline-flex items-center rounded-full bg-mauve/40 px-5 py-2 text-xs font-body uppercase tracking-[0.35em] text-charcoal">
                 Invite-only concierge
               </span>
-              <H1 className="text-ink">
+              <H1 className="text-charcoal">
                 Pastel-elegant planning for the moments you’ll never forget
               </H1>
               <P>
@@ -114,26 +112,26 @@ const Home: React.FC = () => {
                     className={[
                       "min-h-[1.25rem] font-body text-sm",
                       status === "success"
-                        ? "text-ink/80"
+                        ? "text-charcoal/80"
                         : status === "error"
                         ? "text-rose-500"
-                        : "text-ink/60",
+                        : "text-charcoal/60",
                     ].join(" ")}
                     aria-live="polite"
                   >
                     {message}
                   </p>
                   {inviteInfo && (
-                    <dl className="grid w-full grid-cols-2 gap-3 rounded-2xl border border-primary/30 bg-cream px-4 py-3 text-sm text-ink/80">
+                    <dl className="grid w-full grid-cols-2 gap-3 rounded-2xl border border-mauve/30 bg-ivory px-4 py-3 text-sm text-charcoal/80">
                       <div className="flex flex-col gap-1">
-                        <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-ink/60">
+                        <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/60">
                           Role
                         </dt>
                         <dd>{String(inviteInfo.role).toUpperCase()}</dd>
                       </div>
                       {inviteInfo.assigned_email && (
                         <div className="flex flex-col gap-1">
-                          <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-ink/60">
+                          <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/60">
                             Email
                           </dt>
                           <dd>{String(inviteInfo.assigned_email)}</dd>
@@ -141,7 +139,7 @@ const Home: React.FC = () => {
                       )}
                       {inviteInfo.expires_at && (
                         <div className="flex flex-col gap-1">
-                          <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-ink/60">
+                          <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/60">
                             Expires
                           </dt>
                           <dd>{new Date(String(inviteInfo.expires_at)).toLocaleDateString()}</dd>
@@ -153,7 +151,7 @@ const Home: React.FC = () => {
               </Card>
             </motion.div>
             <motion.div
-              className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/70 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]"
+              className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/70 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]"
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
@@ -164,7 +162,7 @@ const Home: React.FC = () => {
                 alt="Expecting parent in a blush-toned setting"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/40" aria-hidden="true" />
+              <div className="absolute inset-0 bg-gradient-to-br from-mauve/30 via-transparent to-blush/40" aria-hidden="true" />
             </motion.div>
           </div>
         </Section>
@@ -195,7 +193,7 @@ const Home: React.FC = () => {
               },
             ].map((item) => (
               <Card key={item.title} className="flex h-full flex-col gap-4 bg-white/95">
-                <H2 className="text-ink text-xl">{item.title}</H2>
+                <H2 className="text-charcoal text-xl">{item.title}</H2>
                 <P>{item.copy}</P>
               </Card>
             ))}
@@ -215,7 +213,7 @@ const Home: React.FC = () => {
                 Membership is intentionally intimate—five families per season—so Taylor and the mentor circle can
                 deliver handwritten guidance, personally vetted vendors, and the calm assurance you deserve.
               </P>
-              <ul className="space-y-4 text-sm text-ink/80 sm:text-base">
+              <ul className="space-y-4 text-sm text-charcoal/80 sm:text-base">
                 {[
                   "Weekly concierge check-ins tailored to your trimester.",
                   "Curated product lists and bespoke sourcing notes.",
@@ -223,7 +221,7 @@ const Home: React.FC = () => {
                   "Postpartum transition planning with nurture-focused touches.",
                 ].map((detail) => (
                   <li key={detail} className="flex items-start gap-3">
-                    <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-primary" aria-hidden="true" />
+                    <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-mauve" aria-hidden="true" />
                     <span>{detail}</span>
                   </li>
                 ))}
@@ -232,13 +230,13 @@ const Home: React.FC = () => {
                 View Membership Packages
               </Button>
             </div>
-            <div className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/80 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]">
+            <div className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/80 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]">
               <img
                 src={heroSecondary}
                 alt="Softly styled nursery in blush and cream tones"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/25 via-transparent to-primary/35" aria-hidden="true" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blush/25 via-transparent to-mauve/35" aria-hidden="true" />
             </div>
           </motion.div>
         </Section>
@@ -272,14 +270,13 @@ const Home: React.FC = () => {
               },
             ].map((item) => (
               <Card key={item.name} className="flex h-full flex-col justify-between bg-white/95">
-                <P className="text-ink">{item.quote}</P>
-                <P className="mt-4 text-sm font-semibold text-ink/80">{item.name}</P>
+                <P className="text-charcoal">{item.quote}</P>
+                <P className="mt-4 text-sm font-semibold text-charcoal/80">{item.name}</P>
               </Card>
             ))}
           </motion.div>
         </Section>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 };
 

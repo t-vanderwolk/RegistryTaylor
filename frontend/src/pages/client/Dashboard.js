@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   const bookings = Array.isArray(bookingsData?.data) ? bookingsData.data : [];
   const mentorId = meData?.mentor?.id || "mentor-demo";
-  const primaryThread = meData?.threads?.[0]?.id || "primary";
+  const mauveThread = meData?.threads?.[0]?.id || "mauve";
 
   return (
     <div className="space-y-8">
@@ -33,15 +33,15 @@ const Dashboard = () => {
       <motion.section
         {...sectionMotion}
         transition={{ duration: 0.35, delay: 0.05 }}
-        className="space-y-4 rounded-[2.5rem] border border-babyBlue/30 bg-white/90 p-6 shadow-soft"
+        className="space-y-4 rounded-[2.5rem] border border-mauve/30 bg-white/90 p-6 shadow-soft"
       >
         <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-darkText/50">Your Week</p>
-            <h2 className="text-2xl font-serif text-blueberry">Upcoming concierge bookings</h2>
+            <p className="text-xs uppercase tracking-[0.35em] text-charcoal/50">Your Week</p>
+            <h2 className="text-2xl font-serif text-charcoal">Upcoming concierge bookings</h2>
           </div>
         </header>
-        {bookingsLoading && <p className="text-sm text-darkText/60">Loading bookings…</p>}
+        {bookingsLoading && <p className="text-sm text-charcoal/60">Loading bookings…</p>}
         {bookingsError && (
           <EmptyState
             title="Unable to load bookings"
@@ -60,18 +60,18 @@ const Dashboard = () => {
             {bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="rounded-2xl border border-babyPink/40 bg-babyPink/10 p-4 shadow-soft"
+                className="rounded-2xl border border-blush/40 bg-blush/10 p-4 shadow-soft"
               >
-                <p className="font-heading text-blueberry">
+                <p className="font-heading text-charcoal">
                   {booking.title || "Concierge session"}
                 </p>
                 {booking.startsAt && (
-                  <p className="text-sm text-darkText/70">
+                  <p className="text-sm text-charcoal/70">
                     {new Date(booking.startsAt).toLocaleString()}
                   </p>
                 )}
                 {booking.notes && (
-                  <p className="mt-2 text-sm text-darkText/60">Notes: {booking.notes}</p>
+                  <p className="mt-2 text-sm text-charcoal/60">Notes: {booking.notes}</p>
                 )}
               </div>
             ))}
@@ -82,22 +82,22 @@ const Dashboard = () => {
       <motion.section
         {...sectionMotion}
         transition={{ duration: 0.35, delay: 0.1 }}
-        className="space-y-4 rounded-[2.5rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft"
+        className="space-y-4 rounded-[2.5rem] border border-blush/40 bg-white/90 p-6 shadow-soft"
       >
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-darkText/50">Concierge Messages</p>
-            <h2 className="text-2xl font-serif text-blueberry">Chat with your mentor team</h2>
+            <p className="text-xs uppercase tracking-[0.35em] text-charcoal/50">Concierge Messages</p>
+            <h2 className="text-2xl font-serif text-charcoal">Chat with your mentor team</h2>
           </div>
         </header>
-        {meLoading && <p className="text-sm text-darkText/60">Loading your thread…</p>}
+        {meLoading && <p className="text-sm text-charcoal/60">Loading your thread…</p>}
         {meError && (
           <EmptyState
             title="Unable to load messages"
             subtitle={meError.message || "Please try again soon."}
           />
         )}
-        {!meLoading && !meError && <ThreadView threadId={primaryThread} />}
+        {!meLoading && !meError && <ThreadView threadId={mauveThread} />}
       </motion.section>
 
       <motion.section
@@ -105,8 +105,8 @@ const Dashboard = () => {
         transition={{ duration: 0.35, delay: 0.15 }}
         className="space-y-4 rounded-[2.5rem] border border-gold/30 bg-white/90 p-6 shadow-soft"
       >
-        <h2 className="text-2xl font-serif text-blueberry">Request a new concierge session</h2>
-        <p className="text-sm text-darkText/70">
+        <h2 className="text-2xl font-serif text-charcoal">Request a new concierge session</h2>
+        <p className="text-sm text-charcoal/70">
           Let Taylor know when you&apos;d like to connect. She&apos;ll confirm within 24 hours.
         </p>
         <BookingForm mentorId={mentorId} />

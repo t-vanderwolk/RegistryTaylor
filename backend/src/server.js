@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== "production") {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  console.warn("⚠️ SSL certificate verification disabled for local development.");
+}
+
 require('dotenv').config();
 const http = require('http');
 const app = require('./app');

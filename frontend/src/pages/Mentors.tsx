@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import MarketingLayout from "../layouts/MarketingLayout";
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -27,8 +26,7 @@ const Mentors: React.FC = () => {
   const mentors = Array.isArray(data?.data) ? data.data : [];
 
   return (
-    <MarketingLayout>
-      <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-28">
         <Section>
           <motion.div
             className="space-y-6 text-center"
@@ -37,7 +35,7 @@ const Mentors: React.FC = () => {
             variants={fadeInUp}
             transition={{ duration: 0.9 }}
           >
-            <span className="inline-flex items-center justify-center rounded-full bg-primary/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-ink">
+            <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
               Mentor Circle
             </span>
             <H1 className="mx-auto max-w-4xl">
@@ -86,11 +84,11 @@ const Mentors: React.FC = () => {
               mentors.map((mentor) => (
                 <Card key={mentor.id} className="bg-white/95">
                   <H2 className="text-xl">{mentor.name}</H2>
-                  <P className="mt-2 text-sm uppercase tracking-[0.25em] text-ink/60">
+                  <P className="mt-2 text-sm uppercase tracking-[0.25em] text-charcoal/60">
                     {mentor.specialty || "Concierge mentor"}
                   </P>
                   {mentor.certifications && (
-                    <P className="mt-4 text-sm text-ink/70">
+                    <P className="mt-4 text-sm text-charcoal/70">
                       Certifications: {mentor.certifications}
                     </P>
                   )}
@@ -127,12 +125,12 @@ const Mentors: React.FC = () => {
                   label="Seasons you love supporting"
                   placeholder="e.g., multiples, travel, fourth trimester"
                 />
-                <label htmlFor="mentor-note" className="flex flex-col gap-2 font-body text-sm text-ink/90">
-                  <span className="text-xs uppercase tracking-[0.3em] text-ink/70">A note from you</span>
+                <label htmlFor="mentor-note" className="flex flex-col gap-2 font-body text-sm text-charcoal/90">
+                  <span className="text-xs uppercase tracking-[0.3em] text-charcoal/70">A note from you</span>
                   <textarea
                     id="mentor-note"
                     rows={4}
-                    className="rounded-2xl border border-primary/50 bg-cream px-4 py-3 text-ink shadow-[0_10px_24px_-18px_rgba(46,46,46,0.18)] transition focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                    className="rounded-2xl border border-mauve/50 bg-ivory px-4 py-3 text-charcoal shadow-[0_10px_24px_-18px_rgba(46,46,46,0.18)] transition focus:border-blush focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
                     placeholder="Share a glimpse into your family and why you feel called to mentor."
                   />
                 </label>
@@ -143,8 +141,7 @@ const Mentors: React.FC = () => {
             </Card>
           </motion.div>
         </Section>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 };
 

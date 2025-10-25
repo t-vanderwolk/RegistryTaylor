@@ -2,9 +2,9 @@ import React from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 
 const PLACEHOLDER_GRADIENTS = {
-  pink: "from-babyPink/90 via-mauve/35 to-babyPink/40",
-  blueberry: "from-blueberry/90 via-mauve/35 to-blueberry/30",
-  mauve: "from-mauve/90 via-babyPink/30 to-mauve/25",
+  pink: "from-blush/90 via-mauve/35 to-blush/40",
+  blueberry: "from-mauve/90 via-mauve/35 to-mauve/30",
+  mauve: "from-mauve/90 via-blush/30 to-mauve/25",
 };
 
 const Card = ({
@@ -21,7 +21,7 @@ const Card = ({
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-[2rem] border border-gold/25 bg-cream/95 p-6 sm:p-7 shadow-soft transition-transform duration-300 ease-out hover:-translate-y-1 hover:shadow-dreamy ${className}`.trim()}
+      className={`group relative overflow-hidden rounded-[2rem] border border-gold/25 bg-ivory/95 p-6 sm:p-7 shadow-soft transition-transform duration-300 ease-out hover:-translate-y-1 hover:shadow-dreamy ${className}`.trim()}
     >
       {(image || icon) && (
         <div className="relative mb-6 overflow-hidden rounded-3xl">
@@ -41,28 +41,28 @@ const Card = ({
         </div>
       )}
 
-      <div className="flex h-full flex-col gap-3 text-darkText">
+      <div className="flex h-full flex-col gap-3 text-charcoal">
         {(title || subtitle) && (
           <header className="flex flex-col gap-1">
             {title && (
-              <h3 className="font-heading text-xl font-semibold text-blueberry sm:text-2xl">
+              <h3 className="font-heading text-xl font-semibold text-charcoal sm:text-2xl">
                 {title}
               </h3>
             )}
             {subtitle && (
-              <p className="font-body text-sm text-darkText/70">{subtitle}</p>
+              <p className="font-body text-sm text-charcoal/70">{subtitle}</p>
             )}
           </header>
         )}
 
         {children && (
-          <div className="space-y-3 font-body text-sm leading-relaxed text-darkText/80 sm:text-base">
+          <div className="space-y-3 font-body text-sm leading-relaxed text-charcoal/80 sm:text-base">
             {children}
           </div>
         )}
 
         {footer && (
-          <footer className="mt-auto pt-4 font-heading text-[0.7rem] uppercase tracking-[0.3em] text-accent">
+          <footer className="mt-auto pt-4 font-heading text-[0.7rem] uppercase tracking-[0.3em] text-blush">
             {footer}
           </footer>
         )}

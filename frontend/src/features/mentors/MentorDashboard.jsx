@@ -7,7 +7,7 @@ export default function MentorDashboard() {
   const bookings = Array.isArray(data?.data) ? data.data : [];
 
   if (loading) {
-    return <p className="text-sm text-darkText/70">Loading bookings…</p>;
+    return <p className="text-sm text-charcoal/70">Loading bookings…</p>;
   }
 
   if (error) {
@@ -33,18 +33,18 @@ export default function MentorDashboard() {
       {bookings.map((booking) => (
         <div
           key={booking.id}
-          className="rounded-2xl border border-babyPink/40 bg-white/80 p-4 shadow-soft"
+          className="rounded-2xl border border-blush/40 bg-white/80 p-4 shadow-soft"
         >
-          <p className="font-medium text-blueberry">
+          <p className="font-medium text-charcoal">
             Session with {booking.client?.firstName || "Client"}
           </p>
           {booking.startsAt && (
-            <p className="text-sm text-darkText/70">
+            <p className="text-sm text-charcoal/70">
               {new Date(booking.startsAt).toLocaleString()}
             </p>
           )}
           {booking.notes && (
-            <p className="mt-2 text-sm text-darkText/60">Notes: {booking.notes}</p>
+            <p className="mt-2 text-sm text-charcoal/60">Notes: {booking.notes}</p>
           )}
         </div>
       ))}

@@ -111,7 +111,7 @@
 //           <ProgressTracker value={progress.percent} label="Complete" />
 //           <Button
 //             type="button"
-//             variant="primary"
+//             variant="mauve"
 //             size="sm"
 //             onClick={() => navigate(buildPath("workbook", moduleData.id))}
 //           >

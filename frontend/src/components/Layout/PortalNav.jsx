@@ -21,7 +21,7 @@ const PortalNav = ({ basePath: providedBase }) => {
   const navItems = useMemo(() => buildPortalNavItems(basePath), [basePath]);
 
   return (
-    <nav className="sticky top-[88px] hidden h-[calc(100vh-88px)] w-64 flex-col gap-3 overflow-y-auto border-r border-babyPink/30 bg-white/70 p-6 backdrop-blur-lg lg:flex">
+    <nav className="sticky top-[88px] hidden h-[calc(100vh-88px)] w-64 flex-col gap-3 overflow-y-auto border-r border-blush/30 bg-white/70 p-6 backdrop-blur-lg lg:flex">
       <div className="space-y-1">
         {navItems.map(({ to, label, end }) => (
           <NavLink
@@ -31,8 +31,8 @@ const PortalNav = ({ basePath: providedBase }) => {
             className={({ isActive }) =>
               `block rounded-2xl px-4 py-3 text-sm font-heading uppercase tracking-[0.25em] transition ${
                 isActive
-                  ? "bg-babyBlue/30 text-blueberry shadow-soft"
-                  : "text-darkText/60 hover:bg-babyPink/20 hover:text-blueberry"
+                  ? "bg-mauve/30 text-charcoal shadow-soft"
+                  : "text-charcoal/60 hover:bg-blush/20 hover:text-charcoal"
               }`
             }
           >

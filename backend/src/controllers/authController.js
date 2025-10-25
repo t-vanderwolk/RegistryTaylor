@@ -181,7 +181,7 @@ exports.login = async (req, res, next) => {
 
     const token = signToken({ sub: user.id, role: user.role });
 
-    res.json({
+    res.status(200).json({
       data: {
         token,
         user: {

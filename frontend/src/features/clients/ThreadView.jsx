@@ -71,39 +71,39 @@ export function ThreadView({ threadId }) {
   };
 
   return (
-    <div className="flex h-[60vh] flex-col rounded-2xl border border-babyPink/40 bg-white/85 shadow-soft">
+    <div className="flex h-[60vh] flex-col rounded-2xl border border-blush/40 bg-white/85 shadow-soft">
       <div ref={boxRef} className="flex-1 space-y-2 overflow-y-auto p-4">
-        {loading && <p className="text-sm text-darkText/60">Loading messages…</p>}
+        {loading && <p className="text-sm text-charcoal/60">Loading messages…</p>}
         {!loading && messages.length === 0 && (
-          <p className="text-sm text-darkText/60">No messages yet. Say hello!</p>
+          <p className="text-sm text-charcoal/60">No messages yet. Say hello!</p>
         )}
         {messages.map((message) => (
           <div
             key={message.id}
-            className="max-w-lg rounded-xl bg-babyBlue/20 px-3 py-2 text-sm text-darkText/80 shadow-soft"
+            className="max-w-lg rounded-xl bg-mauve/20 px-3 py-2 text-sm text-charcoal/80 shadow-soft"
           >
-            <p className="font-semibold text-blueberry">{message.sender_name || "You"}</p>
+            <p className="font-semibold text-charcoal">{message.sender_name || "You"}</p>
             <p className="whitespace-pre-line">{message.body}</p>
-            <p className="text-xs uppercase tracking-[0.3em] text-darkText/40">
+            <p className="text-xs uppercase tracking-[0.3em] text-charcoal/40">
               {message.created_at ? new Date(message.created_at).toLocaleString() : ""}
             </p>
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 border-t border-babyPink/30 bg-white/80 p-3">
+      <div className="flex items-center gap-2 border-t border-blush/30 bg-white/80 p-3">
         <input
           value={text}
           onChange={(event) => {
             setText(event.target.value);
             setError("");
           }}
-          className="flex-1 rounded-xl border border-babyPink/40 bg-white px-3 py-2 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+          className="flex-1 rounded-xl border border-blush/40 bg-white px-3 py-2 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
           placeholder="Write a message…"
         />
         <button
           type="button"
           onClick={sendMessage}
-          className="inline-flex items-center justify-center rounded-xl bg-blueberry px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+          className="inline-flex items-center justify-center rounded-xl bg-mauve px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
         >
           Send
         </button>

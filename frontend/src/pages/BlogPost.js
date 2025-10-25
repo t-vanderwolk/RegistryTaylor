@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import EmptyState from "../components/UI/EmptyState";
+import EmptyState from "../components/ui/EmptyState";
 import api from "../lib/api";
 import MarketingLayout from "../layouts/MarketingLayout";
 import blogImageOne from "../assets/happy-baby.jpeg";
@@ -142,7 +142,7 @@ const BlogPost = () => {
 
   if (status === "loading") {
     return (
-      <MarketingLayout>
+      <>
         <main className="bg-softBeige py-24">
           <div className="mx-auto max-w-5xl rounded-[3rem] border border-primary/20 bg-white p-10 shadow-soft">
             <div className="h-8 w-40 animate-pulse rounded-full bg-softPink/60" />
@@ -154,13 +154,13 @@ const BlogPost = () => {
             </div>
           </div>
         </main>
-      </MarketingLayout>
+      </>
     );
   }
 
   if (status !== "success" || !post) {
     return (
-      <MarketingLayout>
+      <>
         <main className="bg-softBeige py-24">
           <div className="mx-auto max-w-4xl">
             <EmptyState
@@ -174,12 +174,12 @@ const BlogPost = () => {
             />
           </div>
         </main>
-      </MarketingLayout>
+      </>
     );
   }
 
   return (
-    <MarketingLayout>
+    <>
       <div className="space-y-16 pb-24 pt-16">
       <section className="relative mx-auto max-w-5xl overflow-hidden rounded-[3.5rem] border border-primary/25 bg-white text-left shadow-soft">
         <img src={heroImage} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" />
@@ -284,7 +284,7 @@ const BlogPost = () => {
         )}
       </section>
       </div>
-    </MarketingLayout>
+    </>
   );
 };
 

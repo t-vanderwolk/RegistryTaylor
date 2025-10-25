@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import api from "../lib/api";
-import EmptyState from "../components/UI/EmptyState";
+import EmptyState from "../components/ui/EmptyState";
 import RegistryBoard from "../components/registry/RegistryBoard";
 import { useRegistryStore } from "../hooks/useRegistryStore";
 

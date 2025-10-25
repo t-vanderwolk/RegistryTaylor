@@ -46,7 +46,7 @@ const HowItWorks = () => (
     </header>
 
     <div className="relative mt-12 grid gap-8 md:grid-cols-3">
-      {steps.map((step, index) => (
+      {steps.map((step, _index) => (
         <article
           key={step.title}
           className="group flex h-full flex-col gap-5 rounded-[2.8rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:scale-105 hover:bg-white hover:shadow-md"

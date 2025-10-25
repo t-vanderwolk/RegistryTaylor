@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Section from "../components/UI/Section";
+import Section from "../components/ui/Section";
 
 const faqs = [
   {

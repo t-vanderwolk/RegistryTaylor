@@ -1,6 +1,6 @@
 import React from "react";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
-import EmptyState from "../../components/UI/EmptyState";
+import EmptyState from "../../components/ui/EmptyState";
 
 export default function RegistryManager() {
   const { data, loading, error } = useSafeFetch("/api/registry", {}, { fallback: { data: [] } });

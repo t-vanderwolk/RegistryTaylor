@@ -1,7 +1,7 @@
 import React from "react";
 import { ThreadView } from "../../features/clients";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
-import EmptyState from "../../components/UI/EmptyState";
+import EmptyState from "../../components/ui/EmptyState";
 
 const Messages = () => {
   const { data, loading, error } = useSafeFetch("/api/me", {}, { fallback: {} });

@@ -8,7 +8,7 @@ import Button from "../design-system/Button";
 import Input from "../design-system/Input";
 import { H1, H2, P } from "../design-system/Typography";
 import { useSafeFetch } from "../hooks/useSafeFetch";
-import EmptyState from "../components/UI/EmptyState";
+import EmptyState from "../components/ui/EmptyState";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -16,11 +16,14 @@ const fadeInUp = {
 };
 
 const Mentors: React.FC = () => {
-  const { data, loading, error } = useSafeFetch(
-    "/api/mentors",
-    {},
-    { fallback: { data: [] }, skip: false, requiresAuth: false }
-  );
+  // ✅ Corrected call – only two arguments
+  const { data, loading, error } = useSafeFetch("/api/mentors", {
+    method: "GET",
+    fallback: { data: [] },
+    skip: false,
+    requiresAuth: false,
+  });
+
   const mentors = Array.isArray(data?.data) ? data.data : [];
 
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CarSeatComparison from "../components/CarSeatComparison";
-import Button from "../components/UI/Button";
+import Button from "../components/ui/Button";
 import nurseryImage from "../assets/nursery-1.jpeg";
 
 const CarSeatsSimplified = () => {

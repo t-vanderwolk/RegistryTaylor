@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { SparklesIcon } from "@heroicons/react/24/outline";
-import Section from "../components/UI/Section";
-import Card from "../components/UI/Card";
+import Section from "../components/ui/Section";
+import Card from "../components/ui/Card";
 import { addOnCollections } from "../data/addOns";
 
 const ServiceCard = ({ name, highlight, investment, touches }) => (

@@ -4,7 +4,7 @@ import Button from "./Button";
 const PageHero = ({
   backgroundImage,
   eyebrow,
-  title = "Taylor-Made",
+  title: _title = "Taylor-Made",
   subtitle = "Baby Co.",
   description,
   primaryCta,

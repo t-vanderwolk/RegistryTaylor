@@ -25,7 +25,7 @@ export const membershipTiers = [
     intro: "For families who want stress-free registry and gear support handled start to finish.",
     items: [
       "Curated baby registries across Amazon, Target, Pottery Barn Kids, Nordstrom, and more",
-      "Personal shopping recommendations for strollers, car seats, and everyday gear",
+      "Curated sourcing recommendations for strollers, car seats, and everyday gear",
       "White-glove returns and exchanges managed discreetly",
       "One virtual or in-home consultation",
       "Access to Taylor’s vetted vendor list — nannies, doulas, night nurses, lactation consultants",
@@ -40,8 +40,8 @@ export const membershipTiers = [
     headline: "Includes everything in Essentials, plus:",
     items: [
       "Full nursery design plan with furniture curation and décor styling",
-      "In-home personal shopping and setup of gear",
-      "Baby wardrobe essentials shopping for hospital, travel, and first weeks",
+      "In-home concierge sourcing and setup of gear",
+      "Baby wardrobe essentials curation for hospital, travel, and first weeks",
       "Travel preparation concierge — car seat installs, stroller packing, airport support",
       "Family integration planning for siblings, pets, and in-laws",
     ],
@@ -77,7 +77,7 @@ export const conciergePillars = [
   },
   {
     icon: "🛍️",
-    title: "Personal Shopping & Concierge",
+    title: "Concierge Sourcing & Guidance",
     blurb: "Everything from the first stroller trial to the final layette arrives ready for baby.",
     points: [
       "In-home or virtual consultations scheduled around your calendar",

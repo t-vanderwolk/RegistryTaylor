@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm start --prefix backend",
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
-    "migrate": "npm run migrate --prefix backend",
-    "seed": "npm run seed --prefix backend",
-    "lint": "npx eslint \"frontend/src/**/*.{js,jsx}\" \"backend/src/**/*.js\"",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend && npm run migrate --prefix backend && npm run seed --prefix backend"
+    "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
+    "start": "npm run start --prefix apps/dashboard",
+    "build": "npm run build --prefix apps/dashboard",
+    "migrate": "npm run migrate --prefix apps/backend",
+    "seed": "npm run seed --prefix apps/backend",
+    "lint": "npm run lint --prefix apps/dashboard"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

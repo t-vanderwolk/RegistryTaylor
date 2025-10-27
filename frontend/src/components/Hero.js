@@ -6,8 +6,8 @@ import heroSecondary from "../assets/ultrasound-pics.jpeg";
 import heroAccent from "../assets/blue-baby.jpeg";
 import heroHighlight from "../assets/cozy-baby.jpeg";
 import api from "../lib/api";
-import Button from "./UI/Button";
-import ResponsiveContainer from "./UI/ResponsiveContainer";
+import Button from "./ui/Button";
+import ResponsiveContainer from "./ui/ResponsiveContainer";
 
 const highlightCards = [
   {

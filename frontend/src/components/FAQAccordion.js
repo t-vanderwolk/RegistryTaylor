@@ -4,17 +4,17 @@ const questions = [
   {
     question: "Who receives an invite to Taylor-Made Baby Co.?",
     answer:
-      "We work with a handful of families each season based on personal referrals and aligned timelines. If we are a match, you’ll receive a private concierge welcome within 48 hours of applying.",
+      "We welcome a limited number of families each season based on personal referrals and aligned timelines. When it’s a mutual fit, you’ll receive a private concierge welcome within 48 hours of applying.",
   },
   {
     question: "Do I need to have a registry started?",
     answer:
-      "Not at all. We can craft a registry from scratch, refresh one you already have, or coordinate specialty items from boutique makers and independent brands.",
+      "Not at all. We’ll craft or refine your registry together, layering in mentor-approved selections and specialty finds tailored to your rituals.",
   },
   {
     question: "What does membership include?",
     answer:
-      "Each membership is bespoke. Expect a dedicated concierge, curated shoppable guides, scheduling support, nursery design direction, and event planning for showers or sip & sees.",
+      "Each membership is bespoke. Expect a dedicated concierge, Academy guidance, mentor planning sessions, nursery design direction, and celebration support all choreographed through Learn · Plan · Connect.",
   },
 ];
 
@@ -35,7 +35,7 @@ const FAQAccordion = () => {
         </p>
         <h2 className="mt-4 text-3xl font-serif font-heading text-charcoal sm:text-4xl">Frequently Asked Questions</h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-neutral-600">
-          A few of the thoughtful questions parents ask before joining our concierge family.
+          A few of the thoughtful questions parents ask before joining our Member → Mentor circle.
         </p>
       </header>
       <div className="relative mt-8 space-y-4">

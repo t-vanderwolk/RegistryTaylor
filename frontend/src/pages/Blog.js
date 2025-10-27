@@ -125,15 +125,15 @@ const matchesFilter = (post, filter) => {
 const popularReads = [
   {
     title: "Designing a Sanctuary Nursery",
-    description: "Palette formulas, lighting, and styling tricks for a serene retreat.",
+    description: "Palette formulas, lighting layers, and styling rituals that calm your spaces.",
   },
   {
-    title: "Registry Must-Haves",
-    description: "Taylor’s checklist for gear that grows with the fourth trimester in mind.",
+    title: "Registry Essentials That Grow",
+    description: "Intentional selections that serve the fourth trimester and beyond.",
   },
   {
-    title: "Celebration Etiquette",
-    description: "Hosting timelines and thank-you touches to keep gatherings heartfelt.",
+    title: "Celebration Etiquette for Your Circle",
+    description: "Hosting timelines and gratitude touches curated for intimate gatherings.",
   },
 ];
 
@@ -238,7 +238,7 @@ export default function Blog() {
               <p className="text-xs font-heading uppercase tracking-[0.35em] text-mauve">Concierge Notes</p>
               <h1 className="text-3xl font-heading text-mauve sm:text-4xl">Taylor-Made Journal</h1>
               <p className="max-w-2xl text-sm text-charcoal/70">
-                Explore planning checklists, nursery inspiration, celebratory etiquette, and postpartum care from Taylor’s pastel desk.
+                Explore gentle guidance from the Member → Mentor circle—planning checklists, Academy reflections, celebration etiquette, and postpartum care gathered at Taylor’s pastel desk.
               </p>
             </div>
 

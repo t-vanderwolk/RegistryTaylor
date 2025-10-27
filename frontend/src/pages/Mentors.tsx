@@ -36,20 +36,19 @@ const Mentors: React.FC = () => {
             transition={{ duration: 0.9 }}
           >
             <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
-              Mentor Circle
+              Member → Mentor
             </span>
             <H1 className="mx-auto max-w-4xl">
-              Handpicked mentors guiding you through every trimester
+              Meet the mentors who grew from members
             </H1>
             <P className="mx-auto max-w-3xl">
-              When you become a Taylor-Made member, you’re paired with mentors who’ve lived the milestones you’re
-              approaching. Each mentor is personally vetted, bound by NDA, and ready with calm, lived-in wisdom.
+              Every Taylor-Made mentor began as an invited member. Through the Academy and guided certification, they now calm the path for new families—translating experience into concierge-level support.
             </P>
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
               <Button as={Link} to="/contact">
                 Request a Mentor Match
               </Button>
-              <Button as="a" href="#apply" variant="ghost">
+              <Button as="a" href="#apply" variant="gold">
                 Apply to Mentor
               </Button>
             </div>
@@ -107,13 +106,10 @@ const Mentors: React.FC = () => {
           >
             <div className="space-y-5">
               <P>
-                If you’re a seasoned mother who loves making moments calmer for others, we’d love to meet you.
-                Share a glimpse into your world—the concierge team will reach out within 48 hours during business
-                days.
+                Ready to move from member to mentor? Share how the Taylor-Made framework has shaped your own family. We welcome voices rooted in calm leadership, discretion, and a love of teaching.
               </P>
               <P>
-                We look for mentors who champion empathy, discretion, and a refreshingly calm tone. Together we
-                make sure every family feels held.
+                Once invited, you’ll join the Mentor in Training track to refine your guidance before supporting new members. Together we make sure every family feels held.
               </P>
             </div>
             <Card className="bg-white/95">

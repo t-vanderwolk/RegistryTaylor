@@ -3,12 +3,12 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const buildPortalNavItems = (basePath) => [
   { to: basePath, label: "Dashboard", end: true },
+  { to: `${basePath}/learn`, label: "Learn" },
+  { to: `${basePath}/plan`, label: "Plan" },
+  { to: `${basePath}/connect`, label: "Connect" },
   { to: `${basePath}/journey`, label: "Journey" },
-  { to: `${basePath}/registry`, label: "Registry" },
-  { to: `${basePath}/services`, label: "Support Hub" },
   { to: `${basePath}/memories`, label: "Memories" },
   { to: `${basePath}/messages`, label: "Messages" },
-  { to: `${basePath}/community-forum`, label: "Community Forum" },
   { to: `${basePath}/bio`, label: "Profile" },
 ];
 

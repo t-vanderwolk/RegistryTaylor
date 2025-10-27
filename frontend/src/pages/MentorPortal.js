@@ -233,10 +233,10 @@ const RegistrySupport = () => {
   );
 };
 
-const PersonalShopping = () => (
+const ConciergeSourcing = () => (
   <div className="space-y-6">
     <header className="space-y-2">
-      <h1 className="font-playful text-3xl text-charcoal">Personal Shopping ✨</h1>
+      <h1 className="font-playful text-3xl text-charcoal">Concierge Sourcing ✨</h1>
       <p className="font-body text-sm text-charcoal/70">
         Curate joyful essentials and send tailored suggestions instantly.
       </p>
@@ -267,7 +267,7 @@ const NurseryDesign = () => (
     <header className="space-y-2">
       <h1 className="font-playful text-3xl text-charcoal">Nursery Design 🍼</h1>
       <p className="font-body text-sm text-charcoal/70">
-        Float inspiration, build mood boards, and export a polished shopping list.
+        Float inspiration, build mood boards, and export a polished planning list.
       </p>
     </header>
     <div className="grid gap-6 lg:grid-cols-2">
@@ -282,7 +282,7 @@ const NurseryDesign = () => (
         </label>
       </section>
       <section className="rounded-3xl border border-mauve/30 bg-white p-6 shadow-soft">
-        <h2 className="font-heading text-lg text-charcoal">Shopping List</h2>
+        <h2 className="font-heading text-lg text-charcoal">Planning List</h2>
         <p className="mt-2 text-sm font-body text-charcoal/70">
           Curate must-haves and export for concierge approvals.
         </p>
@@ -290,7 +290,7 @@ const NurseryDesign = () => (
           type="button"
           className="mt-4 rounded-full bg-mauve px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition-transform duration-200 hover:-translate-y-1 hover:shadow-dreamy"
         >
-          Export Shopping List
+          Export Planning List
         </button>
       </section>
     </div>
@@ -725,7 +725,7 @@ const MentorPortalLayout = ({
       { to: `${basePath}/snapshot`, label: "Concierge Snapshot" },
       { to: `${basePath}/availability`, label: "Availability" },
       { to: `${basePath}/registry-support`, label: "Registry Support" },
-      { to: `${basePath}/personal-shopping`, label: "Personal Shopping" },
+      { to: `${basePath}/concierge-sourcing`, label: "Concierge Sourcing" },
       { to: `${basePath}/nursery-design`, label: "Nursery Design" },
       { to: `${basePath}/in-law-interface`, label: "In-Law Interface" },
       { to: `${basePath}/events`, label: "Events & Celebrations" },
@@ -839,7 +839,7 @@ const MentorPortalLayout = ({
             <Route path="availability" element={<AvailabilityManager />} />
             <Route path="snapshot" element={<MentorPortalDashboard profile={profile} />} />
             <Route path="registry-support" element={<RegistrySupport />} />
-            <Route path="personal-shopping" element={<PersonalShopping />} />
+            <Route path="concierge-sourcing" element={<ConciergeSourcing />} />
             <Route path="nursery-design" element={<NurseryDesign />} />
             <Route path="in-law-interface" element={<InLawInterface />} />
             <Route path="events" element={<EventsCelebrations />} />

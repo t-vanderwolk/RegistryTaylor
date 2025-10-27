@@ -4,7 +4,7 @@ import ChecklistItem from "./ChecklistItem";
 export default function BabyChecklist() {
   const [items, setItems] = useState([
     { label: "Set up crib 🛏️", checked: false },
-    { label: "Buy baby clothes 👕", checked: false },
+    { label: "Collect baby wardrobe pieces 👕", checked: false },
     { label: "Pack hospital bag 🎒", checked: false },
     { label: "Install car seat 🚗", checked: false },
     { label: "Schedule pediatrician visit 🩺", checked: false },

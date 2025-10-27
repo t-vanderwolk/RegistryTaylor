@@ -5,21 +5,21 @@ import bellyRub from "../assets/belly-rub.jpeg";
 
 const steps = [
   {
-    title: "Discover",
+    title: "Learn",
     description:
-      "A relaxed video chat to share your story, wishlist, and the feel you want for baby’s arrival.",
+      "Begin in the Taylor-Made Academy with guided lessons, reflections, and rituals that ground your journey.",
     image: bellyPoke,
   },
   {
     title: "Plan",
     description:
-      "Registry picks, nursery layouts, and timelines co-created with gentle check-ins and shared boards.",
+      "Partner with your mentor to choreograph registries, nurseries, celebrations, and postpartum rhythms with calm confidence.",
     image: mamaPics,
   },
   {
-    title: "Celebrate",
+    title: "Connect",
     description:
-      "Joyful reveals, thoughtful gifting, and on-call support so every celebration feels effortless.",
+      "Join the member community to celebrate milestones, gather wisdom, and prepare to guide the next family.",
     image: bellyRub,
   },
 ];
@@ -38,10 +38,10 @@ const HowItWorks = () => (
       <p className="text-xs font-heading uppercase tracking-[0.32em] text-mauve/80">
         Signature Journey
       </p>
-      <h2 className="mt-4 text-4xl font-serif font-heading text-charcoal">How It Works</h2>
+      <h2 className="mt-4 text-4xl font-serif font-heading text-charcoal">Learn · Plan · Connect</h2>
       <span className="gold-divider" aria-hidden="true" />
       <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-neutral-600">
-        We move from first chat to final reveal with clear checklists, real support, and plenty of excitement along the way.
+        We move through the Learn · Plan · Connect cycle with clear guidance, thoughtful mentorship, and celebratory support at every turn.
       </p>
     </header>
 

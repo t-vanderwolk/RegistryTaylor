@@ -8,42 +8,36 @@ import { H1, H2, P } from "../design-system/Typography";
 
 const tiers = [
   {
-    name: "Community Salon",
-    investment: "$680",
-    cadence: "per family",
+    name: "Member",
+    headline: "Begin the journey",
     description:
-      "Digital concierge touchpoints, quarterly salons, and access to Taylor’s private resource library.",
+      "Receive your invitation, unlock the Taylor-Made Baby Academy, and join a community that learns together. Members move through curated lessons, guided reflections, and seasonal salons.",
     features: [
-      "Seasonal planning salons with live Q&A",
-      "Digital resource library & checklists",
-      "Members-only community lounge",
+      "Full access to the Taylor-Made Baby Academy curriculum",
+      "Concierge office hours and seasonal planning salons",
+      "Private community discussions and milestone celebrations",
     ],
   },
   {
-    name: "Signature Concierge",
-    investment: "From $3,600",
-    cadence: "per pregnancy",
+    name: "Mentor in Training",
+    headline: "Deepen your practice",
     description:
-      "Our most-loved tier for registry orchestration, nursery styling, and celebration production support.",
+      "Graduate into a guided certification track. Partner with experienced mentors, refine your voice, and practice the frameworks that keep families calm, connected, and confident.",
     features: [
-      "Weekly concierge check-ins",
-      "Registry design & gifting etiquette",
-      "Nursery floor plan + styling support",
-      "Celebration planning + vendor curation",
+      "Certification modules with mentor-led feedback",
+      "Hands-on planning labs spanning registry, nursery, safety, and postpartum support",
+      "Apprenticeship-style shadowing with the concierge team",
     ],
-    highlight: "Most loved",
   },
   {
-    name: "Bespoke Retainer",
-    investment: "By invitation",
-    cadence: "seasonal",
+    name: "Mentor",
+    headline: "Lead with confidence",
     description:
-      "A private retainer for families seeking 24/7 concierge access, travel coordination, and couture reveals.",
+      "Share your wisdom as a certified Taylor-Made Mentor. Guide new members, host salons, and continue evolving through ongoing education and community leadership.",
     features: [
-      "24/7 concierge hotline",
-      "Private travel & relocation planning",
-      "Couture nursery + celebration production",
-      "Family lifestyle management under NDA",
+      "Concierge-approved client pairings and planning toolkits",
+      "Ongoing education masterclasses and peer mentorship",
+      "Opportunities to host community gatherings and earn through guidance",
     ],
   },
 ];
@@ -65,19 +59,18 @@ const Membership: React.FC = () => {
             transition={{ duration: 0.9 }}
           >
             <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
-              Memberships
+              Membership Journey
             </span>
-            <H1>Choose the cadence that fits your family</H1>
+            <H1>Begin as a Member. Grow as a Mentor.</H1>
             <P className="mx-auto max-w-3xl">
-              Membership opens the door to calm decision-making, heartfelt celebrations, and gentle accountability.
-              Every tier includes Taylor’s personal oversight and NDA-backed discretion.
+              Taylor-Made Baby Co. is an invite-only progression. Each stage deepens your knowledge, your planning confidence, and your capacity to guide the next family.
             </P>
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
-              <Button as={Link} to="/contact">
-                Chat with Taylor
+              <Button as={Link} to="/request-invite">
+                Request Your Invite
               </Button>
-              <Button as={Link} to="/request-invite" variant="ghost">
-                Request Invite
+              <Button as={Link} to="/contact" variant="gold">
+                Concierge Conversation
               </Button>
             </div>
           </motion.div>
@@ -96,17 +89,11 @@ const Membership: React.FC = () => {
                 key={tier.name}
                 className="relative flex h-full flex-col gap-5 bg-white/95"
               >
-                {tier.highlight && (
-                  <span className="absolute right-6 top-6 rounded-full bg-mauve px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-charcoal shadow">
-                    {tier.highlight}
-                  </span>
-                )}
                 <div className="space-y-2">
                   <P className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal/70">
                     {tier.name}
                   </P>
-                  <H2 className="text-charcoal text-3xl">{tier.investment}</H2>
-                  <P className="text-xs uppercase tracking-[0.35em] text-charcoal/60">{tier.cadence}</P>
+                  <H2 className="text-mauve text-3xl">{tier.headline}</H2>
                   <P>{tier.description}</P>
                 </div>
                 <ul className="space-y-3 text-sm text-charcoal/80 sm:text-base">
@@ -117,8 +104,8 @@ const Membership: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <Button as={Link} to="/contact" className="mt-auto">
-                  Explore This Tier
+                <Button as={Link} to="/request-invite" className="mt-auto">
+                  Begin This Stage
                 </Button>
               </Card>
             ))}
@@ -126,8 +113,8 @@ const Membership: React.FC = () => {
         </Section>
 
         <Section
-          title="Membership benefits"
-          description="Across every tier, your concierge circle nurtures the details that keep you present and supported."
+          title="Support woven through every stage"
+          description="Whether you are studying, planning, or guiding, the Taylor-Made framework keeps calm, connection, and community at the heart of every milestone."
         >
           <motion.div
             className="grid gap-6 lg:grid-cols-2"
@@ -162,7 +149,7 @@ const Membership: React.FC = () => {
           </motion.div>
         </Section>
 
-        <Section>
+        <Section className="text-center">
           <motion.div
             className="mx-auto flex max-w-5xl flex-col gap-5 rounded-[2.75rem] bg-gradient-to-r from-mauve/50 via-blush/40 to-mauve/35 p-8 text-center shadow-[0_24px_60px_-28px_rgba(46,46,46,0.3)] sm:p-12"
             initial="hidden"
@@ -170,19 +157,16 @@ const Membership: React.FC = () => {
             viewport={{ once: true, margin: "-80px" }}
             variants={fadeInUp}
           >
-            <H2 className="text-charcoal">
-              Secure your invite with complete confidence
-            </H2>
+            <H2 className="text-mauve">Your journey begins here</H2>
             <P className="mx-auto max-w-3xl">
-              If membership doesn’t feel like your match within 30 days, your investment is fully refundable—no
-              questions asked.
+              Invitations are extended to families who value intentional learning and community. Share your story, meet your mentor, and prepare to one day guide another family through the Taylor-Made way.
             </P>
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button as={Link} to="/request-invite">
-                Secure Your Invite
+                Request Your Invite
               </Button>
-              <Button as={Link} to="/contact" variant="ghost">
-                Talk With Taylor
+              <Button as={Link} to="/contact" variant="gold">
+                Concierge Conversation
               </Button>
             </div>
           </motion.div>

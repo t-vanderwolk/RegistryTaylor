@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-great-vibes: "Great Vibes", cursive;
+  --font-nunito: "Nunito", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+}
+
+body {
+  background-color: #fffaf8;
+  color: #3e2f35;
+}

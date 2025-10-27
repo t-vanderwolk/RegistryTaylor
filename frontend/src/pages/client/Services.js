@@ -19,7 +19,7 @@ const servicePackages = [
       "Registry stewardship, vendor vetting, and twice-monthly mentor check-ins keep every necessity on track.",
     highlights: [
       "Multi-retailer registry management with white-glove returns",
-      "Quarterly budget snapshots and curated shopping lists",
+      "Quarterly budget snapshots and curated planning lists",
       "Mentor office hours for gear, feeding, and travel support",
     ],
   },
@@ -54,7 +54,7 @@ const onDemandExperiences = [
     id: "gear-lab",
     title: "Gear Lab Session",
     badge: "Included with Signature",
-    copy: "Hands-on testing or virtual demos for strollers, travel systems, and nursery tech so you buy once with confidence.",
+    copy: "Hands-on testing or virtual demos for strollers, travel systems, and nursery tech so you choose once with confidence.",
   },
   {
     id: "registry-refresh",

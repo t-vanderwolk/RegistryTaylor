@@ -25,7 +25,7 @@ const CarSeatsSimplified = () => {
           <div className="text-xs font-serif uppercase tracking-[0.32em] text-mauve/80">Taylor-Made Guide</div>
           <h1 className="text-3xl font-serif text-charcoal sm:text-4xl md:text-5xl">Car Seats, Simplified</h1>
           <p className="max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">
-            A concierge breakdown of infant, convertible, rotating, and booster seats. Use this primer to compare features, understand installation styles, and feel confident before you book a fitting or hit the showroom floor.
+            A concierge breakdown of infant, convertible, rotating, and booster seats. Use this primer to compare features, understand installation styles, and feel confident before you meet with your mentor or attend a fitting.
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
             <span>Guides</span>
@@ -46,7 +46,7 @@ const CarSeatsSimplified = () => {
             <div className="rounded-3xl border border-mauve/20 bg-white/85 p-6 shadow-soft backdrop-blur-sm">
               <p className="font-heading text-xs uppercase tracking-[0.3em] text-mauve/70">Need a bespoke list?</p>
               <p className="mt-3">
-                Concierge members receive custom comparisons with pricing, bundle options, and installation walk-throughs tailored to their vehicle and travel plans.
+                Concierge members receive custom comparisons with mentorship notes, travel considerations, and installation walk-throughs tailored to their vehicle and routines.
               </p>
             </div>
           </div>
@@ -67,10 +67,10 @@ const CarSeatsSimplified = () => {
         </header>
         <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
           <Button to="/contact" className="bg-mauve !text-white px-8 py-3" size="sm">
-            Book Consultation
+            Connect with a Mentor
           </Button>
           <Button to="/request-invite" variant="outline" className="px-8 py-3" size="sm">
-            Request Invite
+            Request Your Invite
           </Button>
         </div>
         <p className="text-xs font-heading uppercase tracking-[0.28em] text-neutral-400">

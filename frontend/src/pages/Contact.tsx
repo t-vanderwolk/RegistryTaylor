@@ -23,14 +23,13 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.9 }}
           >
             <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
-              Contact Taylor
+              Concierge Welcome
             </span>
-            <H1 className="mx-auto max-w-4xl">
-              Ready to bring calm to your baby planning?
+            <H1 className="mx-auto max-w-4xl text-mauve">
+              We welcome new members by invitation
             </H1>
             <P className="mx-auto max-w-2xl">
-              Share a few details below and we’ll schedule a concierge consultation designed around your ideal
-              timeline. Expect a warm reply within one business day.
+              Complete the form below to begin your Taylor-Made journey. We respond personally within one business day to learn more about your family, your hopes, and the mentorship you desire.
             </P>
           </motion.div>
         </Section>
@@ -59,22 +58,21 @@ const Contact: React.FC = () => {
                   />
                 </label>
                 <Button type="button" className="w-full">
-                  Book Your Consultation
+                  Submit Invitation Request
                 </Button>
               </form>
             </Card>
 
             <Card className="bg-white/95">
               <div className="space-y-4">
-                <H1 className="text-3xl">Concierge details</H1>
+                <H1 className="text-3xl text-mauve">Concierge details</H1>
                 <P>Email: hello@taylormadebaby.co</P>
-                <P>Consultation hours: Monday – Thursday, 9am – 4pm MST.</P>
+                <P>Concierge office hours: Monday – Thursday, 9am – 4pm MST.</P>
                 <P>
-                  Prefer a private introduction? Request an invite with your preferred contact method and we’ll
-                  reach out personally.
+                  Each membership begins with a conversation. Share the season you are entering and we’ll curate the next steps, from Academy access to mentor pairing.
                 </P>
-                <Button as="a" href="/request-invite" variant="ghost">
-                  Request Invite
+                <Button as="a" href="/request-invite" variant="gold">
+                  Request Your Invite
                 </Button>
               </div>
             </Card>

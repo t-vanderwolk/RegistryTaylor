@@ -3,17 +3,21 @@ import Section from "../components/ui/Section";
 
 const faqs = [
   {
-    q: "Do you work virtually?",
-    a: "Yes! I work with parents nationwide through virtual consultations."
+    q: "How do invitations work?",
+    a: "Membership is offered to a limited number of families each season. Share your story through the request form and we’ll curate a welcome call to confirm timing, support needs, and mentor pairing.",
   },
   {
-    q: "Can you help me even if I’ve already started my registry?",
-    a: "Absolutely — I can refine, reorganize, or fill in the gaps."
+    q: "What happens inside the Academy?",
+    a: "The Taylor-Made Baby Academy blends education, reflection, and planning prompts. Members learn the framework, practice it with their mentor, and collect insights that prepare them for mentorship.",
   },
   {
-    q: "Do you only work with luxury products?",
-    a: "Not at all. I help you find what fits your lifestyle and budget."
-  }
+    q: "When can I become a mentor?",
+    a: "Members who complete the Academy and feel called to guide others can enter the Mentor in Training track. We provide certification, shadowing, and gentle coaching before you support new families.",
+  },
+  {
+    q: "Do you only support in-person events?",
+    a: "We serve families locally in Scottsdale and Phoenix, and virtually everywhere else. Whether it’s registry planning, nursery styling, or celebration production, your mentor guides each step remotely or on-site.",
+  },
 ];
 
 const Faq = () => {
@@ -22,6 +26,9 @@ const Faq = () => {
   return (
     <div className="bg-transparent text-charcoal">
       <Section title="Frequently Asked Questions" compact className="bg-alt-yellow">
+        <p className="mx-auto mb-6 max-w-2xl text-center text-sm text-charcoal/75">
+          Learn more about the Taylor-Made journey—from invitations to mentorship. Each answer reflects how we help you Learn · Plan · Connect.
+        </p>
         <div className="max-w-2xl mx-auto space-y-3">
           {faqs.map((faq, index) => (
             <div

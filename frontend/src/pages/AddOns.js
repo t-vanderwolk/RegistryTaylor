@@ -13,7 +13,7 @@ const ServiceCard = ({ name, highlight, investment, touches }) => (
     icon={<SparklesIcon className="h-6 w-6" aria-hidden="true" />}
   >
     <div className="mt-4 flex flex-wrap items-center gap-3 rounded-full bg-white/85 px-4 py-2 text-[0.7rem] font-heading uppercase tracking-[0.3em] text-charcoal/80 shadow-inner">
-      <span className="text-gold">Member Investment</span>
+      <span className="text-gold">Member Contribution</span>
       <span aria-hidden="true">•</span>
       <span>{investment}</span>
     </div>
@@ -30,7 +30,7 @@ const ServiceCard = ({ name, highlight, investment, touches }) => (
         to="/contact"
         className="inline-flex w-full items-center justify-center rounded-full border border-blush/45 bg-white/90 px-5 py-2 text-xs font-heading uppercase tracking-[0.25em] text-charcoal shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
       >
-        Reserve concierge date
+        Schedule concierge touchpoint
       </Link>
     </div>
   </Card>
@@ -48,7 +48,7 @@ const AddOns = () => {
       >
         <div className="space-y-10">
           <p className="mx-auto max-w-3xl font-body text-base sm:text-lg leading-relaxed text-charcoal/75">
-            Add-ons are how we sprinkle extra magic onto your membership. Tell Taylor which milestone needs more care, and our concierge team will coordinate timing, talent, and keepsake touches.
+            Add-ons keep your journey gently elevated. Share the milestone that needs more care and our concierge team will coordinate timing, talent, and keepsake touches that mirror the Learn · Plan · Connect framework.
           </p>
           <Link to="/contact" className="btn-mauve px-7 py-3 text-xs sm:text-sm">
             Request Add-On Planning

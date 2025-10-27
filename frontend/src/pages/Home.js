@@ -4,57 +4,57 @@ import Button from "../design-system/Button";
 
 const highlightSections = [
   {
-    title: "Membership",
-    eyebrow: "Concierge Programs",
+    title: "Become a Member",
+    eyebrow: "Stage One",
     description:
-      "Compare invitation-only memberships, learn what’s included, and select the cadence that feels right for your family.",
-    cta: "Explore Memberships",
-    to: "/membership",
-  },
-  {
-    title: "Client Portal",
-    eyebrow: "Members",
-    description:
-      "Already inside the circle? Log in for registries, nursery styling, celebration planning, and 1:1 mentor notes.",
-    cta: "Enter Portal",
-    to: "/portal",
-  },
-  {
-    title: "Request Invite",
-    eyebrow: "Apply",
-    description:
-      "Ready for concierge support? Share your story and Taylor will curate a welcome aligned with your vision.",
-    cta: "Request Invite",
+      "Request an invitation to begin your Taylor-Made journey. Members unlock the Academy, concierge guidance, and a circle that keeps calm confidence at the center.",
+    cta: "Request Your Invite",
     to: "/request-invite",
   },
   {
-    title: "Journal & Notes",
-    eyebrow: "Stories",
+    title: "Learn in the Academy",
+    eyebrow: "Learn",
     description:
-      "Browse seasonal briefs, trend forecasts, and gentle prompts written exclusively for the Taylor-Made community.",
-    cta: "Visit the Journal",
-    to: "/blog",
+      "Immerse yourself in the Taylor-Made Baby Academy—curated lessons, reflections, and rituals designed to guide each trimester with intention.",
+    cta: "Explore the Academy Path",
+    to: "/how-it-works",
+  },
+  {
+    title: "Plan with Your Mentor",
+    eyebrow: "Plan",
+    description:
+      "Partner with a certified mentor for registry curation, nursery storytelling, car seat safety, and postpartum support grounded in experience.",
+    cta: "Meet Your Mentor",
+    to: "/mentors",
+  },
+  {
+    title: "Connect in Community",
+    eyebrow: "Connect",
+    description:
+      "Join a private member forum where milestones are celebrated, questions are welcomed, and future mentors are nurtured.",
+    cta: "Visit the Community",
+    to: "/community-forum",
   },
 ];
 
 const testimonials = [
   {
     quote:
-      "Taylor made every decision feel calm. Our registry, nursery, and travel plans were choreographed before we even knew what to ask.",
+      "The Academy gave us language for every decision, and our mentor kept each milestone calm and personal.",
     name: "Avery & Sam Parker",
-    detail: "Signature Members",
+    detail: "Member → Mentor in Training",
   },
   {
     quote:
-      "The mentor circle was priceless—gentle reminders, honest check-ins, and a concierge who anticipated needs weeks ahead.",
+      "Learning, planning, and connecting with our mentor felt effortless—we always knew the next gentle step.",
     name: "Jordan & Devin Harper",
-    detail: "Bespoke Members",
+    detail: "Mentor in Training",
   },
   {
     quote:
-      "From nursery install to sip & see hosting, everything felt curated. Taylor’s team keeps the magic effortless.",
+      "Guiding new members now feels natural. The Taylor-Made framework taught us how to listen, reassure, and celebrate with calm confidence.",
     name: "Morgan Ellis",
-    detail: "Mentor Concierge",
+    detail: "Certified Mentor",
   },
 ];
 
@@ -62,23 +62,22 @@ const HomeHero = () => (
   <section className="section-padding bg-ivory even:bg-white/80 relative overflow-hidden pt-28 sm:pt-32">
     <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_0.9fr]">
       <div className="surface-panel animate-fade-up text-left">
-        <span className="badge-pill bg-ivory/60 text-mauve">Invite-Only Concierge</span>
+        <span className="badge-pill bg-ivory/60 text-mauve">Member → Mentor Journey</span>
         <div className="mt-6 space-y-3">
-          <p className="font-display text-5xl text-mauve md:text-6xl">Taylor-Made Baby Co.</p>
+          <p className="font-display text-5xl text-mauve md:text-6xl">Guided beginnings for growing families.</p>
           <p className="font-heading text-lg text-charcoal/80">
-            Registries, nursery design, celebration planning, and mentor support—curated for calm, confident parents.
+            Join a supportive, curated journey from pregnancy to postpartum — where every member learns, plans, and connects.
           </p>
         </div>
         <p className="mt-6 text-base text-charcoal/70 md:text-lg">
-          Taylor and her concierge team choreograph every detail so each reveal feels personal, polished, and joyfully
-          ready.
+          Begin inside the Academy, plan alongside your mentor, and grow into the next generation of guides. Taylor-Made Baby Co. keeps the focus on connection over commerce.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <Button as={Link} to="/request-invite" variant="mauve" size="md">
-            Request Invite
+            Request Your Invite
           </Button>
-          <Button as={Link} to="/membership" variant="secondary" size="md">
-            Explore Memberships
+          <Button as={Link} to="/membership" variant="gold" size="md">
+            Explore Membership Journey
           </Button>
         </div>
       </div>
@@ -90,7 +89,7 @@ const HomeHero = () => (
         </p>
         <div className="mt-6 space-y-5">
           {[
-            "Registry & personal shopping tailored to your rituals",
+            "Registry curation and sourcing tailored to your rituals",
             "Nursery design with install, styling, and vendor orchestration",
             "Mentor circle with guided workbooks and celebration timelines",
           ].map((item) => (
@@ -111,11 +110,10 @@ const FeaturesSection = () => (
   <section className="section-padding bg-ivory even:bg-white/80">
     <div className="mx-auto max-w-6xl space-y-12">
       <header className="mx-auto max-w-3xl text-center">
-        <span className="badge-pill">Journey Touchpoints</span>
-        <h2 className="mt-4 font-heading text-3xl text-charcoal">Continue the Taylor-Made experience</h2>
+        <span className="badge-pill">Learn · Plan · Connect</span>
+        <h2 className="mt-4 font-heading text-3xl text-mauve">The Taylor-Made path from member to mentor</h2>
         <p className="mt-3 text-sm text-charcoal/70">
-          Each pathway mirrors what you discover inside the dashboard—soft cards, curated calls-to-action, and gentle
-          pacing.
+          Every stage is designed to cultivate calm confidence—beginning with guided education, deepening through one-on-one planning, and flourishing within a community that celebrates growth.
         </p>
       </header>
 
@@ -132,7 +130,7 @@ const FeaturesSection = () => (
               <Button
                 as={Link}
                 to={section.to}
-                variant="ghost"
+                variant="gold"
                 className="self-start border border-transparent text-xs text-mauve hover:border-gold/50 hover:bg-ivory/70"
                 size="sm"
               >
@@ -175,16 +173,16 @@ const TestimonialsSection = () => (
 const FinalCTA = () => (
   <section className="section-padding bg-ivory even:bg-white/80 pb-28">
     <div className="surface-panel mx-auto max-w-5xl text-center">
-      <span className="badge-pill bg-blush/40 text-mauve">Your Story, Curated</span>
-      <h2 className="mt-4 font-heading text-3xl text-charcoal">Begin with a conversation and finish with a concierge reveal.</h2>
+      <span className="badge-pill bg-blush/40 text-mauve">Begin as a Member · Grow as a Mentor</span>
+      <h2 className="mt-4 font-heading text-3xl text-mauve">Learn · Plan · Connect — the Taylor-Made way.</h2>
       <p className="mt-3 text-sm text-charcoal/70">
-        Taylor’s team will gather inspiration, align on milestones, and choreograph every touchpoint so you can savor the calm.
+        Request an invitation to join the Academy, meet your mentor, and walk a path that one day empowers you to guide the next family.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-4">
         <Button as={Link} to="/request-invite" variant="mauve">
           Request Your Invite
         </Button>
-        <Button as={Link} to="/portal" variant="secondary">
+        <Button as={Link} to="/portal" variant="gold">
           Member Login
         </Button>
       </div>

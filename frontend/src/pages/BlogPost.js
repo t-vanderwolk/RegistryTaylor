@@ -213,7 +213,7 @@ const BlogPost = () => {
             Back
           </button>
           <div className="text-xs font-serif uppercase tracking-[0.32em] text-mauve/80">
-            Taylor-Made Blog
+            Learn · Plan · Connect Insights
           </div>
           <h1 className="text-3xl font-serif text-charcoal sm:text-4xl md:text-5xl">
             {post.title}
@@ -256,8 +256,7 @@ const BlogPost = () => {
             More Taylor-Made Stories
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-neutral-600 sm:max-w-3xl sm:text-base">
-            Keep exploring concierge tips, planning frameworks, and real-life registry wins from
-            the Taylor-Made community.
+            Keep exploring concierge tips, planning frameworks, and Member → Mentor reflections from the Taylor-Made community.
           </p>
         </header>
 

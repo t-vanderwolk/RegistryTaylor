@@ -20,12 +20,12 @@ const Navbar = ({ isScrolled = false }) => {
 
   const navLinks = useMemo(
     () => [
-      { label: "Home", target: "home", to: "/" },
-      { label: "How It Works", target: "how-it-works", to: "/#how-it-works" },
-      { label: "Membership", to: "/membership" },
-      { label: "Blog", to: "/blog" },
-      { label: "Request Invite", to: "/request-invite" },
-      { label: "Member Login", to: "/portal" },
+      { label: "Home", to: "/" },
+      { label: "Learn · Plan · Connect", to: "/how-it-works" },
+      { label: "Membership Journey", to: "/membership" },
+      { label: "Concierge Journal", to: "/blog" },
+      { label: "Request Your Invite", to: "/request-invite" },
+      { label: "Member Portal", to: "/portal" },
     ],
     []
   );
@@ -69,20 +69,11 @@ const Navbar = ({ isScrolled = false }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleAnchorNavigation = (event, link) => {
+  const handleNavigation = (event, link) => {
     event.preventDefault();
 
-    const { target, to } = link;
+    const { to } = link;
     closeMenu();
-
-    if (target && location.pathname === "/") {
-      const section = document.getElementById(target);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-        section.focus?.({ preventScroll: true });
-        return;
-      }
-    }
 
     if (to === "/") {
       if (location.pathname !== "/") {
@@ -147,8 +138,8 @@ const Navbar = ({ isScrolled = false }) => {
             <nav className="hidden flex-1 items-center justify-center gap-4 lg:gap-5 md:flex" aria-label="Primary">
               {navLinks.map((link) => {
                 const adjustedLink =
-                  link.label === "Member Login" ? { ...link, to: portalHome } : link;
-                const isCta = link.label === "Request Invite" || link.label === "Member Login";
+                  link.label === "Member Portal" ? { ...link, to: portalHome } : link;
+                const isCta = link.label === "Request Your Invite" || link.label === "Member Portal";
                 const base =
                   "relative px-2 py-1 text-[0.62rem] font-heading uppercase tracking-[0.5em] transition sm:px-3 sm:text-[0.68rem] after:absolute after:left-2 after:right-2 after:-bottom-2 after:h-px after:rounded-full after:bg-mauve/80 after:opacity-0 after:transition-opacity after:content-['']";
                 const path = adjustedLink.to.split("#")[0];
@@ -162,10 +153,10 @@ const Navbar = ({ isScrolled = false }) => {
                   <a
                     key={link.label}
                     href={adjustedLink.to}
-                    onClick={(event) => handleAnchorNavigation(event, adjustedLink)}
+                    onClick={(event) => handleNavigation(event, adjustedLink)}
                     className={classes}
                   >
-                    {link.label === "Member Login" && token ? "Portal" : link.label}
+                    {link.label === "Member Portal" && token ? "My Portal" : link.label}
                   </a>
                 );
               })}
@@ -210,20 +201,20 @@ const Navbar = ({ isScrolled = false }) => {
             <ul className="flex flex-wrap justify-center gap-3 rounded-[2.5rem] border border-mauve/30 bg-white/96 p-6 shadow-dreamy backdrop-blur">
               {navLinks.map((link) => {
                 const adjustedLink =
-                  link.label === "Member Login" ? { ...link, to: portalHome } : link;
-                const isCta = link.label === "Request Invite" || link.label === "Member Login";
+                  link.label === "Member Portal" ? { ...link, to: portalHome } : link;
+                const isCta = link.label === "Request Your Invite" || link.label === "Member Portal";
                 return (
                   <li key={link.label} className="flex">
                     <a
                       href={adjustedLink.to}
-                      onClick={(event) => handleAnchorNavigation(event, adjustedLink)}
+                      onClick={(event) => handleNavigation(event, adjustedLink)}
                       className={
                         isCta
                           ? "block rounded-full bg-mauve px-5 py-2 text-center text-xs font-heading uppercase tracking-[0.4em] text-white shadow-[0_10px_30px_-18px_rgba(166,138,178,0.65)] transition hover:brightness-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
                           : "block rounded-full px-4 py-2 text-center text-xs font-heading uppercase tracking-[0.4em] text-charcoal/70 transition hover:bg-mauve/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/40"
                       }
                     >
-                      {link.label === "Member Login" && token ? "Portal" : link.label}
+                      {link.label === "Member Portal" && token ? "My Portal" : link.label}
                     </a>
                   </li>
                 );

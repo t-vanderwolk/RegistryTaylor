@@ -73,15 +73,13 @@ const Home: React.FC = () => {
               transition={{ duration: 0.9 }}
             >
               <span className="inline-flex items-center rounded-full bg-mauve/40 px-5 py-2 text-xs font-body uppercase tracking-[0.35em] text-charcoal">
-                Invite-only concierge
+                Member → Mentor Journey
               </span>
-              <H1 className="text-charcoal">
-                Pastel-elegant planning for the moments you’ll never forget
+              <H1 className="text-mauve">
+                Guided beginnings for growing families
               </H1>
               <P>
-                Taylor-Made Baby Co. curates registries, nursery experiences, and celebrations with a warm,
-                concierge touch. We believe calm timelines, heartfelt details, and artful styling help families
-                savor every milestone.
+                Join a supportive, curated journey from pregnancy to postpartum—where every member learns, plans, and connects before guiding the next generation.
               </P>
               <Card className="bg-white/95 px-6 py-5 shadow-soft sm:px-8">
                 <div className="space-y-4">
@@ -168,7 +166,7 @@ const Home: React.FC = () => {
         </Section>
 
         <Section
-          title="Concierge touchpoints"
+          title="Learn · Plan · Connect Touchpoints"
           description="A seamless suite of services designed to keep preparations organized, joyful, and unmistakably you."
         >
           <motion.div
@@ -200,7 +198,7 @@ const Home: React.FC = () => {
           </motion.div>
         </Section>
 
-        <Section title="Membership promises">
+        <Section title="Member → Mentor Promises">
           <motion.div
             className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr] lg:items-center"
             initial="hidden"
@@ -227,7 +225,7 @@ const Home: React.FC = () => {
                 ))}
               </ul>
               <Button as="a" href="/membership">
-                View Membership Packages
+                Explore Membership Journey
               </Button>
             </div>
             <div className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/80 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]">

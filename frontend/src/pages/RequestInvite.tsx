@@ -71,14 +71,13 @@ const RequestInvite: React.FC = () => {
             transition={{ duration: 0.9 }}
           >
             <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs uppercase tracking-[0.35em] text-charcoal">
-              Concierge applications
+              Invitation Request
             </span>
-            <H1 className="mx-auto max-w-4xl">
-              Apply for a Taylor-Made invitation
+            <H1 className="mx-auto max-w-4xl text-mauve">
+              Begin your Member → Mentor journey
             </H1>
             <P className="mx-auto max-w-3xl">
-              We welcome a limited number of expecting parents each season so every detail stays personal. Share
-              your story below—or confirm an invitation code if Taylor has already reserved your spot.
+              Taylor-Made Baby Co. welcomes a limited number of families each season so every relationship stays personal. Share your details—or confirm a reserved invitation—to step into a journey that teaches, plans, and connects with calm intention.
             </P>
           </motion.div>
         </Section>
@@ -93,8 +92,8 @@ const RequestInvite: React.FC = () => {
           >
             <Card className="bg-white/95">
               <form onSubmit={handleVerify} className="space-y-4">
-                <H2 className="text-2xl">Already have a code?</H2>
-                <P>Enter the concierge code you received to unlock your tailored onboarding experience.</P>
+                <H2 className="text-2xl text-mauve">Already have a code?</H2>
+                <P>Enter your concierge code to unlock the next steps in the Academy and meet your mentor.</P>
                 <Input
                   id="invite-code"
                   label="Invitation code"
@@ -151,10 +150,9 @@ const RequestInvite: React.FC = () => {
             </Card>
 
             <Card className="bg-white/95">
-              <H2 className="text-2xl">Need a fresh invitation?</H2>
+              <H2 className="text-2xl text-mauve">Request an invitation</H2>
               <P className="mt-3">
-                Share a glimpse into your celebration plans and we’ll reply with availability, next steps, and a
-                handcrafted welcome.
+                Share a glimpse into your growing family. We’ll respond with availability, a curated welcome, and guidance for moving from member to mentor.
               </P>
               <div className="mt-6">
                 <InviteForm />

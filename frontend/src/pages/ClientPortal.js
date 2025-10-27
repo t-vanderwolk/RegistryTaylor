@@ -7,9 +7,11 @@ import Bio from "./client/Bio";
 import MyJourney from "./client/MyJourney";
 import CommunityForum from "./CommunityForum";
 import ClientMessages from "./client/Messages";
-import Services from "./client/Services";
 import Memories from "./client/Memories";
-import Registry from "./client/Registry";
+import Learn from "./client/Learn";
+import LearnModule from "./client/LearnModule";
+import Plan from "./client/Plan";
+import Connect from "./client/Connect";
 
 const ClientPortal = () => {
   const location = useLocation();
@@ -44,15 +46,22 @@ const ClientPortal = () => {
           </div>
           <Routes>
             <Route index element={<Dashboard />} />
+            <Route path="learn" element={<Learn />} />
+            <Route path="learn/:moduleId" element={<LearnModule />} />
+            <Route path="plan" element={<Plan />} />
+            <Route path="connect" element={<Connect />} />
             <Route path="bio" element={<Bio />} />
             <Route path="journey" element={<MyJourney />} />
-            <Route path="registry" element={<Registry />} />
             <Route path="memories" element={<Memories />} />
+            <Route path="messages" element={<ClientMessages />} />
             <Route path="bio/*" element={<Navigate to={`${basePath}/bio`} replace />} />
             <Route path="journey/*" element={<Navigate to={`${basePath}/journey`} replace />} />
-            <Route path="registry/*" element={<Navigate to={`${basePath}/registry`} replace />} />
+            <Route path="learn/*" element={<Navigate to={`${basePath}/learn`} replace />} />
+            <Route path="plan/*" element={<Navigate to={`${basePath}/plan`} replace />} />
+            <Route path="connect/*" element={<Navigate to={`${basePath}/connect`} replace />} />
             <Route path="memories/*" element={<Navigate to={`${basePath}/memories`} replace />} />
-            <Route path="messages" element={<ClientMessages />} />
+            <Route path="registry/*" element={<Navigate to={`${basePath}/plan`} replace />} />
+            <Route path="services/*" element={<Navigate to={`${basePath}/connect`} replace />} />
             <Route path="blog" element={<Navigate to="community-forum" replace />} />
             <Route path="forum" element={<Navigate to="community-forum" replace />} />
             <Route path="community-forum" element={<CommunityForum />} />
@@ -60,7 +69,6 @@ const ClientPortal = () => {
               path="guides/stroller-styles-demystified"
               element={<Navigate to="/blog/stroller-styles-demystified" replace />}
             />
-            <Route path="services" element={<Services />} />
             <Route path="*" element={<Navigate to="." replace />} />
           </Routes>
         </main>

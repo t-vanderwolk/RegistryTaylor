@@ -94,7 +94,7 @@ const HomeHero = () => (
           <Button as={Link} to="/request-invite" variant="mauve" size="md">
             Request Invite
           </Button>
-          <Button as={Link} to="/membership" variant="secondary" size="md">
+          <Button as={Link} to="/membership" variant="gold" size="md">
             Explore Memberships
           </Button>
         </div>
@@ -107,7 +107,7 @@ const HomeHero = () => (
         </p>
         <div className="mt-6 space-y-5">
           {[
-            "Registry & personal shopping tailored to your rituals",
+            "Registry curation and sourcing tailored to your rituals",
             "Nursery design with install, styling, and vendor orchestration",
             "Mentor circle with guided workbooks and celebration timelines",
           ].map((item) => (
@@ -149,7 +149,7 @@ const FeaturesSection = () => (
               <Button
                 as={Link}
                 to={section.to}
-                variant="ghost"
+                variant="gold"
                 className="self-start border border-transparent text-xs text-tmMauve hover:border-tmGold/50 hover:bg-tmIvory/70"
                 size="sm"
               >
@@ -201,7 +201,7 @@ const FinalCTA = () => (
         <Button as={Link} to="/request-invite" variant="mauve">
           Request Your Invite
         </Button>
-        <Button as={Link} to="/portal" variant="secondary">
+        <Button as={Link} to="/portal" variant="gold">
           Member Login
         </Button>
       </div>

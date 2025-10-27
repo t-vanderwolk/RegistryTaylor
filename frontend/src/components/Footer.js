@@ -31,13 +31,12 @@ const Footer = () => {
             <div className="leading-tight">
               <p className="font-heading text-xl text-charcoal">Taylor-Made Baby Co.</p>
               <p className="text-[0.65rem] font-heading uppercase tracking-[0.35em] text-charcoal/70">
-                Invite-only baby planning concierge
+                Learn · Plan · Connect — the Taylor-Made way
               </p>
             </div>
           </Link>
           <p className="max-w-sm text-sm text-charcoal/70">
-            Personalized registry styling, nursery design, and celebration planning crafted to keep every milestone calm,
-            intimate, and beautifully choreographed.
+            A luxury baby-planning concierge and education platform where members evolve into mentors. Calm guidance, curated learning, and community belonging—always by invitation.
           </p>
         </div>
 
@@ -70,23 +69,23 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="/#how-it-works" className="transition hover:text-charcoal">
-                  How It Works
-                </a>
+                <Link to="/how-it-works" className="transition hover:text-charcoal">
+                  Learn · Plan · Connect
+                </Link>
               </li>
               <li>
                 <Link to="/membership" className="transition hover:text-charcoal">
-                  Membership
+                  Membership Journey
                 </Link>
               </li>
               <li>
                 <Link to="/blog" className="transition hover:text-charcoal">
-                  Concierge Notes
+                  Concierge Journal
                 </Link>
               </li>
               <li>
                 <Link to="/request-invite" className="transition hover:text-charcoal">
-                  Request Invite
+                  Request Your Invite
                 </Link>
               </li>
             </ul>
@@ -94,9 +93,9 @@ const Footer = () => {
         </div>
 
         <div className="space-y-4 text-sm text-charcoal/75">
-          <h3 className="text-xs font-heading uppercase tracking-[0.4em] text-charcoal/60">Monthly Journal</h3>
+          <h3 className="text-xs font-heading uppercase tracking-[0.4em] text-charcoal/60">Concierge Dispatch</h3>
           <p>
-            Receive pastel mood boards, registry edit notes, and concierge openings delivered with a soft touch once a month.
+            Receive Academy highlights, mentor reflections, and invitation windows—delivered once a month with a gentle touch.
           </p>
           <form onSubmit={handleSubmit} className="space-y-3" noValidate>
             <label className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.35em] text-charcoal/60">
@@ -117,11 +116,11 @@ const Footer = () => {
               type="submit"
               className="w-full rounded-full bg-mauve px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
             >
-              {status === "submitted" ? "Welcome in" : "Join the list"}
+              {status === "submitted" ? "You're on the list" : "Join the circle"}
             </button>
           </form>
           <p className="text-xs text-charcoal/60" aria-live="polite">
-            {status === "submitted" ? "You’re on the list—expect gentle updates soon." : "We never spam. Unsubscribe anytime."}
+            {status === "submitted" ? "Expect gentle updates filled with mentorship notes and seasonal guidance." : "We never spam. Unsubscribe anytime."}
           </p>
         </div>
       </div>

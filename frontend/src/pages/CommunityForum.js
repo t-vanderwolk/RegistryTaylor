@@ -263,9 +263,9 @@ const CommunityForum = () => {
     <main className="min-h-screen bg-ivory/70 px-6 py-12">
       <div className="mx-auto max-w-5xl space-y-10">
         <header className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
-          <h1 className="font-playful text-4xl text-charcoal">Community Forum</h1>
+          <h1 className="font-heading text-4xl text-mauve">Taylor-Made Community</h1>
           <p className="mt-3 text-sm font-body text-charcoal/70">
-            A confidential space for Taylor, mentors, and invited families to compare notes, share wins, and crowdsource concierge inspiration.
+            A private home for members and mentors to share wisdom, celebrate milestones, and grow together. Every conversation honors the Learn · Plan · Connect cycle.
           </p>
           {isAuthenticated && (
             <div className="mt-6 flex flex-wrap gap-3">
@@ -279,7 +279,7 @@ const CommunityForum = () => {
                 }}
                 className="inline-flex items-center gap-2 rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
               >
-                {showThreadForm ? "Close form" : "Start a discussion"}
+                {showThreadForm ? "Close form" : "Share with the circle"}
               </button>
             </div>
           )}

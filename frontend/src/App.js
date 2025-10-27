@@ -12,6 +12,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import CarSeatsSimplified from "./pages/CarSeatsSimplified";
 import CommunityForum from "./pages/CommunityForum";
+import HowItWorks from "./pages/HowItWorks";
 import Portal from "./pages/Portal";
 import AdminPortal from "./pages/AdminPortal";
 import ClientPortal from "./pages/ClientPortal";
@@ -37,6 +38,7 @@ const AppRoutes = () => (
     <Route element={<Layout />}>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/membership" element={<Membership />} />
       <Route path="/add-ons" element={<AddOns />} />
       <Route path="/mentors" element={<Mentors />} />

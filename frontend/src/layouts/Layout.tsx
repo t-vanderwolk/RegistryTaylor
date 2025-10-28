@@ -24,13 +24,15 @@ const Layout: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-ivory text-charcoal">
+    <div className="flex min-h-screen flex-col bg-ivory font-sans text-charcoal-500">
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
       <Navbar isScrolled={isScrolled} />
-      <main id="main-content" className="flex-1">
-        <Outlet />
+      <main id="main-content" className="flex-1 bg-ivory">
+        <div className="section-padding mx-auto max-w-screen-xl">
+          <Outlet />
+        </div>
       </main>
       <Footer />
     </div>

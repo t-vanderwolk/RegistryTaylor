@@ -1,4 +1,5 @@
 const db = require('../db/connection');
+const prisma = require('../db/prisma');
 const macroBabyService = require('../services/macroBabyService');
 
 const registryStatuses = new Set(['wishlist', 'shortlist', 'ordered', 'arriving', 'fulfilled']);
@@ -100,6 +101,17 @@ const fetchSuggestions = async (userId, { categories = [], moduleIds = [] } = {}
 
   const rows = await query;
   return rows.map(sanitiseSuggestion);
+};
+
+exports.getRegistryItems = async (_req, res, next) => {
+  try {
+    const items = await prisma.registryItem.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(items);
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.getOverview = async (req, res, next) => {

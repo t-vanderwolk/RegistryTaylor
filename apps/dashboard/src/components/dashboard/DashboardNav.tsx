@@ -2,23 +2,46 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { Route } from "next";
 import type { DashboardTab } from "@/types/academy";
+import type { AppRoute } from "@/types/routes";
 
 type DashboardNavProps = {
   orientation?: "horizontal" | "vertical";
 };
 
-const NAV_ITEMS: Array<{ label: string; href: string; tab: DashboardTab }> = [
-  { label: "My Academy", href: "/dashboard/academy", tab: "academy" },
-  { label: "My Registry", href: "/dashboard/registry", tab: "registry" },
-  { label: "Community", href: "/dashboard/community", tab: "community" },
+type NavItem = { label: string; href: AppRoute; tab: DashboardTab };
+
+const NAV_ITEMS = [
+  { label: "Learn", href: "/dashboard/learn", tab: "learn" },
+  { label: "Plan", href: "/dashboard/plan", tab: "plan" },
+  { label: "Connect", href: "/dashboard/connect", tab: "connect" },
   { label: "Journal", href: "/dashboard/journal", tab: "journal" },
-  { label: "Concierge", href: "/dashboard/concierge", tab: "concierge" },
-];
+] satisfies ReadonlyArray<NavItem & { href: Route }>;
 
 function getCurrentTab(pathname: string): DashboardTab | null {
-  const entry = NAV_ITEMS.find((item) => pathname.startsWith(item.href));
-  return entry?.tab ?? null;
+  const direct = NAV_ITEMS.find((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));
+  if (direct) {
+    return direct.tab;
+  }
+
+  if (pathname.startsWith("/dashboard/academy")) {
+    return "learn";
+  }
+
+  if (pathname.startsWith("/dashboard/registry")) {
+    return "plan";
+  }
+
+  if (pathname.startsWith("/dashboard/community")) {
+    return "connect";
+  }
+
+  if (pathname.startsWith("/dashboard/concierge")) {
+    return "concierge";
+  }
+
+  return null;
 }
 
 export default function DashboardNav({ orientation = "vertical" }: DashboardNavProps) {
@@ -27,7 +50,7 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
 
   if (orientation === "horizontal") {
     return (
-      <nav className="flex items-center gap-2 rounded-full bg-white/80 px-2 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/75 shadow-inner">
+      <nav className="flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm text-charcoal-700 shadow-sm">
         {NAV_ITEMS.map((item) => {
           const active = current === item.tab;
           return (
@@ -35,10 +58,10 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
               key={item.href}
               href={item.href}
               className={[
-                "rounded-full px-3 py-1 transition",
+                "rounded-full px-3 py-1 transition-colors",
                 active
-                  ? "bg-gradient-to-r from-[#C8A1B4] to-[#EAC9D1] text-[#3E2F35]"
-                  : "hover:bg-[#FFFAF8] hover:text-[#3E2F35]",
+                  ? "text-mauve-700 underline decoration-2 decoration-mauve-700 underline-offset-4"
+                  : "text-charcoal-700 hover:text-mauve-700",
               ].join(" ")}
             >
               {item.label}
@@ -50,7 +73,7 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
   }
 
   return (
-    <nav className="grid gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
+    <nav className="grid gap-2 text-sm font-semibold text-charcoal-700">
       {NAV_ITEMS.map((item) => {
         const active = current === item.tab;
         return (
@@ -58,10 +81,10 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
             key={item.href}
             href={item.href}
             className={[
-              "flex items-center justify-between rounded-[1.5rem] px-4 py-3 transition",
+              "flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 transition-colors",
               active
-                ? "bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#FFFAF8] text-[#3E2F35] shadow-[0_12px_28px_rgba(200,161,180,0.32)]"
-                : "bg-white/70 text-[#3E2F35]/70 shadow-inner hover:bg-white hover:text-[#3E2F35]",
+                ? "border-mauve-500 bg-white text-mauve-700"
+                : "bg-white text-charcoal-700 hover:text-mauve-700",
             ].join(" ")}
           >
             <span>{item.label}</span>

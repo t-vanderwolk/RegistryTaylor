@@ -19,11 +19,7 @@ export default function AcademyCarousel({ modules, progressMap = {} }: AcademyCa
     <div className="-mx-2 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 xl:grid-cols-3">
       {modules.map((module) => (
         <div key={module.id} className="min-w-[280px] snap-start px-2 md:px-0">
-          <ModuleCard
-            module={module}
-            href={`/dashboard/academy/modules/${module.slug}`}
-            progress={progressMap[module.slug]}
-          />
+          <ModuleCard module={module} progress={progressMap[module.slug]} />
         </div>
       ))}
     </div>

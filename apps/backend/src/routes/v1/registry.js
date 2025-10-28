@@ -1,6 +1,10 @@
-const router = require('express').Router();
+const express = require('express');
 const requireAuth = require('../../middleware/requireAuth');
 const controller = require('../../controllers/registryController');
+
+const router = express.Router();
+
+router.get('/', controller.getRegistryItems);
 
 router.use(requireAuth);
 

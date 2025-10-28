@@ -34,7 +34,10 @@ export type ModuleProgress = {
 
 export type DashboardTab =
   | "academy"
+  | "learn"
+  | "plan"
   | "registry"
   | "community"
+  | "connect"
   | "journal"
   | "concierge";

@@ -33,20 +33,10 @@ export async function getSession(): Promise<SessionCookie | null> {
   return parseSessionCookie(cookieStore.get(SESSION_COOKIE_KEY)?.value);
 }
 
-export async function requireMember() {
+export async function requireUser(): Promise<AuthenticatedUser> {
   const session = await getSession();
   if (!session?.user) {
     redirect("/login");
-  }
-
-  if (session.user.role !== "MEMBER") {
-    const target =
-      session.user.role === "MENTOR"
-        ? "/mentor"
-        : session.user.role === "ADMIN"
-        ? "/admin"
-        : "/login";
-    redirect(target);
   }
 
   return session.user;
@@ -59,4 +49,39 @@ export async function getMemberToken(): Promise<string | null> {
   }
 
   return session.token;
+}
+
+function redirectForRole(role: UserRole): never {
+  switch (role) {
+    case "MENTOR":
+      redirect("/dashboard/mentor");
+    case "ADMIN":
+      redirect("/dashboard/admin");
+    default:
+      redirect("/dashboard");
+  }
+}
+
+export async function requireMember(): Promise<AuthenticatedUser> {
+  const user = await requireUser();
+  if (user.role !== "MEMBER") {
+    redirectForRole(user.role);
+  }
+  return user;
+}
+
+export async function requireMentor(): Promise<AuthenticatedUser> {
+  const user = await requireUser();
+  if (user.role !== "MENTOR") {
+    redirectForRole(user.role);
+  }
+  return user;
+}
+
+export async function requireAdmin(): Promise<AuthenticatedUser> {
+  const user = await requireUser();
+  if (user.role !== "ADMIN") {
+    redirectForRole(user.role);
+  }
+  return user;
 }

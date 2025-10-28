@@ -46,7 +46,7 @@ export default async function DashboardHome() {
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Upcoming Support</p>
             <p className="mt-2 text-sm">
               Concierge office hours Tuesday at 11 AM.{" "}
-              <Link href="/dashboard/concierge" className="font-semibold text-[#C8A1B4] underline underline-offset-4">
+              <Link href="/dashboard/connect" className="font-semibold text-[#C8A1B4] underline underline-offset-4">
                 Confirm attendance →
               </Link>
             </p>
@@ -61,7 +61,7 @@ export default async function DashboardHome() {
             <h2 className="font-[var(--font-playfair)] text-2xl text-[#3E2F35]">Continue your learning journey</h2>
           </div>
           <Link
-            href="/dashboard/academy"
+            href="/dashboard/learn"
             className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E] hover:text-[#C8A1B4]"
           >
             View all modules
@@ -73,15 +73,15 @@ export default async function DashboardHome() {
       <section className="grid gap-6 lg:grid-cols-[0.65fr,0.35fr]">
         <div className="space-y-6 rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
           <header className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">My Registry</p>
-            <h3 className="font-[var(--font-playfair)] text-xl text-[#3E2F35]">Taylor-curated essentials</h3>
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Plan</p>
+            <h3 className="font-[var(--font-playfair)] text-xl text-[#3E2F35]">Taylor-curated registry essentials</h3>
           </header>
           <p className="text-sm text-[#3E2F35]/70">
             Unlock personalized recommendations as you complete modules. When inspiration strikes, add your own finds to
             keep everything organized for gifting and fulfillment.
           </p>
           <Link
-            href="/dashboard/registry"
+            href="/dashboard/plan"
             className="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-5 py-2 text-sm font-semibold text-[#3E2F35] shadow-[0_12px_30px_rgba(200,161,180,0.32)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(200,161,180,0.4)]"
           >
             Open Plan
@@ -89,20 +89,20 @@ export default async function DashboardHome() {
         </div>
         <div className="space-y-6 rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
           <header className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Community & Journal</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Connect & Journal</p>
             <h3 className="font-[var(--font-playfair)] text-xl text-[#3E2F35]">Stay connected</h3>
           </header>
           <ul className="space-y-3 text-sm text-[#3E2F35]/70">
-            <li>✨ Join this week’s mentor salon in the Community tab.</li>
+            <li>✨ Join this week’s mentor salon in the Connect tab.</li>
             <li>📝 Capture reflections in your Journal after each module.</li>
             <li>🤍 Concierge is ready for bespoke support whenever you need it.</li>
           </ul>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/dashboard/community"
+              href="/dashboard/connect"
               className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
             >
-              Community
+              Connect
             </Link>
             <Link
               href="/dashboard/journal"

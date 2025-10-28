@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
+    "dev:all": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
     "start": "npm run start --prefix apps/dashboard",
     "build": "npm run build --prefix apps/dashboard",
     "migrate": "npm run migrate --prefix apps/backend",

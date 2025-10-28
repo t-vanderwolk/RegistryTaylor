@@ -1,13 +1,13 @@
 import Link from "next/link";
+import type { Route } from "next";
 import type { AcademyModule, ModuleProgress } from "@/types/academy";
 
 type ModuleCardProps = {
   module: AcademyModule;
-  href: string;
   progress?: ModuleProgress | null;
 };
 
-export default function ModuleCard({ module, href, progress }: ModuleCardProps) {
+export default function ModuleCard({ module, progress }: ModuleCardProps) {
   const completed = progress?.completed;
   const percent = progress?.percentComplete ?? 0;
 
@@ -43,7 +43,7 @@ export default function ModuleCard({ module, href, progress }: ModuleCardProps) 
       </div>
 
       <Link
-        href={href}
+        href={`/dashboard/academy/modules/${module.slug}` as Route}
         className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-5 py-2 text-sm font-semibold text-[#3E2F35] shadow-[0_8px_20px_rgba(200,161,180,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(200,161,180,0.45)]"
       >
         {completed ? "Review Module" : percent > 0 ? "Resume Module" : "Start Module"}

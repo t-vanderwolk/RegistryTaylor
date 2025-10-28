@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={[greatVibes.variable, nunito.variable, playfair.variable].join(" ")}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-[#FFFAF8] font-[var(--font-nunito)] text-[#3E2F35] antialiased">
+      <body className="min-h-screen bg-ivory font-sans text-charcoal-500 antialiased">
         {children}
       </body>
     </html>

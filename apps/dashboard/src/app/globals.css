@@ -2,13 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-great-vibes: "Great Vibes", cursive;
-  --font-nunito: "Nunito", sans-serif;
-  --font-playfair: "Playfair Display", serif;
+@layer base {
+  :root {
+    --font-great-vibes: "Great Vibes", cursive;
+    --font-nunito: "Nunito", sans-serif;
+    --font-playfair: "Playfair Display", serif;
+  }
+
+  body {
+    @apply bg-ivory text-charcoal-500 font-sans leading-[1.7];
+  }
+
+  h1 {
+    @apply font-serif text-5xl font-bold text-charcoal-700 mb-6;
+  }
+
+  h2 {
+    @apply font-serif text-3xl font-semibold text-charcoal-700 mb-4;
+  }
+
+  h3,
+  h4 {
+    @apply font-serif text-charcoal-700;
+  }
+
+  strong,
+  em {
+    @apply text-charcoal-700;
+  }
+
+  a {
+    @apply text-mauve-700 transition-colors hover:text-mauve-500;
+  }
+
+  button {
+    @apply font-sans;
+  }
 }
 
-body {
-  background-color: #fffaf8;
-  color: #3e2f35;
+@layer components {
+  .section-padding {
+    @apply py-24 px-6 md:px-16;
+  }
 }

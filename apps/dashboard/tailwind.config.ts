@@ -1,26 +1,33 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./src/app/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}", "./src/lib/**/*.{js,ts,jsx,tsx}", "./src/data/**/*.{js,ts,jsx,tsx,json}"],
+  content: [
+    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx}",
+    "./src/data/**/*.{js,ts,jsx,tsx,json}",
+  ],
   theme: {
     extend: {
       colors: {
-        tmMauve: "#C8A1B4",
-        tmBlush: "#EAC9D1",
-        tmIvory: "#FFFAF8",
-        tmGold: "#D9C48E",
-        tmCharcoal: "#3E2F35",
+        ivory: "#FFFAF8",
+        white: "#FFFFFF",
+        taupe: "#EAE5E1",
+        mauve: {
+          100: "#F2DCE3",
+          500: "#D4A3B2",
+          700: "#A66E82",
+        },
+        charcoal: {
+          500: "#3C2F33",
+          700: "#2B2024",
+        },
+        gold: "#E3D7B2",
       },
       fontFamily: {
-        script: ["var(--font-great-vibes)"],
-        heading: ["var(--font-playfair)"],
-        body: ["var(--font-nunito)"],
-      },
-      borderRadius: {
-        bubble: "3rem",
-      },
-      boxShadow: {
-        dreamy: "0 24px 55px rgba(200,161,180,0.18)",
+        script: ["var(--font-great-vibes)", "cursive"],
+        serif: ["var(--font-playfair)", "serif"],
+        sans: ["var(--font-nunito)", "sans-serif"],
       },
     },
   },

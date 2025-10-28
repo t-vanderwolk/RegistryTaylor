@@ -1,5 +1,2 @@
-import { redirect } from "next/navigation";
-
-export default function Home() {
-  redirect("/dashboard");
-}
+export { metadata } from "./(marketing)/page";
+export { default } from "./(marketing)/page";

@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  MEMBER
+  MENTOR
+  ADMIN
+}
+
+model User {
+  id            String             @id @default(uuid())
+  email         String             @unique
+  passwordHash  String
+  name          String?
+  role          UserRole           @default(MEMBER)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  profile       Profile?
+  questionnaire Questionnaire?
+  registryEntries RegistryEntry[]
+  academyProgress AcademyProgress[]
+  communityPosts CommunityPost[]
+  eventsCreated Event[]            @relation("EventCreator")
+  invitesCreated Invite[]          @relation("InviteCreator")
+  invitesAccepted Invite[]         @relation("InviteAccepted")
+  mentees       Profile[]          @relation("ProfileMentor")
+  workbookEntries WorkbookEntry[]
+}
+
+model Invite {
+  id           String    @id @default(uuid())
+  code         String    @unique
+  email        String
+  name         String?
+  role         String
+  message      String?
+  createdById  String?
+  createdBy    User?     @relation("InviteCreator", fields: [createdById], references: [id])
+  acceptedById String?
+  acceptedBy   User?     @relation("InviteAccepted", fields: [acceptedById], references: [id])
+  acceptedAt   DateTime?
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  questionnaire Questionnaire? @relation("InviteQuestionnaire")
+  profile       Profile?       @relation("InviteProfile")
+}
+
+model Profile {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  inviteId         String?  @unique
+  preferredName    String?
+  pronouns         String?
+  avatarUrl        String?
+  timezone         String?
+  mentorNotes      String?
+  conciergePriority String?
+  mentorId         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  invite  Invite? @relation("InviteProfile", fields: [inviteId], references: [id])
+  mentor  User?   @relation("ProfileMentor", fields: [mentorId], references: [id])
+}
+
+model Questionnaire {
+  id                String   @id @default(uuid())
+  inviteId          String?  @unique
+  userId            String?  @unique
+  preferredName     String?
+  dueDate           DateTime?
+  journeys          String[] @default([])
+  householdNotes    String?
+  contactPreference String?
+  availability      String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  invite Invite? @relation("InviteQuestionnaire", fields: [inviteId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
+}
+
+model AcademyModule {
+  id              String             @id @default(uuid())
+  slug            String             @unique
+  title           String
+  subtitle        String?
+  journey         String?
+  estimatedMinutes Int?
+  heroImage       String?
+  content         Json?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  progressEntries AcademyProgress[]
+}
+
+model AcademyProgress {
+  id               String   @id @default(uuid())
+  userId           String
+  moduleId         String
+  completed        Boolean  @default(false)
+  percent          Int      @default(0)
+  completedAt      DateTime?
+  journalUpdatedAt DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user   User          @relation(fields: [userId], references: [id])
+  module AcademyModule @relation(fields: [moduleId], references: [id])
+
+  @@unique([userId, moduleId])
+}
+
+model RegistryItem {
+  id        String   @id @default(uuid())
+  name      String
+  brand     String?
+  price     Float?
+  category  String?
+  imageUrl  String?
+  retailer  String?
+  url       String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entries RegistryEntry[]
+}
+
+model RegistryEntry {
+  id        String   @id @default(uuid())
+  userId    String
+  itemId    String?
+  name      String
+  brand     String?
+  price     Float?
+  url       String?
+  retailer  String?
+  notes     String?
+  quantity  Int      @default(1)
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User         @relation(fields: [userId], references: [id])
+  item RegistryItem? @relation(fields: [itemId], references: [id])
+}
+
+model CommunityPost {
+  id            String   @id @default(uuid())
+  authorId      String?
+  title         String
+  body          String
+  tags          String[] @default([])
+  isAnnouncement Boolean @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author User? @relation(fields: [authorId], references: [id])
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  startsAt    DateTime
+  endsAt      DateTime?
+  location    String?
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdBy User? @relation("EventCreator", fields: [createdById], references: [id])
+}
+
+model BlogPost {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  excerpt   String?
+  content   String
+  author    String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model WorkbookEntry {
+  id         String   @id @default(uuid())
+  memberId   String
+  moduleSlug String
+  content    Json
+  shared     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  member User @relation(fields: [memberId], references: [id])
+
+  @@unique([memberId, moduleSlug])
+}

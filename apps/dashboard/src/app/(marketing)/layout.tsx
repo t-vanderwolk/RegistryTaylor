@@ -32,6 +32,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         profileMenu={null}
         brandHref={"/" as Route}
         ctaLink={{ label: "Request Invite", href: "/request-invite" as Route }}
+        showMobileNav={false}
       />
       <main className="flex-1 bg-[#FFFAF8] pt-28 md:pt-32">
         <div className="pb-16 md:pb-24">{children}</div>

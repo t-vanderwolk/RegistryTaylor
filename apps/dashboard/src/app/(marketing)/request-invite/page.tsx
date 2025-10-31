@@ -1,4 +1,5 @@
 import InviteRequestForm from "./InviteRequestForm";
+import PageSection from "@/components/PageSection";
 
 export const metadata = {
   title: "Request an Invite",
@@ -8,19 +9,23 @@ export const metadata = {
 
 export default function RequestInvitePage() {
   return (
-    <div className="space-y-10">
-      <header className="space-y-3 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Request Invite</p>
-        <h1 className="font-[var(--font-playfair)] text-4xl text-[#3E2F35]">We’ll prepare a bespoke welcome</h1>
-        <p className="mx-auto max-w-3xl text-sm text-[#3E2F35]/70">
-          Share a little about your family, and our concierge team will reach out with next steps. Invitations are limited
-          to ensure every member receives white-glove support.
-        </p>
-      </header>
+    <div className="bg-[#FFFAF8]">
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto max-w-screen-xl space-y-4 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Request invite</p>
+          <h1 className="font-serif text-4xl text-[#3E2F35]">We’ll prepare a bespoke welcome</h1>
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#3E2F35]/75">
+            Share a few details about your family and timeline. Invitations are intentionally limited so every member
+            receives white-glove support from our concierge and mentor team.
+          </p>
+        </div>
+      </PageSection>
 
-      <section className="rounded-[3rem] border border-[#C8A1B4]/35 bg-white/90 p-10 shadow-[0_28px_62px_rgba(200,161,180,0.22)] backdrop-blur-sm">
-        <InviteRequestForm />
-      </section>
+      <PageSection>
+        <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-[#C8A1B4]/30 bg-white p-8 shadow-[0_8px_30px_rgba(200,161,180,0.12)] md:p-12">
+          <InviteRequestForm />
+        </div>
+      </PageSection>
     </div>
   );
 }

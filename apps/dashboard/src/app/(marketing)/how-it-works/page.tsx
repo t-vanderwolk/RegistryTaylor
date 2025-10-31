@@ -1,81 +1,94 @@
+import Link from "next/link";
+import type { Route } from "next";
+import PageSection from "@/components/PageSection";
+
+const PRIMARY_BUTTON_CLASSES =
+  "inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-7 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 hover:bg-[#c29aab]";
+
 const STEPS = [
   {
-    title: "Receive your concierge invite",
-    description:
-      "Each membership begins with an invitation from our concierge team or a trusted mentor referral. Your invite unlocks onboarding that tailors every touchpoint.",
+    title: "Invitation",
+    detail:
+      "Request your invite or receive a mentor referral. We review every family personally to preserve the boutique experience.",
   },
   {
-    title: "Complete the questionnaire",
-    description:
-      "Share household rhythms, design inspiration, and support priorities. We pair you with a mentor while the academy synchronizes modules to your timeline.",
+    title: "Concierge questionnaire",
+    detail:
+      "Share rhythms, design direction, and support needs. We tailor the academy cadence, registry milestones, and salon topics around you.",
   },
   {
-    title: "Build momentum inside the academy",
-    description:
-      "Short, serene lessons guide you through nursery styling, gear confidence, and postpartum rituals—revealing curated registry items as you progress.",
+    title: "Academy unlock",
+    detail:
+      "Nursery, Gear, and Postpartum journeys arrive in a serene flow with reflections, worksheets, and direct ties to your registry.",
   },
   {
-    title: "Co-create your concierge registry",
-    description:
-      "Every recommendation embeds MacroBaby affiliate tracking so gifting stays streamlined. Add personal finds, and we’ll harmonize the look, budget, and fulfilment.",
+    title: "Mentor salons",
+    detail:
+      "Gather weekly with mentors and specialists. We summarize insights, action items, and next steps inside your dashboard journal.",
   },
   {
-    title: "Stay connected with mentor salons",
-    description:
-      "Weekly salons, community events, and journal reflections keep you supported by mentors, doulas, and fellow members—no matter where you are in the journey.",
+    title: "Registry & rituals",
+    detail:
+      "Concierge curates gifting lists, gratitude notes, and postpartum rituals so every detail stays organized and luxurious.",
   },
-];
+  {
+    title: "Fourth-trimester support",
+    detail:
+      "Continue working with your mentor through recovery, welcoming visitors, and preserving the memories you want to savor.",
+  },
+] as const;
 
 export const metadata = {
   title: "How It Works",
   description:
-    "Discover how Taylor-Made Baby Co. guides you from invitation to bespoke concierge care with a calm, thoughtful onboarding flow.",
+    "Discover how Taylor-Made Baby Co. guides families from invitation to bespoke concierge care with a calm, thoughtful onboarding flow.",
 };
 
 export default function HowItWorksPage() {
   return (
-    <div className="space-y-12">
-      <header className="space-y-4 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">The Taylor-Made Method</p>
-        <h1 className="font-[var(--font-playfair)] text-4xl text-[#3E2F35]">From invitation to calm confidence</h1>
-        <p className="mx-auto max-w-3xl text-sm text-[#3E2F35]/70">
-          Our concierge team syncs mentorship, curriculum, community, and registry planning into a single serene flow. Each
-          step feels intentional, bespoke, and grounded in the realities of your family life.
-        </p>
-      </header>
+    <div className="bg-[#FFFAF8]">
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto max-w-screen-xl space-y-6 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">The Taylor-Made method</p>
+          <h1 className="font-serif text-4xl text-[#3E2F35]">From invitation to calm confidence</h1>
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#3E2F35]/75">
+            We choreograph mentorship, design, psychology, and logistics into one serene path. Each step is intentional,
+            bespoke, and paced to your season.
+          </p>
+        </div>
+      </PageSection>
 
-      <div className="space-y-8">
-        {STEPS.map((step, index) => (
-          <article
-            key={step.title}
-            className="rounded-[2.75rem] border border-[#C8A1B4]/30 bg-white/90 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)] backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-[0_32px_65px_rgba(200,161,180,0.24)]"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-8">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#C8A1B4] via-[#E8C9D1] to-[#D9C48E] text-lg font-semibold text-white shadow-[0_12px_28px_rgba(200,161,180,0.32)]">
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto max-w-screen-xl space-y-6">
+          {STEPS.map((step, index) => (
+            <article
+              key={step.title}
+              className="flex flex-col gap-4 rounded-[2.25rem] border border-[#C8A1B4]/30 bg-white p-6 text-left shadow-[0_8px_30px_rgba(200,161,180,0.12)] md:flex-row md:items-start md:gap-8"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#D9C48E]/35 text-sm font-semibold uppercase tracking-[0.3em] text-[#3E2F35]">
                 {String(index + 1).padStart(2, "0")}
+              </span>
+              <div className="space-y-2">
+                <h2 className="font-serif text-2xl text-[#3E2F35]">{step.title}</h2>
+                <p className="text-sm leading-relaxed text-[#3E2F35]/70">{step.detail}</p>
               </div>
-              <div>
-                <h2 className="font-[var(--font-playfair)] text-2xl text-[#3E2F35]">{step.title}</h2>
-                <p className="mt-3 text-sm text-[#3E2F35]/70">{step.description}</p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+            </article>
+          ))}
+        </div>
+      </PageSection>
 
-      <section className="rounded-[3rem] border border-[#D9C48E]/40 bg-gradient-to-r from-[#FFFAF8] via-[#FFF3EB] to-[#E8C9D1]/45 p-10 text-center shadow-[0_28px_62px_rgba(217,196,142,0.22)]">
-        <h2 className="font-[var(--font-playfair)] text-3xl text-[#3E2F35]">Ready for your invitation?</h2>
-        <p className="mt-4 text-sm text-[#3E2F35]/70">
-          Share a little about your family and timeline. We’ll align you with the perfect mentor and curate a welcome
-          experience that feels luxurious yet grounded.
-        </p>
-        <a
-          href="/request-invite"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#C8A1B4] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-[0_16px_36px_rgba(200,161,180,0.35)] transition hover:-translate-y-1 hover:bg-[#B88FA6]"
-        >
-          Request Invite →
-        </a>
-      </section>
+      <PageSection>
+        <div className="mx-auto max-w-screen-xl space-y-6 text-center">
+          <h2 className="font-serif text-3xl text-[#3E2F35]">Ready for your invitation?</h2>
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#3E2F35]/75">
+            Share a few details about your family. Our concierge team will reach out with a curated welcome, mentor pairing,
+            and academy timeline that feels beautifully paced.
+          </p>
+          <Link href={"/request-invite" as Route} className={PRIMARY_BUTTON_CLASSES}>
+            Request Invite
+          </Link>
+        </div>
+      </PageSection>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import type { Route } from "next";
 
 const InviteCodeForm = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const InviteCodeForm = () => {
         throw new Error("Invalid invite code");
       }
 
-      router.push(`/onboarding/create-profile?code=${encodeURIComponent(normalizedCode)}`);
+      router.push(`/onboarding/create-profile?code=${encodeURIComponent(normalizedCode)}` as Route);
     } catch {
       setError("That invite code isn’t recognized — please try again or request a new invite.");
       setSubmitting(false);

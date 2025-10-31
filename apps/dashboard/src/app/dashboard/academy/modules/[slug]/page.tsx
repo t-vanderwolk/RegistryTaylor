@@ -13,31 +13,31 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const module = ACADEMY_MODULES.find((m) => m.slug === params.slug);
-  if (!module) return { title: "Module not found" };
+  const moduleEntry = ACADEMY_MODULES.find((m) => m.slug === params.slug);
+  if (!moduleEntry) return { title: "Module not found" };
   return {
-    title: `${module.title} · Taylor-Made Baby Academy`,
-    description: module.subtitle || module.content.explore.slice(0, 120),
+    title: `${moduleEntry.title} · Taylor-Made Baby Academy`,
+    description: moduleEntry.subtitle || moduleEntry.content.explore.slice(0, 120),
   };
 }
 
 export default async function ModulePage({ params }: { params: { slug: string } }) {
   const user = await requireMember();
-  const module = ACADEMY_MODULES.find((m) => m.slug === params.slug);
-  if (!module) notFound();
+  const moduleEntry = ACADEMY_MODULES.find((m) => m.slug === params.slug);
+  if (!moduleEntry) notFound();
 
-  const progress = await getModuleProgress(module.slug);
+  const progress = await getModuleProgress(moduleEntry.slug);
 
   const completeModule = async () => {
     "use server";
-    await markModuleComplete(module.slug);
+    await markModuleComplete(moduleEntry.slug);
     revalidatePath("/dashboard/learn");
-    revalidatePath(`/dashboard/academy/modules/${module.slug}`);
+    revalidatePath(`/dashboard/academy/modules/${moduleEntry.slug}`);
   };
 
   const addToRegistry = async () => {
     "use server";
-    await addModuleToRegistry(module.slug);
+    await addModuleToRegistry(moduleEntry.slug);
     revalidatePath("/dashboard/plan");
   };
 
@@ -47,17 +47,17 @@ export default async function ModulePage({ params }: { params: { slug: string } 
       <header
         className="rounded-[2.75rem] border border-[#C8A1B4]/40 bg-white/95 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)]"
         style={{
-          backgroundImage: `linear-gradient(135deg, ${module.accentColor ?? "#FFFAF8"} 0%, rgba(255,255,255,0.95) 60%)`,
+          backgroundImage: `linear-gradient(135deg, ${moduleEntry.accentColor ?? "#FFFAF8"} 0%, rgba(255,255,255,0.95) 60%)`,
         }}
       >
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
-          {module.journey} Journey · {module.registryFocus}
+          {moduleEntry.journey} Journey · {moduleEntry.registryFocus}
         </p>
         <h1 className="mt-3 font-[var(--font-playfair)] text-3xl text-[#3E2F35] sm:text-4xl">
-          {module.title}
+          {moduleEntry.title}
         </h1>
-        {module.subtitle && (
-          <p className="mt-2 max-w-2xl text-sm text-[#3E2F35]/70">{module.subtitle}</p>
+        {moduleEntry.subtitle && (
+          <p className="mt-2 max-w-2xl text-sm text-[#3E2F35]/70">{moduleEntry.subtitle}</p>
         )}
 
         <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -89,7 +89,7 @@ export default async function ModulePage({ params }: { params: { slug: string } 
         className="space-y-6 rounded-[2.5rem] border border-[#C8A1B4]/35 bg-white/95 p-8 shadow-[0_20px_50px_rgba(200,161,180,0.18)]"
       >
         <h2 className="font-[var(--font-playfair)] text-2xl text-[#3E2F35]">Explore</h2>
-        <p className="text-sm leading-relaxed text-[#3E2F35]/75">{module.content.explore}</p>
+        <p className="text-sm leading-relaxed text-[#3E2F35]/75">{moduleEntry.content.explore}</p>
       </section>
 
       {/* --- LECTURE --- */}
@@ -102,7 +102,7 @@ export default async function ModulePage({ params }: { params: { slug: string } 
           <h2 className="font-[var(--font-playfair)] text-2xl text-[#3E2F35]">Deep Dive</h2>
         </header>
         <p className="text-sm leading-relaxed text-[#3E2F35]/75 whitespace-pre-line">
-          {module.content.lecture}
+          {moduleEntry.content.lecture}
         </p>
       </section>
 
@@ -117,9 +117,9 @@ export default async function ModulePage({ params }: { params: { slug: string } 
         </header>
 
         <ModuleWorkbookPanel
-          moduleSlug={module.slug}
-          moduleTitle={module.title}
-          prompt={module.content.journalPrompt}
+          moduleSlug={moduleEntry.slug}
+          moduleTitle={moduleEntry.title}
+          prompt={moduleEntry.content.journalPrompt}
         />
       </section>
 
@@ -133,7 +133,7 @@ export default async function ModulePage({ params }: { params: { slug: string } 
           <h2 className="font-[var(--font-playfair)] text-2xl text-[#3E2F35]">Turn Insight Into Action</h2>
         </header>
         <ul className="space-y-3 text-sm text-[#3E2F35]/75">
-          {module.content.apply.map((task: string) => (
+          {moduleEntry.content.apply.map((task: string) => (
             <li key={task} className="flex items-start gap-3">
               <span className="mt-1 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#C8A1B4]/20 text-xs text-[#C8A1B4]">
                 ✓

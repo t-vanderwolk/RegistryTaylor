@@ -1,5 +1,6 @@
 // ✅ Only import metadata (not default)
 import Link from "next/link";
+import type { Route } from "next";
 import Image from "next/image";
 
 export const metadata = {
@@ -17,7 +18,7 @@ const JOURNEYS = [
       "Design, organize, and nurture a peaceful space for baby and you — from vision to functionality.",
     color: "#EAC9D1",
     image: "/images/academy/nursery-vision.jpg",
-    href: "/dashboard/learn/nursery",
+    href: "/dashboard/learn/nursery" as Route,
   },
   {
     id: "gear",
@@ -26,7 +27,7 @@ const JOURNEYS = [
       "Master essential baby gear with confidence — strollers, car seats, highchairs, and everything in between.",
     color: "#C8A1B4",
     image: "/images/academy/gear-stroller.jpg",
-    href: "/dashboard/learn/gear",
+    href: "/dashboard/learn/gear" as Route,
   },
   {
     id: "postpartum",
@@ -35,7 +36,7 @@ const JOURNEYS = [
       "Support your recovery, emotional wellness, and self-care as you transition into parenthood.",
     color: "#D9C48E",
     image: "/images/academy/postpartum-rest.jpg",
-    href: "/dashboard/learn/postpartum",
+    href: "/dashboard/learn/postpartum" as Route,
   },
 ];
 

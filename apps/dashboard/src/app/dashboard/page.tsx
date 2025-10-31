@@ -9,7 +9,6 @@ import {
   MessageCircle,
   CalendarDays,
   Sparkles,
-  UserCircle2,
   Star,
   Heart,
 } from "lucide-react";

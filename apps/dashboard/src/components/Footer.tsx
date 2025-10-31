@@ -1,33 +1,35 @@
-export default function Footer() {
-  const year = new Date().getFullYear();
+const FOOTER_LINKS = [
+  { label: "About", href: "/how-it-works" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Contact", href: "/request-invite" },
+] as const;
 
+export default function Footer() {
   return (
-    <footer className="border-t border-gold/50 bg-taupe">
-      <div className="section-padding text-center">
-        <h2 className="font-serif text-2xl text-charcoal-700 mb-4">Stay Connected</h2>
-        <p className="font-sans text-[17px] text-charcoal-500 leading-[1.7] mb-6">
-          Learn. Plan. Connect. Join the Taylor-Made community today.
+    <footer className="border-t border-[#D9C48E]/25 bg-[#FFFAF8]">
+      <div className="mx-auto flex max-w-screen-xl flex-col items-center gap-5 px-6 py-12 text-center md:px-10">
+        <div className="flex items-center gap-2">
+          <span className="font-script text-3xl leading-none text-[#3E2F35]">Taylor-Made</span>
+          <span className="inline-block h-4 w-px bg-[#D9C48E]/25" />
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]">
+            Baby Co.
+          </span>
+        </div>
+        <nav aria-label="Footer navigation">
+          <ul className="flex flex-wrap justify-center gap-4 font-serif text-xs uppercase tracking-[0.25em] text-[#3E2F35]/70">
+            {FOOTER_LINKS.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} className="transition-colors hover:text-[#3E2F35]">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <p className="font-serif text-xs uppercase tracking-[0.25em] text-[#3E2F35]/50">
+          © 2025 Taylor-Made Baby Co.
         </p>
-        <a
-          href="/request-invite"
-          className="inline-flex items-center rounded-full bg-mauve-500 px-6 py-3 font-sans text-sm font-semibold text-white transition hover:bg-mauve-700"
-        >
-          Request an Invite
-        </a>
-        <div className="mt-8 flex justify-center gap-6">
-          <a href="#" className="font-sans text-mauve-700 transition hover:text-mauve-500">
-            Instagram
-          </a>
-          <a href="#" className="font-sans text-mauve-700 transition hover:text-mauve-500">
-            Pinterest
-          </a>
-          <a href="#" className="font-sans text-mauve-700 transition hover:text-mauve-500">
-            Contact
-          </a>
-        </div>
-        <div className="mt-10 text-sm font-sans text-charcoal-500">
-          © {year} Taylor-Made Baby Co. All rights reserved.
-        </div>
       </div>
     </footer>
   );

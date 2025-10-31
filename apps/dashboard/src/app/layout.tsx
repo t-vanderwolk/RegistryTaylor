@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={[greatVibes.variable, nunito.variable, playfair.variable].join(" ")}
+      className={[greatVibes.variable, nunito.variable, playfair.variable, "scroll-smooth"].join(" ")}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-ivory font-sans text-charcoal-500 antialiased">

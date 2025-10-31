@@ -1,5 +1,67 @@
 import Link from "next/link";
+import type { Route } from "next";
 import InviteCodeForm from "@/components/InviteCodeForm";
+import PageSection from "@/components/PageSection";
+
+const PRIMARY_BUTTON_CLASSES =
+  "inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-7 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 hover:bg-[#c29aab]";
+
+const SECONDARY_BUTTON_CLASSES =
+  "inline-flex items-center justify-center gap-2 rounded-full border border-[#C8A1B4] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition-transform duration-200 hover:scale-105 hover:bg-[#EAC9D1]/30";
+
+const HOW_IT_WORKS = [
+  {
+    title: "Learn",
+    description:
+      "Evidence-based modules guided by stylists, doulas, and psychologists so every decision feels calm and informed.",
+  },
+  {
+    title: "Plan",
+    description:
+      "Dynamic registry dashboards, concierge prompts, and gratitude notes that keep gifting organized and luxurious.",
+  },
+  {
+    title: "Connect",
+    description:
+      "Mentor salons, curated community threads, and seasonal pop-ups for support that feels intimate and elevated.",
+  },
+] as const;
+
+const ACADEMY_JOURNEYS = [
+  {
+    name: "Nursery Atelier",
+    detail:
+      "Translate your inspiration boards into a serene, functional space with floor plans, lighting guides, and curated vendor lists.",
+  },
+  {
+    name: "Gear Confidence",
+    detail:
+      "Compare concierge-approved essentials, understand must-haves versus nice-to-haves, and track purchases with ease.",
+  },
+  {
+    name: "Postpartum Rituals",
+    detail:
+      "Design recovery stations, nourishment plans, and partner-friendly checklists that honor the fourth trimester.",
+  },
+] as const;
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Taylor-Made took the overwhelm out of planning. Every module arrived right on time and felt like a calm conversation with a friend.",
+    name: "Sienna · Los Angeles",
+  },
+  {
+    quote:
+      "Our registry looked like it came from a boutique editorial. Friends kept asking who designed it for us.",
+    name: "Priya · Chicago",
+  },
+  {
+    quote:
+      "Mentor salons reminded me I wasn’t doing this alone. The community is small, thoughtful, and beautifully moderated.",
+    name: "Jordan · Austin",
+  },
+] as const;
 
 export const metadata = {
   title: "Concierge Birth and Baby Planning",
@@ -9,105 +71,116 @@ export const metadata = {
 
 export default function MarketingHomePage() {
   return (
-    <div className="space-y-16">
-      <section className="section-padding rounded-3xl border border-gold/40 bg-ivory shadow-sm">
-        <div className="mx-auto grid max-w-screen-xl gap-10 lg:grid-cols-[0.6fr,0.4fr] lg:items-start">
-          <div className="space-y-6">
-            <p className="font-script text-3xl text-mauve-700 leading-none">Taylor-Made Baby Co.</p>
-            <h1 className="font-serif text-5xl text-charcoal-700">
-              Learn · Plan · Connect — Your Journey, Taylor-Made.
+    <div className="bg-[#FFFAF8]">
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto flex max-w-screen-xl flex-col gap-12 lg:grid lg:grid-cols-[0.6fr,0.4fr] lg:items-center">
+          <div className="space-y-6 text-center lg:text-left">
+            <p className="font-script text-3xl leading-none text-[#3E2F35]">Taylor-Made Baby Co.</p>
+            <h1 className="font-serif text-4xl text-[#3E2F35] sm:text-5xl">
+              Luxury baby planning, personalized registry, and calm-through-chaos support.
             </h1>
-            <p className="font-sans text-[17px] text-charcoal-500 leading-[1.7]">
-              A calm, guided space for expectant parents to prepare with confidence. From the Taylor Academy to your
-              personalized registry and mentor-led community, every detail is curated for serene beginnings.
+            <p className="text-sm leading-relaxed text-[#3E2F35]/75 md:text-base">
+              Taylor-Made Baby Co. connects design, psychology, and real-world expertise to help parents prepare with
+              confidence and calm.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/request-invite"
-                className="inline-flex items-center rounded-full bg-mauve-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-mauve-700"
-              >
-                Request Your Invite
+            <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
+              <Link href={"/request-invite" as Route} className={PRIMARY_BUTTON_CLASSES}>
+                Request Invite
               </Link>
-              <Link
-                href="/how-it-works"
-                className="inline-flex items-center rounded-full border border-mauve-500 px-6 py-3 text-sm font-semibold text-mauve-700 transition hover:bg-mauve-100"
-              >
-                Explore the journey
+              <Link href={"/membership" as Route} className={SECONDARY_BUTTON_CLASSES}>
+                View Membership
               </Link>
             </div>
-            <div className="mt-8">
-              <InviteCodeForm />
-            </div>
           </div>
+          <div className="flex items-center justify-center">
+            <div className="h-72 w-full max-w-sm rounded-[2.5rem] border border-[#D9C48E]/25 bg-[#EAC9D1]/30 shadow-[0_8px_30px_rgba(200,161,180,0.15)]" />
+          </div>
+        </div>
+      </PageSection>
 
-          <div className="rounded-2xl border border-gold/40 bg-white p-6 shadow-md">
-            <h2 className="font-serif text-2xl text-charcoal-700">Beta Membership Highlights</h2>
-            <ul className="mt-4 space-y-3 font-sans text-[17px] text-charcoal-500 leading-[1.7]">
-              <li>• Signature Taylor Academy journeys for Nursery, Gear, and Postpartum readiness.</li>
-              <li>• Dynamic registry planning shaped by your modules and concierge insight.</li>
-              <li>• Mentor circles and community salons designed for intimate, guided support.</li>
-            </ul>
-            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-500">
-              Invitations released for the Beta cohort only
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto max-w-screen-xl space-y-10">
+          <header className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">How it works</p>
+            <h2 className="mt-3 font-serif text-3xl text-[#3E2F35]">A calm, concierge-led journey</h2>
+          </header>
+          <div className="grid gap-6 md:grid-cols-3">
+            {HOW_IT_WORKS.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-[2.25rem] border border-[#D9C48E]/25 bg-white p-6 text-left shadow-[0_8px_30px_rgba(200,161,180,0.12)]"
+              >
+                <h3 className="font-serif text-xl text-[#3E2F35]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#3E2F35]/70">{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto max-w-screen-xl space-y-10">
+          <header className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Academy preview</p>
+            <h2 className="mt-3 font-serif text-3xl text-[#3E2F35]">Three journeys. One luxurious cadence.</h2>
+          </header>
+          <div className="grid gap-6 md:grid-cols-3">
+            {ACADEMY_JOURNEYS.map((journey) => (
+              <article
+                key={journey.name}
+                className="rounded-[2.5rem] border border-[#C8A1B4]/30 bg-white p-8 text-left shadow-[0_8px_30px_rgba(200,161,180,0.12)]"
+              >
+                <h3 className="font-serif text-2xl text-[#3E2F35]">{journey.name}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-[#3E2F35]/70">{journey.detail}</p>
+                <Link
+                  href={"/learn" as Route}
+                  className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition-colors hover:text-[#C8A1B4]"
+                >
+                  Explore modules →
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection className="border-b border-[#D9C48E]/25">
+        <div className="mx-auto max-w-screen-xl space-y-10">
+          <header className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Loved by modern families</p>
+            <h2 className="mt-3 font-serif text-3xl text-[#3E2F35]">Words from the Taylor collective</h2>
+          </header>
+          <div className="grid gap-6 md:grid-cols-3">
+            {TESTIMONIALS.map((entry) => (
+              <figure
+                key={entry.name}
+                className="rounded-[2.25rem] border border-[#C8A1B4]/25 bg-white p-6 text-left shadow-[0_8px_30px_rgba(200,161,180,0.12)]"
+              >
+                <blockquote className="font-serif text-lg text-[#3E2F35]">“{entry.quote}”</blockquote>
+                <figcaption className="mt-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#3E2F35]/70">
+                  {entry.name}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection>
+        <div className="mx-auto grid max-w-screen-xl gap-10 rounded-[2.5rem] border border-[#C8A1B4]/30 bg-white p-8 shadow-[0_8px_30px_rgba(200,161,180,0.12)] md:grid-cols-[0.55fr,0.45fr]">
+          <div className="space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Request your invitation</p>
+            <h2 className="font-serif text-3xl text-[#3E2F35]">Concierge onboarding begins here</h2>
+            <p className="text-sm leading-relaxed text-[#3E2F35]/75">
+              Share your timeline and we’ll craft a bespoke welcome, pairing you with the mentor and academy cadence that
+              fits your lifestyle.
             </p>
           </div>
+          <div className="rounded-[1.75rem] border border-[#D9C48E]/30 bg-[#FFFAF8] p-6 shadow-inner">
+            <InviteCodeForm />
+          </div>
         </div>
-      </section>
-
-      <section className="section-padding bg-taupe">
-        <div className="mx-auto grid max-w-screen-xl gap-8 lg:grid-cols-3">
-          {[
-          {
-            title: "Learn",
-            description:
-              "Evidence-based lessons inside the Taylor-Made Baby Academy, guiding nursery, gear, and postpartum journeys with calm clarity.",
-          },
-          {
-            title: "Plan",
-            description:
-              "Create a personalized, dynamic registry with concierge guidance so gifting and preparation stay beautifully aligned.",
-          },
-          {
-            title: "Connect",
-            description:
-              "Gather inside a private mentor-led community that keeps celebrations, support, and planning conversations close at hand.",
-          },
-        ].map((item) => (
-          <article
-            key={item.title}
-            className="rounded-2xl border border-gold/40 bg-ivory p-8 shadow-md transition hover:-translate-y-1 hover:shadow-lg"
-          >
-            <h3 className="font-serif text-2xl text-charcoal-700">{item.title}</h3>
-            <p className="mt-4 font-sans text-[17px] text-charcoal-500 leading-[1.7]">{item.description}</p>
-          </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-padding text-center">
-        <div className="mx-auto max-w-4xl space-y-6 rounded-3xl border border-gold/40 bg-white p-10 shadow-md">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-mauve-700">Concierge Membership</p>
-          <h2 className="font-serif text-4xl text-charcoal-700">Hand your planning list to a team that treats it like family.</h2>
-          <p className="font-sans text-[17px] text-charcoal-500 leading-[1.7]">
-            Mentors, stylists, and concierge leads collaborate behind the scenes—aligning modules, registry updates, and
-            community invitations so you can stay present for the moments you want to savor.
-          </p>
-        </div>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link
-            href="/membership"
-            className="inline-flex items-center rounded-full bg-mauve-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-mauve-700"
-          >
-            View membership
-          </Link>
-          <Link
-            href="/blog"
-            className="inline-flex items-center rounded-full border border-mauve-500 px-6 py-3 text-sm font-semibold text-mauve-700 transition hover:bg-mauve-100"
-          >
-            Read the journal
-          </Link>
-        </div>
-      </section>
+      </PageSection>
     </div>
   );
 }

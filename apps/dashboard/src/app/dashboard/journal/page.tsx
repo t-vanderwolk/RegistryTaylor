@@ -50,21 +50,6 @@ const RECENT_REFLECTIONS = [
   },
 ];
 
-const MENTOR_ACTIONS = [
-  {
-    id: "action-1",
-    title: "Registry Review",
-    detail: "Mentor will double-check your registry list tomorrow and suggest any missing ‘real-life’ essentials.",
-    due: "Tomorrow",
-  },
-  {
-    id: "action-2",
-    title: "Community Coffee Chat",
-    detail: "Friday’s Zoom at 10 AM — theme: ‘What nobody tells you about packing the hospital bag.’",
-    due: "Friday",
-  },
-];
-
 const WEEKLY_MOODS = [
   { day: "Mon", mood: "😊" },
   { day: "Tue", mood: "😴" },

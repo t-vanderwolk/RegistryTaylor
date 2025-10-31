@@ -11,18 +11,26 @@ const config: Config = {
     extend: {
       colors: {
         ivory: "#FFFAF8",
+        blush: {
+          100: "#F8E4EA",
+          200: "#F2D6DF",
+          300: "#EDCBD6",
+          400: "#EAC9D1",
+        },
         white: "#FFFFFF",
-        taupe: "#EAE5E1",
+        taupe: "#EEE6E1",
         mauve: {
-          100: "#F2DCE3",
-          500: "#D4A3B2",
-          700: "#A66E82",
+          100: "#F2E2EA",
+          300: "#DDB9C9",
+          500: "#C8A1B4",
+          700: "#9D6F85",
         },
         charcoal: {
-          500: "#3C2F33",
-          700: "#2B2024",
+          300: "#6D5B60",
+          500: "#3E2F35",
+          700: "#2C1F24",
         },
-        gold: "#E3D7B2",
+        gold: "#D9C48E",
       },
       fontFamily: {
         script: ["var(--font-great-vibes)", "cursive"],

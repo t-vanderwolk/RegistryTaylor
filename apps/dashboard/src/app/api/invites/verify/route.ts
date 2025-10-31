@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { apiFetch } from "@/lib/apiClient";
 
 export async function POST(request: Request) {
   try {
@@ -10,23 +10,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invite code is required" }, { status: 400 });
     }
 
-    const invite = await prisma.invite.findUnique({
-      where: { code: normalizedCode },
-    });
-
-    const inviteStatus = (invite as { status?: string | null } | null)?.status ?? null;
-
-    if (!invite || inviteStatus !== "approved") {
+    let inviteResponse: { invite?: { status?: string | null } } | null = null;
+    try {
+      inviteResponse = await apiFetch<{ invite?: { status?: string | null } }>(
+        `/api/invites/verify/${normalizedCode}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        }
+      );
+    } catch {
       return NextResponse.json(
         { error: "That invite code isn’t recognized — please try again or request a new invite." },
         { status: 400 }
       );
     }
 
-    await prisma.invite.update({
-      where: { code: normalizedCode },
-      data: { status: "used" },
-    });
+    const inviteStatus = inviteResponse?.invite?.status ?? null;
+
+    if (!inviteStatus || inviteStatus === "EXPIRED" || inviteStatus === "ACCEPTED") {
+      return NextResponse.json(
+        { error: "That invite code isn’t recognized — please try again or request a new invite." },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json({ code: normalizedCode });
   } catch (error) {

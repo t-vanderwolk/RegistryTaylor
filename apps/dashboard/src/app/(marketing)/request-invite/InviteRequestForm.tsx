@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/apiClient";
 
+const PRIMARY_BUTTON_CLASSES =
+  "inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-7 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 hover:bg-[#c29aab] disabled:cursor-not-allowed disabled:opacity-70";
+
 export default function InviteRequestForm() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
@@ -46,53 +49,57 @@ export default function InviteRequestForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="space-y-2 text-sm text-[#3E2F35]/70">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]/80">Name</span>
+        <label className="space-y-2 text-sm text-[#3E2F35]/75">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Name</span>
           <input
             required
             type="text"
             name="name"
             autoComplete="name"
-            className="w-full rounded-[1.5rem] border border-[#C8A1B4]/40 bg-white/95 px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#D9C48E] focus:shadow-[0_0_0_3px_rgba(217,196,142,0.25)]"
+            className="w-full rounded-[1.5rem] border border-[#D9C48E]/30 bg-white px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]"
           />
         </label>
-        <label className="space-y-2 text-sm text-[#3E2F35]/70">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]/80">Email</span>
+        <label className="space-y-2 text-sm text-[#3E2F35]/75">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Email</span>
           <input
             required
             type="email"
             name="email"
             autoComplete="email"
-            className="w-full rounded-[1.5rem] border border-[#C8A1B4]/40 bg-white/95 px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#D9C48E] focus:shadow-[0_0_0_3px_rgba(217,196,142,0.25)]"
+            className="w-full rounded-[1.5rem] border border-[#D9C48E]/30 bg-white px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]"
           />
         </label>
       </div>
 
-      <label className="space-y-2 text-sm text-[#3E2F35]/70">
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]/80">Estimated due date</span>
+      <label className="space-y-2 text-sm text-[#3E2F35]/75">
+        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
+          Estimated due date
+        </span>
         <input
           type="date"
           name="dueDate"
-          className="w-full rounded-[1.5rem] border border-[#C8A1B4]/40 bg-white/95 px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#D9C48E] focus:shadow-[0_0_0_3px_rgba(217,196,142,0.25)]"
+          className="w-full rounded-[1.5rem] border border-[#D9C48E]/30 bg-white px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]"
         />
       </label>
 
-      <label className="space-y-2 text-sm text-[#3E2F35]/70">
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]/80">Tell us about your journey</span>
+      <label className="space-y-2 text-sm text-[#3E2F35]/75">
+        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
+          Tell us about your journey
+        </span>
         <textarea
           name="message"
           rows={4}
-          className="w-full rounded-[1.5rem] border border-[#C8A1B4]/40 bg-white/95 px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#D9C48E] focus:shadow-[0_0_0_3px_rgba(217,196,142,0.25)]"
+          className="w-full rounded-[1.5rem] border border-[#D9C48E]/30 bg-white px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]"
           placeholder="Nursery inspirations, priorities, or support needs you want us to know."
         />
       </label>
 
-      {error ? <p className="text-sm text-[#8C3B52]">{error}</p> : null}
+      {error ? <p className="text-sm text-[#b05f71]">{error}</p> : null}
 
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-[0_16px_36px_rgba(200,161,180,0.35)] transition hover:-translate-y-1 hover:bg-[#B88FA6] disabled:cursor-not-allowed disabled:opacity-70"
+        className={PRIMARY_BUTTON_CLASSES}
       >
         {submitting ? "Sending…" : "Request Invite"}
       </button>

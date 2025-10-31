@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import type { ChangeEvent } from "react";
 import type { AcademyModule } from "@/types/academy";
 import WorkbookEntryCard from "./WorkbookEntryCard";
@@ -243,9 +244,16 @@ export default function WorkbookSection({
               {images.map((src, index) => (
                 <div
                   key={`${src}-${index}`}
-                  className="relative overflow-hidden rounded-[1.5rem] border border-[#EAC9D1]/60 bg-[#FFFAF8]/70"
+                  className="relative h-48 overflow-hidden rounded-[1.5rem] border border-[#EAC9D1]/60 bg-[#FFFAF8]/70"
                 >
-                  <img src={src} alt={`Workbook inspiration ${index + 1}`} className="h-48 w-full object-cover" />
+                  <Image
+                    src={src}
+                    alt={`Workbook inspiration ${index + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover"
+                    unoptimized
+                  />
                   <button
                     type="button"
                     onClick={() => removeImage(index)}

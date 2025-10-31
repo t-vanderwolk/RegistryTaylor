@@ -1,0 +1,22 @@
+[
+  {
+    "externalId": "cj-breathable-baby-wrap",
+    "name": "Breathable Silk Baby Wrap",
+    "brand": "Luce Doux",
+    "price": 165,
+    "image": "https://images.unsplash.com/photo-1617957743093-3fbc173c1684?auto=format&fit=crop&w=800&q=80",
+    "affiliateUrl": "https://partners.cj.com/luce-doux-silk-wrap",
+    "category": "Fourth Trimester Support",
+    "description": "Temperature-regulating silk weave that cocoons baby while supporting postpartum cores."
+  },
+  {
+    "externalId": "cj-gold-trim-monitor",
+    "name": "Gold Trim Nursery Monitor",
+    "brand": "Maison Lumière",
+    "price": 299,
+    "image": "https://images.unsplash.com/photo-1616627459430-d73716e55de1?auto=format&fit=crop&w=800&q=80",
+    "affiliateUrl": "https://partners.cj.com/maison-lumiere-monitor",
+    "category": "Tech & Monitoring",
+    "description": "4K clarity with whisper-alert technology for effortless overnight monitoring."
+  }
+]

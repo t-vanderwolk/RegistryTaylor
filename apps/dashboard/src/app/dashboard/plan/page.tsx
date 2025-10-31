@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { requireMember } from "@/lib/auth";
 import { getRegistryItems } from "@/lib/registry";
+import { getRegistrySourceMeta } from "@/lib/registryMeta";
+import type { RegistryItem } from "@/types/registry";
 
 type PlanPageProps = {
   searchParams: {
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
   description: "Curate a concierge-level registry with Taylor’s dynamic recommendations.",
 };
 
-function uniqueCategories(items: Awaited<ReturnType<typeof getRegistryItems>>): Array<{ name: string; count: number }> {
+function uniqueCategories(items: RegistryItem[]): Array<{ name: string; count: number }> {
   const counts = new Map<string, number>();
   items.forEach((item) => {
     if (!item.category) {
@@ -117,63 +119,72 @@ export default async function PlanPage({ searchParams }: PlanPageProps) {
         </header>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {items.map((item) => (
-            <article
-              key={item.id}
-              className="flex flex-col gap-4 rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_60px_rgba(200,161,180,0.22)]"
-            >
-              <div className="relative overflow-hidden rounded-[1.8rem] border border-[#C8A1B4]/25">
-                <div className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
-                  {item.category ?? "Concierge pick"}
-                </div>
-                {item.imageUrl ? (
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.name}
-                    width={800}
-                    height={340}
-                    className="h-52 w-full object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="flex h-52 w-full items-center justify-center bg-gradient-to-br from-[#FFFAF8] via-white to-[#EAC9D1]/35 text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
-                    Concierge preview
+          {items.map((item) => {
+            const sourceMeta = getRegistrySourceMeta(item.registrySource);
+            return (
+              <article
+                key={item.id}
+                className="flex flex-col gap-4 rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_60px_rgba(200,161,180,0.22)]"
+              >
+                <div className="relative overflow-hidden rounded-[1.8rem] border border-[#C8A1B4]/25 bg-white">
+                  <div className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full border bg-[#FFFAF8]/90 px-3 py-1 text-xs font-semibold text-[#3E2F35]">
+                    <span>{sourceMeta.icon}</span>
+                    <span>{sourceMeta.label}</span>
                   </div>
-                )}
-              </div>
-              <header>
-                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
-                  {item.brand ?? "Taylor Concierge"}
+                  <div className="absolute right-4 top-4 rounded-full border border-[#C8A1B4]/50 bg-[#FFFAF8]/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
+                    {item.category ?? "Concierge pick"}
+                  </div>
+                  {item.image ? (
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={800}
+                      height={340}
+                      className="h-52 w-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex h-52 w-full items-center justify-center bg-[#FFFAF8] text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
+                      Concierge preview
+                    </div>
+                  )}
+                </div>
+                <header>
+                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
+                    {item.brand ?? sourceMeta.retailer}
+                  </p>
+                  <h3 className="mt-2 font-[var(--font-playfair)] text-xl text-[#3E2F35]">{item.name}</h3>
+                </header>
+                <p className="text-sm text-[#3E2F35]/70">
+                  {item.description ?? "We’ll add concierge notes shortly to guide gifting."}
                 </p>
-                <h3 className="mt-2 font-[var(--font-playfair)] text-xl text-[#3E2F35]">{item.name}</h3>
-              </header>
-              <p className="text-sm text-[#3E2F35]/70">{item.notes ?? "We’ll add concierge notes shortly to guide gifting."}</p>
-              <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-[#3E2F35]/70">
-                <span className="font-semibold text-[#3E2F35]">{formatPrice(item.price)}</span>
-                <span className="rounded-full bg-gradient-to-r from-[#C8A1B4]/15 via-[#EAC9D1]/25 to-[#FFFAF8] px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
-                  {item.retailer ?? "Taylor Concierge"}
-                </span>
-              </div>
-              <div className="mt-auto flex flex-wrap gap-3">
-                {item.url ? (
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_12px_30px_rgba(200,161,180,0.32)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(200,161,180,0.4)]"
+                <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-[#3E2F35]/70">
+                  <span className="font-semibold text-[#3E2F35]">{formatPrice(item.price)}</span>
+                  <span className="rounded-full bg-[#FFFAF8] px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
+                    {item.retailer ?? sourceMeta.retailer}
+                  </span>
+                </div>
+                <div className="mt-auto flex flex-wrap gap-3">
+                  {item.affiliateUrl ? (
+                    <a
+                      href={item.affiliateUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-[#3E2F35] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#C8A1B4]"
+                    >
+                      View Offer →
+                    </a>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
                   >
-                    View on MacroBaby →
-                  </a>
-                ) : null}
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
-                >
-                  Flag for gifting
-                </button>
-              </div>
-            </article>
-          ))}
+                    Flag for gifting
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
     </div>

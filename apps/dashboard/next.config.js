@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'placekitten.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'silvercrossus.com',
+      },
     ],
   },
   experimental: {

@@ -39,6 +39,7 @@ export default async function ModulePage({ params }: { params: { slug: string } 
     "use server";
     await addModuleToRegistry(moduleEntry.slug);
     revalidatePath("/dashboard/plan");
+    revalidatePath("/dashboard/registry");
   };
 
   return (

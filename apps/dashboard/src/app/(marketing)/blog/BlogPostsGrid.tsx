@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import type { BlogPostSummary } from "@/data/blogPosts";
 
 type BlogPostsGridProps = {
@@ -59,7 +60,7 @@ export default function BlogPostsGrid({ posts }: BlogPostsGridProps) {
                   {post.author}
                 </span>
                 <Link
-                  href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
+                  href={`/blog/${post.slug}` as Route}
                   className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition-transform duration-200 hover:scale-105 hover:bg-[#EAC9D1]/30"
                 >
                   Read More

@@ -1,0 +1,22 @@
+[
+  {
+    "externalId": "awin-velvet-nursing-chair",
+    "name": "Velvet Cloud Nursing Chair",
+    "brand": "Maison Aurélie",
+    "price": 1180,
+    "image": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80",
+    "affiliateUrl": "https://luxury.awin.com/velvet-cloud-nursing-chair",
+    "category": "Nursery Atmosphere",
+    "description": "Hand-finished in Italian velvet with a whisper-quiet glide for midnight feedings."
+  },
+  {
+    "externalId": "awin-montessori-playset",
+    "name": "Montessori Atelier Play Set",
+    "brand": "Atelier Enfant",
+    "price": 620,
+    "image": "https://images.unsplash.com/photo-1477511801984-4ad318ed9846?auto=format&fit=crop&w=800&q=80",
+    "affiliateUrl": "https://luxury.awin.com/montessori-atelier-playset",
+    "category": "Development & Play",
+    "description": "European beechwood play kit curated for the first 18 months of sensory discovery."
+  }
+]

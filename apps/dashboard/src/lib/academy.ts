@@ -1,7 +1,8 @@
 import type { AcademyModule, ModuleProgress } from "@/types/academy";
-import { getMemberToken } from "@/lib/auth";
+import { getMemberToken, getSession } from "@/lib/auth";
 import { apiFetch } from "@/lib/apiClient";
 import modules from "@/data/academyModules.json";
+import { addModuleFocusToRegistry } from "@/lib/registry";
 
 const typedModules: AcademyModule[] = modules as AcademyModule[];
 export async function getAcademyModules(): Promise<AcademyModule[]> {
@@ -53,16 +54,15 @@ export async function markModuleComplete(slug: string): Promise<void> {
 }
 
 export async function addModuleToRegistry(slug: string): Promise<void> {
-  const token = await getMemberToken();
-  if (!token) {
+  const session = await getSession();
+  if (!session?.user?.id) {
     throw new Error("Not authenticated");
   }
 
-  await apiFetch(`/api/registry/add`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ source: "academy", module: slug }),
-  });
+  const moduleEntry = typedModules.find((module) => module.slug === slug);
+  if (!moduleEntry?.registryFocus) {
+    return;
+  }
+
+  await addModuleFocusToRegistry(session.user.id, moduleEntry.registryFocus);
 }

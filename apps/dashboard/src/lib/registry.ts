@@ -1,70 +1,43 @@
-import items from "@/data/registryItems.json";
-import { apiFetch } from "@/lib/apiClient";
-
-export type RegistryItem = {
-  id: string;
-  name: string;
-  brand: string | null;
-  price: number | null;
-  category: string | null;
-  imageUrl: string | null;
-  retailer: string | null;
-  url: string | null;
-  notes: string | null;
-};
-
-export type RegistryResponse = {
-  items: RegistryItem[];
-};
-
-const AFFILIATE_PARAM = "_j";
-const AFFILIATE_ID = "4496818";
-const fallbackItems = items as Array<{
-  id: string;
-  name: string;
-  brand: string;
-  price: string;
-  category: string;
-  imageUrl: string;
-  retailer: string;
-  url: string;
-  notes: string;
-}>;
-
-function withAffiliateParam(url: string): string {
-  try {
-    const target = new URL(url);
-    if (!target.searchParams.has(AFFILIATE_PARAM)) {
-      target.searchParams.set(AFFILIATE_PARAM, AFFILIATE_ID);
-    }
-    return target.toString();
-  } catch {
-    return url;
-  }
-}
+import { getSession } from "@/lib/auth";
+import {
+  listCatalogItems,
+  listCatalogItemsByFocus,
+  listUserRegistryItems,
+  addCatalogItemsToUserByFocus,
+  addItemsToUserRegistry,
+} from "@/lib/server/registryStore";
+import { resolveCategory } from "@/lib/server/registryTaxonomy";
+import { loadAffiliateFeed } from "@/utils/registryLoaders";
+import type { RegistryItem, RegistrySource } from "@/types/registry";
 
 export async function getRegistryItems(): Promise<RegistryItem[]> {
+  const session = await getSession();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return listCatalogItems();
+  }
+  return listUserRegistryItems(userId);
+}
+
+export async function getRegistryItemsByFocus(focus: string): Promise<RegistryItem[]> {
+  return listCatalogItemsByFocus(focus);
+}
+
+export async function addModuleFocusToRegistry(userId: string, focus: string): Promise<RegistryItem[]> {
+  const category = resolveCategory(focus);
+
   try {
-    const items = await apiFetch<RegistryItem[]>("/api/registry");
-    if (Array.isArray(items) && items.length > 0) {
-      return items.map((item) => ({
-        ...item,
-        url: item.url ? withAffiliateParam(item.url) : item.url,
-      }));
+    const sources: RegistrySource[] = ["macro", "silvercross"];
+    const [macro, silver] = await Promise.all(sources.map((source) => loadAffiliateFeed(source)));
+
+    const curated = [...macro, ...silver].filter((item) => item.category === category).slice(0, 6);
+
+    if (curated.length > 0) {
+      return addItemsToUserRegistry(userId, curated);
     }
   } catch {
-    // Fallback to static data below.
+    // Fall back to catalog assignment below.
   }
 
-  return fallbackItems.map((item) => ({
-    id: item.id,
-    name: item.name,
-    brand: item.brand,
-    price: Number(item.price.replace(/[^0-9.]/g, "")) || null,
-    category: item.category,
-    imageUrl: item.imageUrl,
-    retailer: item.retailer,
-    url: withAffiliateParam(item.url),
-    notes: item.notes,
-  }));
+  return addCatalogItemsToUserByFocus(userId, focus);
 }

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import { listCatalogItems, mergeAffiliateFeeds } from "@/lib/server/registryStore";
+import { getBabylistConnection, listCatalogItems, mergeAffiliateFeeds } from "@/lib/server/registryStore";
 import { filterRegistryItems, loadAffiliateFeed } from "@/utils/registryLoaders";
 import type { RegistrySource } from "@/types/registry";
 
 const AFFILIATE_SOURCES: RegistrySource[] = ["macro", "silvercross", "awin", "cj"];
-
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const categoryParam = url.searchParams.get("category");
@@ -15,21 +14,30 @@ export async function GET(request: NextRequest) {
   const session = await getSession();
   const userId = queryUserId ?? session?.user?.id ?? null;
 
+  const hasBabylistConnection = userId ? Boolean(getBabylistConnection(userId)) : false;
+
   const requestedSources = sourceParam
     ? sourceParam
         .split(",")
         .map((value) => value.trim())
         .filter(Boolean)
-        .filter((value): value is RegistrySource => ["macro", "silvercross", "awin", "cj", "myregistry"].includes(value))
-    : [...AFFILIATE_SOURCES, ...(userId ? (["myregistry"] as const) : [])];
+        .filter((value): value is RegistrySource =>
+          ["macro", "silvercross", "awin", "cj", "myregistry", "babylist"].includes(value)
+        )
+    : [
+        ...AFFILIATE_SOURCES,
+        ...(userId ? ["myregistry", ...(hasBabylistConnection ? (["babylist"] as const) : [])] : []),
+      ];
 
-  const affiliateSources = requestedSources.filter((source) => source !== "myregistry");
+  const affiliateSources = requestedSources.filter(
+    (source) => source !== "myregistry" && source !== "babylist"
+  );
 
   const affiliateItems = (
     await Promise.all(affiliateSources.map((source) => loadAffiliateFeed(source).catch(() => [])))
   ).flat();
 
-  let combined = mergeAffiliateFeeds(userId, affiliateItems);
+  let combined = await mergeAffiliateFeeds(userId, affiliateItems);
 
   if (!userId) {
     const existing = new Set(combined.map((item) => item.id));

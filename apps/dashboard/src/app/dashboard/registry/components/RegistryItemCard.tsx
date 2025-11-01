@@ -30,6 +30,7 @@ function formatPrice(value: number | null): string {
 export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryItemCardProps) {
   const [openNotes, setOpenNotes] = useState(false);
   const sourceMeta = getRegistrySourceMeta(item.registrySource);
+  const badgeColor = sourceMeta.badgeColor;
   const affiliateLink = item.affiliateUrl ?? "";
 
   const handleSaveNote = async (value: string) => {
@@ -42,11 +43,17 @@ export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryI
   return (
     <article className="flex flex-col rounded-[2.2rem] border border-[#C8A1B4]/30 bg-[#FFFAF8] p-6 shadow-[0_18px_40px_rgba(200,161,180,0.18)] transition hover:-translate-y-1 hover:shadow-[0_26px_60px_rgba(200,161,180,0.24)]">
       <div className="relative overflow-hidden rounded-[1.8rem] border border-[#C8A1B4]/25 bg-white">
-        <div className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full border bg-[#FFFAF8]/90 px-3 py-1 text-xs font-semibold text-[#3E2F35]">
+        <div
+          className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold text-[#3E2F35]"
+          style={{ borderColor: badgeColor, backgroundColor: "#FFFAF8" }}
+        >
           <span>{sourceMeta.icon}</span>
           <span>{sourceMeta.label}</span>
         </div>
-        <div className="absolute right-4 top-4 rounded-full border border-[#C8A1B4]/50 bg-[#FFFAF8]/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
+        <div
+          className="absolute right-4 top-4 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70"
+          style={{ borderColor: badgeColor, backgroundColor: "#FFFAF8" }}
+        >
           {item.category}
         </div>
         {item.image ? (
@@ -76,7 +83,10 @@ export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryI
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-[#3E2F35]/75">
         <span className="font-semibold text-[#3E2F35]">{formatPrice(item.price)}</span>
         {item.mentorNote ? (
-          <span className="rounded-full bg-[#EAC9D1]/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
+          <span
+            className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70"
+            style={{ backgroundColor: `${badgeColor}33` }}
+          >
             Mentor note saved
           </span>
         ) : null}

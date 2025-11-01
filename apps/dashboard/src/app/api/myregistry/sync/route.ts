@@ -50,7 +50,7 @@ export async function GET(_request: NextRequest) {
   }
 
   const snapshot = await fetchMyRegistrySnapshot(connection.token);
-  const items = upsertMyRegistryItems(userId, snapshot);
+  const items = await upsertMyRegistryItems(userId, snapshot);
 
   return NextResponse.json({
     syncedAt: new Date().toISOString(),

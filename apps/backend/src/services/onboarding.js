@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const prisma = require('../db/prisma');
 
 const AFFILIATE_PARAM = '_j';

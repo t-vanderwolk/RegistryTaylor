@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
 
 const getRounds = () => Number(process.env.BCRYPT_ROUNDS || 12);
 

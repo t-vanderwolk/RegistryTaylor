@@ -10,12 +10,11 @@ router.get(
   '/overview',
   requireAdmin,
   asyncHandler(async (_req, res) => {
-    const [userCounts, registryEntries, registryItems, eventsCount, postsCount] = await Promise.all([
+    const [userCounts, registryItems, eventsCount, postsCount] = await Promise.all([
       prisma.user.groupBy({
         by: ['role'],
         _count: { role: true },
       }),
-      prisma.registryEntry.count(),
       prisma.registryItem.count(),
       prisma.event.count(),
       prisma.communityPost.count(),
@@ -25,8 +24,8 @@ router.get(
       members: userCounts.find((item) => item.role === UserRole.MEMBER)?._count.role ?? 0,
       mentors: userCounts.find((item) => item.role === UserRole.MENTOR)?._count.role ?? 0,
       admins: userCounts.find((item) => item.role === UserRole.ADMIN)?._count.role ?? 0,
-      registryEntries,
       registryItems,
+      registryEntries: registryItems,
       events: eventsCount,
       communityPosts: postsCount,
     };
@@ -96,12 +95,12 @@ router.get(
   '/registry-summary',
   requireAdmin,
   asyncHandler(async (_req, res) => {
-    const entriesByCategory = await prisma.registryEntry.groupBy({
+    const entriesByCategory = await prisma.registryItem.groupBy({
       by: ['retailer'],
       _count: { retailer: true },
     });
 
-    const macroBabySessions = await prisma.registryEntry.count({
+    const macroBabySessions = await prisma.registryItem.count({
       where: {
         url: {
           contains: 'macrobaby.com',
@@ -110,7 +109,7 @@ router.get(
       },
     });
 
-    const totals = await prisma.registryEntry.count();
+    const totals = await prisma.registryItem.count();
 
     return res.json({
       summary: {

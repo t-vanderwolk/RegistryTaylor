@@ -1,139 +1,223 @@
 const express = require('express');
+const { RegistrySource, UserRole } = require('@prisma/client');
 const prisma = require('../../../db/prisma');
 const asyncHandler = require('../../../utils/asyncHandler');
-const { requireUser, requireMember } = require('../../../middleware/auth');
-const { ensureAffiliate } = require('../../../services/onboarding');
+const { requireUser } = require('../../../middleware/auth');
 
 const router = express.Router();
 
-const toNumeric = (value) => {
-  if (value === undefined || value === null || value === '') {
+const ALLOWED_SOURCES = new Set(Object.values(RegistrySource));
+
+const parsePrice = (value) => {
+  if (value === null || value === undefined || value === '') {
     return null;
   }
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
+};
+
+const resolveOwnerId = (requestedUserId, authUser) => {
+  if (!requestedUserId || requestedUserId === authUser.id) {
+    return authUser.id;
+  }
+  if (authUser.role === UserRole.MENTOR || authUser.role === UserRole.ADMIN) {
+    return requestedUserId;
+  }
+  const error = new Error('You cannot manage registry items for another member.');
+  error.statusCode = 403;
+  throw error;
+};
+
+const normalizeSource = (value) => {
+  if (typeof value !== 'string') {
+    return 'macro';
+  }
+  const lower = value.toLowerCase();
+  return ALLOWED_SOURCES.has(lower) ? lower : 'macro';
+};
+
+const buildItemPayload = (raw = {}) => {
+  const {
+    title,
+    name,
+    brand,
+    price,
+    category,
+    image,
+    imageUrl,
+    retailer,
+    url,
+    description,
+    notes,
+    source,
+    affiliateUrl,
+    affiliateId,
+    externalId,
+    importedFrom,
+  } = raw;
+
+  if (!title && !name) {
+    const error = new Error('A title is required for registry items.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const resolvedName = typeof name === 'string' && name.trim().length ? name.trim() : String(title ?? '').trim();
+
+  if (!resolvedName) {
+    const error = new Error('A name is required for registry items.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return {
+    name: resolvedName,
+    brand: brand ?? null,
+    price: parsePrice(price),
+    category: category ?? null,
+    imageUrl: imageUrl ?? image ?? null,
+    retailer: retailer ?? null,
+    url: url ?? null,
+    notes: notes ?? description ?? null,
+    source: normalizeSource(source),
+    affiliateUrl: affiliateUrl ?? null,
+    affiliateId: affiliateId ?? null,
+    externalId: externalId ?? null,
+    importedFrom: importedFrom ?? null,
+  };
+};
+
+const ensureItemOwner = async (itemId, authUser) => {
+  const item = await prisma.registryItem.findUnique({
+    where: { id: itemId },
+    select: { id: true, userId: true, name: true },
+  });
+
+  if (!item) {
+    const error = new Error('Registry item not found.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (item.userId !== authUser.id && authUser.role === UserRole.MEMBER) {
+    const error = new Error('You do not have access to this registry item.');
+    error.statusCode = 403;
+    throw error;
+  }
+
+  return item;
 };
 
 router.get(
-  '/items',
+  '/',
   requireUser,
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
     const items = await prisma.registryItem.findMany({
-      orderBy: { createdAt: 'asc' },
+      where: { userId: req.user.id },
+      include: { mentorNotes: { include: { mentor: true } } },
+      orderBy: { createdAt: 'desc' },
     });
-    return res.json({ items: items.map((item) => ({ ...item, url: ensureAffiliate(item.url) })) });
+    res.json({ items });
   })
 );
 
 router.post(
-  '/add',
-  requireMember,
+  '/',
+  requireUser,
   asyncHandler(async (req, res) => {
-    const { itemId, name, brand, price, url, notes, quantity, retailer, imageUrl } = req.body || {};
+    const ownerId = resolveOwnerId(req.body?.userId, req.user);
+    const payload = buildItemPayload(req.body);
 
-    if (!itemId && !name) {
-      return res.status(400).json({ error: { message: 'Provide an existing itemId or a name for the registry entry' } });
-    }
-
-    let sourceItem = null;
-    if (itemId) {
-      sourceItem = await prisma.registryItem.findUnique({ where: { id: itemId } });
-      if (!sourceItem) {
-        return res.status(404).json({ error: { message: 'Registry item not found' } });
-      }
-    }
-
-    const qty =
-      quantity === undefined || quantity === null || Number.isNaN(Number(quantity))
-        ? 1
-        : Number(quantity);
-
-    const entry = await prisma.registryEntry.create({
+    const item = await prisma.registryItem.create({
       data: {
-        userId: req.user.id,
-        itemId: sourceItem ? sourceItem.id : null,
-        name: name || sourceItem.name,
-        brand: brand ?? sourceItem?.brand ?? null,
-        price: toNumeric(price ?? sourceItem?.price ?? null),
-        retailer: retailer ?? sourceItem?.retailer ?? null,
-        imageUrl: imageUrl ?? sourceItem?.imageUrl ?? null,
-        url: ensureAffiliate(url ?? sourceItem?.url ?? null),
-        notes: notes ?? sourceItem?.notes ?? null,
-        quantity: qty,
+        userId: ownerId,
+        ...payload,
       },
+      include: { mentorNotes: { include: { mentor: true } } },
     });
 
-    return res.status(201).json({ entry });
-  })
-);
-
-router.get(
-  '/:id',
-  requireMember,
-  asyncHandler(async (req, res) => {
-    const entry = await prisma.registryEntry.findUnique({
-      where: { id: req.params.id },
-    });
-
-    if (!entry || entry.userId !== req.user.id) {
-      return res.status(404).json({ error: { message: 'Registry entry not found' } });
-    }
-
-    return res.json({ entry: { ...entry, url: ensureAffiliate(entry.url) } });
+    res.status(201).json({ item });
   })
 );
 
 router.put(
   '/:id',
-  requireMember,
+  requireUser,
   asyncHandler(async (req, res) => {
-    const existing = await prisma.registryEntry.findUnique({
-      where: { id: req.params.id },
+    const existing = await ensureItemOwner(req.params.id, req.user);
+    const payload = buildItemPayload({
+      name: existing.name,
+      ...req.body,
     });
 
-    if (!existing || existing.userId !== req.user.id) {
-      return res.status(404).json({ error: { message: 'Registry entry not found' } });
-    }
-
-    const { name, brand, price, url, notes, quantity, retailer, imageUrl } = req.body || {};
-
-    const parsedQuantity =
-      quantity === undefined || quantity === null || Number.isNaN(Number(quantity))
-        ? existing.quantity
-        : Number(quantity);
-
-    const entry = await prisma.registryEntry.update({
-      where: { id: req.params.id },
-      data: {
-        name: name ?? existing.name,
-        brand: brand ?? existing.brand,
-        price: toNumeric(price ?? existing.price),
-        retailer: retailer ?? existing.retailer,
-        imageUrl: imageUrl ?? existing.imageUrl,
-        url: ensureAffiliate(url ?? existing.url),
-        notes: notes ?? existing.notes,
-        quantity: parsedQuantity,
-      },
+    const item = await prisma.registryItem.update({
+      where: { id: existing.id },
+      data: payload,
+      include: { mentorNotes: { include: { mentor: true } } },
     });
 
-    return res.json({ entry });
+    res.json({ item });
   })
 );
 
 router.delete(
   '/:id',
-  requireMember,
+  requireUser,
   asyncHandler(async (req, res) => {
-    const existing = await prisma.registryEntry.findUnique({
-      where: { id: req.params.id },
+    const existing = await ensureItemOwner(req.params.id, req.user);
+    await prisma.registryNote.deleteMany({ where: { registryItemId: existing.id } });
+    await prisma.registryItem.delete({ where: { id: existing.id } });
+    res.status(204).send();
+  })
+);
+
+router.post(
+  '/:id/note',
+  requireUser,
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const noteInput = typeof req.body?.note === 'string' ? req.body.note : '';
+    const trimmed = noteInput.trim();
+
+    const item = await prisma.registryItem.findUnique({
+      where: { id },
+      select: { id: true },
     });
 
-    if (!existing || existing.userId !== req.user.id) {
-      return res.status(404).json({ error: { message: 'Registry entry not found' } });
+    if (!item) {
+      return res.status(404).json({ error: { message: 'Registry item not found.' } });
     }
 
-    await prisma.registryEntry.delete({ where: { id: req.params.id } });
-    return res.status(204).send();
+    const mentorId = req.user.id;
+
+    if (!trimmed) {
+      await prisma.registryNote.deleteMany({
+        where: { registryItemId: id, mentorId },
+      });
+      return res.json({ note: null });
+    }
+
+    const noteRecord = await prisma.registryNote.upsert({
+      where: {
+        registryItemId_mentorId: {
+          registryItemId: id,
+          mentorId,
+        },
+      },
+      update: {
+        content: trimmed,
+      },
+      create: {
+        registryItemId: id,
+        mentorId,
+        content: trimmed,
+      },
+      include: {
+        mentor: true,
+      },
+    });
+
+    res.json({ note: { ...noteRecord, note: noteRecord.content } });
   })
 );
 

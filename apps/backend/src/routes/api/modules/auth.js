@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { UserRole } = require('@prisma/client');
 const prisma = require('../../../db/prisma');
 const asyncHandler = require('../../../utils/asyncHandler');

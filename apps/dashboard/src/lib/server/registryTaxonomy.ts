@@ -27,11 +27,12 @@ export const CATEGORY_KEYWORDS: Record<RegistryCategory, string[]> = {
     "recovery",
     "ritual",
   ],
+  Uncategorized: [],
 };
 
 export function resolveCategory(input?: string | null): RegistryCategory {
   if (!input) {
-    return "Gear";
+    return "Uncategorized";
   }
 
   const normalised = input.toLowerCase();
@@ -48,5 +49,5 @@ export function resolveCategory(input?: string | null): RegistryCategory {
   if (normalised.includes("nursery")) return "Nursery";
   if (normalised.includes("support") || normalised.includes("wellness")) return "Postpartum";
 
-  return "Gear";
+  return "Uncategorized";
 }

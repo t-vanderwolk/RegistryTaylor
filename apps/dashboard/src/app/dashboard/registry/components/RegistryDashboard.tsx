@@ -5,6 +5,7 @@ import Link from "next/link";
 import CategoryFilter from "./CategoryFilter";
 import RegistryItemCard from "./RegistryItemCard";
 import ConnectMyRegistryButton from "./ConnectMyRegistryButton";
+import ConnectBabylistButton from "./ConnectBabylistButton";
 import SilverCrossBannerSet from "@/components/affiliate/SilverCrossBannerSet";
 import { getRegistrySourceMeta } from "@/lib/registryMeta";
 import type { RegistryCategory, RegistryItem, RegistrySource } from "@/types/registry";
@@ -18,7 +19,7 @@ type RegistryApiResponse = {
   items: RegistryItem[];
 };
 
-const DEFAULT_SOURCES: RegistrySource[] = ["macro", "silvercross", "awin", "cj", "myregistry"];
+const DEFAULT_SOURCES: RegistrySource[] = ["macro", "silvercross", "awin", "cj", "myregistry", "babylist"];
 
 export default function RegistryDashboard({ userId, userName }: RegistryDashboardProps) {
   const [items, setItems] = useState<RegistryItem[]>([]);
@@ -100,6 +101,17 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
   }, []);
 
   const allSourcesActive = activeSources.length === DEFAULT_SOURCES.length;
+  const babylistOnlyActive = !activeCategory && activeSources.length === 1 && activeSources[0] === "babylist";
+
+  const handleBabylistShortcut = useCallback(() => {
+    setActiveSources((prev) => {
+      if (prev.length === 1 && prev[0] === "babylist") {
+        return DEFAULT_SOURCES;
+      }
+      return ["babylist"];
+    });
+    setActiveCategory(null);
+  }, []);
 
   const handleSaveNote = useCallback(
     async (productId: string, note: string) => {
@@ -175,10 +187,22 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
         }}
       />
 
+      <ConnectBabylistButton
+        onSynced={() => {
+          announceStatus("Babylist registry synced.");
+          refreshRegistry();
+        }}
+      />
+
       <SilverCrossBannerSet />
 
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <CategoryFilter activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+        <CategoryFilter
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+          babylistActive={babylistOnlyActive}
+          onToggleBabylist={handleBabylistShortcut}
+        />
         <div className="flex flex-wrap items-center gap-2">
           {DEFAULT_SOURCES.map((source) => {
             const meta = getRegistrySourceMeta(source);

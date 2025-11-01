@@ -18,11 +18,11 @@ export async function GET(request: NextRequest) {
   }
 
   if (productId) {
-    const note = getRegistryNote(userId, productId);
+    const note = await getRegistryNote(userId, productId);
     return NextResponse.json({ note });
   }
 
-  const notes = listRegistryNotesForUser(userId);
+  const notes = await listRegistryNotesForUser(userId);
   return NextResponse.json({ notes });
 }
 
@@ -33,11 +33,16 @@ export async function POST(request: NextRequest) {
   const userId = body?.userId ?? session?.user?.id ?? null;
   const productId = body?.productId;
   const note = typeof body?.note === "string" ? body.note : "";
+  const mentorId = session?.user?.id ?? null;
 
   if (!userId || !productId) {
     return NextResponse.json({ error: "Missing userId or productId" }, { status: 400 });
   }
 
-  const entry = upsertRegistryNote(userId, productId, note);
+  if (!mentorId) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+  const entry = await upsertRegistryNote(userId, productId, mentorId, note);
   return NextResponse.json({ note: entry });
 }

@@ -18,7 +18,7 @@ export default async function PlanPage() {
     name: item.name,
     brand: item.brand,
     image: item.image,
-    price: item.price,
+    price: item.price ?? null,
     affiliateUrl: item.affiliateUrl,
     category: item.category,
     registrySource: item.registrySource,
@@ -33,15 +33,15 @@ export default async function PlanPage() {
 
   const catalog: RegistryCatalogItem[] = catalogRaw.map((item) => ({
     id: item.id,
-    externalId: item.externalId,
+    externalId: item.externalId ?? undefined,
     title: item.title,
-    brand: item.brand,
-    price: item.price,
-    category: item.category,
-    image: item.image,
-    url: item.url,
-    affiliateUrl: item.affiliateUrl,
-    retailer: item.retailer,
+    brand: item.brand ?? undefined,
+    price: item.price ? Number(item.price) : null,
+    category: item.category ?? undefined,
+    image: item.image ?? undefined,
+    url: item.url ?? undefined,
+    affiliateUrl: item.affiliateUrl ?? undefined,
+    retailer: item.retailer ?? undefined,
     source: item.source as RegistrySource,
   }));
 

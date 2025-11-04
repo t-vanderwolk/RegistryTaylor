@@ -18,7 +18,7 @@ type NavItem = {
   label: string;
   href: Route;
   Icon?: LucideIcon;
-  isActive?: (pathname: string) => boolean;
+  isActive?: (_pathname: string) => boolean;
 };
 
 type CtaLink = {
@@ -40,35 +40,35 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
     label: "Home",
     href: "/dashboard" as Route,
     Icon: Home,
-    isActive: (pathname) => pathname === "/dashboard",
+    isActive: (_pathname) => _pathname === "/dashboard",
   },
   {
     label: "Learn",
     href: "/dashboard/learn" as Route,
     Icon: BookOpen,
-    isActive: (pathname) =>
-      pathname.startsWith("/dashboard/learn") || pathname.startsWith("/dashboard/academy"),
+    isActive: (_pathname) =>
+      _pathname.startsWith("/dashboard/learn") || _pathname.startsWith("/dashboard/academy"),
   },
   {
     label: "Plan",
     href: "/dashboard/plan" as Route,
     Icon: ClipboardList,
-    isActive: (pathname) =>
-      pathname.startsWith("/dashboard/plan") || pathname.startsWith("/dashboard/registry"),
+    isActive: (_pathname) =>
+      _pathname.startsWith("/dashboard/plan") || _pathname.startsWith("/dashboard/registry"),
   },
   {
     label: "Journal",
     href: "/dashboard/journal" as Route,
     Icon: PenTool,
-    isActive: (pathname) =>
-      pathname.startsWith("/dashboard/journal") || pathname.startsWith("/dashboard/academy/workbook"),
+    isActive: (_pathname) =>
+      _pathname.startsWith("/dashboard/journal") || _pathname.startsWith("/dashboard/academy/workbook"),
   },
   {
     label: "Community",
     href: "/dashboard/community" as Route,
     Icon: Users,
-    isActive: (pathname) =>
-      pathname.startsWith("/dashboard/community") || pathname.startsWith("/dashboard/connect"),
+    isActive: (_pathname) =>
+      _pathname.startsWith("/dashboard/community") || _pathname.startsWith("/dashboard/connect"),
   },
 ];
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Route } from "next";
 import { apiFetch } from "@/lib/apiClient";
 import type { UserRole } from "@/lib/auth";
 
@@ -40,13 +41,14 @@ export default function LoginForm() {
         body: JSON.stringify({ email, password }),
         credentials: "include",
       });
-      const destination =
-        payload?.redirectTo ??
-        (payload?.role === "ADMIN"
-          ? "/dashboard/admin"
-          : payload?.role === "MENTOR"
-          ? "/dashboard/mentor"
-          : "/dashboard/member");
+      const roleToRoute: Record<UserRole, Route> = {
+        ADMIN: "/dashboard/admin",
+        MENTOR: "/dashboard/mentor",
+        MEMBER: "/dashboard/member",
+      };
+      const fallbackRole: UserRole = payload?.role ?? "MEMBER";
+      const destination: Route =
+        (payload?.redirectTo as Route | undefined) ?? roleToRoute[fallbackRole];
 
       router.push(destination);
       router.refresh();

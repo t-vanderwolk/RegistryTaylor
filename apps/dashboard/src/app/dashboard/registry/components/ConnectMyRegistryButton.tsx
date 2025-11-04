@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { RegistryItem } from "@/types/registry";
 
 type ConnectMyRegistryButtonProps = {
-  onSynced?: (items: RegistryItem[]) => void;
+  onSynced?: (_items: RegistryItem[]) => void;
 };
 
 type ConnectionState = {

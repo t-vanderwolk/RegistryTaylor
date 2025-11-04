@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 type MentorNotesPanelProps = {
   initialNote: string;
-  onSave: (value: string) => Promise<void>;
+  onSave: (_value: string) => Promise<void>;
   onClose: () => void;
   saving: boolean;
 };

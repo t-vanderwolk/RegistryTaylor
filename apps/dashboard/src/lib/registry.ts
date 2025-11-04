@@ -20,8 +20,8 @@ export async function getRegistryItems(): Promise<RegistryItem[]> {
 }
 
 export async function getRegistryItemsByFocus(focus: string): Promise<RegistryItem[]> {
-  return listCatalogItemsByFocus(focus);
-}
+return listCatalogItemsByFocus(resolveCategory(focus));}
+
 
 export async function addModuleFocusToRegistry(userId: string, focus: string): Promise<RegistryItem[]> {
   const category = resolveCategory(focus);

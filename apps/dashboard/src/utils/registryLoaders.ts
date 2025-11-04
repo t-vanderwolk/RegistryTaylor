@@ -1,6 +1,7 @@
 import AWIN_FEED from "@/data/awin-feed.json" assert { type: "json" };
 import CJ_FEED from "@/data/cj-feed.json" assert { type: "json" };
 import { buildRegistryItemFromAffiliate } from "@/app/api/registry/affiliate";
+import { parsePrice } from "@/lib/server/registryStore";
 import { listCatalogItems } from "@/lib/server/registryStore";
 import { resolveCategory } from "@/lib/server/registryTaxonomy";
 import type { RegistryItem, RegistrySource } from "@/types/registry";
@@ -84,7 +85,10 @@ export async function loadAffiliateFeed(source: RegistrySource): Promise<Registr
           externalId: typeof entry.externalId === "string" ? entry.externalId : undefined,
           name: String(entry.name ?? "Registry Feature"),
           brand: typeof entry.brand === "string" ? entry.brand : undefined,
-          price: entry.price,
+          price:
+            typeof entry.price === "number" || typeof entry.price === "string"
+              ? parsePrice(entry.price)
+              : null,
           image: typeof entry.image === "string" ? entry.image : undefined,
           affiliateUrl: typeof entry.affiliateUrl === "string" ? entry.affiliateUrl : undefined,
           category: typeof entry.category === "string" ? entry.category : undefined,
@@ -99,7 +103,10 @@ export async function loadAffiliateFeed(source: RegistrySource): Promise<Registr
           externalId: typeof entry.externalId === "string" ? entry.externalId : undefined,
           name: String(entry.name ?? "Registry Feature"),
           brand: typeof entry.brand === "string" ? entry.brand : undefined,
-          price: entry.price,
+          price:
+            typeof entry.price === "number" || typeof entry.price === "string"
+              ? parsePrice(entry.price)
+              : null,
           image: typeof entry.image === "string" ? entry.image : undefined,
           affiliateUrl: typeof entry.affiliateUrl === "string" ? entry.affiliateUrl : undefined,
           category: typeof entry.category === "string" ? entry.category : undefined,

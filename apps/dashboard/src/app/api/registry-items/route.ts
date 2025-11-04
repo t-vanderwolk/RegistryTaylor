@@ -80,7 +80,7 @@ export async function PATCH(request: NextRequest) {
     affiliateUrl: payload.affiliateUrl ?? undefined,
     affiliateId: payload.affiliateId ?? undefined,
     externalId: payload.externalId ?? undefined,
-    source: payload.source ?? undefined,
+    // source: payload.source ?? undefined,
   });
 
   return NextResponse.json({ item });

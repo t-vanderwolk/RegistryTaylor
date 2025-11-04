@@ -4,7 +4,7 @@ import type { RegistryCategory } from "@/types/registry";
 
 type CategoryFilterProps = {
   activeCategory: RegistryCategory | null;
-  onCategoryChange: (category: RegistryCategory | null) => void;
+  onCategoryChange: (_category: RegistryCategory | null) => void;
   babylistActive?: boolean;
   onToggleBabylist?: () => void;
 };

@@ -10,6 +10,8 @@ export const REGISTRY_SOURCE_META: Record<
   cj: { label: "CJ Affiliate", icon: "🛒", retailer: "CJ Affiliate", badgeColor: "#C8A1B4" },
   myregistry: { label: "MyRegistry", icon: "🌐", retailer: "MyRegistry", badgeColor: "#3E2F35" },
   babylist: { label: "Babylist", icon: "🍼", retailer: "Babylist", badgeColor: "#EAC9D1" },
+  impact: { label: "Impact", icon: "✨", retailer: "Impact Network", badgeColor: "#B0A2B8" },
+  static: { label: "Taylor Picks", icon: "🎁", retailer: "Concierge Curated", badgeColor: "#9B8C91" },
 };
 
 export function getRegistrySourceMeta(source: RegistrySource) {

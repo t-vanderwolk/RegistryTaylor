@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { RegistryItem } from "@/types/registry";
 
 type ConnectBabylistButtonProps = {
-  onSynced?: (items: RegistryItem[]) => void;
+  onSynced?: (_items: RegistryItem[]) => void;
 };
 
 export default function ConnectBabylistButton({ onSynced }: ConnectBabylistButtonProps) {

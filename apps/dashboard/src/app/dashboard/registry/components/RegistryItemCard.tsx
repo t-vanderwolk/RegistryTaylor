@@ -8,7 +8,7 @@ import type { RegistryItem } from "@/types/registry";
 
 type RegistryItemCardProps = {
   item: RegistryItem;
-  onSaveNote: (productId: string, note: string) => Promise<void>;
+  onSaveNote: (_productId: string, _note: string) => Promise<void>;
   saving: boolean;
 };
 

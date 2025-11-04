@@ -17,20 +17,29 @@ export async function GET(request: NextRequest) {
   const hasBabylistConnection = userId ? Boolean(getBabylistConnection(userId)) : false;
 
   const requestedSources = sourceParam
-    ? sourceParam
+    ? (sourceParam
         .split(",")
         .map((value) => value.trim())
         .filter(Boolean)
-        .filter((value): value is RegistrySource =>
-          ["macro", "silvercross", "awin", "cj", "myregistry", "babylist"].includes(value)
-        )
-    : [
+        .map((value) => {
+          if (
+            ["macro", "silvercross", "awin", "cj", "myregistry", "babylist", "impact", "static"].includes(
+              value
+            )
+          ) {
+            return value as RegistrySource;
+          }
+          return null;
+        })
+        .filter((value): value is RegistrySource => value !== null) as RegistrySource[])
+    : ([
         ...AFFILIATE_SOURCES,
-        ...(userId ? ["myregistry", ...(hasBabylistConnection ? (["babylist"] as const) : [])] : []),
-      ];
+        ...(userId ? (["myregistry", ...(hasBabylistConnection ? ["babylist"] : [])] as RegistrySource[]) : []),
+      ] as RegistrySource[]);
 
   const affiliateSources = requestedSources.filter(
-    (source) => source !== "myregistry" && source !== "babylist"
+    (source): source is Exclude<RegistrySource, "myregistry" | "babylist"> =>
+      source !== "myregistry" && source !== "babylist"
   );
 
   const affiliateItems = (

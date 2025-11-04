@@ -67,7 +67,7 @@ export default function PostpartumJourneyPage() {
               </div>
 
               <Link
-                href={`/dashboard/academy/modules/${module.slug}`}
+                href={`/academy/${module.slug}`}
                 className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#D9C48E]/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#3E2F35] transition hover:bg-[#D9C48E]/25"
               >
                 Explore Module →

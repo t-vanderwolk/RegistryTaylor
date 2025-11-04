@@ -14,7 +14,7 @@
     "prisma:studio": "prisma studio --schema=./prisma/schema.prisma",
     "migrate": "prisma migrate deploy --schema=./prisma/schema.prisma",
     "generate": "prisma generate --schema=./prisma/schema.prisma",
-    "seed": "node src/db/seed.js"
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -31,6 +31,6 @@
     "prisma": "^6.18.0"
   },
   "prisma": {
-    "seed": "node src/db/seed.js"
+    "seed": "tsx prisma/seed.ts"
   }
 }

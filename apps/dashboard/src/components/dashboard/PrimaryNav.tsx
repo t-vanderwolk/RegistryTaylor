@@ -44,7 +44,7 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
   },
   {
     label: "Learn",
-    href: "/dashboard/learn" as Route,
+    href: "/dashboard/learn/welcome" as Route,
     Icon: BookOpen,
     isActive: (_pathname) =>
       _pathname.startsWith("/dashboard/learn") || _pathname.startsWith("/dashboard/academy"),

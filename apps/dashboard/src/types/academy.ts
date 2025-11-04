@@ -109,7 +109,7 @@ export type AcademyModule = {
   category?: string | null;
   title: string;
   subtitle?: string | null;
-  summary?: string | null;
+  summary: string;
   tagline?: string | null;
   registryFocus?: string | null;
   estimatedMinutes?: number | null;
@@ -120,6 +120,9 @@ export type AcademyModule = {
     border?: string;
     text?: string;
   } | null;
+  order?: number | null;
+  lecture?: string | null;
+  workbookPrompt?: string | null;
   content: AcademyModuleContent;
   progress?: ModuleProgress;
 };

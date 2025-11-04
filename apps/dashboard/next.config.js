@@ -38,6 +38,30 @@ const nextConfig = {
     typedRoutes: true,
     serverComponentsExternalPackages: ['@prisma/client'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/academy/:path*',
+        destination: '/dashboard/learn/:path*',
+        permanent: true,
+      },
+      {
+        source: '/dashboard/learn/nursery',
+        destination: '/dashboard/learn/welcome',
+        permanent: true,
+      },
+      {
+        source: '/dashboard/learn/gear',
+        destination: '/dashboard/learn/welcome',
+        permanent: true,
+      },
+      {
+        source: '/dashboard/learn/postpartum',
+        destination: '/dashboard/learn/welcome',
+        permanent: true,
+      },
+    ];
+  },
   webpack: (config) => {
     config.resolve.alias['@prisma/client'] = path.resolve(__dirname, '../../node_modules/@prisma/client');
     config.resolve.alias['.prisma/client'] = path.resolve(__dirname, '../../node_modules/.prisma/client');

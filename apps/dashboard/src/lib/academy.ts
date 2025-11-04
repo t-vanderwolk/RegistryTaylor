@@ -1,3 +1,5 @@
+import prisma from "@tmbc/db/prisma";
+import { Prisma } from "@prisma/client";
 import { addModuleFocusToRegistry } from "@/lib/registry";
 import { apiFetch } from "@/lib/apiClient";
 import { getMemberToken, getSession } from "@/lib/auth";
@@ -6,6 +8,7 @@ import type {
   ModuleContentBlock,
   ModuleProgress,
   MentorNote,
+  WorkbookSection,
 } from "@/types/academy";
 
 type BackendModule = {
@@ -13,19 +16,40 @@ type BackendModule = {
   slug: string;
   title: string;
   summary?: string | null;
-  subtitle?: string | null;
   category?: string | null;
+  lecture?: string | null;
+  workbookPrompt?: string | null;
+  order?: number | null;
+  subtitle?: string | null;
   journey?: string | null;
   accentColor?: string | null;
   heroImage?: string | null;
   estimatedMinutes?: number | null;
   registryFocus?: string | null;
   progress?: number | null;
-  content: unknown;
+  progressUpdatedAt?: Date | string | null;
+  content?: unknown;
 };
 
-type BackendModulesResponse = {
-  modules: BackendModule[];
+type ModuleRecord = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  lecture: string;
+  workbookPrompt: string;
+  order: number;
+  content: Prisma.JsonValue | null;
+  progress?: Array<{
+    percent: number | null;
+    updatedAt?: Date | null;
+  }>;
+};
+
+type GetModulesOptions = {
+  userId?: string | null;
+  includeProgress?: boolean;
 };
 
 type ModuleMeta = {
@@ -254,8 +278,8 @@ function parseWorkbookSection(value: unknown, index: number): WorkbookSection | 
             ? value.prompt
             : typeof value.body === "string"
               ? value.body
-              : null,
-        placeholder: typeof value.placeholder === "string" ? value.placeholder : null,
+              : undefined,
+        placeholder: typeof value.placeholder === "string" ? value.placeholder : undefined,
       };
     }
     case "registry": {
@@ -317,11 +341,11 @@ function parseWorkbookSection(value: unknown, index: number): WorkbookSection | 
         title: title ?? "Workbook note",
         description,
         prompt:
-          typeof value.prompt === "string"
-            ? value.prompt
-            : typeof value.body === "string"
-              ? value.body
-              : null,
+  typeof value.prompt === "string"
+    ? value.prompt
+    : typeof value.body === "string"
+    ? value.body
+    : undefined,
         placeholder: typeof value.placeholder === "string" ? value.placeholder : null,
       };
     }
@@ -388,29 +412,75 @@ function parseModuleContent(raw: unknown): ParsedContent {
   };
 }
 
-function normalizeProgress(value: number | null | undefined): ModuleProgress {
+function toIsoString(value: Date | string | null | undefined): string | null {
+  if (!value) {
+    return null;
+  }
+  const date = typeof value === "string" ? new Date(value) : value;
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return null;
+  }
+  return date.toISOString();
+}
+
+function normalizeProgress(value: number | null | undefined, updatedAt?: Date | string | null): ModuleProgress {
   const percent = Number.isFinite(value) ? Number(value) : 0;
   const clamped = Math.max(0, Math.min(100, Math.round(percent)));
-  return {
+  const progress: ModuleProgress = {
     percentComplete: clamped,
     completed: clamped >= 100,
   };
+  const isoUpdatedAt = toIsoString(updatedAt);
+  if (isoUpdatedAt) {
+    progress.updatedAt = isoUpdatedAt;
+    if (progress.completed && !progress.completedAt) {
+      progress.completedAt = isoUpdatedAt;
+    }
+  }
+  return progress;
 }
 
 function normalizeModule(raw: BackendModule): AcademyModule {
   const parsed = parseModuleContent(raw.content);
   const meta = parsed.meta ?? {};
   const accentColor = meta.accentColor ?? raw.accentColor ?? BRAND_ACCENT;
+  const summary =
+    (typeof raw.summary === "string" && raw.summary.length > 0 ? raw.summary : null) ??
+    (typeof meta.tagline === "string" && meta.tagline.length > 0 ? meta.tagline : null);
+  const category =
+    raw.category ??
+    (typeof meta.category === "string" ? meta.category : null) ??
+    (typeof meta.journey === "string" ? meta.journey : null) ??
+    (typeof raw.journey === "string" ? raw.journey : null);
+
+  const content: AcademyModule["content"] = { ...parsed.blocks };
+
+  if (typeof raw.lecture === "string") {
+    content.lecture = raw.lecture;
+  }
+  if (typeof raw.workbookPrompt === "string") {
+    content.journalPrompt = raw.workbookPrompt;
+  }
+  if (!content.workbook && typeof raw.workbookPrompt === "string") {
+    content.workbook = [
+      {
+        id: `${raw.slug}-reflection`,
+        type: "reflection",
+        title: "Reflection",
+        prompt: raw.workbookPrompt,
+      },
+    ];
+  }
 
   return {
     id: raw.id,
     slug: raw.slug,
     title: raw.title,
     subtitle: meta.subtitle ?? raw.subtitle ?? raw.summary ?? null,
-    summary: raw.summary ?? null,
+    summary: summary ?? "",
     tagline: meta.tagline ?? raw.summary ?? null,
-    journey: (meta.journey ?? raw.journey ?? meta.category ?? null) as AcademyModule["journey"],
-    category: meta.category ?? raw.category ?? meta.journey ?? null,
+    journey: (meta.journey ?? raw.journey ?? meta.category ?? category ?? null) as AcademyModule["journey"],
+    category: category,
     registryFocus: meta.registryFocus ?? raw.registryFocus ?? null,
     estimatedMinutes:
       typeof meta.estimatedMinutes === "number"
@@ -425,37 +495,141 @@ function normalizeModule(raw: BackendModule): AcademyModule {
       border: meta.border ?? BRAND_BORDER,
       text: meta.text ?? BRAND_TEXT,
     },
-    content: parsed.blocks,
-    progress: normalizeProgress(raw.progress),
+    order: typeof raw.order === "number" ? raw.order : null,
+    lecture: typeof raw.lecture === "string" ? raw.lecture : content.lecture ?? null,
+    workbookPrompt:
+      typeof raw.workbookPrompt === "string"
+        ? raw.workbookPrompt
+        : content.journalPrompt ?? null,
+    content,
+    progress: normalizeProgress(raw.progress, raw.progressUpdatedAt ?? null),
   };
 }
 
-async function fetchModulesFromApi(token: string | null): Promise<BackendModule[]> {
-  try {
-    const data = await apiFetch<BackendModulesResponse>("/api/academy/modules", {
-      headers: {
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      cache: "no-store",
-    });
-    return Array.isArray(data.modules) ? data.modules : [];
-  } catch (error) {
-    if (error instanceof Error && /unauthorized/i.test(error.message)) {
-      return [];
-    }
-    throw error;
+function mapRecordToBackend(record: ModuleRecord): BackendModule {
+  const progressEntry = Array.isArray(record.progress) ? record.progress[0] : undefined;
+  const percent =
+    typeof progressEntry?.percent === "number"
+      ? progressEntry.percent
+      : Number.isFinite(Number(progressEntry?.percent))
+        ? Number(progressEntry?.percent)
+        : null;
+
+  return {
+    id: record.id,
+    slug: record.slug,
+    title: record.title,
+    category: record.category,
+    summary: record.summary,
+    lecture: record.lecture,
+    workbookPrompt: record.workbookPrompt,
+    order: record.order,
+    content: record.content ?? undefined,
+    progress: percent,
+    progressUpdatedAt: progressEntry?.updatedAt ?? null,
+  };
+}
+
+function buildProgressSelection(userId: string | null): Prisma.AcademyProgressFindManyArgs {
+  return {
+    orderBy: { updatedAt: "desc" },
+    select: {
+      percent: true,
+      updatedAt: true,
+    },
+    ...(userId ? { where: { userId }, take: 1 } : { take: 0 }),
+  };
+}
+
+async function resolveUserId(options: GetModulesOptions = {}): Promise<string | null> {
+  if (options.includeProgress === false) {
+    return null;
   }
+  if (options.userId !== undefined) {
+    return options.userId ?? null;
+  }
+  const session = await getSession();
+  return session?.user?.id ?? null;
+}
+
+async function fetchModuleRecords(userId: string | null): Promise<BackendModule[]> {
+  const progressSelection = buildProgressSelection(userId);
+  const records = await prisma.academyModule.findMany({
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      category: true,
+      summary: true,
+      lecture: true,
+      workbookPrompt: true,
+      order: true,
+      content: true,
+      progress: progressSelection,
+    },
+  });
+
+  return records.map((record) => mapRecordToBackend(record as ModuleRecord));
+}
+
+async function fetchModuleRecordBySlug(
+  slug: string,
+  userId: string | null
+): Promise<BackendModule | undefined> {
+  const progressSelection = buildProgressSelection(userId);
+  const record = await prisma.academyModule.findFirst({
+    where: { slug },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      category: true,
+      summary: true,
+      lecture: true,
+      workbookPrompt: true,
+      order: true,
+      content: true,
+      progress: progressSelection,
+    },
+  });
+
+  if (!record) {
+    return undefined;
+  }
+
+  return mapRecordToBackend(record as ModuleRecord);
+}
+
+export async function getDetailedModules(options: GetModulesOptions = {}): Promise<AcademyModule[]> {
+  const userId = await resolveUserId(options);
+  const records = await fetchModuleRecords(userId);
+  return records.map(normalizeModule);
+}
+
+export async function getDetailedModuleBySlug(
+  slug: string,
+  options: GetModulesOptions = {}
+): Promise<AcademyModule | undefined> {
+  const userId = await resolveUserId(options);
+  const record = await fetchModuleRecordBySlug(slug, userId);
+  return record ? normalizeModule(record) : undefined;
+}
+
+export async function getModules() {
+  return prisma.academyModule.findMany({ orderBy: { order: "asc" } });
+}
+
+export async function getModuleBySlug(slug: string) {
+  return prisma.academyModule.findUnique({ where: { slug } });
 }
 
 export async function getAcademyModules(): Promise<AcademyModule[]> {
-  const token = await getMemberToken();
-  const modules = await fetchModulesFromApi(token);
-  return modules.map(normalizeModule);
+  return getDetailedModules();
 }
 
 export async function getAcademyModule(slug: string): Promise<AcademyModule | undefined> {
-  const modules = await getAcademyModules();
-  return modules.find((module) => module.slug === slug);
+  return getDetailedModuleBySlug(slug);
 }
 
 export async function getModuleProgress(slug: string): Promise<ModuleProgress> {

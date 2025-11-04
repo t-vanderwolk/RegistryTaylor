@@ -126,17 +126,14 @@ export default function WorkbookPanel({ moduleSlug, moduleTitle, sections }: Wor
       .map((section, index) => {
         const id = section.id ?? `section-${index}`;
         const state = sectionState[id] ?? {};
-        const value = section.type === "checklist"
-          ? section.items
-              .map((item, idx) => `${state.checklist?.[String(idx)] ? "☑" : "☐"} ${item}`)
-              .join("<br/>")
-          : section.type === "text"
-            ? state.text ?? ""
-            : section.type === "reflection"
-              ? state.reflection ?? ""
-              : section.type === "tip"
-                ? section.content
-                : "";
+        const value =
+  section.type === "checklist" && Array.isArray(section.items)
+    ? section.items
+        .map((item, idx) => `${state.checklist?.[String(idx)] ? "☑" : "☐"} ${item}`)
+        .join("<br/>")
+    : section.type === "text"
+    ? state.text
+    : "";
         return `<section style='margin-bottom:24px;font-family:"Nunito",sans-serif;color:#3E2F35;'>
           <h2 style='font-family:"Playfair Display",serif;font-size:20px;margin-bottom:8px;'>${section.title}</h2>
           <div style='white-space:pre-wrap;'>${value || "—"}</div>
@@ -285,14 +282,14 @@ export default function WorkbookPanel({ moduleSlug, moduleTitle, sections }: Wor
 }
 
 function defaultStateForSection(section: WorkbookSectionDefinition): WorkbookSectionState {
-  if (section.type === "checklist") {
-    return {
-      checklist: section.items.reduce<Record<string, boolean>>((acc, _item, index) => {
-        acc[String(index)] = false;
-        return acc;
-      }, {}),
-    };
-  }
+ if (section.type === "checklist" && Array.isArray(section.items)) {
+  return {
+    checklist: section.items.reduce<Record<string, boolean>>((acc, _item, index) => {
+      acc[String(index)] = false;
+      return acc;
+    }, {}),
+  };
+}
   return {};
 }
 
@@ -300,16 +297,25 @@ function isActionableSection(type: WorkbookSectionDefinition["type"]): boolean {
   return type === "checklist" || type === "text" || type === "reflection";
 }
 
-function isSectionComplete(section: WorkbookSectionDefinition, state: WorkbookSectionState | undefined): boolean {
+function isSectionComplete(
+  section: WorkbookSectionDefinition,
+  state: WorkbookSectionState | undefined
+): boolean {
   if (!state) return false;
+
   switch (section.type) {
     case "checklist":
-      if (!section.items.length) return false;
-      return section.items.every((_item, index) => state.checklist?.[String(index)]);
+      if (!Array.isArray(section.items) || section.items.length === 0) return false;
+      return section.items.every((_item, index) =>
+        Boolean(state.checklist?.[String(index)])
+      );
+
     case "text":
       return Boolean(state.text && state.text.trim().length > 0);
+
     case "reflection":
       return Boolean(state.reflection && state.reflection.trim().length > 0);
+
     default:
       return Boolean(state.completed);
   }

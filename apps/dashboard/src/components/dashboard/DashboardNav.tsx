@@ -13,13 +13,17 @@ type DashboardNavProps = {
 type NavItem = { label: string; href: AppRoute; tab: DashboardTab };
 
 const NAV_ITEMS = [
-  { label: "Learn", href: "/dashboard/learn", tab: "learn" },
+  { label: "Learn", href: "/dashboard/learn/welcome", tab: "learn" },
   { label: "Plan", href: "/dashboard/plan", tab: "plan" },
   { label: "Connect", href: "/dashboard/connect", tab: "connect" },
   { label: "Journal", href: "/dashboard/journal", tab: "journal" },
 ] satisfies ReadonlyArray<NavItem & { href: Route }>;
 
 function getCurrentTab(pathname: string): DashboardTab | null {
+  if (pathname.startsWith("/dashboard/learn")) {
+    return "learn";
+  }
+
   const direct = NAV_ITEMS.find((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));
   if (direct) {
     return direct.tab;

@@ -239,7 +239,7 @@ export default function ModuleDetail({ module, previousModule, nextModule }: Mod
             <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-start">
               {previousModule ? (
                 <Link
-                  href={`/academy/${previousModule.slug}`}
+                  href={`/dashboard/learn/${previousModule.slug}`}
                   className="inline-flex items-center gap-2 font-semibold text-[#3E2F35] transition hover:text-[#C8A6B6]"
                 >
                   ← {previousModule.title}
@@ -249,7 +249,7 @@ export default function ModuleDetail({ module, previousModule, nextModule }: Mod
               )}
               {nextModule ? (
                 <Link
-                  href={`/academy/${nextModule.slug}`}
+                  href={`/dashboard/learn/${nextModule.slug}`}
                   className="inline-flex items-center gap-2 font-semibold text-[#3E2F35] transition hover:text-[#C8A6B6]"
                 >
                   {nextModule.title} →

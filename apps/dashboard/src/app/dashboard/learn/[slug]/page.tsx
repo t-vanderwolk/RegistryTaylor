@@ -41,7 +41,7 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
   const modules = await getAcademyModules();
 
   if (!modules.length) {
-    redirect("/academy");
+    redirect("/dashboard/learn/welcome");
   }
 
   const currentIndex = modules.findIndex((module) => module.slug === params.slug);
@@ -62,7 +62,7 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 pb-16 pt-10 md:gap-12 md:px-10">
         <div>
           <Link
-            href="/academy"
+            href="/dashboard/learn/welcome"
             className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60 transition hover:text-[#3E2F35]"
           >
             ← Back to all modules
@@ -91,7 +91,7 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
                 .map((item) => (
                   <Link
                     key={item.slug}
-                    href={`/academy/${item.slug}`}
+                    href={`/dashboard/learn/${item.slug}`}
                     className="flex flex-col gap-1 rounded-2xl border border-[#EED6D3] bg-[#F8F6F3] px-4 py-3 transition hover:border-[#C8A6B6]"
                   >
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60">

@@ -20,22 +20,16 @@ export default function WorkbookSection({ section, state, onChange, onReflectSav
 
   const toggle = () => setOpen((prev) => !prev);
 
-  const completionRatio = (() => {
-    if (section.type === "checklist" && section.items.length > 0) {
-      const completed = section.items.reduce((count, item, index) => {
-        const key = String(index);
-        return state.checklist?.[key] ? count + 1 : count;
-      }, 0);
-      return completed / section.items.length;
-    }
-    if (section.type === "text") {
-      return state.text && state.text.trim().length > 0 ? 1 : 0;
-    }
-    if (section.type === "reflection") {
-      return state.reflection && state.reflection.trim().length > 0 ? 1 : 0;
-    }
-    return state.completed ? 1 : 0;
-  })();
+const completionRatio = (() => {
+  if (section.type === "checklist" && Array.isArray(section.items) && section.items.length > 0) {
+    const completed = section.items.reduce((count, _item, index) => {
+      const key = String(index);
+      return state.checklist?.[key] ? count + 1 : count;
+    }, 0);
+    return completed / section.items.length;
+  }
+  return 0;
+})();
 
   const headerAdornment = section.type === "milestone" ? `${Math.round((completionRatio || 0) * 100)}%` : null;
 
@@ -78,14 +72,14 @@ export default function WorkbookSection({ section, state, onChange, onReflectSav
 function renderContent(
   section: WorkbookSectionDefinition,
   state: WorkbookSectionState,
-  onChange: (next: WorkbookSectionState) => void,
-  onReflectSave?: (value: string) => Promise<void>
+  onChange: (_next: WorkbookSectionState) => void,
+  onReflectSave?: (_value: string) => Promise<void>
 ) {
   switch (section.type) {
     case "checklist":
       return (
         <div className="space-y-3">
-          {section.items.map((item, index) => {
+          {(section.items ?? []).map((item, index) => {
             const key = String(index);
             const checked = Boolean(state.checklist?.[key]);
             return (

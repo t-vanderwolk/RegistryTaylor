@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useAcademyProgress } from "@/components/academy/ProgressContext";
@@ -35,6 +36,8 @@ export default function ModuleCard({ module, isActive = false }: ModuleCardProps
   const badgeLabel = module.category ?? module.journey ?? "Academy";
   const borderColor = module.accentPalette?.border ?? "#EED6D3";
   const textColor = module.accentPalette?.text ?? "#3E2F35";
+  const heroImage = module.heroImage;
+  const heroAlt = module.subtitle ?? module.summary ?? module.title;
 
   return (
     <motion.article
@@ -45,26 +48,40 @@ export default function ModuleCard({ module, isActive = false }: ModuleCardProps
       className="flex h-full flex-col justify-between rounded-3xl border bg-[#F8F6F3] p-6 md:p-7"
       style={{ borderColor, color: textColor }}
     >
-      <header className="flex items-start justify-between gap-4">
-        <div className="space-y-3">
-          <span className="inline-flex rounded-full bg-[#EED6D3] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-[#3E2F35]">
-            {badgeLabel}
-          </span>
-          <div className="space-y-2">
-            <h2 className="font-serif text-2xl leading-tight text-[#3E2F35] md:text-[1.75rem]">{module.title}</h2>
-            {module.tagline ? (
-              <p className="font-script text-xl leading-snug text-[#C8A6B6]">{module.tagline}</p>
-            ) : module.subtitle ? (
-              <p className="text-sm leading-relaxed text-[#3E2F35]/80">{module.subtitle}</p>
-            ) : module.summary ? (
-              <p className="text-sm leading-relaxed text-[#3E2F35]/80">{module.summary}</p>
-            ) : null}
+      <div className="space-y-6">
+        {heroImage ? (
+          <div className="overflow-hidden rounded-[1.75rem] border border-[#EED6D3] bg-white/80">
+            <Image
+              src={heroImage}
+              alt={heroAlt}
+              width={640}
+              height={360}
+              className="h-36 w-full object-cover"
+              priority={isActive}
+            />
           </div>
-        </div>
-        <span className="inline-flex items-center rounded-full bg-[#EED6D3] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#3E2F35]">
-          {milestoneLabel}
-        </span>
-      </header>
+        ) : null}
+        <header className="flex items-start justify-between gap-4">
+          <div className="space-y-3">
+            <span className="inline-flex rounded-full bg-[#EED6D3] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-[#3E2F35]">
+              {badgeLabel}
+            </span>
+            <div className="space-y-2">
+              <h2 className="font-serif text-2xl leading-tight text-[#3E2F35] md:text-[1.75rem]">{module.title}</h2>
+              {module.tagline ? (
+                <p className="font-script text-xl leading-snug text-[#C8A6B6]">{module.tagline}</p>
+              ) : module.subtitle ? (
+                <p className="text-sm leading-relaxed text-[#3E2F35]/80">{module.subtitle}</p>
+              ) : module.summary ? (
+                <p className="text-sm leading-relaxed text-[#3E2F35]/80">{module.summary}</p>
+              ) : null}
+            </div>
+          </div>
+          <span className="inline-flex items-center rounded-full bg-[#EED6D3] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#3E2F35]">
+            {milestoneLabel}
+          </span>
+        </header>
+      </div>
 
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-[#3E2F35]/85">
         <div>
@@ -97,7 +114,7 @@ export default function ModuleCard({ module, isActive = false }: ModuleCardProps
       </div>
 
       <Link
-        href={`/academy/${module.slug}`}
+        href={`/dashboard/learn/${module.slug}`}
         className="mt-8 inline-flex items-center justify-center rounded-full border border-[#C8A6B6] bg-[#EED6D3] px-6 py-3 text-sm font-semibold tracking-[0.2em] text-[#3E2F35] transition hover:bg-[#C8A6B6] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A6B6]"
       >
         {status}

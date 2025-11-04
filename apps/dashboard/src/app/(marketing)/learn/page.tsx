@@ -58,6 +58,55 @@ export default function LearnPage() {
             Your personal roadmap through pregnancy, gear planning, and postpartum wellness. Choose a journey below to begin
             your guided path with mentor support and concierge orchestration.
           </p>
+          <Link
+            href="/dashboard/learn/welcome"
+            className="block rounded-2xl bg-ivory p-6 text-center shadow transition hover:shadow-md"
+          >
+            <h2 className="font-playfair text-2xl mb-2 text-[#3E2F35]">Taylor-Made Baby Academy</h2>
+            <p className="text-gray-600">Learn, prepare, and grow — at your own pace.</p>
+          </Link>
+        </div>
+      </PageSection>
+
+      <PageSection>
+        <div className="mx-auto max-w-screen-xl">
+          <div className="flex flex-col gap-8 rounded-[2.75rem] border border-[#E8E3E1] bg-[#FFFAF8] px-8 py-10 shadow-[0_24px_60px_rgba(200,161,180,0.14)] md:flex-row md:items-center md:justify-between md:px-14 md:py-12">
+            <div className="space-y-5 text-left md:max-w-2xl">
+              <span className="inline-flex items-center rounded-full bg-[#F2D6DF] px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-[#3E2F35]">
+                Taylor-Made Baby Academy
+              </span>
+              <h2 className="font-serif text-3xl leading-tight text-[#3E2F35] md:text-[2.75rem]">
+                Concierge lessons that move with your season
+              </h2>
+              <p className="text-base leading-relaxed text-[#3E2F35]/80">
+                Explore immersive modules for Nursery, Gear, and Postpartum designed by Taylor’s concierge team. Each chapter pairs editorial storytelling with rituals you can apply immediately—synced to your workbook and mentor notes.
+              </p>
+              <div className="flex flex-wrap gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-[#3E2F35]/65">
+                {["Nursery Atelier", "Gear Confidence", "Postpartum Rituals"].map((label) => (
+                  <span key={label} className="inline-flex rounded-full bg-white px-3 py-1 text-[#3E2F35] shadow-[0_8px_20px_rgba(200,161,180,0.12)]">
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col items-start gap-5 rounded-[2.25rem] border border-[#EED6D3] bg-white/90 px-7 py-6 shadow-[0_18px_40px_rgba(200,161,180,0.18)] md:max-w-sm">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#3E2F35]/70">
+                  What you receive
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[#3E2F35]/75">
+                  Workbook reflections, registry prompts, mentor insights, and printable rituals—saved to your dashboard the moment you complete a lesson.
+                </p>
+              </div>
+              <Link
+                href={"/dashboard/learn/welcome" as Route}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-8 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#3E2F35] shadow-[0_16px_35px_rgba(200,161,180,0.26)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#C29AAD] hover:text-white"
+              >
+                Enter Academy
+              </Link>
+              <p className="text-xs uppercase tracking-[0.35em] text-[#3E2F35]/55">Member access · Progress syncs automatically</p>
+            </div>
+          </div>
         </div>
       </PageSection>
 

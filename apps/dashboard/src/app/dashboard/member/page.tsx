@@ -28,7 +28,7 @@ const HIGHLIGHTS: ReadonlyArray<{
     title: "Next Module",
     text: "Nursery Vision & Foundations I",
     actionLabel: "Resume →",
-    href: "/dashboard/learn" as Route,
+    href: "/dashboard/learn/welcome" as Route,
     accentClass: "focus-visible:ring-[#C8A1B4]/40",
   },
   {
@@ -69,7 +69,7 @@ const JOURNEY_LINKS: ReadonlyArray<{
     title: "Academy",
     description: "Track your Nursery, Gear & Postpartum modules.",
     buttonLabel: "View Modules",
-    href: "/dashboard/learn" as Route,
+    href: "/dashboard/learn/welcome" as Route,
   },
   {
     icon: <ShoppingBag />,

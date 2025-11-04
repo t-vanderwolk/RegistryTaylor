@@ -1,8 +1,17 @@
 import { apiFetch } from "@/lib/apiClient";
 
+export type WorkbookSectionState = {
+  checklist?: Record<string, boolean>;
+  text?: string;
+  reflection?: string;
+  completed?: boolean;
+};
+
 export type WorkbookContent = {
   text?: string;
   images?: string[];
+  sections?: Record<string, WorkbookSectionState>;
+  lastSavedAt?: string;
 };
 
 export type WorkbookEntry = {

@@ -43,6 +43,7 @@ type ModuleMeta = {
   insight?: string | null;
   mentorNote?: MentorNote | string | null;
   apply?: string[];
+  workbook?: unknown;
 };
 
 type ParsedContent = {
@@ -104,6 +105,22 @@ function parseContentBlock(value: unknown): ModuleContentBlock | null {
     body,
     image: parseImage(value.image ?? value.media),
     type: typeof value.type === "string" ? (value.type as ModuleContentBlock["type"]) : undefined,
+    items: Array.isArray(value.items)
+      ? value.items
+          .map((item) => (typeof item === "string" ? item.trim() : null))
+          .filter((item): item is string => Boolean(item))
+      : undefined,
+    prompt: typeof value.prompt === "string" ? value.prompt : undefined,
+    ctaLabel: typeof value.ctaLabel === "string" ? value.ctaLabel : undefined,
+    productId: typeof value.productId === "string" ? value.productId : undefined,
+    externalId: typeof value.externalId === "string" ? value.externalId : undefined,
+    percent:
+      typeof value.percent === "number"
+        ? value.percent
+        : Number.isFinite(Number(value.percent))
+          ? Number(value.percent)
+          : null,
+    metadata: isRecord(value.metadata) ? (value.metadata as Record<string, unknown>) : undefined,
   };
 }
 
@@ -169,6 +186,158 @@ function parseMentorNote(value: unknown): MentorNote | null {
   };
 }
 
+function toWorkbookId(title: string | undefined, index: number): string {
+  if (title && title.trim().length > 0) {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+  return `section-${index}`;
+}
+
+function parseWorkbookSection(value: unknown, index: number): WorkbookSection | null {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  const typeValue = typeof value.type === "string" ? value.type.toLowerCase() : "text";
+  const title = typeof value.title === "string" ? value.title : undefined;
+  const description = typeof value.description === "string" ? value.description : null;
+  const id = typeof value.id === "string" ? value.id : toWorkbookId(title, index);
+
+  switch (typeValue) {
+    case "checklist": {
+      const items = Array.isArray(value.items)
+        ? value.items
+            .map((item) => (typeof item === "string" ? item.trim() : null))
+            .filter((item): item is string => Boolean(item))
+        : [];
+      if (items.length === 0) {
+        return null;
+      }
+      return {
+        id,
+        type: "checklist",
+        title: title ?? "Checklist",
+        description,
+        items,
+      };
+    }
+    case "tip": {
+      const content =
+        typeof value.content === "string"
+          ? value.content
+          : typeof value.body === "string"
+            ? value.body
+            : null;
+      if (!content) {
+        return null;
+      }
+      return {
+        id,
+        type: "tip",
+        title: title ?? "Taylor-Made Insight",
+        description,
+        content,
+      };
+    }
+    case "reflection":
+    case "reflect": {
+      return {
+        id,
+        type: "reflection",
+        title: title ?? "Reflection",
+        description,
+        prompt:
+          typeof value.prompt === "string"
+            ? value.prompt
+            : typeof value.body === "string"
+              ? value.body
+              : null,
+        placeholder: typeof value.placeholder === "string" ? value.placeholder : null,
+      };
+    }
+    case "registry": {
+      return {
+        id,
+        type: "registry",
+        title: title ?? "Registry highlight",
+        description,
+        productId: typeof value.productId === "string" ? value.productId : undefined,
+        externalId: typeof value.externalId === "string" ? value.externalId : undefined,
+        fallback: isRecord(value.fallback)
+          ? {
+              title: typeof value.fallback.title === "string" ? value.fallback.title : undefined,
+              description:
+                typeof value.fallback.description === "string" ? value.fallback.description : null,
+              image: typeof value.fallback.image === "string" ? value.fallback.image : undefined,
+              url: typeof value.fallback.url === "string" ? value.fallback.url : undefined,
+            }
+          : undefined,
+      };
+    }
+    case "milestone": {
+      return {
+        id,
+        type: "milestone",
+        title: title ?? "Milestone unlocked",
+        description,
+        headline: typeof value.headline === "string" ? value.headline : null,
+        percent:
+          typeof value.percent === "number"
+            ? value.percent
+            : Number.isFinite(Number(value.percent))
+              ? Number(value.percent)
+              : null,
+        message:
+          typeof value.message === "string"
+            ? value.message
+            : typeof value.body === "string"
+              ? value.body
+              : null,
+      };
+    }
+    case "submit": {
+      return {
+        id,
+        type: "submit",
+        title: title ?? "Save workbook",
+        description,
+        ctaLabel: typeof value.ctaLabel === "string" ? value.ctaLabel : null,
+        ctaDescription:
+          typeof value.ctaDescription === "string" ? value.ctaDescription : null,
+      };
+    }
+    case "text":
+    default: {
+      return {
+        id,
+        type: "text",
+        title: title ?? "Workbook note",
+        description,
+        prompt:
+          typeof value.prompt === "string"
+            ? value.prompt
+            : typeof value.body === "string"
+              ? value.body
+              : null,
+        placeholder: typeof value.placeholder === "string" ? value.placeholder : null,
+      };
+    }
+  }
+}
+
+function parseWorkbookSections(value: unknown): WorkbookSection[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((rawSection, index) => parseWorkbookSection(rawSection, index))
+    .filter((section): section is WorkbookSection => section !== null);
+}
+
 function parseModuleContent(raw: unknown): ParsedContent {
   if (!isRecord(raw)) {
     return {
@@ -180,6 +349,7 @@ function parseModuleContent(raw: unknown): ParsedContent {
   const meta = isRecord(raw.meta) ? (raw.meta as ModuleMeta) : {};
   const sections = parseContentBlocks(raw.sections);
   const learnBlocks = parseContentBlocks(raw.learn);
+  const workbookSections = parseWorkbookSections(raw.workbook ?? meta.workbook);
 
   const learn =
     learnBlocks.length > 0
@@ -213,6 +383,7 @@ function parseModuleContent(raw: unknown): ParsedContent {
       journalPrompt: typeof raw.journalPrompt === "string" ? raw.journalPrompt : undefined,
       sections,
       resources: parseApplyList(raw.resources),
+      workbook: workbookSections.length > 0 ? workbookSections : undefined,
     },
   };
 }

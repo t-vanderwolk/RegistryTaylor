@@ -16,7 +16,24 @@ export type ModuleContentBlock = {
   subheading?: string;
   body: string;
   image?: ModuleContentImage;
-  type?: "text" | "quote" | "image";
+  type?:
+    | "section"
+    | "text"
+    | "quote"
+    | "image"
+    | "insight"
+    | "tip"
+    | "reflect"
+    | "mentor"
+    | "registry"
+    | "milestone";
+  items?: string[];
+  prompt?: string;
+  ctaLabel?: string;
+  productId?: string;
+  externalId?: string;
+  percent?: number | null;
+  metadata?: Record<string, unknown>;
 };
 
 export type MentorNote = {
@@ -24,6 +41,68 @@ export type MentorNote = {
   author?: string;
   role?: string;
 };
+
+export type WorkbookBaseSection = {
+  id?: string;
+  title: string;
+  description?: string | null;
+};
+
+export type WorkbookChecklistSection = WorkbookBaseSection & {
+  type: "checklist";
+  items: string[];
+};
+
+export type WorkbookTextSection = WorkbookBaseSection & {
+  type: "text";
+  prompt?: string | null;
+  placeholder?: string | null;
+};
+
+export type WorkbookTipSection = WorkbookBaseSection & {
+  type: "tip";
+  content: string;
+};
+
+export type WorkbookReflectionSection = WorkbookBaseSection & {
+  type: "reflection";
+  prompt?: string | null;
+  placeholder?: string | null;
+};
+
+export type WorkbookRegistrySection = WorkbookBaseSection & {
+  type: "registry";
+  productId?: string | null;
+  externalId?: string | null;
+  fallback?: {
+    title?: string;
+    description?: string | null;
+    image?: string | null;
+    url?: string | null;
+  };
+};
+
+export type WorkbookMilestoneSection = WorkbookBaseSection & {
+  type: "milestone";
+  headline?: string | null;
+  percent?: number | null;
+  message?: string | null;
+};
+
+export type WorkbookSubmitSection = WorkbookBaseSection & {
+  type: "submit";
+  ctaLabel?: string | null;
+  ctaDescription?: string | null;
+};
+
+export type WorkbookSection =
+  | WorkbookChecklistSection
+  | WorkbookTextSection
+  | WorkbookTipSection
+  | WorkbookReflectionSection
+  | WorkbookRegistrySection
+  | WorkbookMilestoneSection
+  | WorkbookSubmitSection;
 
 export type AcademyModuleContent = {
   learn?: ModuleContentBlock[];
@@ -35,6 +114,7 @@ export type AcademyModuleContent = {
   journalPrompt?: string;
   sections?: ModuleContentBlock[];
   resources?: string[];
+  workbook?: WorkbookSection[];
 };
 
 export type ModuleProgress = {

@@ -91,8 +91,8 @@ export function AcademyProgressProvider({
       progress,
       setProgressFor,
       refresh,
-      getMilestone: (slug: string) => {
-        const index = orderedSlugs.indexOf(slug);
+      getMilestone: (_slug: string) => {
+        const index = orderedSlugs.indexOf(_slug);
         const total = orderedSlugs.length || 1;
         return {
           index: index >= 0 ? index : 0,

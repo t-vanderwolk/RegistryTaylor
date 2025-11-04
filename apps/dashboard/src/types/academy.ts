@@ -34,46 +34,6 @@ export type ModuleContentBlock = {
   externalId?: string;
   percent?: number | null;
   metadata?: Record<string, unknown>;
-};
-
-export type MentorNote = {
-  text: string;
-  author?: string;
-  role?: string;
-};
-
-export type WorkbookBaseSection = {
-  id?: string;
-  title: string;
-  description?: string | null;
-};
-
-export type WorkbookChecklistSection = WorkbookBaseSection & {
-  type: "checklist";
-  items: string[];
-};
-
-export type WorkbookTextSection = WorkbookBaseSection & {
-  type: "text";
-  prompt?: string | null;
-  placeholder?: string | null;
-};
-
-export type WorkbookTipSection = WorkbookBaseSection & {
-  type: "tip";
-  content: string;
-};
-
-export type WorkbookReflectionSection = WorkbookBaseSection & {
-  type: "reflection";
-  prompt?: string | null;
-  placeholder?: string | null;
-};
-
-export type WorkbookRegistrySection = WorkbookBaseSection & {
-  type: "registry";
-  productId?: string | null;
-  externalId?: string | null;
   fallback?: {
     title?: string;
     description?: string | null;
@@ -82,27 +42,45 @@ export type WorkbookRegistrySection = WorkbookBaseSection & {
   };
 };
 
-export type WorkbookMilestoneSection = WorkbookBaseSection & {
-  type: "milestone";
-  headline?: string | null;
-  percent?: number | null;
-  message?: string | null;
+export type MentorNote = {
+  text: string;
+  author?: string;
+  role?: string;
 };
 
-export type WorkbookSubmitSection = WorkbookBaseSection & {
-  type: "submit";
+export type WorkbookItemType =
+  | "checklist"
+  | "text"
+  | "tip"
+  | "reflection"
+  | "submit"
+  | "registry"
+  | "milestone";
+
+export interface WorkbookSection {
+  id?: string;
+  title: string;
+  type: WorkbookItemType;
+  items?: string[];
+  prompt?: string;
+  content?: string;
+  description?: string | null;
+  placeholder?: string | null;
+  productId?: string | null;
+  externalId?: string | null;
+  percent?: number | null;
+  headline?: string | null;
+  message?: string | null;
   ctaLabel?: string | null;
   ctaDescription?: string | null;
-};
-
-export type WorkbookSection =
-  | WorkbookChecklistSection
-  | WorkbookTextSection
-  | WorkbookTipSection
-  | WorkbookReflectionSection
-  | WorkbookRegistrySection
-  | WorkbookMilestoneSection
-  | WorkbookSubmitSection;
+  fallback?: {
+    title?: string;
+    description?: string | null;
+    image?: string | null;
+    url?: string | null;
+  };
+  metadata?: Record<string, unknown>;
+}
 
 export type AcademyModuleContent = {
   learn?: ModuleContentBlock[];

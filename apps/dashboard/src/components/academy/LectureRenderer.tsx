@@ -72,7 +72,11 @@ export default function LectureRenderer({ blocks, mentorNote, onReflectionSave }
                 role={entry.subheading}
               />
             );
-          case "registry":
+          case "registry": {
+            const fallback = entry.fallback ??
+              (entry.metadata && typeof entry.metadata === "object" && "fallback" in entry.metadata
+                ? (entry.metadata.fallback as { title?: string; description?: string | null; image?: string | null; url?: string | null })
+                : undefined);
             return (
               <RegistryBlock
                 key={key}
@@ -80,9 +84,10 @@ export default function LectureRenderer({ blocks, mentorNote, onReflectionSave }
                 description={entry.body}
                 productId={entry.productId}
                 externalId={entry.externalId}
-                fallback={entry.metadata as any}
+                fallback={fallback}
               />
             );
+          }
           case "milestone":
             return (
               <MilestoneBlock

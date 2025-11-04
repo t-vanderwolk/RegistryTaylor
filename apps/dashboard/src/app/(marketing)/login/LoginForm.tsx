@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/apiClient";
+import type { UserRole } from "@/lib/auth";
 
 const PRIMARY_BUTTON_CLASSES =
   "inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-7 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 hover:bg-[#c29aab] disabled:cursor-not-allowed disabled:opacity-70";
@@ -29,18 +30,26 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const payload = await apiFetch<{ token?: string }>("/api/auth/login", {
+      const payload = await apiFetch<{
+        id: string;
+        email: string;
+        role: UserRole;
+        redirectTo?: string;
+      }>("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
         credentials: "include",
       });
-      if (payload?.token) {
-        // Store the token in localStorage for subsequent requests.
-        localStorage.setItem("tmbc.token", payload.token);
-      }
+      const destination =
+        payload?.redirectTo ??
+        (payload?.role === "ADMIN"
+          ? "/dashboard/admin"
+          : payload?.role === "MENTOR"
+          ? "/dashboard/mentor"
+          : "/dashboard/member");
 
-      const destination = "/dashboard" as const;
       router.push(destination);
+      router.refresh();
     } catch (err) {
       setSubmitting(false);
       setError(err instanceof Error ? err.message : "Unexpected error. Please try again.");

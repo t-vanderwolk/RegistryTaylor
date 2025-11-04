@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function LegacyAcademyOverview() {
-  redirect("/dashboard");
+  redirect("/dashboard/member");
 }

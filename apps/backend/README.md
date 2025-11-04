@@ -1,131 +1,110 @@
-# Taylor-Made Baby Co. API
+# Taylor-Made Baby Co. MVP Backend
 
-This Express + PostgreSQL service powers the invite-only concierge experience outlined in the product roadmap. The backend ships with structured data models, role-aware routes, and integration hooks for authentication, memberships, add-ons, blogs, mentors, consultations, and document storage.
+Express + Prisma + PostgreSQL stack that powers the Taylor-Made Baby Co. MVP. The service provides authenticated routes for members, mentors, and admins, plus seed data and migrations for the full concierge experience.
 
 ## Quick Start
 
 ```bash
-cd backend
-npm install          # install deps (see notes below if network restricted)
-cp .env.example .env # configure secrets
-npx knex migrate:latest
-npx knex seed:run
-npm run dev
+# from repo root
+cp .env.example .env             # or ensure .env matches the provided values
+
+# install deps (run where you have registry access)
+npm install --prefix apps/backend
+
+# generate Prisma client & apply schema
+pnpm prisma migrate dev --name baseline_mvp --schema=apps/backend/prisma/schema.prisma
+pnpm prisma db seed --schema=apps/backend/prisma/schema.prisma
+
+# run the API
+pnpm --dir apps/backend run dev   # or npm run dev --prefix apps/backend
 ```
 
-> **Offline installs** – if npm installs are blocked, keep the `package.json` edits and run the commands later on a machine with package access.
+If the CLI cannot reach npm (offline sandbox), keep these commands and run them later in an environment with package access.
 
-### Environment Variables
+## Environment Variables
+
+The backend reads from the repo-level `.env`. Minimum values:
 
 | key | description |
 | --- | --- |
-| `PORT` | API port (defaults to `5050`) |
 | `DATABASE_URL` | PostgreSQL connection string |
-| `TEST_DATABASE_URL` | (optional) isolated database for test runner |
-| `JWT_SECRET` | signing key for member/mentor/admin JWTs |
-| `INVITE_SALT` | additional entropy for invite code hashing |
-| `STRIPE_SECRET_KEY` | payments (Phase 1 checkout + future subscriptions) |
-| `AWS_*` | document storage for NDAs and concierge plans |
+| `PORT` | Port for Express (`5050` default) |
+| `JWT_SECRET` | Secret for signing member tokens |
+| `NODE_ENV` | `development` by default |
 
 ## Project Structure
 
 ```
-backend/
-├── knexfile.js               # shared migration/seed config
+apps/backend/
+├── prisma/
+│   ├── schema.prisma            # data model + relations
+│   └── migrations/
+│       └── baseline_mvp/        # SQL migration for MVP schema
 ├── src/
-│   ├── app.js                # middleware + routing
-│   ├── server.js             # bootstraps HTTP server
-│   ├── controllers/          # feature controllers (auth, packages, add-ons, blog)
-│   ├── routes/v1/            # versioned API routers
-│   ├── db/                   # knex connection + migrations/seeds
-│   ├── middleware/           # auth guards, error handlers
-│   ├── utils/                # logger + token helper
-│   └── services/             # reserved for future domain logic (mentors, consultations, etc.)
-├── .env.example              # starter env template
-├── .eslintrc.cjs / .prettierrc
+│   ├── config.js                # loads env + shared config
+│   ├── server.js                # Express entrypoint
+│   ├── db/
+│   │   ├── prismaClient.js      # singleton Prisma client
+│   │   └── seed.js              # MVP seed data
+│   ├── middleware/
+│   │   └── auth.js              # JWT verification
+│   └── routes/                  # REST endpoints
+│       ├── auth.js
+│       ├── profiles.js
+│       ├── academy.js
+│       ├── registry.js
+│       ├── community.js
+│       ├── blog.js
+│       └── events.js
 └── package.json
 ```
 
 ## Data Model Overview
 
-The initial migration (`src/db/migrations/202409161200_init.js`) creates all core tables:
+Prisma models cover the MVP use cases:
 
-| table | roadmap alignment |
-| ----- | ----------------- |
-| `users` | invite-only members, mentors, admins (role + invite state + NDA flag) |
-| `invites` | store hashed invite codes, expiry, review status |
-| `membership_packages` | Essentials / Signature / Bespoke with pricing + included services JSON |
-| `add_ons` | concierge menu categorized by nursery/events/gear/lifestyle/postpartum |
-| `blog_posts` | CMS-backed posts with member-only visibility toggle |
-| `mentors` | mentor bios, specialties, availability, status pipeline |
-| `consultations` | booking records and encrypted notes placeholder |
-| `documents` | S3/Firebase references for NDAs + concierge deliverables |
+- `User` (`MEMBER`, `MENTOR`, `ADMIN`) with auth credentials
+- `Profile` (per-user concierge profile, optional mentor link)
+- `Questionnaire` (member intake data)
+- `AcademyModule`, `AcademyProgress`, `WorkbookEntry` for the learning experience
+- `RegistryItem` & `RegistryEntry` for curated registries
+- `CommunityPost` for mentor/member announcements
+- `Event` & `EventRsvp` for live sessions
+- `BlogPost` for public marketing content
 
-Seed data (`src/db/seeds/001_base_seed.js`) primes one admin account, starter packages/add-ons, and a sample blog post.
+The generated migration (`baseline_mvp/migration.sql`) bootstraps enums, tables, and foreign keys.
 
-## API Surface (v1)
+## API Routes
 
-| Method | Route | Description | Auth |
-| ------ | ----- | ----------- | ---- |
-| `POST` | `/api/v1/auth/invite` | Request invite code (stores hashed code + expiration) | Public |
-| `POST` | `/api/v1/auth/register` | Claim invite, create member, issue JWT | Public (with invite) |
-| `POST` | `/api/v1/auth/login` | Member/mentor/admin login | Public |
-| `GET` | `/api/v1/packages` | List membership packages | Public |
-| `POST` | `/api/v1/packages` | Create/update/delete packages | Admin |
-| `GET` | `/api/v1/add-ons` | Filterable concierge add-ons | Public |
-| `POST` | `/api/v1/add-ons` | Manage add-ons | Admin |
-| `GET` | `/api/v1/blog` | Public posts (members receive member-only content when token supplied) | Optional JWT |
-| `POST` | `/api/v1/blog` | Manage posts | Admin |
+All routes are mounted under `/api/*`:
 
-Mentor directory, consultation scheduling, and document management endpoints will sit under `/api/v1/mentors`, `/api/v1/consultations`, and `/api/v1/documents` in subsequent phases.
+| Route | Methods | Description |
+| ----- | ------- | ----------- |
+| `/api/auth` | `POST /register`, `POST /login`, `GET /me` | JWT auth |
+| `/api/profiles` | `GET /me`, `PUT /me`, `GET /mentors` | Member & mentor profiles |
+| `/api/academy` | `GET /modules`, `POST /progress` | Academy modules + progress |
+| `/api/registry` | `GET /catalog`, `POST /entry`, `DELETE /entry/:id` | Registry catalog + member entries |
+| `/api/community` | `GET /posts`, `POST /posts` | Community posts |
+| `/api/blog` | `GET /`, `GET /:slug` | Public blog |
+| `/api/events` | `GET /upcoming`, `POST /rsvp` | Live event listings + RSVP |
 
-## Phase Alignment
+All mutating routes require a valid `Authorization: Bearer <token>` header.
 
-### Phase 1 – Beta Launch
-- ✅ Invite-only auth + hashed code storage (`invites` table, `auth.controller`)
-- ✅ Membership packages + add-on menu CRUD
-- ✅ Blog scaffolding with member-only visibility guard
-- ☐ Stripe checkout integration – hook into `packages.controller` once pricing finalized
-- ☐ NDA upload service – integrate AWS S3 using `documents` table
+## Seeding
 
-### Phase 2 – Community Layer
-- Build mentor APIs (`mentors` table already seeded for relationship)
-- Add member-to-mentor requests + approvals
-- Lock blog `members_only` posts behind JWT (middleware shipped)
-- Consultation scheduling endpoints + webhook integration (Calendly/Google)
+`pnpm prisma db seed --schema=apps/backend/prisma/schema.prisma` populates:
 
-### Phase 3 – Concierge Platform
-- Encrypted chat service (consider WebSocket + customer-managed encryption keys)
-- Workflow automation (nursery/event forms) stored alongside `documents`
-- Stripe subscriptions + add-on purchase flow automation
-- Analytics dashboards (Postgres views + BI tool or custom endpoints)
+- Admin, mentor, and member users (`Karma` password)
+- Linked profiles + intake questionnaire
+- Academy modules, progress, and workbook entry
+- Registry catalog and member selections
+- Community welcome post, marketing blog posts, live event + RSVP
 
-## Integration Hooks & TODOs
+## Development Notes
 
-- **Payments:** Add a `payments` service that wraps Stripe Checkout sessions. Store receipts linked to `users` + `add_ons`.
-- **File Storage:** Use AWS SDK or Firebase Admin SDK within a `documents.service.js` to generate signed upload URLs for NDAs.
-- **CMS:** Replace direct `blog_posts` writes with a webhook sync from Sanity/Contentful or expose GraphQL for the CMS to push updates.
-- **Scheduling:** Integrate Google Calendar / Calendly webhooks; persist events in `consultations` with encrypted notes using AWS KMS or libsodium.
-- **Security:**
-  - replace `notes_encrypted` placeholder with at-rest encryption utilities
-  - enable audit logging middleware for admin actions (future `audit_logs` table)
-  - configure rate limiting (e.g., `express-rate-limit`) before production
+- Prisma Client is cached in development to avoid exhausting database connections.
+- The server exports a `/health` route and shuts down cleanly via `SIGINT`/`SIGTERM`.
+- Update `apps/backend/package.json` if you prefer npm over pnpm; scripts use the local `./prisma/schema.prisma` path.
+- Prisma Studio: `pnpm prisma studio --schema=apps/backend/prisma/schema.prisma`
 
-## Testing
-
-Mocha + Supertest are configured in `package.json`. Add integration specs under `tests/` to cover auth flows and CRUD endpoints. Use `TEST_DATABASE_URL` and run migrations before tests.
-
-```bash
-NODE_ENV=test npx knex migrate:latest
-NODE_ENV=test npm test
-```
-
-## Next Steps Checklist
-
-- [ ] Connect to actual PostgreSQL instance and run migrations
-- [ ] Wire up Stripe + AWS credentials
-- [ ] Implement mentor + consultation controllers
-- [ ] Add role-based policies for mentors (limit access to assigned members)
-- [ ] Create CI workflow for linting/tests (GitHub Actions)
-
-The backend is now aligned with the product roadmap and ready for future integrations as the concierge platform scales.
+You're ready to iterate on the Taylor-Made Baby Co. MVP backend 🎉

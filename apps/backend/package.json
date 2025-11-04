@@ -3,44 +3,34 @@
   "version": "1.0.0",
   "private": true,
   "description": "Taylor-Made Baby Co. API server",
+  "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon --watch src src/server.js",
-    "start": "NODE_ENV=development node src/server.js",
-    "migrate": "prisma migrate deploy",
-    "generate": "prisma generate",
-    "db:push": "prisma db push",
-    "seed": "node src/db/seed.js",
-    "test": "NODE_ENV=test jest --runInBand"
+    "dev": "nodemon --watch src --ext js --signal SIGTERM src/server.js",
+    "start": "node src/server.js",
+    "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=./prisma/schema.prisma",
+    "prisma:deploy": "prisma migrate deploy --schema=./prisma/schema.prisma",
+    "prisma:studio": "prisma studio --schema=./prisma/schema.prisma",
+    "migrate": "prisma migrate deploy --schema=./prisma/schema.prisma",
+    "generate": "prisma generate --schema=./prisma/schema.prisma",
+    "seed": "node src/db/seed.js"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.609.0",
-    "@mapbox/node-pre-gyp": "^2.0.0",
-    "@prisma/client": "^5.20.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "knex": "^3.1.0",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.9.13",
-    "pg": "^8.11.5",
-    "uuid": "^9.0.1"
+    "pg": "^8.11.5"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
+    "@prisma/client": "^6.18.0",
     "nodemon": "^3.0.3",
-    "prisma": "^5.20.0"
+    "prisma": "^6.18.0"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "testMatch": [
-      "**/?(*.)+(spec|test).[jt]s"
-    ]
+  "prisma": {
+    "seed": "node src/db/seed.js"
   }
 }

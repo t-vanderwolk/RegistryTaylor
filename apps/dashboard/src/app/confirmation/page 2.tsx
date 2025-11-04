@@ -13,8 +13,7 @@ function AutoRedirect() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const destination = "/dashboard" as const;
-      router.push(destination);
+      router.push("/dashboard/member");
     }, 3500);
 
     return () => clearTimeout(timer);
@@ -34,7 +33,7 @@ export default function ConfirmationPage() {
       </p>
       <p className="text-xs text-[#3E2F35]/60">
         Redirecting in a moment… or{" "}
-        <Link href="/dashboard" className="font-semibold text-[#C8A1B4] underline underline-offset-4">
+        <Link href="/dashboard/member" className="font-semibold text-[#C8A1B4] underline underline-offset-4">
           jump there now
         </Link>
         .

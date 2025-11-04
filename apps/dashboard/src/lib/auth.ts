@@ -5,37 +5,77 @@ export type UserRole = "MEMBER" | "MENTOR" | "ADMIN";
 
 export type AuthenticatedUser = {
   id: string;
-  name: string;
   email: string;
   role: UserRole;
+  name?: string | null;
   avatarUrl?: string | null;
 };
 
-type SessionCookie = {
+type SessionContext = {
   token: string;
   user: AuthenticatedUser;
 };
 
-const SESSION_COOKIE_KEY = "tmbc.session";
-
-function parseSessionCookie(value: string | undefined): SessionCookie | null {
-  if (!value) return null;
-  try {
-    const decoded = Buffer.from(value, "base64").toString("utf-8");
-    return JSON.parse(decoded) as SessionCookie;
-  } catch {
-    return null;
-  }
+function resolveApiBaseUrl(): string {
+  return (
+    process.env.NEXT_PUBLIC_API_URL ??
+    process.env.API_URL ??
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    "http://localhost:5050"
+  );
 }
 
-export async function getSession(): Promise<SessionCookie | null> {
+async function fetchAuthenticatedUser(token: string): Promise<AuthenticatedUser | null> {
+  if (!token) return null;
+
+  const response = await fetch(`${resolveApiBaseUrl()}/api/auth/me`, {
+    headers: {
+      Cookie: `token=${token}`,
+      Accept: "application/json",
+    },
+    cache: "no-store",
+  });
+
+  if (response.status === 401) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error(`Failed to verify authentication (${response.status})`);
+  }
+
+  const data = (await response.json()) as { id: string; email: string; role: UserRole };
+
+  return {
+    id: data.id,
+    email: data.email,
+    role: data.role,
+    name: null,
+  };
+}
+
+export async function getSession(): Promise<SessionContext | null> {
   const cookieStore = await cookies();
-  return parseSessionCookie(cookieStore.get(SESSION_COOKIE_KEY)?.value);
+  const tokenCookie = cookieStore.get("token");
+
+  if (!tokenCookie?.value) {
+    return null;
+  }
+
+  const user = await fetchAuthenticatedUser(tokenCookie.value);
+  if (!user) {
+    return null;
+  }
+
+  return {
+    token: tokenCookie.value,
+    user,
+  };
 }
 
 export async function requireUser(): Promise<AuthenticatedUser> {
   const session = await getSession();
-  if (!session?.user) {
+  if (!session) {
     redirect("/login");
   }
 
@@ -58,7 +98,7 @@ function redirectForRole(role: UserRole): never {
     case "ADMIN":
       redirect("/dashboard/admin");
     default:
-      redirect("/dashboard");
+      redirect("/dashboard/member");
   }
 }
 

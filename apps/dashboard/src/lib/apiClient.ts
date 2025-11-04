@@ -29,6 +29,7 @@ export async function apiFetch<T = unknown>(
   const response = await fetch(buildUrl(endpoint), {
     ...options,
     headers,
+    credentials: options.credentials ?? "include",
   });
 
   const contentType = response.headers.get("content-type") ?? "";

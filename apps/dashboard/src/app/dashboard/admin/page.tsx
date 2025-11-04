@@ -40,7 +40,7 @@ export default async function AdminOverviewPage() {
       <section className="rounded-[2.75rem] border border-[#C8A1B4]/40 bg-white/95 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)]">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Admin</p>
         <h1 className="mt-3 font-[var(--font-playfair)] text-3xl text-[#3E2F35] sm:text-4xl">
-          Hello, {user.name?.split(" ")[0] ?? "Admin"}
+          Hello, {user.name?.split(" ")[0] ?? user.email?.split("@")[0] ?? "Admin"}
         </h1>
         <p className="mt-4 max-w-3xl text-sm text-[#3E2F35]/70">
           Stay ahead of operations across invites, mentor staffing, and registry health. Every concierge signal routes

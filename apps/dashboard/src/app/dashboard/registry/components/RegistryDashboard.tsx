@@ -173,7 +173,7 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
           </p>
         </div>
         <Link
-          href="/dashboard"
+          href="/dashboard/member"
           className="inline-flex items-center gap-2 text-sm font-semibold text-[#C8A1B4] hover:text-[#B98BA5]"
         >
           ← Dashboard Home

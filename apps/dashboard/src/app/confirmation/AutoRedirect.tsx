@@ -8,8 +8,7 @@ export default function AutoRedirect() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const destination = "/dashboard" as const;
-      router.push(destination);
+      router.push("/dashboard/member");
     }, 3500);
 
     return () => clearTimeout(timer);

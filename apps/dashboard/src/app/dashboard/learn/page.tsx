@@ -106,7 +106,7 @@ export default function LearnPage() {
           beautiful.
         </p>
         <Link
-          href="/dashboard"
+          href="/dashboard/member"
           className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_10px_30px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_40px_rgba(200,161,180,0.35)]"
         >
           Return to Dashboard

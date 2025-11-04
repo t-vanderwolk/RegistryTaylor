@@ -35,6 +35,13 @@ function DashboardShell({
   asideDescription,
   NavComponent,
 }: DashboardShellProps) {
+  const homeHref =
+    user.role === "ADMIN"
+      ? ("/dashboard/admin" as const)
+      : user.role === "MENTOR"
+      ? ("/dashboard/mentor" as const)
+      : ("/dashboard/member" as const);
+
   return (
     <div
       className={[
@@ -44,7 +51,7 @@ function DashboardShell({
         "min-h-screen bg-ivory text-charcoal-500 antialiased",
       ].join(" ")}
     >
-      <DashboardPrimaryNav profileMenu={<ProfileMenu user={user} />} />
+      <DashboardPrimaryNav profileMenu={<ProfileMenu user={user} />} brandHref={homeHref} />
 
       <div className="flex min-h-screen flex-col bg-ivory pb-24 md:pb-0">
         <header className="relative z-10 border-b border-gold/30 bg-white/85 px-6 py-6 shadow-[0_12px_35px_rgba(200,161,180,0.12)] backdrop-blur-sm lg:px-10">

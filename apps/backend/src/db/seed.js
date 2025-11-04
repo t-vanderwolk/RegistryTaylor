@@ -1,202 +1,424 @@
-// 🌱 Taylor-Made Baby Co. — Unified MVP Seeder
-const { PrismaClient, UserRole, RegistrySource } = require('@prisma/client');
-const prisma = new PrismaClient();
+import bcrypt from 'bcryptjs';
+import { Prisma } from '@prisma/client';
+import prisma from './prismaClient.js';
 
-async function main() {
-  console.log('🌸 Starting Taylor-Made Baby Co. MVP Seed...');
-
-  // 1️⃣ USERS
-  const users = await Promise.all([
-    prisma.user.upsert({
-      where: { email: 'admin@me.com' },
-      update: {},
-      create: {
-        id: 'admin-id',
-        email: 'admin@me.com',
-        name: 'Admin User',
-        password: 'Karma',
-        role: UserRole.ADMIN,
-      },
-    }),
-    prisma.user.upsert({
-      where: { email: 'mentor@me.com' },
-      update: {},
-      create: {
-        id: 'mentor-id',
-        email: 'mentor@me.com',
-        name: 'Mentor User',
-        password: 'Karma',
-        role: UserRole.MENTOR,
-      },
-    }),
-    prisma.user.upsert({
-      where: { email: 'user@me.com' },
-      update: {},
-      create: {
-        id: 'member-id',
-        email: 'user@me.com',
-        name: 'Member User',
-        password: 'Karma',
-        role: UserRole.MEMBER,
-      },
-    }),
-  ]);
-
-  const [admin, mentor, member] = users;
-  console.log('👤 Users created:', users.map(u => u.email));
-
-  // 2️⃣ PROFILES
-  await prisma.profile.upsert({
-    where: { userId: member.id },
-    update: {},
-    create: {
-      userId: member.id,
-      dueDate: new Date('2025-12-25'),
-      city: 'Scottsdale',
-      state: 'AZ',
-      lifestyle: 'Balanced',
-      preferences: 'Modern neutral nursery, sustainable gear',
+const USERS = [
+  {
+    email: 'admin@me.com',
+    role: 'ADMIN',
+    profile: {
+      conciergePriority: 1,
+      notes: 'Taylor-Made administrator account.',
     },
-  });
-  console.log('💅 Profile added for member.');
-
-  // 3️⃣ QUESTIONNAIRE
-  await prisma.questionnaire.upsert({
-    where: { userId: member.id },
-    update: {},
-    create: {
-      userId: member.id,
-      babyStage: 'Expecting',
-      registryStatus: 'Building',
-      priorities: 'Gear education, nursery setup, postpartum planning',
-      conciergePriority: 'Registry planning',
+  },
+  {
+    email: 'mentor@me.com',
+    role: 'MENTOR',
+    profile: {
+      conciergePriority: 2,
+      notes: 'Lead concierge mentor for onboarding members.',
     },
-  });
-  console.log('📝 Questionnaire seeded.');
-
-  // 4️⃣ REGISTRY ITEMS
-  await prisma.registryItem.createMany({
-    data: [
-      {
-        id: 'registry-silver-cross-reef',
-        userId: member.id,
-        name: 'Silver Cross Reef Stroller',
-        brand: 'Silver Cross',
-        category: 'Gear',
-        retailer: 'Silver Cross',
-        price: 1099.99,
-        imageUrl:
-          'https://images.unsplash.com/photo-1617220934141-9846fd8dfeaf?auto=format&fit=crop&w=1024&q=80',
-        url: 'https://silvercrossus.com/?ref=4762',
-        notes: 'Convertible travel system with sustainable fabrics.',
-        source: RegistrySource.INDEPENDENT,
-      },
-      {
-        id: 'registry-hatch-rest',
-        userId: member.id,
-        name: 'Hatch Rest+ Night Light',
-        brand: 'Hatch',
-        category: 'Nursery',
-        retailer: 'MacroBaby',
-        price: 89,
-        imageUrl:
-          'https://images.unsplash.com/photo-1616627816303-9611a3043cac?auto=format&fit=crop&w=1024&q=80',
-        url:
-          'https://www.macrobaby.com/products/hatch-rest-plus-night-light?_j=4496818',
-        notes: 'Customizable glow and sound playlists for bedtime.',
-        source: RegistrySource.STATIC,
-      },
-    ],
-    skipDuplicates: true,
-  });
-  console.log('🛍️ Registry items seeded.');
-
-  // 5️⃣ ACADEMY MODULES
-  const academyModules = [
-    {
-      id: 'academy-nursery',
-      title: 'Nursery Vision & Foundations',
-      description: 'Designing your dream nursery with function and flow.',
-      category: 'Nursery',
-      order: 1,
+  },
+  {
+    email: 'member@me.com',
+    role: 'MEMBER',
+    profile: {
+      conciergePriority: 3,
+      notes: 'Pilot member seeded via Prisma script.',
     },
-    {
-      id: 'academy-gear',
-      title: 'Gear & Safety Essentials',
-      description:
-        'Learn about strollers, car seats, and baby gear for your lifestyle.',
-      category: 'Gear',
-      order: 2,
+    questionnaire: {
+      dueDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 90),
+      availability: 'Weeknights after 6pm ET',
+      birthLocation: 'Mount Sinai West',
+      supportNeeds:
+        'Looking for registry guidance, mentor matching, and postpartum planning.',
+      preferences: {
+        birthPlan: 'Unmedicated birth with doula support',
+        nurseryStyle: 'Warm neutrals with natural materials',
+      },
     },
-    {
-      id: 'academy-postpartum',
-      title: 'Postpartum Wellness & Recovery',
-      description: 'Holistic support for new parents—body, mind, and home.',
-      category: 'Postpartum',
-      order: 3,
+  },
+];
+
+const ACADEMY_MODULES = [
+  {
+    slug: 'welcome',
+    title: 'Welcome to the Academy',
+    summary: 'Start here to explore your Taylor-Made Baby Co. journey.',
+    content: {
+      sections: [
+        {
+          heading: 'Orientation',
+          body: 'Meet your concierge team and learn how to navigate the portal.',
+        },
+        {
+          heading: 'Next Steps',
+          body: 'Schedule your kickoff call and complete the onboarding questionnaire.',
+        },
+      ],
     },
-  ];
+  },
+  {
+    slug: 'nursery',
+    title: 'Preparing Your Nursery',
+    summary: 'Guided checklists and curated product suggestions.',
+    content: {
+      sections: [
+        {
+          heading: 'Layout Planning',
+          body: 'Create safe sleep zones, diaper stations, and cozy nursing nooks.',
+        },
+        {
+          heading: 'Curated Essentials',
+          body: 'Concierge-approved gear and decor for every nursery style.',
+        },
+      ],
+    },
+  },
+];
 
-  await prisma.academyModule.createMany({
-    data: academyModules,
-    skipDuplicates: true,
-  });
-  console.log('🎓 Academy modules added.');
+const REGISTRY_ITEMS = [
+  {
+    name: 'Doona Infant Car Seat & Stroller',
+    brand: 'Doona',
+    category: 'Travel',
+    price: '550.00',
+    url: 'https://example.com/products/doona',
+    source: 'myregistry',
+    notes: 'Seamless travel system perfect for city families.',
+  },
+  {
+    name: 'Snoo Smart Sleeper Bassinet',
+    brand: 'Happiest Baby',
+    category: 'Sleep',
+    price: '1695.00',
+    url: 'https://example.com/products/snoo',
+    source: 'babylist',
+    notes: 'Smart bassinet that automatically soothes newborns.',
+  },
+];
 
-  // 6️⃣ BLOG POSTS
-  await prisma.blogPost.createMany({
-    data: [
-      {
-        id: 'blog-sleep-space',
-        title: 'Setting Up a Safe Sleep Space',
-        slug: 'safe-sleep-space',
-        content:
-          'Learn the essentials of safe sleep for your baby — from firm mattresses to temperature control.',
-        author: 'Taylor Vanderwolk',
-      },
-      {
-        id: 'blog-stroller-journey',
-        title: 'Finding the Perfect Stroller',
-        slug: 'finding-perfect-stroller',
-        content:
-          'How to choose a stroller that fits your lifestyle, budget, and future growth needs.',
-        author: 'Taylor Vanderwolk',
-      },
-    ],
-    skipDuplicates: true,
-  });
-  console.log('📰 Blog posts inserted.');
-
-  // 7️⃣ ACADEMY PROGRESS (Demo Data)
-  await prisma.academyProgress.createMany({
-    data: [
-      {
-        id: 'progress-nursery',
-        userId: member.id,
-        moduleId: 'academy-nursery',
-        completed: true,
-        percent: 100,
-      },
-      {
-        id: 'progress-gear',
-        userId: member.id,
-        moduleId: 'academy-gear',
-        completed: false,
-        percent: 40,
-      },
-    ],
-    skipDuplicates: true,
-  });
-  console.log('📈 Academy progress demo added.');
-
-  console.log('🌟 Taylor-Made Baby Co. seed complete!');
+async function resetSchema() {
+  await prisma.eventRsvp.deleteMany();
+  await prisma.event.deleteMany();
+  await prisma.blogPost.deleteMany();
+  await prisma.communityPost.deleteMany();
+  await prisma.registryNote.deleteMany();
+  await prisma.registryItem.deleteMany();
+  await prisma.registryCatalogItem.deleteMany();
+  await prisma.academyProgress.deleteMany();
+  await prisma.workbookEntry.deleteMany();
+  await prisma.academyModule.deleteMany();
+  await prisma.questionnaire.deleteMany();
+  await prisma.profile.deleteMany();
+  await prisma.user.deleteMany();
 }
 
-main()
-  .catch((e) => {
-    console.error('❌ Seed failed', e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
+async function seedUsers() {
+  const passwordHash = await bcrypt.hash('Karma', 10);
+
+  for (const user of USERS) {
+    const upsertedUser = await prisma.user.upsert({
+      where: { email: user.email },
+      update: {
+        passwordHash,
+        role: user.role,
+      },
+      create: {
+        email: user.email,
+        passwordHash,
+        role: user.role,
+      },
+    });
+
+    await prisma.profile.upsert({
+      where: { userId: upsertedUser.id },
+      update: {
+        conciergePriority: user.profile.conciergePriority,
+        notes: user.profile.notes,
+      },
+      create: {
+        userId: upsertedUser.id,
+        conciergePriority: user.profile.conciergePriority,
+        notes: user.profile.notes,
+      },
+    });
+
+    if (user.questionnaire) {
+      await prisma.questionnaire.upsert({
+        where: { userId: upsertedUser.id },
+        update: user.questionnaire,
+        create: {
+          userId: upsertedUser.id,
+          ...user.questionnaire,
+        },
+      });
+    }
+  }
+
+  // Link member profile to mentor user after upserts
+  const mentor = await prisma.user.findUnique({
+    where: { email: 'mentor@me.com' },
+    select: { id: true },
   });
+  const member = await prisma.user.findUnique({
+    where: { email: 'member@me.com' },
+    select: { id: true },
+  });
+
+  if (mentor && member) {
+    await prisma.profile.updateMany({
+      where: { userId: member.id },
+      data: { mentorId: mentor.id },
+    });
+  }
+}
+
+async function seedAcademy() {
+  for (const module of ACADEMY_MODULES) {
+    await prisma.academyModule.upsert({
+      where: { slug: module.slug },
+      update: {
+        title: module.title,
+        summary: module.summary,
+        content: module.content,
+      },
+      create: module,
+    });
+  }
+
+  const member = await prisma.user.findUnique({
+    where: { email: 'member@me.com' },
+    select: { id: true },
+  });
+
+  const modules = await prisma.academyModule.findMany({
+    select: { id: true, slug: true },
+  });
+
+  if (member) {
+    for (const module of modules) {
+      await prisma.academyProgress.upsert({
+        where: {
+          userId_moduleId: {
+            userId: member.id,
+            moduleId: module.id,
+          },
+        },
+        update: { percent: module.slug === 'welcome' ? 80 : 20 },
+        create: {
+          userId: member.id,
+          moduleId: module.id,
+          percent: module.slug === 'welcome' ? 80 : 20,
+        },
+      });
+    }
+  }
+}
+
+async function seedRegistry() {
+  const member = await prisma.user.findUnique({
+    where: { email: 'member@me.com' },
+    select: { id: true },
+  });
+
+  if (!member) {
+    return;
+  }
+
+  for (const item of REGISTRY_ITEMS) {
+    const externalId = item.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    const price = item.price ? new Prisma.Decimal(item.price) : null;
+
+    await prisma.registryCatalogItem.upsert({
+      where: { id: externalId },
+      update: {
+        externalId,
+        title: item.name,
+        brand: item.brand ?? null,
+        retailer: item.brand ?? null,
+        category: item.category ?? null,
+        price,
+        url: item.url ?? null,
+        affiliateUrl: item.url ?? null,
+        source: item.source,
+      },
+      create: {
+        id: externalId,
+        externalId,
+        title: item.name,
+        brand: item.brand ?? null,
+        retailer: item.brand ?? null,
+        category: item.category ?? null,
+        price,
+        url: item.url ?? null,
+        affiliateUrl: item.url ?? null,
+        source: item.source,
+      },
+    });
+
+    await prisma.registryItem.upsert({
+      where: {
+        externalId_userId: {
+          externalId,
+          userId: member.id,
+        },
+      },
+      update: {
+        name: item.name,
+        brand: item.brand ?? null,
+        category: item.category ?? null,
+        price,
+        url: item.url ?? null,
+        retailer: item.brand ?? null,
+        notes: item.notes ?? null,
+        source: item.source,
+        affiliateUrl: item.url ?? null,
+        affiliateId: externalId,
+        importedFrom: item.url ?? null,
+        imageUrl: null,
+      },
+      create: {
+        userId: member.id,
+        name: item.name,
+        brand: item.brand ?? null,
+        category: item.category ?? null,
+        price,
+        url: item.url ?? null,
+        retailer: item.brand ?? null,
+        notes: item.notes ?? null,
+        source: item.source,
+        affiliateUrl: item.url ?? null,
+        affiliateId: externalId,
+        externalId,
+        importedFrom: item.url ?? null,
+        imageUrl: null,
+      },
+    });
+  }
+}
+
+async function seedContent() {
+  const admin = await prisma.user.findUnique({
+    where: { email: 'admin@me.com' },
+    select: { id: true },
+  });
+  const mentor = await prisma.user.findUnique({
+    where: { email: 'mentor@me.com' },
+    select: { id: true },
+  });
+
+  if (mentor) {
+    const welcomePost = await prisma.communityPost.findFirst({
+      where: { title: 'Welcome to Taylor-Made Baby Co.' },
+    });
+
+    if (welcomePost) {
+      await prisma.communityPost.update({
+        where: { id: welcomePost.id },
+        data: {
+          authorId: mentor.id,
+          body: 'Introduce yourself below and let us know how we can support you this trimester.',
+          tags: ['welcome', 'mentorship'],
+        },
+      });
+    } else {
+      await prisma.communityPost.create({
+        data: {
+          authorId: mentor.id,
+          title: 'Welcome to Taylor-Made Baby Co.',
+          body: 'Introduce yourself below and let us know how we can support you this trimester.',
+          tags: ['welcome', 'mentorship'],
+        },
+      });
+    }
+  }
+
+  if (admin) {
+    const existingEvent = await prisma.event.findFirst({
+      where: { title: 'Monthly Concierge Q&A' },
+    });
+
+    const event = existingEvent
+      ? await prisma.event.update({
+          where: { id: existingEvent.id },
+          data: {
+            createdById: admin.id,
+            startsAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+            endsAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7 + 60 * 60 * 1000),
+            location: 'Virtual (Zoom)',
+          },
+        })
+      : await prisma.event.create({
+          data: {
+            createdById: admin.id,
+            title: 'Monthly Concierge Q&A',
+            description:
+              'Live session covering trimester planning, registry strategy, and member wins.',
+            startsAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+            endsAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7 + 60 * 60 * 1000),
+            location: 'Virtual (Zoom)',
+          },
+        });
+
+    const member = await prisma.user.findUnique({
+      where: { email: 'member@me.com' },
+      select: { id: true },
+    });
+
+    if (member) {
+      await prisma.eventRsvp.upsert({
+        where: {
+          eventId_userId: {
+            eventId: event.id,
+            userId: member.id,
+          },
+        },
+        update: { status: 'GOING' },
+        create: {
+          eventId: event.id,
+          userId: member.id,
+          status: 'GOING',
+        },
+      });
+    }
+  }
+
+  await prisma.blogPost.upsert({
+    where: { slug: 'supporting-modern-parents' },
+    update: {
+      title: 'Supporting Modern Parents with Concierge Care',
+      excerpt:
+        'How personalized concierge programs help families feel prepared for every milestone.',
+      body: 'Full article content coming soon. Subscribe for updates.',
+    },
+    create: {
+      slug: 'supporting-modern-parents',
+      title: 'Supporting Modern Parents with Concierge Care',
+      excerpt:
+        'How personalized concierge programs help families feel prepared for every milestone.',
+      body: 'Full article content coming soon. Subscribe for updates.',
+    },
+  });
+}
+
+async function main() {
+  console.log('🌸 Starting Taylor-Made Baby Co. seed...');
+
+  await resetSchema();
+  await seedUsers();
+  await seedAcademy();
+  await seedRegistry();
+  await seedContent();
+
+  console.log('✅ Seed complete');
+}
+
+main().catch((error) => {
+  console.error('❌ Seed failed', error);
+  process.exit(1);
+});

@@ -152,7 +152,7 @@ export default async function ModulePage({ params }: { params: { slug: string } 
         <a href="/dashboard/plan" className="font-semibold text-[#C8A1B4] underline underline-offset-4">
           Plan →
         </a>{" "}
-        to see personalized updates for you, {user.name?.split(" ")[0] ?? "Member"}.
+        to see personalized updates for you, {user.name?.split(" ")[0] ?? user.email?.split("@")[0] ?? "Member"}.
       </footer>
     </article>
   );

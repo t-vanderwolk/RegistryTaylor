@@ -107,8 +107,22 @@ export default function PrimaryNav({
     if (navItems) {
       return navItems;
     }
+    if (brandHref !== "/dashboard") {
+      return DASHBOARD_NAV_ITEMS.map((item) => {
+        if (item.label !== "Home") {
+          return item;
+        }
+
+        return {
+          ...item,
+          href: brandHref,
+          isActive: (currentPath: string) => currentPath === brandHref,
+        } satisfies NavItem;
+      });
+    }
+
     return DASHBOARD_NAV_ITEMS;
-  }, [navItems]);
+  }, [navItems, brandHref]);
 
   return (
     <>

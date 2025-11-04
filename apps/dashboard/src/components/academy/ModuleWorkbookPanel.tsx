@@ -82,47 +82,47 @@ export default function ModuleWorkbookPanel({ moduleSlug, moduleTitle, prompt }:
   const lastSavedAt = entry ? new Date(entry.updatedAt) : null;
 
   return (
-    <div className="space-y-6 rounded-2xl bg-taupe p-6 text-sm text-charcoal-500 shadow-sm">
+    <div className="space-y-6 rounded-3xl border border-[#EED6D3] bg-white p-6 text-sm text-[#3E2F35]">
       <header className="space-y-2 text-left">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-mauve-700">Workbook · Private</p>
-        <h3 className="font-serif text-2xl text-charcoal-700">My reflections for {moduleTitle}</h3>
-        <p className="text-[15px] leading-relaxed text-charcoal-500">
+        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#3E2F35]/60">Workbook · Private</p>
+        <h3 className="font-serif text-2xl text-[#3E2F35]">My reflections for {moduleTitle}</h3>
+        <p className="text-[15px] leading-relaxed text-[#3E2F35]/75">
           Only you can see your workbook entries — this is your safe space to track progress and capture what matters most.
         </p>
       </header>
 
-      <div className="space-y-3 rounded-2xl border border-gold/40 bg-ivory p-5">
+      <div className="space-y-3 rounded-2xl border border-[#EED6D3] bg-[#F8F6F3] p-5">
         {prompt ? (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-mauve-700">Module prompt</p>
-            <p className="mt-2 font-sans text-[17px] leading-[1.7] text-charcoal-500">{prompt}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#3E2F35]/60">Module prompt</p>
+            <p className="mt-2 font-sans text-[17px] leading-[1.7] text-[#3E2F35]/85">{prompt}</p>
           </div>
         ) : null}
         {playfulPrompt ? (
-          <div className="rounded-xl bg-white p-4 shadow-inner">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-mauve-700">Daily spark {HUMOR_EMOJI}</p>
-            <p className="mt-2 font-sans text-[16px] leading-[1.7] text-charcoal-500">{playfulPrompt.text}</p>
+          <div className="rounded-xl border border-[#EED6D3] bg-white p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#3E2F35]/60">Daily spark {HUMOR_EMOJI}</p>
+            <p className="mt-2 font-sans text-[16px] leading-[1.7] text-[#3E2F35]/85">{playfulPrompt.text}</p>
           </div>
         ) : null}
       </div>
 
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-[0.35em] text-mauve-700">Your entry</label>
+        <label className="block text-xs font-semibold uppercase tracking-[0.35em] text-[#3E2F35]/60">Your entry</label>
         <textarea
           value={text}
           onChange={(event) => handleChange(event.target.value)}
           rows={6}
-          className="mt-3 w-full rounded-2xl border border-mauve-100 bg-white px-4 py-3 font-sans text-[16px] leading-relaxed text-charcoal-700 focus:border-mauve-500 focus:outline-none focus:ring-1 focus:ring-mauve-500"
+          className="mt-3 w-full rounded-2xl border border-[#EED6D3] bg-white px-4 py-3 font-sans text-[16px] leading-relaxed text-[#3E2F35] focus:border-[#C8A6B6] focus:outline-none focus:ring-1 focus:ring-[#C8A6B6]"
           placeholder="Write what’s true today..."
         />
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-500">
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/70">
         <div>
           {error ? (
-            <span className="text-mauve-700">{error}</span>
+            <span className="text-[#C8A6B6]">{error}</span>
           ) : status === "saved" ? (
-            <span className="text-mauve-700">Saved</span>
+            <span className="text-[#C8A6B6]">Saved</span>
           ) : status === "saving" ? (
             <span>Saving…</span>
           ) : status === "dirty" ? (
@@ -136,7 +136,7 @@ export default function ModuleWorkbookPanel({ moduleSlug, moduleTitle, prompt }:
         <button
           type="button"
           onClick={handleSave}
-          className="inline-flex items-center rounded-full bg-mauve-500 px-4 py-2 text-white transition hover:bg-mauve-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex items-center rounded-full bg-[#EED6D3] px-4 py-2 text-[#3E2F35] transition hover:bg-[#C8A6B6] hover:text-white disabled:cursor-not-allowed disabled:bg-[#EED6D3]/70"
           disabled={status === "saving"}
         >
           Save entry

@@ -16,6 +16,7 @@ type ContextValue = {
   progress: ProgressMap;
   setProgressFor: (_slug: string, _next: ModuleProgress) => void;
   refresh: () => Promise<void>;
+  getMilestone: (_slug: string) => { index: number; total: number };
 };
 
 const AcademyProgressContext = createContext<ContextValue | null>(null);
@@ -23,10 +24,19 @@ const AcademyProgressContext = createContext<ContextValue | null>(null);
 type AcademyProgressProviderProps = {
   initialProgress: ProgressMap;
   children: ReactNode;
+  moduleOrder?: string[];
 };
 
-export function AcademyProgressProvider({ initialProgress, children }: AcademyProgressProviderProps) {
+export function AcademyProgressProvider({
+  initialProgress,
+  children,
+  moduleOrder,
+}: AcademyProgressProviderProps) {
   const [progress, setProgress] = useState<ProgressMap>(initialProgress);
+  const orderedSlugs = useMemo(
+    () => moduleOrder ?? Object.keys(initialProgress),
+    [moduleOrder, initialProgress]
+  );
 
   const setProgressFor = useCallback((slug: string, next: ModuleProgress) => {
     setProgress((current) => ({
@@ -81,8 +91,16 @@ export function AcademyProgressProvider({ initialProgress, children }: AcademyPr
       progress,
       setProgressFor,
       refresh,
+      getMilestone: (slug: string) => {
+        const index = orderedSlugs.indexOf(slug);
+        const total = orderedSlugs.length || 1;
+        return {
+          index: index >= 0 ? index : 0,
+          total,
+        };
+      },
     }),
-    [progress, refresh, setProgressFor]
+    [progress, refresh, setProgressFor, orderedSlugs]
   );
 
   return <AcademyProgressContext.Provider value={value}>{children}</AcademyProgressContext.Provider>;

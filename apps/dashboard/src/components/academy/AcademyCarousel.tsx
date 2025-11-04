@@ -96,7 +96,7 @@ export default function AcademyCarousel({ modules, initialSlug }: AcademyCarouse
           <button
             type="button"
             onClick={() => paginate(-1)}
-            className="absolute left-0 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#E8E3E1] bg-white/80 text-[#3E2F35] shadow-[0_12px_28px_rgba(62,47,53,0.08)] transition hover:-translate-y-0.5 hover:bg-white"
+            className="absolute left-0 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#EED6D3] bg-white text-[#3E2F35] transition hover:bg-[#EED6D3]/40"
             aria-label="Previous module"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -127,7 +127,7 @@ export default function AcademyCarousel({ modules, initialSlug }: AcademyCarouse
           <button
             type="button"
             onClick={() => paginate(1)}
-            className="absolute right-0 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#E8E3E1] bg-white/80 text-[#3E2F35] shadow-[0_12px_28px_rgba(62,47,53,0.08)] transition hover:-translate-y-0.5 hover:bg-white"
+            className="absolute right-0 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#EED6D3] bg-white text-[#3E2F35] transition hover:bg-[#EED6D3]/40"
             aria-label="Next module"
           >
             <ChevronRight className="h-5 w-5" />
@@ -160,7 +160,7 @@ export default function AcademyCarousel({ modules, initialSlug }: AcademyCarouse
               );
             })}
           </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9B8C91]">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60">
             {wrapIndex(index, modules.length) + 1} / {modules.length}
           </p>
         </div>

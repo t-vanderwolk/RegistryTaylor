@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { requireMember } from "@/lib/auth";
 import { getAcademyModule, getAcademyModules } from "@/lib/academy";
 import { AcademyProgressProvider } from "@/components/academy/ProgressContext";
-import AcademyCarousel from "@/components/academy/AcademyCarousel";
 import ModuleDetail from "@/components/academy/ModuleDetail";
 import type { ModuleProgress } from "@/types/academy";
 
@@ -56,13 +55,15 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
 
   const progressMap = buildProgressMap(modules);
 
+  const moduleOrder = modules.map((module) => module.slug);
+
   return (
-    <AcademyProgressProvider initialProgress={progressMap}>
+    <AcademyProgressProvider initialProgress={progressMap} moduleOrder={moduleOrder}>
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 pb-16 pt-10 md:gap-12 md:px-10">
         <div>
           <Link
             href="/academy"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#9B8C91] transition hover:text-[#3E2F35]"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60 transition hover:text-[#3E2F35]"
           >
             ← Back to all modules
           </Link>
@@ -76,14 +77,33 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
         />
 
         {modules.length > 1 ? (
-          <section className="space-y-6 rounded-2xl border border-[#E8E3E1] bg-white/80 p-6 shadow-[0_18px_40px_rgba(62,47,53,0.06)] md:p-8">
+          <section className="space-y-4 rounded-3xl border border-[#EED6D3] bg-white p-6">
             <div className="space-y-2 text-center md:text-left">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-[#9B8C91]">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-[#3E2F35]/60">
                 Continue the journey
               </p>
-              <h2 className="font-serif text-2xl text-[#3E2F35]">Next up in the Taylor-Made Academy</h2>
+              <h2 className="font-serif text-2xl text-[#3E2F35]">Other chapters you may love</h2>
             </div>
-            <AcademyCarousel modules={modules} initialSlug={moduleEntry.slug} />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {modules
+                .filter((candidate) => candidate.slug !== moduleEntry.slug)
+                .slice(0, 4)
+                .map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/academy/${item.slug}`}
+                    className="flex flex-col gap-1 rounded-2xl border border-[#EED6D3] bg-[#F8F6F3] px-4 py-3 transition hover:border-[#C8A6B6]"
+                  >
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60">
+                      {item.category ?? item.journey ?? "Module"}
+                    </span>
+                    <span className="font-serif text-lg text-[#3E2F35]">{item.title}</span>
+                    {item.subtitle ? (
+                      <span className="text-sm text-[#3E2F35]/70">{item.subtitle}</span>
+                    ) : null}
+                  </Link>
+                ))}
+            </div>
           </section>
         ) : null}
       </div>

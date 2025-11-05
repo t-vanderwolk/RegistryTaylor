@@ -1,0 +1,27 @@
+2025-11-05 14:11:29.398 MST [8856] LOG:  starting PostgreSQL 16.10 (Homebrew) on aarch64-apple-darwin24.4.0, compiled by Apple clang version 17.0.0 (clang-1700.0.13.3), 64-bit
+2025-11-05 14:11:29.400 MST [8856] LOG:  listening on IPv6 address "::1", port 5432
+2025-11-05 14:11:29.400 MST [8856] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-11-05 14:11:29.400 MST [8856] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2025-11-05 14:11:29.402 MST [8859] LOG:  database system was shut down at 2025-11-05 14:10:12 MST
+2025-11-05 14:11:29.405 MST [8856] LOG:  database system is ready to accept connections
+2025-11-05 14:11:46.886 MST [8970] FATAL:  role "postgres" does not exist
+2025-11-05 14:13:24.776 MST [9329] ERROR:  role "postgres" already exists
+2025-11-05 14:13:24.776 MST [9329] STATEMENT:  CREATE ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'this_is_my_super_secret_password';
+2025-11-05 14:14:29.609 MST [9830] FATAL:  database "registry_taylor" does not exist
+2025-11-05 14:14:29.610 MST [9831] FATAL:  database "registry_taylor" does not exist
+2025-11-05 14:14:29.621 MST [9833] FATAL:  database "registry_taylor" does not exist
+2025-11-05 14:14:29.622 MST [9834] FATAL:  database "registry_taylor" does not exist
+2025-11-05 14:14:29.735 MST [9839] ERROR:  relation "_prisma_migrations" does not exist at character 126
+2025-11-05 14:14:29.735 MST [9839] STATEMENT:  SELECT "id", "checksum", "finished_at", "migration_name", "logs", "rolled_back_at", "started_at", "applied_steps_count" FROM "_prisma_migrations" ORDER BY "started_at" ASC
+2025-11-05 14:14:29.800 MST [8857] LOG:  checkpoint starting: immediate force wait
+2025-11-05 14:14:29.844 MST [8857] LOG:  checkpoint complete: wrote 1000 buffers (6.1%); 1 WAL file(s) added, 0 removed, 0 recycled; write=0.033 s, sync=0.008 s, total=0.045 s; sync files=317, longest=0.001 s, average=0.001 s; distance=9011 kB, estimate=9011 kB; lsn=0/1DE66B8, redo lsn=0/1DE6680
+2025-11-05 14:14:30.072 MST [8857] LOG:  checkpoint starting: immediate force wait
+2025-11-05 14:14:30.074 MST [8857] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=8, longest=0.001 s, average=0.001 s; distance=4911 kB, estimate=8601 kB; lsn=0/22B2658, redo lsn=0/22B2620
+2025-11-05 14:14:30.222 MST [8857] LOG:  checkpoint starting: immediate force wait
+2025-11-05 14:14:30.228 MST [8857] LOG:  checkpoint complete: wrote 132 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.004 s, total=0.007 s; sync files=155, longest=0.001 s, average=0.001 s; distance=5692 kB, estimate=8310 kB; lsn=0/2841660, redo lsn=0/2841628
+2025-11-05 14:19:30.227 MST [8857] LOG:  checkpoint starting: time
+2025-11-05 14:19:37.874 MST [8857] LOG:  checkpoint complete: wrote 76 buffers (0.5%); 0 WAL file(s) added, 0 removed, 0 recycled; write=7.642 s, sync=0.002 s, total=7.648 s; sync files=29, longest=0.001 s, average=0.001 s; distance=275 kB, estimate=7506 kB; lsn=0/2886640, redo lsn=0/2886608
+2025-11-05 14:24:30.887 MST [8857] LOG:  checkpoint starting: time
+2025-11-05 14:24:39.520 MST [8857] LOG:  checkpoint complete: wrote 86 buffers (0.5%); 0 WAL file(s) added, 0 removed, 0 recycled; write=8.625 s, sync=0.003 s, total=8.633 s; sync files=52, longest=0.001 s, average=0.001 s; distance=172 kB, estimate=6773 kB; lsn=0/28B1A10, redo lsn=0/28B19D8
+2025-11-05 14:29:30.520 MST [8857] LOG:  checkpoint starting: time
+2025-11-05 14:29:33.064 MST [8857] LOG:  checkpoint complete: wrote 26 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.538 s, sync=0.003 s, total=2.545 s; sync files=15, longest=0.001 s, average=0.001 s; distance=97 kB, estimate=6105 kB; lsn=0/28CA070, redo lsn=0/28CA038

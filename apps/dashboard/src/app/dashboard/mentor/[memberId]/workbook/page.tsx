@@ -2,6 +2,7 @@ import { apiFetch } from "@/lib/apiClient";
 import { requireMentor } from "@/lib/auth";
 import type { WorkbookEntry } from "@/app/dashboard/academy/workbook/workbookApi";
 import MentorWorkbookView from "./MentorWorkbookView";
+import MessagePanel from "@/components/connect/MessagePanel";
 
 type MentorWorkbookPageProps = {
   params: {
@@ -27,5 +28,10 @@ export default async function MentorWorkbookPage({ params }: MentorWorkbookPageP
     console.error(error);
   }
 
-  return <MentorWorkbookView entries={entries} />;
+  return (
+    <div className="space-y-8">
+      <MentorWorkbookView entries={entries} />
+      <MessagePanel participantId={params.memberId} />
+    </div>
+  );
 }

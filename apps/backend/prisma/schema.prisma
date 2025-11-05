@@ -26,6 +26,8 @@ model User {
   workbookEntries WorkbookEntry[]
   announcements   Announcement[]
   comments        Comment[]
+  sentMessages    Message[]         @relation("SentMessages")
+  receivedMessages Message[]        @relation("ReceivedMessages")
 }
 
 model Profile {
@@ -247,6 +249,22 @@ model PollOption {
   poll Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
 
   @@index([pollId])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+  read       Boolean  @default(false)
+
+  sender   User @relation("SentMessages", fields: [senderId], references: [id])
+  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([createdAt])
 }
 
 enum UserRole {

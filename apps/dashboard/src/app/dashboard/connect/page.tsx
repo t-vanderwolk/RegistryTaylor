@@ -3,6 +3,7 @@ import CommunityFeed from "./CommunityFeed";
 import EventsList from "./EventsList";
 import PollOfTheWeek from "./PollOfTheWeek";
 import { getConnectContent } from "./data";
+import MessagePanel from "@/components/connect/MessagePanel";
 import { requireMember } from "@/lib/auth";
 
 export const metadata = {
@@ -12,7 +13,7 @@ export const metadata = {
 
 export default async function ConnectPage() {
   await requireMember();
-  const { announcements, feedPosts, events, poll } = await getConnectContent();
+  const { announcements, feedPosts, events, poll, mentor } = await getConnectContent();
 
   return (
     <div className="space-y-10">
@@ -33,19 +34,20 @@ export default async function ConnectPage() {
         <CommunityFeed posts={feedPosts} />
         <aside className="space-y-6">
           <EventsList events={events} />
-          <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/90 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
-            <h3 className="font-[var(--font-playfair)] text-lg text-[#3E2F35]">Need concierge support?</h3>
-            <p className="mt-3 text-sm text-[#3E2F35]/70">
-              Drop questions for your mentor anytime. We curate responses during live sessions and send personalized
-              follow-ups straight to your journal.
-            </p>
-            <button
-              type="button"
-              className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
-            >
-              Message concierge →
-            </button>
-          </div>
+          {mentor ? (
+            <MessagePanel participantId={mentor.id} />
+          ) : (
+            <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/90 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
+              <h3 className="font-[var(--font-playfair)] text-lg text-[#3E2F35]">Need concierge support?</h3>
+              <p className="mt-3 text-sm text-[#3E2F35]/70">
+                Drop questions for your mentor anytime. We curate responses during live sessions and send personalized
+                follow-ups straight to your journal.
+              </p>
+              <p className="mt-4 text-xs text-[#3E2F35]/60">
+                We’ll introduce your mentor shortly. Messaging unlocks the moment you’re paired.
+              </p>
+            </div>
+          )}
         </aside>
       </section>
 

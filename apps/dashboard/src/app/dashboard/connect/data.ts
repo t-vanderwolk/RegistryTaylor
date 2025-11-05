@@ -64,6 +64,12 @@ export type WeeklyPoll = {
   options: PollOption[];
 };
 
+export type MentorContact = {
+  id: string;
+  name: string | null;
+  email: string | null;
+};
+
 type ApiCommunityPost = {
   id: string;
   title: string;
@@ -376,16 +382,50 @@ async function fetchWeeklyPoll(): Promise<WeeklyPoll> {
   return FALLBACK_WEEKLY_POLL;
 }
 
+async function fetchMentor(): Promise<MentorContact | null> {
+  try {
+    const profile = await apiFetch<{
+      profile?: {
+        mentor?: {
+          id: string;
+          email?: string | null;
+        } | null;
+      } | null;
+    }>("/api/profiles/me", {
+      cache: "no-store",
+      credentials: "include",
+    });
+
+    const mentor = profile?.profile?.mentor;
+    if (!mentor?.id) {
+      return null;
+    }
+
+    const name = mentor.email?.split("@")[0] ?? null;
+
+    return {
+      id: mentor.id,
+      email: mentor.email ?? null,
+      name,
+    };
+  } catch (error) {
+    console.error("Failed to load mentor profile", error);
+    return null;
+  }
+}
+
 export async function getConnectContent(): Promise<{
   announcements: AnnouncementCard[];
   feedPosts: CommunityFeedPost[];
   events: ConnectEvent[];
   poll: WeeklyPoll;
+  mentor: MentorContact | null;
 }> {
-  const [posts, events, poll] = await Promise.all([
+  const [posts, events, poll, mentor] = await Promise.all([
     fetchCommunityPosts(),
     fetchUpcomingEvents(),
     fetchWeeklyPoll(),
+    fetchMentor(),
   ]);
 
   const announcements = posts
@@ -400,5 +440,6 @@ export async function getConnectContent(): Promise<{
     feedPosts,
     events,
     poll,
+    mentor,
   };
 }

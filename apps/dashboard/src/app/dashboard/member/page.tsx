@@ -44,7 +44,7 @@ const HIGHLIGHTS: ReadonlyArray<{
     title: "Affiliate Perk",
     text: "Silver Cross  ·  10% off this week",
     actionLabel: "Shop →",
-    href: "/dashboard/registry" as Route,
+    href: "/dashboard/plan" as Route,
     accentClass: "focus-visible:ring-[#C8A1B4]/40",
   },
   {
@@ -76,7 +76,7 @@ const JOURNEY_LINKS: ReadonlyArray<{
     title: "Dynamic Registry",
     description: "See your curated picks and mentor recommendations.",
     buttonLabel: "Open Registry",
-    href: "/dashboard/registry" as Route,
+    href: "/dashboard/plan" as Route,
   },
   {
     icon: <MessageCircle />,

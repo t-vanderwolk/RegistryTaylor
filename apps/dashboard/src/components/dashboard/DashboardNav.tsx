@@ -14,7 +14,7 @@ type NavItem = { label: string; href: AppRoute; tab: DashboardTab };
 
 const NAV_ITEMS = [
   { label: "Learn", href: "/dashboard/learn/welcome", tab: "learn" },
-  { label: "Plan", href: "/dashboard/plan", tab: "plan" },
+  { label: "Plan & Registry", href: "/dashboard/plan", tab: "plan" },
   { label: "Connect", href: "/dashboard/connect", tab: "connect" },
   { label: "Journal", href: "/dashboard/journal", tab: "journal" },
 ] satisfies ReadonlyArray<NavItem & { href: Route }>;

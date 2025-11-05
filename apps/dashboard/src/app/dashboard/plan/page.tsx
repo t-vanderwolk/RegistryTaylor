@@ -1,64 +1,29 @@
 import type { Metadata } from "next";
 import { requireMember } from "@/lib/auth";
-import { getCatalogItems, getRegistryItems } from "@/lib/server/registryStore";
-import RegistryPlanner from "./RegistryPlanner";
-import type { RegistryCatalogItem, RegistryItem, RegistrySource } from "@/types/registry";
+import PlanHub from "./PlanHub";
 
 export const metadata: Metadata = {
-  title: "Registry Planner",
-  description: "Curate a concierge-level registry with Taylor’s dynamic recommendations.",
+  title: "Plan & Registry Hub",
+  description: "Merge concierge planning milestones with your bespoke registry in one village view.",
 };
 
 export default async function PlanPage() {
   const user = await requireMember();
-  const [itemsRaw, catalogRaw] = await Promise.all([getRegistryItems(user.id), getCatalogItems()]);
-
-  const items: RegistryItem[] = itemsRaw.map((item) => ({
-    id: item.id,
-    name: item.name,
-    brand: item.brand,
-    image: item.image,
-    price: item.price ?? null,
-    affiliateUrl: item.affiliateUrl,
-    category: item.category,
-    registrySource: item.registrySource,
-    affiliateId: item.affiliateId,
-    retailer: item.retailer,
-    description: item.description,
-    externalId: item.externalId,
-    importedFrom: item.importedFrom,
-    url: item.url,
-    mentorNote: item.mentorNote,
-  }));
-
-  const catalog: RegistryCatalogItem[] = catalogRaw.map((item) => ({
-    id: item.id,
-    externalId: item.externalId ?? undefined,
-    title: item.title,
-    brand: item.brand ?? undefined,
-    price: item.price ? Number(item.price) : null,
-    category: item.category ?? undefined,
-    image: item.image ?? undefined,
-    url: item.url ?? undefined,
-    affiliateUrl: item.affiliateUrl ?? undefined,
-    retailer: item.retailer ?? undefined,
-    source: item.source as RegistrySource,
-  }));
 
   return (
     <div className="space-y-10">
-      <section className="rounded-[2.75rem] border border-[#C9B5C9]/40 bg-white/95 p-8 shadow-[0_24px_55px_rgba(201,181,201,0.18)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C9B5C9]/80">Plan</p>
+      <section className="rounded-[2.75rem] border border-[#C8A1B4]/40 bg-white/95 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Plan &amp; Registry</p>
         <h1 className="mt-3 font-[var(--font-playfair)] text-3xl text-[#3E2F35] sm:text-4xl">
-          Taylor-Made Registry Planner
+          Village hub for your bespoke baby plan
         </h1>
         <p className="mt-4 max-w-3xl text-sm text-[#3E2F35]/70">
-          Manage your private registry, weave in concierge-curated catalog items, and keep gifting beautifully aligned
-          with your journey.
+          Flow between milestones, mentor notes, and curated registry pieces in one place. Sync feeds, add keepsakes,
+          and celebrate every concierge-crafted moment.
         </p>
       </section>
 
-      <RegistryPlanner initialItems={items} catalog={catalog} />
+      <PlanHub userId={user.id} userName={user.name ?? user.email ?? null} />
     </div>
   );
 }

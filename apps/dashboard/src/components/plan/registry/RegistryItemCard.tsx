@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import MentorNotesPanel from "./MentorNotesPanel";
 import { getRegistrySourceMeta } from "@/lib/registryMeta";
-import type { RegistryItem } from "@/types/registry";
+import type { RegistryItem } from "@/types/plan";
 
 type RegistryItemCardProps = {
   item: RegistryItem;

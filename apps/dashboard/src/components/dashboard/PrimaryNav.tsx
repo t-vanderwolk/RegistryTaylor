@@ -50,7 +50,7 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
       _pathname.startsWith("/dashboard/learn") || _pathname.startsWith("/dashboard/academy"),
   },
   {
-    label: "Plan",
+    label: "Plan & Registry",
     href: "/dashboard/plan" as Route,
     Icon: ClipboardList,
     isActive: (_pathname) =>

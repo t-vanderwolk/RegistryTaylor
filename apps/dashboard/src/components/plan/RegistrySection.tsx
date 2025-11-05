@@ -2,17 +2,22 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import CategoryFilter from "./CategoryFilter";
-import RegistryItemCard from "./RegistryItemCard";
-import ConnectMyRegistryButton from "./ConnectMyRegistryButton";
-import ConnectBabylistButton from "./ConnectBabylistButton";
+import CategoryFilter from "./registry/CategoryFilter";
+import RegistryItemCard from "./registry/RegistryItemCard";
+import ConnectMyRegistryButton from "./registry/ConnectMyRegistryButton";
+import ConnectBabylistButton from "./registry/ConnectBabylistButton";
 import SilverCrossBannerSet from "@/components/affiliate/SilverCrossBannerSet";
 import { getRegistrySourceMeta } from "@/lib/registryMeta";
-import type { RegistryCategory, RegistryItem, RegistrySource } from "@/types/registry";
+import type { RegistryCategory, RegistryItem, RegistrySource } from "@/types/plan";
 
-type RegistryDashboardProps = {
+type RegistrySectionProps = {
   userId: string;
   userName?: string | null;
+  initialItems: RegistryItem[];
+  metaSources: RegistrySource[];
+  onRefresh: () => Promise<unknown>;
+  onSaveNote: (_productId: string, _note: string) => Promise<void>;
+  savingNoteId: string | null;
 };
 
 type RegistryApiResponse = {
@@ -21,16 +26,34 @@ type RegistryApiResponse = {
 
 const DEFAULT_SOURCES: RegistrySource[] = ["macro", "silvercross", "awin", "cj", "myregistry", "babylist"];
 
-export default function RegistryDashboard({ userId, userName }: RegistryDashboardProps) {
-  const [items, setItems] = useState<RegistryItem[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function RegistrySection({
+  userId,
+  userName,
+  initialItems,
+  metaSources,
+  onRefresh,
+  onSaveNote,
+  savingNoteId,
+}: RegistrySectionProps) {
+  const [items, setItems] = useState<RegistryItem[]>(initialItems);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
-  const [savingNoteFor, setSavingNoteFor] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<RegistryCategory | null>(null);
-  const [activeSources, setActiveSources] = useState<RegistrySource[]>(DEFAULT_SOURCES);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [activeSources, setActiveSources] = useState<RegistrySource[]>(
+    metaSources.length ? metaSources : DEFAULT_SOURCES
+  );
   const statusTimeout = useRef<number | null>(null);
+
+  useEffect(() => {
+    setItems(initialItems);
+  }, [initialItems]);
+
+  useEffect(() => {
+    if (metaSources.length) {
+      setActiveSources(metaSources);
+    }
+  }, [metaSources]);
 
   useEffect(() => {
     return () => {
@@ -38,10 +61,6 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
         window.clearTimeout(statusTimeout.current);
       }
     };
-  }, []);
-
-  const refreshRegistry = useCallback(() => {
-    setRefreshKey((prev) => prev + 1);
   }, []);
 
   const announceStatus = useCallback((message: string) => {
@@ -67,6 +86,7 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
 
       const response = await fetch(`/api/registry?${params.toString()}`, {
         cache: "no-store",
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error("Unable to load registry items right now.");
@@ -82,9 +102,7 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
 
   useEffect(() => {
     void loadRegistry();
-  }, [loadRegistry, refreshKey]);
-
-  const displayedItems = items;
+  }, [loadRegistry]);
 
   const handleSourceToggle = useCallback((source: RegistrySource) => {
     setActiveSources((prev) => {
@@ -100,9 +118,6 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
     setActiveSources(DEFAULT_SOURCES);
   }, []);
 
-  const allSourcesActive = activeSources.length === DEFAULT_SOURCES.length;
-  const babylistOnlyActive = !activeCategory && activeSources.length === 1 && activeSources[0] === "babylist";
-
   const handleBabylistShortcut = useCallback(() => {
     setActiveSources((prev) => {
       if (prev.length === 1 && prev[0] === "babylist") {
@@ -113,63 +128,26 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
     setActiveCategory(null);
   }, []);
 
-  const handleSaveNote = useCallback(
-    async (productId: string, note: string) => {
-      setSavingNoteFor(productId);
-      setError(null);
-      try {
-        const response = await fetch("/api/registryNotes", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            productId,
-            note,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("We couldn't save that note. Please try again.");
-        }
-
-        const data = (await response.json()) as { note: { note: string } | null };
-        const nextNote = data?.note?.note ?? "";
-
-        setItems((prev) =>
-          prev.map((item) =>
-            item.id === productId
-              ? {
-                  ...item,
-                  mentorNote: nextNote || null,
-                }
-              : item
-          )
-        );
-
-        const message = nextNote ? "Mentor note saved." : "Mentor note cleared.";
-        announceStatus(message);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unable to save note right now.");
-        throw err;
-      } finally {
-        setSavingNoteFor(null);
-      }
-    },
-    [userId, announceStatus]
-  );
-
   const greetingName = useMemo(() => userName?.split(" ")[0] ?? "Member", [userName]);
+  const displayedItems = items;
+  const allSourcesActive = activeSources.length === DEFAULT_SOURCES.length;
+  const babylistOnlyActive = !activeCategory && activeSources.length === 1 && activeSources[0] === "babylist";
+
+  const handleRefresh = async (message: string) => {
+    announceStatus(message);
+    await onRefresh();
+    await loadRegistry();
+  };
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-8 rounded-[2.5rem] border border-[#C8A1B4]/35 bg-white/95 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)]">
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[#C8A1B4]/30 pb-6">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Registry</p>
-          <h1 className="mt-2 font-[var(--font-playfair)] text-3xl text-[#3E2F35]">My Registry</h1>
+          <h2 className="mt-2 font-[var(--font-playfair)] text-3xl text-[#3E2F35]">My Registry</h2>
           <p className="mt-1 text-sm text-[#3E2F35]/70">
-            {greetingName}, your concierge-curated picks update as you complete modules, connect feeds, and add mentor notes.
+            {greetingName}, your concierge-curated picks update as you complete modules, connect feeds, and add mentor
+            notes.
           </p>
         </div>
         <Link
@@ -180,19 +158,19 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
         </Link>
       </header>
 
-      <ConnectMyRegistryButton
-        onSynced={() => {
-          announceStatus("MyRegistry items synced.");
-          refreshRegistry();
-        }}
-      />
+      <div className="flex flex-wrap items-center gap-3">
+        <ConnectMyRegistryButton
+          onSynced={() => {
+            void handleRefresh("MyRegistry items synced.");
+          }}
+        />
 
-      <ConnectBabylistButton
-        onSynced={() => {
-          announceStatus("Babylist registry synced.");
-          refreshRegistry();
-        }}
-      />
+        <ConnectBabylistButton
+          onSynced={() => {
+            void handleRefresh("Babylist registry synced.");
+          }}
+        />
+      </div>
 
       <SilverCrossBannerSet />
 
@@ -205,8 +183,8 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
         />
         <div className="flex flex-wrap items-center gap-2">
           {DEFAULT_SOURCES.map((source) => {
-            const meta = getRegistrySourceMeta(source);
             const isActive = activeSources.includes(source);
+            const meta = getRegistrySourceMeta(source);
             return (
               <button
                 key={source}
@@ -252,8 +230,8 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
         </div>
       ) : displayedItems.length === 0 ? (
         <div className="rounded-[2.5rem] border border-dashed border-[#C8A1B4]/60 bg-[#FFFAF8] p-10 text-center text-sm text-[#3E2F35]/70 shadow-sm">
-          No registry items yet in <strong>{activeCategory ?? "any"}</strong>. Complete an academy module or ask your mentor
-          for fresh recommendations.
+          No registry items yet in <strong>{activeCategory ?? "any"}</strong>. Complete an academy module or ask your
+          mentor for fresh recommendations.
         </div>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -261,8 +239,8 @@ export default function RegistryDashboard({ userId, userName }: RegistryDashboar
             <RegistryItemCard
               key={item.id}
               item={item}
-              onSaveNote={handleSaveNote}
-              saving={savingNoteFor === item.id}
+              onSaveNote={onSaveNote}
+              saving={savingNoteId === item.id}
             />
           ))}
         </div>

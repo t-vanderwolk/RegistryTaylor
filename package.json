@@ -44,9 +44,7 @@
     "typescript": "5.3.3"
   },
   "engines": {
-    "node": "20.x",
-    "npm": "10.x",
-    "pnpm": "10.18.3"
+    "node": "20.x"
   },
   "packageManager": "pnpm@10.18.3",
   "prisma": {

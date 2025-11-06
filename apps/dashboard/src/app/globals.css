@@ -11,29 +11,29 @@
   }
 
   body {
-    @apply bg-ivory font-sans text-charcoal leading-relaxed;
+    @apply bg-tm-ivory font-sans text-tm-charcoal leading-relaxed;
   }
 
   h1 {
-    @apply mb-6 font-serif text-4xl font-semibold text-mauve-500 md:text-5xl;
+    @apply mb-6 font-serif text-4xl font-semibold text-tm-mauve md:text-5xl;
   }
 
   h2 {
-    @apply mb-4 font-serif text-3xl font-semibold text-mauve-500;
+    @apply mb-4 font-serif text-3xl font-semibold text-tm-mauve;
   }
 
   h3,
   h4 {
-    @apply font-serif text-mauve-500;
+    @apply font-serif text-tm-mauve;
   }
 
   strong,
   em {
-    @apply text-charcoal;
+    @apply text-tm-charcoal;
   }
 
   a {
-    @apply text-mauve-500 transition-colors hover:text-mauve-600 hover:underline hover:decoration-gold;
+    @apply text-tm-mauve transition-colors hover:text-tm-hover hover:underline hover:decoration-tm-gold;
   }
 
   button {
@@ -51,15 +51,15 @@
   }
 
   .academy-pill {
-    @apply inline-flex items-center rounded-full border border-mauve-500/30 bg-blush-200/60 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-charcoal;
+    @apply inline-flex items-center rounded-full border border-tm-mauve/40 bg-tm-blush/80 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-tm-charcoal;
   }
 
   .academy-button {
-    @apply inline-flex items-center justify-center rounded-full bg-rose px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal shadow-blush-soft transition duration-200 ease-bloom hover:-translate-y-0.5 hover:bg-mauve-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
+    @apply inline-flex items-center justify-center rounded-full bg-tm-rose px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-tm-charcoal shadow-soft transition duration-200 ease-bloom hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
   }
 
   .academy-outline-button {
-    @apply inline-flex items-center justify-center rounded-full border border-mauve-500/40 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal transition duration-200 ease-bloom hover:border-mauve-600 hover:bg-blush-200/60 hover:text-mauve-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
+    @apply inline-flex items-center justify-center rounded-full border border-tm-mauve/40 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-tm-charcoal transition duration-200 ease-bloom hover:border-tm-hover hover:bg-tm-blush/70 hover:text-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
   }
 
   .academy-gradient-divider {
@@ -71,7 +71,19 @@
   }
 
   .dashboard-pill {
-    @apply inline-flex items-center gap-2 rounded-full border border-mauve-500/30 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-charcoal shadow-blush-pill;
+    @apply inline-flex items-center gap-2 rounded-full border border-tm-mauve/40 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-tm-charcoal shadow-soft;
+  }
+
+  .card {
+    @apply bg-white/95 rounded-2xl border border-tm-gold/40 p-6 shadow-soft;
+  }
+
+  .section-header {
+    @apply font-serif text-2xl text-tm-mauve mb-4;
+  }
+
+  .cta-button {
+    @apply inline-flex items-center justify-center rounded-full bg-tm-mauve px-6 py-3 font-semibold uppercase tracking-[0.3em] text-tm-ivory transition hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
   }
 
   .notebook-surface {

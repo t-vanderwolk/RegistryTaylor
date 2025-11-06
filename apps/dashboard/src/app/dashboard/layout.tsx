@@ -8,6 +8,7 @@ import AdminDashboardNav from "@/components/dashboard/AdminDashboardNav";
 import ProfileMenu from "@/components/dashboard/ProfileMenu";
 import { greatVibes, nunito, playfair } from "@/app/fonts";
 import DashboardPrimaryNav from "@/components/dashboard/PrimaryNav";
+import MemberLayout from "@/components/layouts/MemberLayout";
 
 type DashboardLayoutProps = {
   children: ReactNode;
@@ -48,25 +49,25 @@ function DashboardShell({
         greatVibes.variable,
         nunito.variable,
         playfair.variable,
-        "min-h-screen bg-ivory text-charcoal-500 antialiased",
+        "min-h-screen bg-tm-ivory text-tm-charcoal antialiased",
       ].join(" ")}
     >
       <DashboardPrimaryNav profileMenu={<ProfileMenu user={user} />} brandHref={homeHref} />
 
-      <div className="flex min-h-screen flex-col bg-ivory pb-24 md:pb-0">
-        <header className="relative z-10 border-b border-gold/30 bg-white/85 px-6 py-6 shadow-[0_12px_35px_rgba(200,161,180,0.12)] backdrop-blur-sm lg:px-10">
+      <div className="flex min-h-screen flex-col bg-tm-ivory pb-24 md:pb-0">
+        <header className="relative z-10 border-b border-tm-gold/40 bg-white/85 px-6 py-6 shadow-[0_12px_35px_rgba(177,132,153,0.12)] backdrop-blur-sm lg:px-10">
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-mauve-500/80">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-tm-mauve/80">
               {headerSubtitle}
             </p>
-            <h1 className="font-serif text-2xl text-charcoal-700">{asideTitle}</h1>
-            <p className="text-sm text-charcoal-500/80">{asideDescription}</p>
+            <h1 className="font-serif text-2xl text-tm-charcoal">{asideTitle}</h1>
+            <p className="text-sm text-tm-charcoal/80">{asideDescription}</p>
           </div>
           <div className="mt-4 flex items-center justify-between md:hidden">
             <ProfileMenu user={user} />
             <Link
               href="/logout"
-              className="rounded-full border border-[#C8A1B4]/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#3E2F35] transition hover:bg-[#EAC9D1]/30"
+              className="rounded-full border border-tm-mauve/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-tm-charcoal transition hover:bg-tm-blush/60 hover:text-tm-mauve"
             >
               Logout
             </Link>
@@ -79,16 +80,16 @@ function DashboardShell({
         <div className="flex flex-1 flex-col gap-8 px-6 py-10 lg:flex-row lg:px-10">
           <aside className="hidden w-72 flex-shrink-0 lg:block">
             <div className="sticky top-10 space-y-6">
-              <div className="rounded-2xl border border-gold/30 bg-white p-6 shadow-md">
-                <p className="font-serif text-xl text-charcoal-700">{asideTitle}</p>
-                <p className="mt-3 text-sm text-charcoal-500">{asideDescription}</p>
+              <div className="rounded-2xl border border-tm-gold/40 bg-white p-6 shadow-soft">
+                <p className="font-serif text-xl text-tm-mauve">{asideTitle}</p>
+                <p className="mt-3 text-sm text-tm-charcoal/80">{asideDescription}</p>
               </div>
               <NavComponent orientation="vertical" />
             </div>
           </aside>
 
           <main className="flex-1">
-            <div className="mx-auto max-w-screen-xl space-y-8">{children}</div>
+            <MemberLayout>{children}</MemberLayout>
           </main>
         </div>
       </div>

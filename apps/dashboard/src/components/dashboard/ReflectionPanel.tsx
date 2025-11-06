@@ -129,11 +129,13 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
                       day: "numeric",
                     })}
                   </span>
-                  {activeTab === "mine" ? (
-                    <span>{entry.shared ? "Shared" : "Private"}</span>
-                  ) : (
-                    <span>{(entry as CommunityHighlight).author}</span>
-                  )}
+                  <span>
+                    {activeTab === "mine"
+                      ? (entry as ReflectionEntry).shared
+                        ? "Shared"
+                        : "Private"
+                      : (entry as CommunityHighlight).author}
+                  </span>
                 </div>
               </article>
             ))

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import type { Route } from "next";
 
 type QuickAccessCardsProps = {
   academy: {
@@ -100,7 +101,7 @@ export default function QuickAccessCards({
           </span>
         </div>
         <Link
-          href={academy.href}
+          href={academy.href as Route}
           className="academy-button justify-center gap-2 bg-mauve-500/90 text-white"
         >
           Continue
@@ -131,7 +132,7 @@ export default function QuickAccessCards({
           </span>
         </div>
         <Link
-          href={registry.href}
+          href={registry.href as Route}
           className="academy-outline-button justify-center gap-2"
         >
           Open Registry
@@ -159,7 +160,7 @@ export default function QuickAccessCards({
           {reflection.updatedAt ? `Updated ${formatDateLabel(reflection.updatedAt)}` : "Let’s start a new entry"}
         </p>
         <Link
-          href={reflection.href}
+          href={reflection.href as Route}
           className="academy-outline-button justify-center gap-2"
         >
           Open Journal
@@ -187,7 +188,7 @@ export default function QuickAccessCards({
           {mentorDate ?? "Awaiting next session"}
         </p>
         <Link
-          href={mentor.href}
+          href={mentor.href as Route}
           className="academy-button justify-center gap-2 bg-mauve-500/90 text-white"
         >
           View details

@@ -23,7 +23,7 @@ function SubmitButton({ completed }: { completed: boolean }) {
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-6 py-2 text-sm font-semibold text-[#3E2F35] shadow-[0_10px_25px_rgba(200,161,180,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_35px_rgba(200,161,180,0.45)] disabled:cursor-not-allowed disabled:opacity-70"
+      className="inline-flex items-center gap-2 rounded-full bg-tm-rose px-6 py-2 text-sm font-semibold text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
     >
       {completed ? "Module Completed" : pending ? "Marking…" : "Mark Complete"}
     </button>

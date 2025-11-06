@@ -66,7 +66,7 @@ export default async function MentorEventsPage() {
           </div>
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_10px_25px_rgba(200,161,180,0.32)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(200,161,180,0.4)]"
+            className="inline-flex items-center gap-2 rounded-full bg-tm-rose px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
           >
             Create new event
           </button>
@@ -118,7 +118,7 @@ export default async function MentorEventsPage() {
                   <div className="mt-3 flex flex-wrap gap-3">
                     <button
                       type="button"
-                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_10px_25px_rgba(200,161,180,0.32)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(200,161,180,0.4)]"
+                      className="inline-flex items-center gap-2 rounded-full bg-tm-rose px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
                     >
                       Complete
                     </button>

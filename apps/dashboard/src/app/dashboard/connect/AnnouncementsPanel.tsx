@@ -45,7 +45,7 @@ export default function AnnouncementsPanel({ announcements }: AnnouncementsPanel
             {announcement.cta && (
               <a
                 href={announcement.cta.href}
-                className="mt-6 inline-flex w-max items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_12px_28px_rgba(200,161,180,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(200,161,180,0.38)]"
+                className="mt-6 inline-flex w-max items-center gap-2 rounded-full bg-tm-rose px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
               >
                 {announcement.cta.label}
               </a>

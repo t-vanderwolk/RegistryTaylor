@@ -84,7 +84,7 @@ export default function EventsList({ events: initialEvents }: EventsListProps) {
             <button
               type="button"
               disabled={event.userStatus === "GOING" || pendingId === event.id}
-              className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_20px_rgba(200,161,180,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(200,161,180,0.45)] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+              className="mt-3 inline-flex items-center gap-2 rounded-full bg-tm-rose px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
               onClick={() => handleRsvp(event.id)}
             >
               {event.userStatus === "GOING"

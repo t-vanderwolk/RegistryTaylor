@@ -16,7 +16,7 @@ export default function ProgressBar({ percent, label }: ProgressBarProps) {
       <div className="relative h-3 w-full overflow-hidden rounded-full bg-[#EADFE5]">
         <span
           style={{ width: `${value}%` }}
-          className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] transition-all duration-500 ease-out"
+          className="absolute left-0 top-0 h-full rounded-full bg-tm-mauve transition-all duration-500 ease-out"
         />
       </div>
       <p className="text-xs font-medium text-[#3E2F35]/70">{value}% complete</p>

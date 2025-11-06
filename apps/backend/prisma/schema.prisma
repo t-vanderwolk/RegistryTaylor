@@ -29,6 +29,7 @@ model User {
   messagesReceived Message[]         @relation("ReceivedMessages")
   eventsCreated    Event[]           @relation("EventCreators")
   eventRsvps       EventRsvp[]       @relation("UserEventRsvps")
+  pinterestBoards  PinterestBoard[]
 }
 
 model Profile {
@@ -283,6 +284,19 @@ model Message {
   @@index([senderId])
   @@index([receiverId])
   @@index([createdAt])
+}
+
+model PinterestBoard {
+  id           String   @id @default(uuid())
+  userId       String
+  title        String
+  visibility   String   @default("private")
+  pinterestUrl String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 enum UserRole {

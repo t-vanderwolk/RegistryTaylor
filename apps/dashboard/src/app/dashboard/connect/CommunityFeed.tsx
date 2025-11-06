@@ -123,8 +123,8 @@ export default function CommunityFeed({ posts }: CommunityFeedProps) {
               className={[
                 "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition",
                 isActive
-                  ? "border-[#C8A1B4] bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] text-[#3E2F35] shadow-[0_12px_28px_rgba(200,161,180,0.32)]"
-                  : "border-[#C8A1B4]/50 text-[#3E2F35]/70 hover:-translate-y-0.5 hover:border-[#D9C48E] hover:text-[#3E2F35]",
+                  ? "border-tm-mauve bg-tm-rose text-tm-charcoal shadow-soft hover:-translate-y-0.5"
+                  : "border-tm-mauve/40 text-tm-charcoal/70 hover:-translate-y-0.5 hover:border-tm-hover hover:text-tm-hover",
               ].join(" ")}
             >
               {filter}
@@ -233,7 +233,7 @@ export default function CommunityFeed({ posts }: CommunityFeedProps) {
                     <span className="text-xs text-[#3E2F35]/50">Anonymous to peers—mentors see your name for follow-up.</span>
                     <button
                       type="submit"
-                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_12px_28px_rgba(200,161,180,0.32)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(200,161,180,0.4)]"
+                      className="inline-flex items-center gap-2 rounded-full bg-tm-rose px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
                     >
                       Post
                     </button>

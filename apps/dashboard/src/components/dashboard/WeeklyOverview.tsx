@@ -58,7 +58,7 @@ export default function WeeklyOverview({ events }: WeeklyOverviewProps) {
               key={event.id}
               className="relative overflow-hidden rounded-[1.9rem] border border-[#EAD6DE] bg-[#FFF8F5] p-6 shadow-inner"
             >
-              <div className="absolute inset-y-0 left-0 w-1 rounded-full bg-gradient-to-b from-[#EAC9D1] to-[#D9C48E]" />
+              <div className="absolute inset-y-0 left-0 w-1 rounded-full bg-tm-mauve" />
               <div className="pl-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <h3 className="font-[var(--font-playfair)] text-lg text-[#3E2F35]">

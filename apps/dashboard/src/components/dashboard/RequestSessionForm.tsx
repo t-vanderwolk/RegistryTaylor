@@ -136,7 +136,7 @@ export default function RequestSessionForm({
             <button
               type="submit"
               disabled={pending}
-              className="inline-flex flex-1 items-center justify-center rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-5 py-3 text-sm font-semibold uppercase tracking-[0.32em] text-[#3E2F35] shadow-[0_20px_40px_rgba(200,161,180,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(200,161,180,0.4)] disabled:translate-y-0 disabled:opacity-60"
+              className="inline-flex flex-1 items-center justify-center rounded-full bg-tm-rose px-5 py-3 text-sm font-semibold uppercase tracking-[0.32em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover disabled:translate-y-0 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
             >
               {pending ? "Sending…" : "Send Request"}
             </button>

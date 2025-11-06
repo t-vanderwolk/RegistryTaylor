@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import type { Route } from "next";
 
 export type AnnouncementCard = {
   id: string;
@@ -9,7 +10,7 @@ export type AnnouncementCard = {
   description: string;
   badge: string;
   dateLabel?: string | null;
-  href: string;
+  href: Route;
   ctaLabel?: string;
 };
 

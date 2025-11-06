@@ -365,7 +365,7 @@ function buildAnnouncements(
             minute: "2-digit",
           })
         : null,
-      href: "/dashboard/connect/events",
+      href: "/dashboard/connect",
       ctaLabel: "RSVP",
     });
   });

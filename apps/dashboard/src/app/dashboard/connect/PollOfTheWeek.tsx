@@ -93,8 +93,8 @@ export default function PollOfTheWeek({ poll }: PollOfTheWeekProps) {
               className={[
                 "w-full rounded-[1.75rem] border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:translate-y-0",
                 isActive
-                  ? "border-[#C8A1B4] bg-gradient-to-r from-[#C8A1B4]/35 via-[#EAC9D1]/40 to-[#FFFAF8] shadow-[0_12px_28px_rgba(200,161,180,0.32)]"
-                  : "border-[#C8A1B4]/35 bg-white/90 hover:-translate-y-0.5 hover:border-[#D9C48E]",
+                  ? "border-tm-mauve bg-tm-blush shadow-soft"
+                  : "border-tm-mauve/40 bg-white/90 hover:-translate-y-0.5 hover:border-tm-hover",
               ].join(" ")}
             >
               <div className="flex items-center justify-between text-sm text-[#3E2F35]/75">
@@ -103,11 +103,11 @@ export default function PollOfTheWeek({ poll }: PollOfTheWeekProps) {
                   {percentage}%
                 </span>
               </div>
-              <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#C8A1B4]/15">
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-tm-blush">
                 <div
                   className={[
-                    "h-full rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] transition-all",
-                    isActive ? "shadow-[0_8px_18px_rgba(200,161,180,0.28)]" : "",
+                    "h-full rounded-full bg-tm-mauve transition-all",
+                    isActive ? "shadow-[0_8px_18px_rgba(177,132,153,0.28)]" : "",
                   ].join(" ")}
                   style={{ width: `${percentage}%` }}
                 />

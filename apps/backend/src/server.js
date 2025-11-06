@@ -13,6 +13,7 @@ import blogRoutes from './routes/blog.js';
 import eventsRoutes from './routes/events.js';
 import announcementsRoutes from './routes/announcements.js';
 import commentsRoutes from './routes/comments.js';
+import pinterestRoutes from './routes/pinterest.js';
 import pollsRoutes from './routes/polls.js';
 import messagesRoutes from './routes/messages.js';
 import cookieParser from './middleware/cookieParser.js';
@@ -47,6 +48,7 @@ app.use('/api/announcements', announcementsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/polls', pollsRoutes);
 app.use('/api/messages', messagesRoutes);
+app.use('/api/pinterest', pinterestRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });

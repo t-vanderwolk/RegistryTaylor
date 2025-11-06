@@ -20,13 +20,25 @@ import cookieParser from './middleware/cookieParser.js';
 
 const app = express();
 
-const allowedOrigin =
-  config.env === 'development' ? 'http://localhost:3000' : config.clientUrl;
+const allowedOrigins =
+  config.env === 'development'
+    ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+    : config.clientOrigins.length
+    ? config.clientOrigins
+    : [config.clientUrl];
 
 app.use(cookieParser());
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
     credentials: true,
   }),
 );

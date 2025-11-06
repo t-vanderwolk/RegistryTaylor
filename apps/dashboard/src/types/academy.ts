@@ -100,6 +100,8 @@ export type ModuleProgress = {
   completed: boolean;
   updatedAt?: string | null;
   completedAt?: string | null;
+  quizScore?: number | null;
+  reflection?: string | null;
 };
 
 export type AcademyModule = {

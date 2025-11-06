@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,12 +9,14 @@ import ScrollProgress from "@/components/ui/ScrollProgress";
 import LectureRenderer from "@/components/academy/LectureRenderer";
 import WorkbookPanel from "@/components/academy/WorkbookPanel";
 import { useAcademyProgress } from "@/components/academy/ProgressContext";
+import ProgressTracker from "@/components/academy/ProgressTracker";
 import type { AcademyModule, ModuleProgress, WorkbookSection } from "@/types/academy";
 
 type ModuleDetailProps = {
   module: AcademyModule;
   previousModule?: { slug: string; title: string } | null;
   nextModule?: { slug: string; title: string } | null;
+  children?: ReactNode;
 };
 
 const PROGRESS_HEARTBEAT_MS = 30_000;
@@ -29,10 +31,17 @@ function normalizeProgress(progress?: ModuleProgress): ModuleProgress {
     completed: progress.completed ?? percent >= 100,
     completedAt: progress.completedAt,
     updatedAt: progress.updatedAt,
+    quizScore: progress.quizScore ?? null,
+    reflection: progress.reflection ?? null,
   };
 }
 
-export default function ModuleDetail({ module, previousModule, nextModule }: ModuleDetailProps) {
+export default function ModuleDetail({
+  module,
+  previousModule,
+  nextModule,
+  children,
+}: ModuleDetailProps) {
   const router = useRouter();
   const { progress, setProgressFor, refresh, getMilestone } = useAcademyProgress();
   const { index, total } = getMilestone(module.slug);
@@ -169,50 +178,57 @@ export default function ModuleDetail({ module, previousModule, nextModule }: Mod
     }
   }, [module.slug]);
 
+  const lectureContent = children ?? (
+    <LectureRenderer
+      blocks={lessonBlocks}
+      mentorNote={module.content.mentorNote ?? null}
+      onReflectionSave={handleReflectionSave}
+    />
+  );
+
   return (
     <div className="space-y-12">
       <ScrollProgress onProgressChange={setScrollPercent} />
 
-      <header className="space-y-6 rounded-3xl border border-[#EED6D3] bg-[#F8F6F3] p-8">
-        <div className="flex flex-wrap items-start justify-between gap-6">
+      <header className="space-y-6 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-8 shadow-blush-lift">
+        <div className="flex flex-wrap items-start justify-between gap-8">
           <div className="space-y-4">
-            <span className="inline-flex items-center rounded-full bg-[#EED6D3] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#3E2F35]">
+            <span className="academy-pill bg-white/80 text-charcoal-500">
               {module.category ?? module.journey ?? "Academy"}
             </span>
             <div className="space-y-3">
-              <h1 className="font-serif text-3xl leading-tight text-[#3E2F35] md:text-[2.4rem]">{module.title}</h1>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
+                Lesson {Math.min(index + 1, total)}
+              </p>
+              <h1 className="font-serif text-[2.25rem] leading-tight text-charcoal-700 md:text-[2.6rem]">
+                {module.title}
+              </h1>
               {module.subtitle ? (
-                <p className="max-w-3xl text-base leading-relaxed text-[#3E2F35]/80">{module.subtitle}</p>
+                <p className="max-w-3xl text-base leading-relaxed text-charcoal-500">{module.subtitle}</p>
               ) : module.summary ? (
-                <p className="max-w-3xl text-base leading-relaxed text-[#3E2F35]/80">{module.summary}</p>
+                <p className="max-w-3xl text-base leading-relaxed text-charcoal-500">{module.summary}</p>
               ) : null}
             </div>
           </div>
-          <div className="flex flex-col items-start gap-3 rounded-2xl border border-[#C8A6B6]/40 bg-white px-5 py-4">
-            <span className="inline-flex items-center rounded-full bg-[#EED6D3] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#3E2F35]">
-              {milestoneLabel}
-            </span>
-            <div className="h-1 w-full min-w-[220px] rounded-full bg-[#EED6D3]/70">
-              <div className="h-full rounded-full bg-[#C8A6B6]" style={{ width: `${localProgress.percentComplete}%` }} />
-            </div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#3E2F35]/60">
-              {localProgress.completed ? "Completed" : `${localProgress.percentComplete}% explored`}
-            </p>
+          <div className="min-w-[240px] max-w-sm flex-1 md:flex-none">
+            <ProgressTracker
+              percent={localProgress.percentComplete}
+              label={milestoneLabel}
+              encouragement={localProgress.completed ? "Ceremony complete — celebrate your glow" : undefined}
+            />
           </div>
         </div>
       </header>
 
       <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <div className="space-y-12">
-          <LectureRenderer
-            blocks={lessonBlocks}
-            mentorNote={module.content.mentorNote ?? null}
-            onReflectionSave={handleReflectionSave}
-          />
+          {lectureContent}
 
-          <div className="space-y-3 rounded-3xl border border-[#EED6D3] bg-white px-5 py-4 text-sm text-[#3E2F35]">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#3E2F35]/60">Wrap this chapter</p>
-            <p className="text-sm leading-relaxed text-[#3E2F35]/80">
+          <div className="space-y-4 rounded-academy border border-blush-300/70 bg-white/90 px-6 py-5 text-sm text-charcoal-500 shadow-mauve-card">
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
+              Wrap this chapter
+            </p>
+            <p className="text-sm leading-relaxed text-charcoal-500">
               Pause, breathe, and check in with how this lesson lands. When you’re ready, mark it complete to unlock the next
               concierge milestone.
             </p>
@@ -220,7 +236,7 @@ export default function ModuleDetail({ module, previousModule, nextModule }: Mod
               type="button"
               onClick={handleMarkComplete}
               disabled={localProgress.completed || submitting}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#EED6D3] px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:bg-[#C8A6B6] hover:text-white disabled:cursor-not-allowed disabled:bg-[#EED6D3]/70"
+              className="academy-button w-full justify-center gap-2 px-8 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {localProgress.completed ? "Module completed" : submitting ? "Saving…" : "Mark lesson complete"}
             </button>
@@ -231,7 +247,7 @@ export default function ModuleDetail({ module, previousModule, nextModule }: Mod
           ) : null}
 
           <motion.nav
-            className="flex flex-col gap-3 rounded-3xl border border-[#EED6D3] bg-white px-5 py-4 text-sm text-[#3E2F35] md:flex-row md:items-center md:justify-between"
+            className="flex flex-col gap-3 rounded-academy border border-blush-300/70 bg-ivory/95 px-6 py-4 text-sm text-charcoal-500 shadow-mauve-card md:flex-row md:items-center md:justify-between"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
@@ -240,27 +256,27 @@ export default function ModuleDetail({ module, previousModule, nextModule }: Mod
               {previousModule ? (
                 <Link
                   href={`/dashboard/learn/${previousModule.slug}`}
-                  className="inline-flex items-center gap-2 font-semibold text-[#3E2F35] transition hover:text-[#C8A6B6]"
+                  className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
                 >
                   ← {previousModule.title}
                 </Link>
               ) : (
-                <span className="text-sm text-[#3E2F35]/50">Start of journey</span>
+                <span className="text-sm text-charcoal-300">Start of journey</span>
               )}
               {nextModule ? (
                 <Link
                   href={`/dashboard/learn/${nextModule.slug}`}
-                  className="inline-flex items-center gap-2 font-semibold text-[#3E2F35] transition hover:text-[#C8A6B6]"
+                  className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
                 >
                   {nextModule.title} →
                 </Link>
               ) : (
-                <span className="text-sm text-[#3E2F35]/50">You’ve reached the finale</span>
+                <span className="text-sm text-charcoal-300">You’ve reached the finale</span>
               )}
             </div>
             {localProgress.completed ? (
-              <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#3E2F35]">
-                <CheckCircle2 className="h-4 w-4 text-[#C8A6B6]" aria-hidden />
+              <div className="inline-flex items-center gap-2 text-sm font-semibold text-charcoal-600">
+                <CheckCircle2 className="h-4 w-4 text-mauve-500" aria-hidden />
                 <span>Lesson celebrated</span>
               </div>
             ) : null}

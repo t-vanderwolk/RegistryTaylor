@@ -5,6 +5,8 @@ import { requireMember } from "@/lib/auth";
 import { getAcademyModule, getAcademyModules } from "@/lib/academy";
 import { AcademyProgressProvider } from "@/components/academy/ProgressContext";
 import ModuleDetail from "@/components/academy/ModuleDetail";
+import LectureContent from "@/components/academy/LectureContent";
+import InteractiveSection from "@/components/academy/InteractiveSection";
 import type { ModuleProgress } from "@/types/academy";
 
 export const dynamic = "force-dynamic";
@@ -74,15 +76,18 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
             previousModule ? { slug: previousModule.slug, title: previousModule.title } : null
           }
           nextModule={nextModule ? { slug: nextModule.slug, title: nextModule.title } : null}
-        />
+        >
+          <LectureContent module={moduleEntry} />
+          <InteractiveSection moduleSlug={moduleEntry.slug} moduleTitle={moduleEntry.title} />
+        </ModuleDetail>
 
         {modules.length > 1 ? (
-          <section className="space-y-4 rounded-3xl border border-[#EED6D3] bg-white p-6">
-            <div className="space-y-2 text-center md:text-left">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-[#3E2F35]/60">
+          <section className="space-y-5 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-6 shadow-mauve-card">
+            <div className="space-y-3 text-center md:text-left">
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
                 Continue the journey
               </p>
-              <h2 className="font-serif text-2xl text-[#3E2F35]">Other chapters you may love</h2>
+              <h2 className="font-serif text-2xl text-charcoal-700 md:text-[2rem]">Other chapters you may love</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {modules
@@ -92,14 +97,14 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
                   <Link
                     key={item.slug}
                     href={`/dashboard/learn/${item.slug}`}
-                    className="flex flex-col gap-1 rounded-2xl border border-[#EED6D3] bg-[#F8F6F3] px-4 py-3 transition hover:border-[#C8A6B6]"
+                    className="flex flex-col gap-2 rounded-academy border border-blush-300/60 bg-white/90 px-5 py-4 transition duration-200 ease-bloom hover:-translate-y-1 hover:shadow-blush-soft"
                   >
-                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60">
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">
                       {item.category ?? item.journey ?? "Module"}
                     </span>
-                    <span className="font-serif text-lg text-[#3E2F35]">{item.title}</span>
+                    <span className="font-serif text-lg text-charcoal-700">{item.title}</span>
                     {item.subtitle ? (
-                      <span className="text-sm text-[#3E2F35]/70">{item.subtitle}</span>
+                      <span className="text-sm text-charcoal-400">{item.subtitle}</span>
                     ) : null}
                   </Link>
                 ))}

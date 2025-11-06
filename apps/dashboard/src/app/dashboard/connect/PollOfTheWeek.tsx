@@ -15,6 +15,8 @@ export default function PollOfTheWeek({ poll }: PollOfTheWeekProps) {
     }, {})
   );
   const [selection, setSelection] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const hasSelection = Boolean(selection);
 
   const totalVotes = useMemo(
@@ -31,20 +33,41 @@ export default function PollOfTheWeek({ poll }: PollOfTheWeekProps) {
     [poll.options, votes]
   );
 
-  const handleVote = (optionId: string) => {
-    setVotes((current) => {
-      if (selection === optionId) {
-        return current;
-      }
-      if (!selection) {
-        return {
-          ...current,
-          [optionId]: (current[optionId] ?? 0) + 1,
-        };
-      }
-      return current;
-    });
+  const handleVote = async (optionId: string) => {
+    if (pending || selection) {
+      return;
+    }
+
+    setPending(true);
+    setErrorMessage(null);
     setSelection(optionId);
+    setVotes((current) => ({
+      ...current,
+      [optionId]: (current[optionId] ?? 0) + 1,
+    }));
+
+    try {
+      const response = await fetch(`/api/polls/${poll.id}/vote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ optionId }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload?.error ?? "Unable to submit vote.");
+      }
+    } catch (error) {
+      setSelection(null);
+      setVotes((current) => ({
+        ...current,
+        [optionId]: Math.max((current[optionId] ?? 1) - 1, 0),
+      }));
+      setErrorMessage(error instanceof Error ? error.message : "Unable to submit vote.");
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -66,8 +89,9 @@ export default function PollOfTheWeek({ poll }: PollOfTheWeekProps) {
               key={option.id}
               type="button"
               onClick={() => handleVote(option.id)}
+              disabled={pending || hasSelection}
               className={[
-                "w-full rounded-[1.75rem] border p-4 text-left transition",
+                "w-full rounded-[1.75rem] border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:translate-y-0",
                 isActive
                   ? "border-[#C8A1B4] bg-gradient-to-r from-[#C8A1B4]/35 via-[#EAC9D1]/40 to-[#FFFAF8] shadow-[0_12px_28px_rgba(200,161,180,0.32)]"
                   : "border-[#C8A1B4]/35 bg-white/90 hover:-translate-y-0.5 hover:border-[#D9C48E]",
@@ -104,9 +128,13 @@ export default function PollOfTheWeek({ poll }: PollOfTheWeekProps) {
           {totalVotes} total vote{totalVotes === 1 ? "" : "s"}
           {poll.closesAt && ` · Closes ${formatPollDeadline(poll.closesAt)}`}
         </span>
-        {!hasSelection && (
+        {!hasSelection && !pending && (
           <span className="text-[#3E2F35]/50">Tap a prompt to add your anonymous vote.</span>
         )}
+        {pending ? <span className="text-[#3E2F35]/50">Saving your vote…</span> : null}
+        {errorMessage ? (
+          <span className="text-[#9F3D3D]">{errorMessage}</span>
+        ) : null}
       </footer>
     </section>
   );

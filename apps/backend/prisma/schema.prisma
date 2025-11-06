@@ -8,26 +8,27 @@ datasource db {
 }
 
 model User {
-  id              String            @id @default(uuid())
-  email           String            @unique
-  passwordHash    String
-  role            UserRole          @default(MEMBER)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  academyProgress AcademyProgress[]
-  communityPosts  CommunityPost[]
-  eventsCreated   Event[]           @relation("EventCreators")
-  eventRsvps      EventRsvp[]
-  menteeProfiles  Profile[]         @relation("ProfileMentor")
-  profile         Profile?
-  questionnaire   Questionnaire?
-  registryItems   RegistryItem[]
-  mentorNotes     RegistryNote[]    @relation("MentorNotes")
-  workbookEntries WorkbookEntry[]
-  announcements   Announcement[]
-  comments        Comment[]
-  sentMessages    Message[]         @relation("SentMessages")
-  receivedMessages Message[]        @relation("ReceivedMessages")
+  id               String            @id @default(uuid())
+  email            String            @unique
+  passwordHash     String
+  role             UserRole          @default(MEMBER)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  profile          Profile?          @relation("UserProfile")
+  mentorOf         Profile[]         @relation("ProfileMentor")
+  questionnaire    Questionnaire?    @relation("UserQuestionnaire")
+  academyProgress  AcademyProgress[] @relation("UserProgress")
+  quizzes          Quiz[]            @relation("UserQuizzes")
+  registryItems    RegistryItem[]
+  registryNotes    RegistryNote[]    @relation("UserNotes")
+  workbookEntries  WorkbookEntry[]   @relation("UserWorkbookEntries")
+  announcements    Announcement[]    @relation("UserAnnouncements")
+  comments         Comment[]         @relation("UserComments")
+  communityPosts   CommunityPost[]   @relation("UserCommunityPosts")
+  messagesSent     Message[]         @relation("SentMessages")
+  messagesReceived Message[]         @relation("ReceivedMessages")
+  eventsCreated    Event[]           @relation("EventCreators")
+  eventRsvps       EventRsvp[]       @relation("UserEventRsvps")
 }
 
 model Profile {
@@ -38,8 +39,8 @@ model Profile {
   notes             String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  user              User     @relation("UserProfile", fields: [userId], references: [id], onDelete: Cascade)
   mentor            User?    @relation("ProfileMentor", fields: [mentorId], references: [id])
-  user              User     @relation(fields: [userId], references: [id])
 
   @@index([mentorId])
 }
@@ -54,48 +55,69 @@ model Questionnaire {
   preferences   Json?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  user          User      @relation(fields: [userId], references: [id])
+  user          User      @relation("UserQuestionnaire", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model AcademyModule {
-  id              String            @id @default(cuid())
-  title           String
+  id              String            @id @default(uuid())
   slug            String            @unique
+  title           String
+  subtitle        String?
+  summary         String?
   content         Json?
-  summary         String            @default("")
+  category        String?
+  lecture         String?
+  workbookPrompt  String?
+  order           Int?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
-  category        String            @default("")
-  lecture         String            @default("")
-  order           Int               @default(0)
-  workbookPrompt  String            @default("")
-  progress        AcademyProgress[]
-  workbookEntries WorkbookEntry[]
+  progress        AcademyProgress[] @relation("ModuleProgress")
+  quizzes         Quiz[]            @relation("ModuleQuizzes")
+  workbookEntries WorkbookEntry[]   @relation("ModuleWorkbookEntries")
 }
 
 model AcademyProgress {
-  id        String        @id @default(uuid())
-  userId    String
-  moduleId  String
-  percent   Int           @default(0)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  module    AcademyModule @relation(fields: [moduleId], references: [id])
-  user      User          @relation(fields: [userId], references: [id])
+  id         String        @id @default(uuid())
+  userId     String
+  moduleId   String
+  percent    Int           @default(0)
+  completed  Boolean       @default(false)
+  quizScore  Int?
+  reflection String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  module     AcademyModule @relation("ModuleProgress", fields: [moduleId], references: [id], onDelete: Cascade)
+  user       User          @relation("UserProgress", fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, moduleId])
 }
 
+model Quiz {
+  id        Int           @id @default(autoincrement())
+  moduleId  String
+  userId    String?
+  question  String
+  options   String[]
+  answer    String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  module    AcademyModule @relation("ModuleQuizzes", fields: [moduleId], references: [id], onDelete: Cascade)
+  user      User?         @relation("UserQuizzes", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([moduleId, question])
+  @@index([moduleId])
+  @@index([userId])
+}
+
 model RegistryItem {
   id           String         @id @default(uuid())
+  userId       String
   name         String
   brand        String?
   category     String?
   price        Decimal?       @db.Decimal(10, 2)
   url          String?
   source       RegistrySource @default(myregistry)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
   affiliateId  String?
   affiliateUrl String?
   externalId   String
@@ -103,23 +125,12 @@ model RegistryItem {
   importedFrom String?
   notes        String?
   retailer     String?
-  userId       String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   mentorNotes  RegistryNote[]
 
   @@unique([externalId, userId])
-}
-
-model CommunityPost {
-  id        String   @id @default(uuid())
-  authorId  String
-  title     String
-  body      String
-  tags      String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
-  comments  Comment[]
 }
 
 model RegistryNote {
@@ -129,7 +140,7 @@ model RegistryNote {
   content        String?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  mentor         User?        @relation("MentorNotes", fields: [mentorId], references: [id])
+  mentor         User?        @relation("UserNotes", fields: [mentorId], references: [id])
   registryItem   RegistryItem @relation(fields: [registryItemId], references: [id], onDelete: Cascade)
 
   @@unique([registryItemId, mentorId])
@@ -151,6 +162,31 @@ model RegistryCatalogItem {
   updatedAt    DateTime       @updatedAt
 }
 
+model CommunityPost {
+  id        String    @id @default(uuid())
+  authorId  String
+  title     String
+  body      String
+  tags      String[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  author    User      @relation("UserCommunityPosts", fields: [authorId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+}
+
+model Comment {
+  id        String        @id @default(uuid())
+  postId    String
+  authorId  String
+  body      String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User          @relation("UserComments", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+}
+
 model Event {
   id          String      @id @default(uuid())
   createdById String
@@ -161,7 +197,7 @@ model Event {
   location    String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  createdBy   User        @relation("EventCreators", fields: [createdById], references: [id])
+  createdBy   User        @relation("EventCreators", fields: [createdById], references: [id], onDelete: Cascade)
   rsvps       EventRsvp[]
 }
 
@@ -172,8 +208,8 @@ model EventRsvp {
   status    RsvpStatus @default(GOING)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  event     Event      @relation(fields: [eventId], references: [id])
-  user      User       @relation(fields: [userId], references: [id])
+  event     Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User       @relation("UserEventRsvps", fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([eventId, userId])
 }
@@ -196,8 +232,8 @@ model WorkbookEntry {
   content    Json
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
-  member     User          @relation(fields: [memberId], references: [id])
-  module     AcademyModule @relation(fields: [moduleSlug], references: [slug])
+  member     User          @relation("UserWorkbookEntries", fields: [memberId], references: [id], onDelete: Cascade)
+  module     AcademyModule @relation("ModuleWorkbookEntries", fields: [moduleSlug], references: [slug], onDelete: Cascade)
 
   @@unique([memberId, moduleSlug])
 }
@@ -209,34 +245,18 @@ model Announcement {
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  author User @relation(fields: [authorId], references: [id])
-}
-
-model Comment {
-  id        String   @id @default(uuid())
-  postId    String
-  authorId  String
-  body      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  post   CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author User          @relation(fields: [authorId], references: [id])
-
-  @@index([postId])
+  author    User     @relation("UserAnnouncements", fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Poll {
-  id        String   @id @default(uuid())
+  id        String       @id @default(uuid())
   question  String
   category  String
-  isActive  Boolean  @default(true)
+  isActive  Boolean      @default(true)
   closesAt  DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  options PollOption[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  options   PollOption[]
 }
 
 model PollOption {
@@ -245,8 +265,7 @@ model PollOption {
   label  String
   votes  Int    @default(0)
   order  Int    @default(0)
-
-  poll Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  poll   Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
 
   @@index([pollId])
 }
@@ -258,9 +277,8 @@ model Message {
   content    String
   createdAt  DateTime @default(now())
   read       Boolean  @default(false)
-
-  sender   User @relation("SentMessages", fields: [senderId], references: [id])
-  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
 
   @@index([senderId])
   @@index([receiverId])

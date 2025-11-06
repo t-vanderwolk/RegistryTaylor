@@ -44,6 +44,26 @@
   .section-padding {
     @apply px-6 py-24 md:px-16;
   }
+
+  .academy-card {
+    @apply rounded-academy-xl border border-blush-300/60 bg-ivory/95 shadow-mauve-card backdrop-blur;
+  }
+
+  .academy-pill {
+    @apply inline-flex items-center rounded-full border border-mauve-500/30 bg-blush-200/60 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-charcoal-500;
+  }
+
+  .academy-button {
+    @apply inline-flex items-center justify-center rounded-full bg-mauve-500 px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-white shadow-blush-soft transition duration-200 ease-bloom hover:-translate-y-0.5 hover:bg-mauve-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-300;
+  }
+
+  .academy-outline-button {
+    @apply inline-flex items-center justify-center rounded-full border border-mauve-500/40 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal-500 transition duration-200 ease-bloom hover:border-mauve-500 hover:bg-blush-200/40 hover:text-mauve-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-300;
+  }
+
+  .academy-gradient-divider {
+    @apply h-px w-full bg-academy-divider;
+  }
 }
 
 @layer utilities {

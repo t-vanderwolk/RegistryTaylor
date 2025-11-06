@@ -75,7 +75,10 @@ export default function MarketingHomePage() {
       <PageSection className="border-b border-[#D9C48E]/25">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-12 lg:grid lg:grid-cols-[0.6fr,0.4fr] lg:items-center">
           <div className="space-y-6 text-center lg:text-left">
-            <p className="font-script text-3xl leading-none text-[#3E2F35]">Taylor-Made Baby Co.</p>
+            <p className="text-3xl leading-none text-[#3E2F35]">
+              <span className="font-script">Taylor-Made</span>{" "}
+              <span className="font-serif">Baby Co.</span>
+            </p>
             <h1 className="font-serif text-4xl text-[#3E2F35] sm:text-5xl">
               Luxury baby planning, personalized registry, and calm-through-chaos support.
             </h1>

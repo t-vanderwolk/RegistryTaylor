@@ -39,20 +39,23 @@ export default function ModuleCarousel({ modules }: ModuleCarouselProps) {
 
   return (
     <section className="space-y-8">
-      <header className="space-y-3 text-center md:text-left">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#3E2F35]/60">Explore the academy</p>
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <h2 className="font-serif text-3xl text-[#3E2F35] md:text-[2.5rem]">
+      <header className="space-y-4 text-center md:text-left">
+        <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
+          Explore the academy
+        </p>
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <h2 className="font-serif text-3xl leading-tight text-charcoal-700 md:text-[2.4rem]">
             Choose the journey that meets you now
           </h2>
-          <span className="text-sm uppercase tracking-[0.3em] text-[#3E2F35]/60">
+          <span className="text-xs uppercase tracking-[0.3em] text-charcoal-300">
             {filteredModules.length} of {totalModules} modules
           </span>
         </div>
-        <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#3E2F35]/75 md:mx-0">
+        <p className="mx-auto max-w-3xl text-sm leading-relaxed text-charcoal-500 md:mx-0">
           Switch between Nursery, Gear, and Postpartum to see curated modules, or keep it on All to browse the full
           cadence. Your mentor sees every reflection you capture along the way.
         </p>
+        <div className="academy-gradient-divider" />
       </header>
 
       <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
@@ -64,10 +67,10 @@ export default function ModuleCarousel({ modules }: ModuleCarouselProps) {
               type="button"
               onClick={() => setSelectedJourney(journey.id)}
               className={[
-                "rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.28em] transition",
+                "rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.28em] transition duration-200 ease-bloom",
                 active
-                  ? "border-[#C8A1B4] bg-[#C8A1B4] text-white shadow-[0_12px_35px_rgba(200,161,180,0.28)]"
-                  : "border-[#EED6D3] bg-white text-[#3E2F35] hover:border-[#C8A1B4] hover:text-[#C8A1B4]",
+                  ? "border-mauve-500 bg-mauve-500 text-white shadow-blush-soft"
+                  : "border-blush-300 bg-white text-charcoal-500 hover:border-mauve-500 hover:text-mauve-500",
               ].join(" ")}
             >
               {journey.label}

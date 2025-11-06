@@ -415,6 +415,39 @@ const ACADEMY_MODULES = [
   },
 ];
 
+const QUIZ_SEEDS = [
+  {
+    slug: 'vision-and-foundations',
+    question: 'Which setup promotes safe sleep for newborns?',
+    options: ['Firm mattress with fitted sheet', 'Soft blankets and pillows', 'Inclined sleeper'],
+    answer: 'Firm mattress with fitted sheet',
+  },
+  {
+    slug: 'atmosphere-and-safety',
+    question: 'What’s the ideal distance to place the crib from a window?',
+    options: ['At least three feet away', 'Directly under the window', 'Right beside a curtain'],
+    answer: 'At least three feet away',
+  },
+  {
+    slug: 'stroller-and-car-seat-essentials',
+    question: 'Before every ride, what should you check on your car seat?',
+    options: ['The recline angle and harness fit', 'If baby has a toy', 'Whether the stroller basket is empty'],
+    answer: 'The recline angle and harness fit',
+  },
+  {
+    slug: 'feeding-and-seating',
+    question: 'Which cue signals a baby is ready to slow down during a feeding?',
+    options: ['Relaxed hands and slower sucking', 'Wide eyes and giggles', 'Wiggling toes'],
+    answer: 'Relaxed hands and slower sucking',
+  },
+  {
+    slug: 'healing-and-recovery',
+    question: 'What is a gentle first step for rebuilding core strength postpartum?',
+    options: ['Diaphragmatic breathing', 'Jumping jacks', 'Crunches'],
+    answer: 'Diaphragmatic breathing',
+  },
+];
+
 const REGISTRY_ITEMS = [
   {
     name: 'Doona Infant Car Seat & Stroller',
@@ -444,6 +477,7 @@ async function resetSchema() {
   await prisma.registryNote.deleteMany();
   await prisma.registryItem.deleteMany();
   await prisma.registryCatalogItem.deleteMany();
+  await prisma.quiz.deleteMany();
   await prisma.academyProgress.deleteMany();
   await prisma.workbookEntry.deleteMany();
   await prisma.academyModule.deleteMany();
@@ -538,8 +572,39 @@ async function seedAcademy() {
     select: { id: true, slug: true },
   });
 
+  if (modules.length) {
+    for (const quiz of QUIZ_SEEDS) {
+      const moduleEntry = modules.find((module) => module.slug === quiz.slug);
+      if (!moduleEntry) {
+        continue;
+      }
+
+      await prisma.quiz.upsert({
+        where: {
+          moduleId_question: {
+            moduleId: moduleEntry.id,
+            question: quiz.question,
+          },
+        },
+        update: {
+          options: quiz.options,
+          answer: quiz.answer,
+        },
+        create: {
+          moduleId: moduleEntry.id,
+          question: quiz.question,
+          options: quiz.options,
+          answer: quiz.answer,
+        },
+      });
+    }
+  }
+
   if (member) {
     for (const module of modules) {
+      const basePercent = module.slug === 'welcome' ? 80 : 20;
+      const completed = basePercent >= 100;
+
       await prisma.academyProgress.upsert({
         where: {
           userId_moduleId: {
@@ -547,11 +612,13 @@ async function seedAcademy() {
             moduleId: module.id,
           },
         },
-        update: { percent: module.slug === 'welcome' ? 80 : 20 },
+        update: { percent: basePercent, completed, quizScore: null },
         create: {
           userId: member.id,
           moduleId: module.id,
-          percent: module.slug === 'welcome' ? 80 : 20,
+          percent: basePercent,
+          completed,
+          quizScore: null,
         },
       });
     }

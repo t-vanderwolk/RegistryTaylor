@@ -77,6 +77,8 @@ export function AcademyProgressProvider({
           acc[entry.slug] = {
             percentComplete: entry.percentComplete ?? 0,
             completed: entry.completed ?? (entry.percentComplete ?? 0) >= 100,
+            quizScore: (entry as { quizScore?: number | null }).quizScore ?? null,
+            reflection: (entry as { reflection?: string | null }).reflection ?? null,
           };
           return acc;
         }, {})

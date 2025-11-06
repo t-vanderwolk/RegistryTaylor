@@ -1,4 +1,5 @@
 import { apiFetch } from "@/lib/apiClient";
+import { getSession } from "@/lib/auth";
 
 export type AnnouncementCard = {
   id: string;
@@ -47,6 +48,7 @@ export type ConnectEvent = {
   startsAtLabel?: string;
   location?: string | null;
   attendeeCount?: number;
+  userStatus?: "GOING" | "INTERESTED" | "DECLINED" | null;
 };
 
 export type PollOption = {
@@ -97,9 +99,42 @@ type ApiEventsResponse = {
     location: string;
     rsvps: Array<{
       id: string;
+      userId: string;
       status: "GOING" | "INTERESTED" | "DECLINED";
     }>;
   }>;
+};
+
+type ApiAnnouncementsResponse = {
+  announcements: Array<{
+    id: string;
+    title: string;
+    body: string;
+    createdAt: string;
+    author: {
+      role: "MEMBER" | "MENTOR" | "ADMIN";
+    };
+  }>;
+};
+
+type ApiPollOption = {
+  id: string;
+  label: string;
+  votes: number;
+  order: number;
+};
+
+type ApiPoll = {
+  id: string;
+  question: string;
+  category: string;
+  closesAt: string | null;
+  isActive: boolean;
+  options: ApiPollOption[];
+};
+
+type ApiPollsResponse = {
+  polls: ApiPoll[];
 };
 
 const FALLBACK_ANNOUNCEMENTS: AnnouncementCard[] = [
@@ -233,6 +268,7 @@ const FALLBACK_EVENTS: ConnectEvent[] = [
     startsAtLabel: "Tuesday · 11:00 AM ET",
     location: "Virtual Studio",
     attendeeCount: 18,
+    userStatus: null,
   },
   {
     id: "design-lab",
@@ -242,6 +278,7 @@ const FALLBACK_EVENTS: ConnectEvent[] = [
     startsAtLabel: "Thursday · 8:00 PM ET",
     location: "Gather Studio",
     attendeeCount: 22,
+    userStatus: null,
   },
   {
     id: "community-circle",
@@ -251,6 +288,7 @@ const FALLBACK_EVENTS: ConnectEvent[] = [
     startsAtLabel: "Sunday · 4:00 PM ET",
     location: "Slow Studio",
     attendeeCount: 15,
+    userStatus: null,
   },
 ];
 
@@ -353,7 +391,31 @@ async function fetchCommunityPosts(): Promise<CommunityFeedPost[]> {
   }
 }
 
-async function fetchUpcomingEvents(): Promise<ConnectEvent[]> {
+async function fetchAnnouncements(): Promise<AnnouncementCard[]> {
+  try {
+    const data = await apiFetch<ApiAnnouncementsResponse>("/api/announcements?limit=6", {
+      cache: "no-store",
+      credentials: "include",
+    });
+
+    if (!data?.announcements?.length) {
+      return [];
+    }
+
+    return data.announcements.map((announcement) => ({
+      id: announcement.id,
+      title: announcement.title,
+      summary: announcement.body.length > 180 ? `${announcement.body.slice(0, 177)}…` : announcement.body,
+      authorRole: mapRole(announcement.author.role),
+      createdAt: announcement.createdAt,
+    }));
+  } catch (error) {
+    console.error("Failed to load announcements", error);
+    return [];
+  }
+}
+
+async function fetchUpcomingEvents(userId?: string): Promise<ConnectEvent[]> {
   try {
     const data = await apiFetch<ApiEventsResponse>("/api/events/upcoming", {
       cache: "no-store",
@@ -371,6 +433,9 @@ async function fetchUpcomingEvents(): Promise<ConnectEvent[]> {
       startsAt: event.startsAt,
       location: event.location,
       attendeeCount: event.rsvps.filter((rsvp) => rsvp.status === "GOING").length,
+      userStatus: userId
+        ? event.rsvps.find((rsvp) => rsvp.userId === userId)?.status ?? null
+        : null,
     }));
   } catch (error) {
     console.error("Failed to load upcoming events", error);
@@ -379,10 +444,48 @@ async function fetchUpcomingEvents(): Promise<ConnectEvent[]> {
 }
 
 async function fetchWeeklyPoll(): Promise<WeeklyPoll> {
-  return FALLBACK_WEEKLY_POLL;
+  try {
+    const data = await apiFetch<ApiPollsResponse>("/api/polls?active=true", {
+      cache: "no-store",
+      credentials: "include",
+    });
+
+    const poll = data?.polls?.find((entry) => entry.isActive) ?? data?.polls?.[0];
+
+    if (!poll || !poll.options?.length) {
+      return FALLBACK_WEEKLY_POLL;
+    }
+
+    const options = [...poll.options].sort((a, b) => a.order - b.order).map((option) => ({
+      id: option.id,
+      label: option.label,
+      votes: option.votes,
+    }));
+
+    const allowedCategories: WeeklyPoll["category"][] = ["Baby Prep", "Emotional Wellness", "Fun & Nostalgic"];
+    const category = allowedCategories.includes(poll.category as WeeklyPoll["category"])
+      ? (poll.category as WeeklyPoll["category"])
+      : "Baby Prep";
+
+    return {
+      id: poll.id,
+      question: poll.question,
+      description: undefined,
+      category,
+      closesAt: poll.closesAt ?? undefined,
+      options,
+    };
+  } catch (error) {
+    console.error("Failed to load weekly poll", error);
+    return FALLBACK_WEEKLY_POLL;
+  }
 }
 
-async function fetchMentor(): Promise<MentorContact | null> {
+async function fetchMentor(token?: string | null): Promise<MentorContact | null> {
+  if (!token) {
+    return null;
+  }
+
   try {
     const profile = await apiFetch<{
       profile?: {
@@ -394,6 +497,9 @@ async function fetchMentor(): Promise<MentorContact | null> {
     }>("/api/profiles/me", {
       cache: "no-store",
       credentials: "include",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const mentor = profile?.profile?.mentor;
@@ -421,17 +527,24 @@ export async function getConnectContent(): Promise<{
   poll: WeeklyPoll;
   mentor: MentorContact | null;
 }> {
-  const [posts, events, poll, mentor] = await Promise.all([
+  const session = await getSession();
+  const token = session?.token ?? null;
+  const userId = session?.user?.id;
+
+  const [posts, events, poll, mentor, announcementCards] = await Promise.all([
     fetchCommunityPosts(),
-    fetchUpcomingEvents(),
+    fetchUpcomingEvents(userId),
     fetchWeeklyPoll(),
-    fetchMentor(),
+    fetchMentor(token),
+    fetchAnnouncements(),
   ]);
 
-  const announcements = posts
+  const derivedAnnouncements = posts
     .filter((post) => post.category === "Announcement")
-    .map(toAnnouncement)
-    .slice(0, 3);
+    .map(toAnnouncement);
+
+  const announcements =
+    (announcementCards.length ? announcementCards : derivedAnnouncements).slice(0, 3);
 
   const feedPosts = posts.filter((post) => post.category !== "Announcement");
 

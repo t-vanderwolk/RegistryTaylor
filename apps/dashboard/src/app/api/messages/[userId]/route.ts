@@ -15,9 +15,12 @@ export async function GET(
   { params }: { params: { userId: string } }
 ) {
   try {
+    const cookieHeader = _request.headers.get("cookie") ?? undefined;
+
     const data = await apiFetch<{ messages?: Message[] }>(`/api/messages/${params.userId}`, {
       cache: "no-store",
       credentials: "include",
+      headers: cookieHeader ? { Cookie: cookieHeader } : undefined,
     });
 
     return NextResponse.json(data.messages ?? []);

@@ -27,6 +27,9 @@ type BackendModule = {
   estimatedMinutes?: number | null;
   registryFocus?: string | null;
   progress?: number | null;
+  progressCompleted?: boolean | null;
+  progressQuizScore?: number | null;
+  progressReflection?: string | null;
   progressUpdatedAt?: Date | string | null;
   content?: unknown;
 };
@@ -43,6 +46,9 @@ type ModuleRecord = {
   content: Prisma.JsonValue | null;
   progress?: Array<{
     percent: number | null;
+    completed: boolean;
+    quizScore: number | null;
+    reflection: string | null;
     updatedAt?: Date | null;
   }>;
 };
@@ -423,13 +429,27 @@ function toIsoString(value: Date | string | null | undefined): string | null {
   return date.toISOString();
 }
 
-function normalizeProgress(value: number | null | undefined, updatedAt?: Date | string | null): ModuleProgress {
+function normalizeProgress(
+  value: number | null | undefined,
+  updatedAt?: Date | string | null,
+  extras?: {
+    completed?: boolean | null;
+    quizScore?: number | null;
+    reflection?: string | null;
+  }
+): ModuleProgress {
   const percent = Number.isFinite(value) ? Number(value) : 0;
   const clamped = Math.max(0, Math.min(100, Math.round(percent)));
   const progress: ModuleProgress = {
     percentComplete: clamped,
-    completed: clamped >= 100,
+    completed: extras?.completed ?? clamped >= 100,
   };
+  if (extras?.quizScore !== undefined) {
+    progress.quizScore = extras.quizScore ?? null;
+  }
+  if (extras?.reflection !== undefined) {
+    progress.reflection = extras.reflection ?? null;
+  }
   const isoUpdatedAt = toIsoString(updatedAt);
   if (isoUpdatedAt) {
     progress.updatedAt = isoUpdatedAt;
@@ -502,7 +522,11 @@ function normalizeModule(raw: BackendModule): AcademyModule {
         ? raw.workbookPrompt
         : content.journalPrompt ?? null,
     content,
-    progress: normalizeProgress(raw.progress, raw.progressUpdatedAt ?? null),
+    progress: normalizeProgress(raw.progress, raw.progressUpdatedAt ?? null, {
+      completed: raw.progressCompleted,
+      quizScore: raw.progressQuizScore,
+      reflection: raw.progressReflection,
+    }),
   };
 }
 
@@ -515,6 +539,15 @@ function mapRecordToBackend(record: ModuleRecord): BackendModule {
         ? Number(progressEntry?.percent)
         : null;
 
+  const completed =
+    typeof progressEntry?.completed === "boolean"
+      ? progressEntry.completed
+      : (percent ?? 0) >= 100;
+  const quizScore =
+    typeof progressEntry?.quizScore === "number" ? progressEntry.quizScore : null;
+  const reflection =
+    typeof progressEntry?.reflection === "string" ? progressEntry.reflection : null;
+
   return {
     id: record.id,
     slug: record.slug,
@@ -526,6 +559,9 @@ function mapRecordToBackend(record: ModuleRecord): BackendModule {
     order: record.order,
     content: record.content ?? undefined,
     progress: percent,
+    progressCompleted: completed,
+    progressQuizScore: quizScore,
+    progressReflection: reflection,
     progressUpdatedAt: progressEntry?.updatedAt ?? null,
   };
 }
@@ -535,6 +571,9 @@ function buildProgressSelection(userId: string | null): Prisma.AcademyProgressFi
     orderBy: { updatedAt: "desc" },
     select: {
       percent: true,
+      completed: true,
+      quizScore: true,
+      reflection: true,
       updatedAt: true,
     },
     ...(userId ? { where: { userId }, take: 1 } : { take: 0 }),

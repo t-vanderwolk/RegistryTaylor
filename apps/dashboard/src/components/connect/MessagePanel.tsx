@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 
 type Message = {
@@ -13,7 +13,7 @@ type Message = {
 };
 
 const fetcher = async (url: string): Promise<Message[]> => {
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetch(url, { cache: "no-store", credentials: "include" });
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error?.error ?? "Unable to load messages.");
@@ -36,8 +36,16 @@ export default function MessagePanel({ participantId }: MessagePanelProps) {
   const [text, setText] = useState("");
   const [pending, setPending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const messages = data ?? [];
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [messages.length, pending]);
 
   const handleSend = async () => {
     if (!text.trim() || pending) {
@@ -55,6 +63,7 @@ export default function MessagePanel({ participantId }: MessagePanelProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        credentials: "include",
       });
       if (!response.ok) {
         const result = await response.json().catch(() => ({}));
@@ -86,7 +95,7 @@ export default function MessagePanel({ participantId }: MessagePanelProps) {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto pr-1">
+      <div className="flex-1 overflow-y-auto pr-1" ref={scrollContainerRef}>
         <div className="space-y-3">
           {error ? (
             <div className="rounded-2xl border border-[#D97373]/40 bg-[#FFF5F4] p-3 text-xs text-[#5C2E2E]">
@@ -98,13 +107,16 @@ export default function MessagePanel({ participantId }: MessagePanelProps) {
             </div>
           ) : (
             messages.map((message) => {
-              const isMentor = message.senderId === mentorId;
+              const isIncoming = message.senderId === participantId;
               return (
                 <div
                   key={message.id}
                   className={`max-w-xs rounded-2xl px-4 py-2 text-sm leading-relaxed ${
-                    isMentor ? "bg-[#C8A1B4]/20 text-[#3E2F35]" : "ml-auto bg-[#EAC9D1] text-[#3E2F35]"
+                    isIncoming
+                      ? "bg-[#C8A1B4]/20 text-[#3E2F35]"
+                      : "ml-auto bg-[#EAC9D1] text-[#3E2F35]"
                   }`}
+                  title={new Date(message.createdAt).toLocaleString()}
                 >
                   {message.content}
                 </div>

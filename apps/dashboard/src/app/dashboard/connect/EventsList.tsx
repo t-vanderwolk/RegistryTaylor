@@ -1,10 +1,59 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import type { ConnectEvent } from "./data";
 
 type EventsListProps = {
   events: ConnectEvent[];
 };
 
-export default function EventsList({ events }: EventsListProps) {
+export default function EventsList({ events: initialEvents }: EventsListProps) {
+  const [events, setEvents] = useState(initialEvents);
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setEvents(initialEvents);
+  }, [initialEvents]);
+
+  const handleRsvp = async (eventId: string) => {
+    setPendingId(eventId);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/events/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId, status: "GOING" }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload?.error ?? "Unable to update RSVP.");
+      }
+
+      setEvents((current) =>
+        current.map((event) => {
+          if (event.id !== eventId) {
+            return event;
+          }
+          const alreadyGoing = event.userStatus === "GOING";
+          const attendeeCount = event.attendeeCount ?? 0;
+          return {
+            ...event,
+            attendeeCount: alreadyGoing ? attendeeCount : attendeeCount + 1,
+            userStatus: "GOING",
+          };
+        })
+      );
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to update RSVP.");
+    } finally {
+      setPendingId(null);
+    }
+  };
+
   return (
     <div
       id="events"
@@ -34,13 +83,24 @@ export default function EventsList({ events }: EventsListProps) {
             </div>
             <button
               type="button"
-              className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_20px_rgba(200,161,180,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(200,161,180,0.45)]"
+              disabled={event.userStatus === "GOING" || pendingId === event.id}
+              className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A1B4] via-[#EAC9D1] to-[#D9C48E] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_20px_rgba(200,161,180,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(200,161,180,0.45)] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+              onClick={() => handleRsvp(event.id)}
             >
-              RSVP
+              {event.userStatus === "GOING"
+                ? "Going"
+                : pendingId === event.id
+                ? "Saving..."
+                : "RSVP"}
             </button>
           </li>
         ))}
       </ul>
+      {errorMessage ? (
+        <p className="mt-4 rounded-[1.5rem] border border-[#D97373]/35 bg-[#FFF5F4] px-4 py-2 text-xs text-[#5C2E2E] shadow-inner">
+          {errorMessage}
+        </p>
+      ) : null}
     </div>
   );
 }

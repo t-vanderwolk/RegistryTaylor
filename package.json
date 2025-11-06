@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
     "dev:all": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
@@ -20,43 +19,24 @@
     "@aws-sdk/client-ses": "^3.922.0",
     "@aws-sdk/client-sesv2": "^3.922.0",
     "bcryptjs": "^2.4.3",
-=======
-    "start": "npm start --prefix backend",
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
-    "migrate": "npm run migrate --prefix backend",
-    "seed": "npm run seed --prefix backend",
-    "lint": "npx eslint \"frontend/src/**/*.{js,jsx}\" \"backend/src/**/*.js\"",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend && npm run migrate --prefix backend && npm run seed --prefix backend"
-  },
-  "dependencies": {
-    "bcrypt": "^5.1.1",
->>>>>>> heroku/main
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
-<<<<<<< HEAD
     "lucide-react": "^0.548.0",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.10",
-=======
-    "morgan": "^1.10.0",
->>>>>>> heroku/main
     "pg": "^8.11.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@prisma/client": "6.18.0",
-=======
->>>>>>> heroku/main
     "concurrently": "^9.2.1",
     "eslint": "^9.36.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-<<<<<<< HEAD
     "nodemon": "^3.0.3",
     "prisma": "6.18.0",
     "ts-node": "^10.9.2",
@@ -69,11 +49,5 @@
   "packageManager": "pnpm@10.18.3",
   "prisma": {
     "seed": "tsx apps/backend/prisma/seed.ts"
-=======
-    "nodemon": "^3.0.3"
-  },
-  "engines": {
-    "node": "20.x"
->>>>>>> heroku/main
   }
 }

@@ -79,17 +79,16 @@ const DEFAULT_CTA: CtaLink = {
 
 function desktopLinkClasses(active: boolean) {
   const base =
-    "group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EAC9D1]/60 after:absolute after:left-1/2 after:bottom-0 after:h-0.5 after:w-8 after:-translate-x-1/2 after:rounded-full after:bg-[#EAC9D1] after:opacity-0 after:transition after:duration-200";
-  const inactive = "text-[#3E2F35] hover:text-[#C8A1B4] hover:after:opacity-100";
-  const activeClasses =
-    "text-[#3E2F35] after:opacity-100";
+    "group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus after:absolute after:left-1/2 after:bottom-0 after:h-0.5 after:w-8 after:-translate-x-1/2 after:rounded-full after:bg-gold after:opacity-0 after:transition after:duration-200";
+  const inactive = "text-charcoal hover:text-mauve-500 hover:after:opacity-100";
+  const activeClasses = "text-mauve-500 after:opacity-100";
   return [base, active ? activeClasses : inactive].join(" ");
 }
 
 function mobileLinkClasses(active: boolean) {
   const base = "flex flex-col items-center gap-1 rounded-full px-3 py-2 text-[11px] font-semibold transition";
-  const inactive = "text-[#3E2F35]/70 hover:text-[#C8A1B4]";
-  const activeClasses = "text-[#3E2F35] bg-[#EAC9D1]/30";
+  const inactive = "text-charcoal/70 hover:text-mauve-500";
+  const activeClasses = "text-charcoal bg-blush-200/40";
   return [base, active ? activeClasses : inactive].join(" ");
 }
 
@@ -126,20 +125,21 @@ export default function PrimaryNav({
 
   return (
     <>
-      <nav className="sticky top-0 z-40 hidden border-b border-[#C8A1B4]/30 bg-white/90 px-6 py-3 shadow-[0_18px_45px_rgba(200,161,180,0.14)] backdrop-blur-sm md:flex">
+      <nav className="sticky top-0 z-40 hidden border-b border-mauve-500/15 bg-ivory/80 px-6 py-3 shadow-md shadow-mauve-500/20 backdrop-blur-sm md:flex">
         <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between gap-6">
-          <Link href={brandHref} className="flex items-center gap-2" aria-label="Taylor-Made Baby Co. home">
-            <span className="font-script text-2xl leading-none text-[#3E2F35]">Taylor-Made</span>
-            <span className="mx-2 inline-block h-4 w-px bg-[#D9C48E]/25 align-middle" />
-            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-[#3E2F35]">Baby Co.</span>
+          <Link href={brandHref} className="flex items-baseline space-x-2" aria-label="Taylor-Made Baby Co. home">
+            <span className="font-script text-3xl text-mauve-500 tracking-tight md:text-4xl">Taylor-Made</span>
+            <span className="font-[var(--font-playfair-sc)] text-sm font-semibold uppercase tracking-[0.35em] text-charcoal md:text-base">
+              Baby Co.
+            </span>
           </Link>
 
-          <div className="flex items-center gap-2 rounded-full border border-[#C8A1B4]/20 bg-white/80 px-3 py-1">
+          <div className="flex items-center gap-2 rounded-full border border-mauve-500/20 bg-white/75 px-3 py-1">
             {computedNavItems.map(({ label, href, Icon, isActive }) => {
               const active = isActive ? isActive(pathname) : pathname === href;
               return (
                 <Link key={href} href={href} className={desktopLinkClasses(active)}>
-                  {Icon ? <Icon className="h-4 w-4 text-[#C8A1B4]" /> : null}
+                  {Icon ? <Icon className="h-4 w-4 text-mauve-500" /> : null}
                   <span>{label}</span>
                 </Link>
               );
@@ -151,7 +151,7 @@ export default function PrimaryNav({
               {profileMenu}
               <Link
                 href={"/logout" as Route}
-                className="rounded-full border border-[#C8A1B4]/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#3E2F35] transition hover:bg-[#EAC9D1]/30"
+                className="rounded-full border border-mauve-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal transition hover:bg-blush-200/60 hover:text-mauve-600"
               >
                 Logout
               </Link>
@@ -159,7 +159,7 @@ export default function PrimaryNav({
           ) : ctaLink ? (
             <Link
               href={ctaLink.href}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#3E2F35] transition hover:bg-[#EAC9D1]/30"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-mauve-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal transition hover:bg-blush-200/60 hover:text-mauve-600"
             >
               {ctaLink.label}
             </Link>
@@ -170,13 +170,11 @@ export default function PrimaryNav({
       </nav>
 
       {showMobileNav ? (
-        <nav className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%-2.5rem)] max-w-xl -translate-x-1/2 flex-col items-center rounded-3xl border border-[#C8A1B4]/30 bg-white/95 px-4 py-3 text-center shadow-[0_22px_55px_rgba(200,161,180,0.26)] backdrop-blur-lg md:hidden">
-          <Link href={brandHref} className="flex flex-col items-center gap-2 pb-3" aria-label="Taylor-Made Baby Co. home">
-            <span className="font-script text-2xl leading-none text-[#3E2F35]">Taylor-Made</span>
-            <span className="inline-flex items-center gap-2">
-              <span className="inline-block h-4 w-px bg-[#D9C48E]/25 align-middle" />
-              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]">Baby Co.</span>
-              <span className="inline-block h-4 w-px bg-[#D9C48E]/25 align-middle" />
+        <nav className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%-2.5rem)] max-w-xl -translate-x-1/2 flex-col items-center rounded-3xl border border-mauve-500/20 bg-ivory/95 px-4 py-3 text-center shadow-[0_22px_55px_rgba(200,161,180,0.26)] backdrop-blur md:hidden">
+          <Link href={brandHref} className="flex flex-col items-center gap-1 pb-3" aria-label="Taylor-Made Baby Co. home">
+            <span className="font-script text-2xl text-mauve-500 tracking-tight">Taylor-Made</span>
+            <span className="text-[0.65rem] font-[var(--font-playfair-sc)] font-semibold uppercase tracking-[0.35em] text-charcoal">
+              Baby Co.
             </span>
           </Link>
           {computedNavItems.map(({ label, href, Icon, isActive }) => {
@@ -191,7 +189,7 @@ export default function PrimaryNav({
           {ctaLink && !showAuthControls ? (
             <Link
               href={ctaLink.href}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#3E2F35] transition hover:bg-[#EAC9D1]/30"
+              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-mauve-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal transition hover:bg-blush-200/60 hover:text-mauve-600"
             >
               {ctaLink.label}
             </Link>

@@ -89,7 +89,7 @@ export default function CommunityPage() {
         <div className="mx-auto max-w-screen-md space-y-6 text-center">
           <h2 className="font-serif text-3xl text-[#3E2F35]">Your seat is waiting</h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#3E2F35]/75">
-            Request an invite to receive concierge onboarding, community access, and the Taylor Academy all in one beautifully
+            Request an invite to receive concierge onboarding, community access, and lifetime mentorship inside one beautifully
             orchestrated experience.
           </p>
           <div className="flex flex-wrap justify-center gap-3">

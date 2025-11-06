@@ -28,33 +28,52 @@ function buildParagraphs(module: AcademyModule): string[] {
     paragraphs.push(module.content.insight);
   }
 
-  while (paragraphs.length < 3) {
-    const cadence = [
-      `Inside ${module.title}, we ditch perfection and build rhythms that actually fit your family. Consider this your permission slip to edit, adapt, and try again.`,
-      `We blend mentor wisdom with research-backed guidance so you can savor the calm moments and feel confident handling the chaotic ones.`,
-      `Take what resonates, personalize the details, and remember: luxury is feeling supported, not following a script.`,
-    ];
+  const cadence = [
+    `Inside ${module.title}, we ground each lesson in tactile rituals—notice the textures, sounds, and pacing you crave as you tailor the space for your family.`,
+    `We merge mentor wisdom with research-backed guidance so you can savor softened moments while navigating the unpredictable rhythms of growing a family.`,
+    `Take what resonates, personalize every recommendation, and remember: luxury in the Taylor-Made world is the feeling of being supported, not living up to a script.`,
+    `Pause to examine the practical layers—supplies, timing, conversations—and consider how each can be softened by repeatable routines that honour your capacity.`,
+    `Invite your support circle into the process; shared visibility keeps the concierge plan sustainable and makes sure no ritual sits on your shoulders alone.`,
+    `Revisit this chapter after every milestone. Each pass should refine your confidence, spark new questions, and help you notice what feels beautifully human right now.`,
+  ];
+
+  while (paragraphs.length < 6) {
     const nextLine = cadence[paragraphs.length % cadence.length];
     paragraphs.push(nextLine);
   }
 
-  return paragraphs.slice(0, 3);
+  return paragraphs.slice(0, 9);
 }
 
 export default function LectureContent({ module }: LectureContentProps) {
   const paragraphs = useMemo(() => buildParagraphs(module), [module]);
   const takeaways = useMemo(() => {
+    const collected: string[] = [];
+
     if (Array.isArray(module.content.apply) && module.content.apply.length > 0) {
-      return module.content.apply.slice(0, 5);
+      collected.push(...module.content.apply);
     }
     if (Array.isArray(module.content.sections) && module.content.sections.length > 0) {
-      return module.content.sections
-        .map((section) => section.heading ?? section.body)
-        .filter(Boolean)
-        .slice(0, 5);
+      collected.push(
+        ...module.content.sections
+          .map((section) => section.heading ?? section.body)
+          .filter((entry): entry is string => Boolean(entry))
+      );
     }
-    return [];
-  }, [module.content.apply, module.content.sections]);
+
+    const trimmed = collected.map((item) => item.trim()).filter(Boolean);
+    const fallbackHighlights = [
+      `Anchor the practice of ${module.title} in a daily ritual so this concierge lesson becomes muscle memory.`,
+      `Invite partners, mentors, or caregivers into the workflow—shared insight keeps the Taylor-Made plan sustainable.`,
+      `Revisit this lecture after your next milestone; each review should refine your calm and spotlight what needs support.`,
+    ];
+
+    while (trimmed.length < 3) {
+      trimmed.push(fallbackHighlights[trimmed.length % fallbackHighlights.length]);
+    }
+
+    return trimmed.slice(0, 3);
+  }, [module.content.apply, module.content.sections, module.title]);
 
   return (
     <motion.section

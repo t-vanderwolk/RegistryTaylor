@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Route } from "next";
-import { greatVibes, nunito, playfair } from "@/app/fonts";
+import { greatVibes, nunito, playfair, playfairSc } from "@/app/fonts";
 import PrimaryNav from "@/components/dashboard/PrimaryNav";
 import Footer from "@/components/Footer";
 
@@ -23,6 +23,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         greatVibes.variable,
         nunito.variable,
         playfair.variable,
+        playfairSc.variable,
         "min-h-screen bg-[#FFFAF8] font-sans text-[#3E2F35]",
       ].join(" ")}
     >

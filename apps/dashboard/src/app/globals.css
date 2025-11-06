@@ -7,32 +7,33 @@
     --font-great-vibes: "Great Vibes", cursive;
     --font-nunito: "Nunito", sans-serif;
     --font-playfair: "Playfair Display", serif;
+    --font-playfair-sc: "Playfair Display SC", serif;
   }
 
   body {
-    @apply bg-ivory font-sans text-charcoal-500 leading-relaxed;
+    @apply bg-ivory font-sans text-charcoal leading-relaxed;
   }
 
   h1 {
-    @apply mb-6 font-serif text-4xl font-semibold text-charcoal-700 md:text-5xl;
+    @apply mb-6 font-serif text-4xl font-semibold text-mauve-500 md:text-5xl;
   }
 
   h2 {
-    @apply mb-4 font-serif text-3xl font-semibold text-charcoal-700;
+    @apply mb-4 font-serif text-3xl font-semibold text-mauve-500;
   }
 
   h3,
   h4 {
-    @apply font-serif text-charcoal-700;
+    @apply font-serif text-mauve-500;
   }
 
   strong,
   em {
-    @apply text-charcoal-700;
+    @apply text-charcoal;
   }
 
   a {
-    @apply text-mauve-700 transition-colors hover:text-mauve-500;
+    @apply text-mauve-500 transition-colors hover:text-mauve-600 hover:underline hover:decoration-gold;
   }
 
   button {
@@ -50,19 +51,34 @@
   }
 
   .academy-pill {
-    @apply inline-flex items-center rounded-full border border-mauve-500/30 bg-blush-200/60 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-charcoal-500;
+    @apply inline-flex items-center rounded-full border border-mauve-500/30 bg-blush-200/60 px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.32em] text-charcoal;
   }
 
   .academy-button {
-    @apply inline-flex items-center justify-center rounded-full bg-mauve-500 px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-white shadow-blush-soft transition duration-200 ease-bloom hover:-translate-y-0.5 hover:bg-mauve-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-300;
+    @apply inline-flex items-center justify-center rounded-full bg-rose px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal shadow-blush-soft transition duration-200 ease-bloom hover:-translate-y-0.5 hover:bg-mauve-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
   }
 
   .academy-outline-button {
-    @apply inline-flex items-center justify-center rounded-full border border-mauve-500/40 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal-500 transition duration-200 ease-bloom hover:border-mauve-500 hover:bg-blush-200/40 hover:text-mauve-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-300;
+    @apply inline-flex items-center justify-center rounded-full border border-mauve-500/40 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal transition duration-200 ease-bloom hover:border-mauve-600 hover:bg-blush-200/60 hover:text-mauve-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus;
   }
 
   .academy-gradient-divider {
     @apply h-px w-full bg-academy-divider;
+  }
+
+  .dashboard-card {
+    @apply rounded-2xl border border-blush-300/60 bg-ivory/95 shadow-mauve-card;
+  }
+
+  .dashboard-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-mauve-500/30 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-charcoal shadow-blush-pill;
+  }
+
+  .notebook-surface {
+    @apply bg-ivory;
+    background-image: var(--tw-gradient-stops);
+    background-image: theme("backgroundImage.notebook-lines");
+    background-size: 100% 38px;
   }
 }
 

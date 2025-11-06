@@ -14,12 +14,12 @@ const STEPS = [
   {
     title: "Concierge questionnaire",
     detail:
-      "Share rhythms, design direction, and support needs. We tailor the academy cadence, registry milestones, and salon topics around you.",
+      "Share rhythms, design direction, and support needs. We tailor your roadmap, registry milestones, and salon topics around you.",
   },
   {
-    title: "Academy unlock",
+    title: "Member studio welcome",
     detail:
-      "Nursery, Gear, and Postpartum journeys arrive in a serene flow with reflections, worksheets, and direct ties to your registry.",
+      "A private planning studio opens with guided checklists, rituals, and resources released in a calm, concierge-paced flow.",
   },
   {
     title: "Mentor salons",
@@ -82,7 +82,7 @@ export default function HowItWorksPage() {
           <h2 className="font-serif text-3xl text-[#3E2F35]">Ready for your invitation?</h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#3E2F35]/75">
             Share a few details about your family. Our concierge team will reach out with a curated welcome, mentor pairing,
-            and academy timeline that feels beautifully paced.
+            and a timeline that feels beautifully paced.
           </p>
           <Link href={"/request-invite" as Route} className={PRIMARY_BUTTON_CLASSES}>
             Request Invite

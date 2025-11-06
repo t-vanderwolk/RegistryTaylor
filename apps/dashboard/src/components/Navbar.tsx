@@ -108,24 +108,30 @@ export default function Navbar() {
     );
   }, [isAuthenticated]);
 
+  const navClassName = [
+    "sticky inset-x-0 top-0 z-50 border border-mauve-500/10 bg-ivory/80 backdrop-blur-sm transition-all",
+    "rounded-b-3xl shadow-md shadow-mauve-500/20",
+    scrolled ? "shadow-lg shadow-mauve-600/25 bg-ivory/90" : "",
+  ].join(" ");
+
   return (
-    <nav
-      className={[
-        "sticky inset-x-0 top-0 z-50 border border-mauve-500/10 bg-[#FFFAF8]/90 backdrop-blur-md transition-all",
-        "rounded-b-3xl shadow-[0_18px_45px_rgba(200,161,180,0.18)]",
-        scrolled ? "shadow-[0_22px_55px_rgba(200,161,180,0.28)] bg-[#FFFAF8]/95" : "",
-      ].join(" ")}
-    >
-      <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between gap-6 px-8 py-4 text-charcoal-500 sm:px-12">
-        <Link href={"/" as Route} className="flex items-end gap-1" aria-label="Taylor-Made Baby Co. home">
-          <span className="font-script text-3xl leading-none text-mauve-700">Taylor-Made</span>
-          <span className="font-serif text-xl leading-none text-charcoal-700">Baby Co.</span>
+    <nav className={navClassName}>
+      <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between gap-6 px-8 py-4 text-charcoal sm:px-12">
+        <Link
+          href={"/" as Route}
+          className="flex items-baseline space-x-2 transition hover:text-mauve-600"
+          aria-label="Taylor-Made Baby Co. home"
+        >
+          <span className="font-script text-4xl text-mauve-500 tracking-tight md:text-5xl">Taylor-Made</span>
+          <span className="font-[var(--font-playfair-sc)] text-xl font-semibold uppercase tracking-[0.35em] text-charcoal md:text-2xl">
+            Baby Co.
+          </span>
         </Link>
 
         <button
           type="button"
           onClick={() => setMenuOpen((value) => !value)}
-          className="inline-flex items-center rounded-full bg-mauve-500 px-4 py-2 text-sm font-semibold text-white shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-700 md:hidden"
+          className="inline-flex items-center rounded-full bg-rose px-4 py-2 text-sm font-semibold text-charcoal shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-600 md:hidden"
           aria-expanded={menuOpen}
           aria-controls="tmbc-mobile-nav"
           aria-label="Toggle navigation menu"
@@ -134,7 +140,7 @@ export default function Navbar() {
         </button>
 
         <div className="hidden items-center gap-6 md:flex">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm font-sans text-charcoal">
             {links.map((link) => {
               const active = isActiveLink(pathname, link.href);
               return (
@@ -142,13 +148,11 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={[
-                    "group relative inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition",
-                    "after:absolute after:left-1/2 after:bottom-0 after:h-0.5 after:w-10 after:-translate-x-1/2 after:rounded-full",
-                    "after:bg-gradient-to-r after:from-mauve-500 after:via-blush-400 after:to-gold after:content-[''] after:transition after:duration-300",
-                    "after:opacity-0 after:scale-x-0 group-hover:after:opacity-100 group-hover:after:scale-x-100",
+                    "relative inline-flex items-center px-3 py-2 text-sm font-semibold tracking-wide transition",
+                    "after:absolute after:left-1/2 after:bottom-0 after:h-1 after:w-8 after:-translate-x-1/2 after:rounded-full after:bg-mauve-500 after:opacity-0 after:transition after:duration-200",
                     active
-                      ? "text-mauve-700 after:opacity-100 after:scale-x-100"
-                      : "text-charcoal-500 hover:text-mauve-700",
+                      ? "text-mauve-500 after:opacity-100"
+                      : "text-charcoal hover:text-mauve-500 hover:after:opacity-100",
                   ].join(" ")}
                   prefetch={!link.href.startsWith("/#")}
                 >
@@ -159,7 +163,7 @@ export default function Navbar() {
           </div>
           <Link
             href={CTA_LINK.href}
-            className="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-700"
+            className="inline-flex items-center gap-2 rounded-full bg-rose px-5 py-2.5 text-sm font-semibold text-charcoal shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-600"
           >
             {CTA_LINK.label}
           </Link>
@@ -169,15 +173,15 @@ export default function Navbar() {
       {menuOpen ? (
         <div
           id="tmbc-mobile-nav"
-          className="border-t border-mauve-500/15 bg-[#FFFAF8]/95 px-6 pb-6 pt-4 shadow-[0_22px_55px_rgba(200,161,180,0.2)] md:hidden"
+          className="border-t border-mauve-500/15 bg-ivory/95 px-6 pb-6 pt-4 shadow-[0_22px_55px_rgba(200,161,180,0.2)] md:hidden"
         >
-          <div className="flex flex-col gap-3 text-base font-semibold text-charcoal-500">
+          <div className="flex flex-col gap-3 text-base font-semibold text-charcoal">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 transition hover:bg-blush-200/60 hover:text-mauve-700"
+                className="rounded-2xl px-4 py-3 transition hover:bg-blush-200/60 hover:text-mauve-600"
               >
                 {link.label}
               </Link>
@@ -185,7 +189,7 @@ export default function Navbar() {
             <Link
               href={CTA_LINK.href}
               onClick={() => setMenuOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-mauve-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-700"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-rose px-5 py-3 text-sm font-semibold text-charcoal shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-600"
             >
               {CTA_LINK.label}
             </Link>

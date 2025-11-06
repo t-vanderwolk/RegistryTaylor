@@ -204,7 +204,7 @@ export default function ExperiencePage() {
             transition={fadeIn(0.04).transition}
             viewport={fadeIn(0.04).viewport}
           >
-            Request an invitation for concierge onboarding, access to the academy, registry moodboards, community salons, and the
+            Request an invitation for concierge onboarding, evolving member resources, registry moodboards, community salons, and the
             private journal—each crafted to feel bespoke.
           </motion.p>
           <motion.div
@@ -217,8 +217,8 @@ export default function ExperiencePage() {
             <Link href={"/request-invite" as Route} className={PRIMARY_CTA_CLASSES}>
               Request Invite
             </Link>
-            <Link href={"/learn" as Route} className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C8A1B4] bg-white/40 px-7 py-3 text-sm font-semibold text-[#3E2F35] shadow-[0_12px_26px_rgba(200,161,180,0.16)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#FFFAF8]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8A1B4]">
-              Preview the Academy
+            <Link href={"/membership" as Route} className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C8A1B4] bg-white/40 px-7 py-3 text-sm font-semibold text-[#3E2F35] shadow-[0_12px_26px_rgba(200,161,180,0.16)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#FFFAF8]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8A1B4]">
+              Explore Membership
             </Link>
           </motion.div>
         </div>

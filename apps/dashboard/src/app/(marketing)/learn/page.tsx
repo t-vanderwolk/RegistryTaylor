@@ -42,9 +42,9 @@ const SUPPORT_ELEMENTS = [
 ] as const;
 
 export const metadata = {
-  title: "Learn with Taylor Academy",
+  title: "Learning with Taylor-Made",
   description:
-    "Preview the Taylor-Made Baby Co. academy—calm, luxurious modules for Nursery, Gear, and Postpartum journeys.",
+    "Discover how Taylor-Made Baby Co. delivers calm, luxurious guidance through Nursery, Gear, and Postpartum journeys for members.",
 };
 
 export default function LearnPage() {
@@ -52,19 +52,15 @@ export default function LearnPage() {
     <div className="bg-[#FFFAF8]">
       <PageSection className="border-b border-[#D9C48E]/25">
         <div className="mx-auto max-w-screen-xl space-y-6 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Taylor Academy</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Learning Philosophy</p>
           <h1 className="font-serif text-4xl text-[#3E2F35]">Learn · Prepare · Connect</h1>
           <p className="mx-auto max-w-3xl text-sm leading-relaxed text-[#3E2F35]/75">
-            Your personal roadmap through pregnancy, gear planning, and postpartum wellness. Choose a journey below to begin
-            your guided path with mentor support and concierge orchestration.
+            Your personal roadmap through pregnancy, gear planning, and postpartum wellness. Every guide is crafted by our
+            concierge team and released to members in a calm, curated cadence.
           </p>
-          <Link
-            href="/dashboard/learn/welcome"
-            className="block rounded-2xl bg-ivory p-6 text-center shadow transition hover:shadow-md"
-          >
-            <h2 className="font-playfair text-2xl mb-2 text-[#3E2F35]">Taylor-Made Baby Academy</h2>
-            <p className="text-gray-600">Learn, prepare, and grow — at your own pace.</p>
-          </Link>
+          <p className="mx-auto max-w-lg rounded-2xl border border-[#E8E3E1] bg-white/70 px-6 py-4 text-xs uppercase tracking-[0.3em] text-[#3E2F35]/65 shadow-[0_10px_26px_rgba(200,161,180,0.12)]">
+            Member-only content · Unlocks after invitation
+          </p>
         </div>
       </PageSection>
 
@@ -73,13 +69,14 @@ export default function LearnPage() {
           <div className="flex flex-col gap-8 rounded-[2.75rem] border border-[#E8E3E1] bg-[#FFFAF8] px-8 py-10 shadow-[0_24px_60px_rgba(200,161,180,0.14)] md:flex-row md:items-center md:justify-between md:px-14 md:py-12">
             <div className="space-y-5 text-left md:max-w-2xl">
               <span className="inline-flex items-center rounded-full bg-[#F2D6DF] px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-[#3E2F35]">
-                Taylor-Made Baby Academy
+                Private member studio
               </span>
               <h2 className="font-serif text-3xl leading-tight text-[#3E2F35] md:text-[2.75rem]">
                 Concierge lessons that move with your season
               </h2>
               <p className="text-base leading-relaxed text-[#3E2F35]/80">
-                Explore immersive modules for Nursery, Gear, and Postpartum designed by Taylor’s concierge team. Each chapter pairs editorial storytelling with rituals you can apply immediately—synced to your workbook and mentor notes.
+                Members receive immersive guidance for Nursery, Gear, and Postpartum crafted by Taylor’s concierge team. Each
+                chapter pairs editorial storytelling with rituals you can apply immediately—synced to your workbook and mentor notes.
               </p>
               <div className="flex flex-wrap gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-[#3E2F35]/65">
                 {["Nursery Atelier", "Gear Confidence", "Postpartum Rituals"].map((label) => (
@@ -98,13 +95,9 @@ export default function LearnPage() {
                   Workbook reflections, registry prompts, mentor insights, and printable rituals—saved to your dashboard the moment you complete a lesson.
                 </p>
               </div>
-              <Link
-                href={"/dashboard/learn/welcome" as Route}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-8 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#3E2F35] shadow-[0_16px_35px_rgba(200,161,180,0.26)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#C29AAD] hover:text-white"
-              >
-                Enter Academy
-              </Link>
-              <p className="text-xs uppercase tracking-[0.35em] text-[#3E2F35]/55">Member access · Progress syncs automatically</p>
+              <p className="text-xs uppercase tracking-[0.35em] text-[#3E2F35]/55">
+                Request an invite to receive access
+              </p>
             </div>
           </div>
         </div>
@@ -145,8 +138,8 @@ export default function LearnPage() {
         <div className="mx-auto max-w-screen-md space-y-6 text-center">
           <h2 className="font-serif text-3xl text-[#3E2F35]">Ready to experience the full cadence?</h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#3E2F35]/75">
-            Request your invitation to unlock the Taylor Academy, dynamic registry access, and mentor-led community in one
-            beautifully orchestrated space.
+            Request your invitation to unlock the private learning studio, dynamic registry access, and mentor-led community in
+            one beautifully orchestrated space.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href={"/request-invite" as Route} className={PRIMARY_BUTTON_CLASSES}>

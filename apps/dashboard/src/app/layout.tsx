@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { greatVibes, nunito, playfair } from "@/app/fonts";
+import { greatVibes, nunito, playfair, playfairSc } from "@/app/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={[greatVibes.variable, nunito.variable, playfair.variable, "scroll-smooth"].join(" ")}
+      className={[greatVibes.variable, nunito.variable, playfair.variable, playfairSc.variable, "scroll-smooth"].join(" ")}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-ivory font-sans text-charcoal-500 antialiased">

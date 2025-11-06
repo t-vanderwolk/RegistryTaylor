@@ -10,7 +10,11 @@ export function RoleGuard({ children, allow }) {
 
   if (loading) {
     return (
+<<<<<<< HEAD
       <div className="flex min-h-[40vh] items-center justify-center p-6 text-charcoal">
+=======
+      <div className="flex min-h-[40vh] items-center justify-center p-6 text-blueberry">
+>>>>>>> heroku/main
         Loading…
       </div>
     );

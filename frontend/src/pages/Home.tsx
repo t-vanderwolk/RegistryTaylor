@@ -1,5 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+<<<<<<< HEAD
+=======
+import MarketingLayout from "../layouts/MarketingLayout";
+>>>>>>> heroku/main
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -62,7 +66,12 @@ const Home: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="space-y-20 bg-ivory pb-24 pt-16 sm:space-y-28">
+=======
+    <MarketingLayout>
+      <div className="space-y-20 bg-cream pb-24 pt-16 sm:space-y-28">
+>>>>>>> heroku/main
         <Section>
           <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
             <motion.div
@@ -72,6 +81,7 @@ const Home: React.FC = () => {
               variants={fadeInUp}
               transition={{ duration: 0.9 }}
             >
+<<<<<<< HEAD
               <span className="inline-flex items-center rounded-full bg-mauve/40 px-5 py-2 text-xs font-body uppercase tracking-[0.35em] text-charcoal">
                 Member → Mentor Journey
               </span>
@@ -80,6 +90,18 @@ const Home: React.FC = () => {
               </H1>
               <P>
                 Join a supportive, curated journey from pregnancy to postpartum—where every member learns, plans, and connects before guiding the next generation.
+=======
+              <span className="inline-flex items-center rounded-full bg-primary/40 px-5 py-2 text-xs font-body uppercase tracking-[0.35em] text-ink">
+                Invite-only concierge
+              </span>
+              <H1 className="text-ink">
+                Pastel-elegant planning for the moments you’ll never forget
+              </H1>
+              <P>
+                Taylor-Made Baby Co. curates registries, nursery experiences, and celebrations with a warm,
+                concierge touch. We believe calm timelines, heartfelt details, and artful styling help families
+                savor every milestone.
+>>>>>>> heroku/main
               </P>
               <Card className="bg-white/95 px-6 py-5 shadow-soft sm:px-8">
                 <div className="space-y-4">
@@ -110,26 +132,43 @@ const Home: React.FC = () => {
                     className={[
                       "min-h-[1.25rem] font-body text-sm",
                       status === "success"
+<<<<<<< HEAD
                         ? "text-charcoal/80"
                         : status === "error"
                         ? "text-rose-500"
                         : "text-charcoal/60",
+=======
+                        ? "text-ink/80"
+                        : status === "error"
+                        ? "text-rose-500"
+                        : "text-ink/60",
+>>>>>>> heroku/main
                     ].join(" ")}
                     aria-live="polite"
                   >
                     {message}
                   </p>
                   {inviteInfo && (
+<<<<<<< HEAD
                     <dl className="grid w-full grid-cols-2 gap-3 rounded-2xl border border-mauve/30 bg-ivory px-4 py-3 text-sm text-charcoal/80">
                       <div className="flex flex-col gap-1">
                         <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/60">
+=======
+                    <dl className="grid w-full grid-cols-2 gap-3 rounded-2xl border border-primary/30 bg-cream px-4 py-3 text-sm text-ink/80">
+                      <div className="flex flex-col gap-1">
+                        <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-ink/60">
+>>>>>>> heroku/main
                           Role
                         </dt>
                         <dd>{String(inviteInfo.role).toUpperCase()}</dd>
                       </div>
                       {inviteInfo.assigned_email && (
                         <div className="flex flex-col gap-1">
+<<<<<<< HEAD
                           <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/60">
+=======
+                          <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-ink/60">
+>>>>>>> heroku/main
                             Email
                           </dt>
                           <dd>{String(inviteInfo.assigned_email)}</dd>
@@ -137,7 +176,11 @@ const Home: React.FC = () => {
                       )}
                       {inviteInfo.expires_at && (
                         <div className="flex flex-col gap-1">
+<<<<<<< HEAD
                           <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/60">
+=======
+                          <dt className="text-[0.6rem] font-heading uppercase tracking-[0.3em] text-ink/60">
+>>>>>>> heroku/main
                             Expires
                           </dt>
                           <dd>{new Date(String(inviteInfo.expires_at)).toLocaleDateString()}</dd>
@@ -149,7 +192,11 @@ const Home: React.FC = () => {
               </Card>
             </motion.div>
             <motion.div
+<<<<<<< HEAD
               className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/70 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]"
+=======
+              className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/70 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]"
+>>>>>>> heroku/main
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
@@ -160,13 +207,21 @@ const Home: React.FC = () => {
                 alt="Expecting parent in a blush-toned setting"
                 className="h-full w-full object-cover"
               />
+<<<<<<< HEAD
               <div className="absolute inset-0 bg-gradient-to-br from-mauve/30 via-transparent to-blush/40" aria-hidden="true" />
+=======
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/40" aria-hidden="true" />
+>>>>>>> heroku/main
             </motion.div>
           </div>
         </Section>
 
         <Section
+<<<<<<< HEAD
           title="Learn · Plan · Connect Touchpoints"
+=======
+          title="Concierge touchpoints"
+>>>>>>> heroku/main
           description="A seamless suite of services designed to keep preparations organized, joyful, and unmistakably you."
         >
           <motion.div
@@ -191,14 +246,22 @@ const Home: React.FC = () => {
               },
             ].map((item) => (
               <Card key={item.title} className="flex h-full flex-col gap-4 bg-white/95">
+<<<<<<< HEAD
                 <H2 className="text-charcoal text-xl">{item.title}</H2>
+=======
+                <H2 className="text-ink text-xl">{item.title}</H2>
+>>>>>>> heroku/main
                 <P>{item.copy}</P>
               </Card>
             ))}
           </motion.div>
         </Section>
 
+<<<<<<< HEAD
         <Section title="Member → Mentor Promises">
+=======
+        <Section title="Membership promises">
+>>>>>>> heroku/main
           <motion.div
             className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr] lg:items-center"
             initial="hidden"
@@ -211,7 +274,11 @@ const Home: React.FC = () => {
                 Membership is intentionally intimate—five families per season—so Taylor and the mentor circle can
                 deliver handwritten guidance, personally vetted vendors, and the calm assurance you deserve.
               </P>
+<<<<<<< HEAD
               <ul className="space-y-4 text-sm text-charcoal/80 sm:text-base">
+=======
+              <ul className="space-y-4 text-sm text-ink/80 sm:text-base">
+>>>>>>> heroku/main
                 {[
                   "Weekly concierge check-ins tailored to your trimester.",
                   "Curated product lists and bespoke sourcing notes.",
@@ -219,22 +286,37 @@ const Home: React.FC = () => {
                   "Postpartum transition planning with nurture-focused touches.",
                 ].map((detail) => (
                   <li key={detail} className="flex items-start gap-3">
+<<<<<<< HEAD
                     <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-mauve" aria-hidden="true" />
+=======
+                    <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-primary" aria-hidden="true" />
+>>>>>>> heroku/main
                     <span>{detail}</span>
                   </li>
                 ))}
               </ul>
               <Button as="a" href="/membership">
+<<<<<<< HEAD
                 Explore Membership Journey
               </Button>
             </div>
             <div className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/80 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]">
+=======
+                View Membership Packages
+              </Button>
+            </div>
+            <div className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/80 shadow-[0_28px_70px_-30px_rgba(46,46,46,0.32)]">
+>>>>>>> heroku/main
               <img
                 src={heroSecondary}
                 alt="Softly styled nursery in blush and cream tones"
                 className="h-full w-full object-cover"
               />
+<<<<<<< HEAD
               <div className="absolute inset-0 bg-gradient-to-br from-blush/25 via-transparent to-mauve/35" aria-hidden="true" />
+=======
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/25 via-transparent to-primary/35" aria-hidden="true" />
+>>>>>>> heroku/main
             </div>
           </motion.div>
         </Section>
@@ -268,13 +350,23 @@ const Home: React.FC = () => {
               },
             ].map((item) => (
               <Card key={item.name} className="flex h-full flex-col justify-between bg-white/95">
+<<<<<<< HEAD
                 <P className="text-charcoal">{item.quote}</P>
                 <P className="mt-4 text-sm font-semibold text-charcoal/80">{item.name}</P>
+=======
+                <P className="text-ink">{item.quote}</P>
+                <P className="mt-4 text-sm font-semibold text-ink/80">{item.name}</P>
+>>>>>>> heroku/main
               </Card>
             ))}
           </motion.div>
         </Section>
+<<<<<<< HEAD
     </div>
+=======
+      </div>
+    </MarketingLayout>
+>>>>>>> heroku/main
   );
 };
 

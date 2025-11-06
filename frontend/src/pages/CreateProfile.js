@@ -414,7 +414,11 @@ const CreateProfile = () => {
 
   if (inviteStatus === 'loading') {
     return (
+<<<<<<< HEAD
       <main className="min-h-screen bg-ivory text-charcoal flex items-center justify-center">
+=======
+      <main className="min-h-screen bg-cream text-darkText flex items-center justify-center">
+>>>>>>> heroku/main
         <p className="text-sm font-heading uppercase tracking-[0.3em] text-slate-500">
           Verifying your invite…
         </p>
@@ -424,14 +428,24 @@ const CreateProfile = () => {
 
   if (inviteStatus === 'error') {
     return (
+<<<<<<< HEAD
       <main className="min-h-screen bg-ivory text-charcoal flex items-center justify-center px-6">
         <div className="w-full max-w-md rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 text-center shadow-soft">
           <h1 className="font-playful text-3xl text-charcoal">We need a fresh invite</h1>
+=======
+      <main className="min-h-screen bg-cream text-darkText flex items-center justify-center px-6">
+        <div className="w-full max-w-md rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 text-center shadow-soft">
+          <h1 className="font-playful text-3xl text-blueberry">We need a fresh invite</h1>
+>>>>>>> heroku/main
           <p className="mt-3 text-sm text-slate-600">{inviteError}</p>
           <button
             type="button"
             onClick={() => navigate('/request-invite')}
+<<<<<<< HEAD
             className="mt-6 inline-flex items-center justify-center rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+=======
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
           >
             Request Invite
           </button>
@@ -449,12 +463,20 @@ const CreateProfile = () => {
             <div className="flex items-center gap-2">
               <span
                 className={`inline-flex h-8 w-8 items-center justify-center rounded-full border text-[0.65rem] font-semibold ${
+<<<<<<< HEAD
                   isActive ? "border-blush bg-blush/40 text-charcoal" : "border-white/40 bg-white/40"
+=======
+                  isActive ? "border-babyPink bg-babyPink/40 text-blueberry" : "border-white/40 bg-white/40"
+>>>>>>> heroku/main
                 }`}
               >
                 {index + 1}
               </span>
+<<<<<<< HEAD
               <span className={isActive ? "text-charcoal" : undefined}>{step.label}</span>
+=======
+              <span className={isActive ? "text-blueberry" : undefined}>{step.label}</span>
+>>>>>>> heroku/main
             </div>
             {index < PROGRESS_STEPS.length - 1 && <span className="text-slate-300">—</span>}
           </React.Fragment>
@@ -464,6 +486,7 @@ const CreateProfile = () => {
   );
 
   return (
+<<<<<<< HEAD
     <main className="min-h-screen bg-ivory text-charcoal">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-8">
         <div className="rounded-[2.75rem] border border-mauve/30 bg-gradient-to-br from-white via-ivory to-mauve/20 p-10 shadow-soft">
@@ -472,6 +495,16 @@ const CreateProfile = () => {
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-mauve">Create Profile</p>
               <h1 className="mt-3 font-playful text-4xl text-charcoal">
+=======
+    <main className="min-h-screen bg-cream text-darkText">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-8">
+        <div className="rounded-[2.75rem] border border-babyBlue/30 bg-gradient-to-br from-white via-cream to-babyBlue/20 p-10 shadow-soft">
+          <div className="flex flex-col items-center gap-6 text-center">
+            {renderProgress()}
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-babyBlue">Create Profile</p>
+              <h1 className="mt-3 font-playful text-4xl text-blueberry">
+>>>>>>> heroku/main
                 Welcome to Taylor Made Baby Planning
               </h1>
               <p className="mt-4 max-w-2xl text-sm text-slate-600">
@@ -481,9 +514,15 @@ const CreateProfile = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="mt-10 space-y-12">
+<<<<<<< HEAD
             <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
                 <h2 className="font-heading text-lg text-charcoal">Family Basics</h2>
+=======
+            <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+                <h2 className="font-heading text-lg text-blueberry">Family Basics</h2>
+>>>>>>> heroku/main
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                   Tell us who we’re celebrating
                 </p>
@@ -495,11 +534,19 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.parentOneName}
                     onChange={handleInputChange("parentOneName")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="Taylor Made"
                     required
                   />
                   {errors.parentOneName && <p className="mt-1 text-xs text-mauve">{errors.parentOneName}</p>}
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    placeholder="Taylor Made"
+                    required
+                  />
+                  {errors.parentOneName && <p className="mt-1 text-xs text-babyPink">{errors.parentOneName}</p>}
+>>>>>>> heroku/main
                 </label>
 
                 <label className="text-sm">
@@ -508,7 +555,11 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.parentTwoName}
                     onChange={handleInputChange("parentTwoName")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                     placeholder="We love doting partners and grandparents too"
                   />
                 </label>
@@ -519,7 +570,11 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.babyName}
                     onChange={handleInputChange("babyName")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                     placeholder="Optional — we love surprises too!"
                   />
                 </label>
@@ -529,7 +584,11 @@ const CreateProfile = () => {
                   <select
                     value={formData.babyGender}
                     onChange={handleInputChange("babyGender")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                   >
                     {BABY_GENDER_OPTIONS.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -546,15 +605,26 @@ const CreateProfile = () => {
                     value={formData.email}
                     onChange={handleInputChange("email")}
                     readOnly={Boolean(invitedEmail)}
+<<<<<<< HEAD
                     className={`mt-2 w-full rounded-2xl px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none ${
                       invitedEmail
                         ? "cursor-not-allowed border border-mauve/20 bg-mauve/10"
                         : "border border-mauve/40 bg-white"
+=======
+                    className={`mt-2 w-full rounded-2xl px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none ${
+                      invitedEmail
+                        ? "cursor-not-allowed border border-babyBlue/20 bg-babyBlue/10"
+                        : "border border-babyBlue/40 bg-white"
+>>>>>>> heroku/main
                     }`}
                     placeholder="RegistryWithTaylor@gmail.com"
                     required
                   />
+<<<<<<< HEAD
                   {errors.email && <p className="mt-1 text-xs text-mauve">{errors.email}</p>}
+=======
+                  {errors.email && <p className="mt-1 text-xs text-babyPink">{errors.email}</p>}
+>>>>>>> heroku/main
                 </label>
 
                 <label className="text-sm">
@@ -563,11 +633,19 @@ const CreateProfile = () => {
                     type="password"
                     value={formData.password}
                     onChange={handleInputChange("password")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="Create a secure password"
                     required
                   />
                   {errors.password && <p className="mt-1 text-xs text-mauve">{errors.password}</p>}
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    placeholder="Create a secure password"
+                    required
+                  />
+                  {errors.password && <p className="mt-1 text-xs text-babyPink">{errors.password}</p>}
+>>>>>>> heroku/main
                 </label>
 
                 <label className="text-sm">
@@ -576,7 +654,11 @@ const CreateProfile = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={handleInputChange("phone")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                     placeholder="(123) 456-7890"
                   />
                 </label>
@@ -587,11 +669,19 @@ const CreateProfile = () => {
                     type="text"
                     value={formData.zipCode}
                     onChange={handleInputChange("zipCode")}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                     placeholder="ZIP to tailor deliveries"
                     required
                   />
                   {errors.zipCode && <p className="mt-1 text-xs text-mauve">{errors.zipCode}</p>}
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                    placeholder="ZIP to tailor deliveries"
+                    required
+                  />
+                  {errors.zipCode && <p className="mt-1 text-xs text-babyPink">{errors.zipCode}</p>}
+>>>>>>> heroku/main
                 </label>
 
                 <label className="text-sm lg:col-span-2">
@@ -600,17 +690,28 @@ const CreateProfile = () => {
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoChange}
+<<<<<<< HEAD
                     className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal file:mr-4 file:rounded-full file:border-0 file:bg-blush/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-charcoal"
                   />
                   {formData.photoDataUrl && (
                     <div className="mt-4 inline-flex items-center gap-4 rounded-2xl border border-mauve/30 bg-mauve/10 p-4">
+=======
+                    className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry file:mr-4 file:rounded-full file:border-0 file:bg-babyPink/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-blueberry"
+                  />
+                  {formData.photoDataUrl && (
+                    <div className="mt-4 inline-flex items-center gap-4 rounded-2xl border border-babyBlue/30 bg-babyBlue/10 p-4">
+>>>>>>> heroku/main
                       <img
                         src={formData.photoDataUrl}
                         alt="Profile preview"
                         className="h-16 w-16 rounded-2xl object-cover"
                       />
                       <div>
+<<<<<<< HEAD
                         <p className="text-sm font-semibold text-charcoal">{formData.photoFileName}</p>
+=======
+                        <p className="text-sm font-semibold text-blueberry">{formData.photoFileName}</p>
+>>>>>>> heroku/main
                         <button
                           type="button"
                           onClick={() =>
@@ -620,7 +721,11 @@ const CreateProfile = () => {
                               photoFileName: "",
                             }))
                           }
+<<<<<<< HEAD
                           className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+                          className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
                         >
                           Remove photo
                         </button>
@@ -632,9 +737,15 @@ const CreateProfile = () => {
             </section>
 
             {role === "client" ? (
+<<<<<<< HEAD
               <section className="rounded-[2.5rem] border border-blush/35 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
                   <h2 className="font-heading text-lg text-charcoal">Client Concierge Details</h2>
+=======
+              <section className="rounded-[2.5rem] border border-babyPink/35 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+                  <h2 className="font-heading text-lg text-blueberry">Client Concierge Details</h2>
+>>>>>>> heroku/main
                   <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Shape your bespoke plan</p>
                 </div>
                 <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -644,10 +755,17 @@ const CreateProfile = () => {
                       type="date"
                       value={formData.dueDate}
                       onChange={handleInputChange("dueDate")}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       required
                     />
                     {errors.dueDate && <p className="mt-1 text-xs text-mauve">{errors.dueDate}</p>}
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      required
+                    />
+                    {errors.dueDate && <p className="mt-1 text-xs text-babyPink">{errors.dueDate}</p>}
+>>>>>>> heroku/main
                   </label>
 
                   <label className="text-sm">
@@ -655,7 +773,11 @@ const CreateProfile = () => {
                     <select
                       value={formData.packageChoice}
                       onChange={handleInputChange("packageChoice")}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                       required
                     >
                       <option value="" disabled>
@@ -667,7 +789,11 @@ const CreateProfile = () => {
                         </option>
                       ))}
                     </select>
+<<<<<<< HEAD
                     {errors.packageChoice && <p className="mt-1 text-xs text-mauve">{errors.packageChoice}</p>}
+=======
+                    {errors.packageChoice && <p className="mt-1 text-xs text-babyPink">{errors.packageChoice}</p>}
+>>>>>>> heroku/main
                   </label>
 
                   <label className="text-sm lg:col-span-2">
@@ -675,7 +801,11 @@ const CreateProfile = () => {
                     <select
                       value={formData.mentorPreference}
                       onChange={handleInputChange("mentorPreference")}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/20 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/20 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                     >
                       <option value="">Let Taylor match us</option>
                       {MENTOR_PREFERENCE_HINTS.map((pref) => (
@@ -691,9 +821,15 @@ const CreateProfile = () => {
                 </div>
               </section>
             ) : (
+<<<<<<< HEAD
               <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
                   <h2 className="font-heading text-lg text-charcoal">Mentor Welcome Details</h2>
+=======
+              <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+                  <h2 className="font-heading text-lg text-blueberry">Mentor Welcome Details</h2>
+>>>>>>> heroku/main
                   <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Help families find their guide</p>
                 </div>
                 <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -703,11 +839,19 @@ const CreateProfile = () => {
                       type="text"
                       value={formData.specialty}
                       onChange={handleInputChange("specialty")}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       placeholder="Sleep whisperer, registry guru..."
                       required
                     />
                     {errors.specialty && <p className="mt-1 text-xs text-mauve">{errors.specialty}</p>}
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      placeholder="Sleep whisperer, registry guru..."
+                      required
+                    />
+                    {errors.specialty && <p className="mt-1 text-xs text-babyPink">{errors.specialty}</p>}
+>>>>>>> heroku/main
                   </label>
 
                   <label className="text-sm">
@@ -715,7 +859,11 @@ const CreateProfile = () => {
                     <select
                       value={formData.availability}
                       onChange={handleInputChange("availability")}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                       required
                     >
                       {MENTOR_AVAILABILITY.map((option) => (
@@ -724,7 +872,11 @@ const CreateProfile = () => {
                         </option>
                       ))}
                     </select>
+<<<<<<< HEAD
                     {errors.availability && <p className="mt-1 text-xs text-mauve">{errors.availability}</p>}
+=======
+                    {errors.availability && <p className="mt-1 text-xs text-babyPink">{errors.availability}</p>}
+>>>>>>> heroku/main
                   </label>
 
                   <label className="text-sm">
@@ -734,11 +886,19 @@ const CreateProfile = () => {
                       min="1"
                       value={formData.maxClients}
                       onChange={handleInputChange("maxClients")}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       placeholder="How many families feel cozy to support"
                       required
                     />
                     {errors.maxClients && <p className="mt-1 text-xs text-mauve">{errors.maxClients}</p>}
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      placeholder="How many families feel cozy to support"
+                      required
+                    />
+                    {errors.maxClients && <p className="mt-1 text-xs text-babyPink">{errors.maxClients}</p>}
+>>>>>>> heroku/main
                   </label>
 
                   <label className="text-sm lg:col-span-2">
@@ -747,11 +907,19 @@ const CreateProfile = () => {
                       value={formData.bio}
                       onChange={handleInputChange("bio")}
                       rows={4}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
                       placeholder="Share your story and what lights you up when guiding families."
                       required
                     />
                     {errors.bio && <p className="mt-1 text-xs text-mauve">{errors.bio}</p>}
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+                      placeholder="Share your story and what lights you up when guiding families."
+                      required
+                    />
+                    {errors.bio && <p className="mt-1 text-xs text-babyPink">{errors.bio}</p>}
+>>>>>>> heroku/main
                   </label>
 
                   <label className="text-sm lg:col-span-2">
@@ -761,6 +929,7 @@ const CreateProfile = () => {
                       multiple
                       accept=".pdf,image/*"
                       onChange={handleCertificationsChange}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal file:mr-4 file:rounded-full file:border-0 file:bg-blush/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-charcoal"
                     />
                     {formData.certificationFiles.length > 0 && (
@@ -769,13 +938,27 @@ const CreateProfile = () => {
                           <li
                             key={file.name}
                             className="flex items-center justify-between rounded-2xl border border-mauve/40 bg-mauve/10 px-4 py-3"
+=======
+                      className="mt-2 w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry file:mr-4 file:rounded-full file:border-0 file:bg-babyPink/40 file:px-4 file:py-2 file:text-xs file:font-heading file:uppercase file:tracking-[0.3em] file:text-blueberry"
+                    />
+                    {formData.certificationFiles.length > 0 && (
+                      <ul className="mt-4 space-y-3 text-sm text-blueberry">
+                        {formData.certificationFiles.map((file) => (
+                          <li
+                            key={file.name}
+                            className="flex items-center justify-between rounded-2xl border border-pastelPurple/40 bg-pastelPurple/10 px-4 py-3"
+>>>>>>> heroku/main
                           >
                             <span>{file.name}</span>
                             <a
                               href={file.dataUrl}
                               target="_blank"
                               rel="noreferrer"
+<<<<<<< HEAD
                               className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+                              className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
                             >
                               Preview
                             </a>
@@ -789,25 +972,41 @@ const CreateProfile = () => {
             )}
 
             {submitError && (
+<<<<<<< HEAD
               <p className="rounded-2xl border border-blush/40 bg-blush/20 px-4 py-3 text-sm text-charcoal">
+=======
+              <p className="rounded-2xl border border-babyPink/40 bg-babyPink/20 px-4 py-3 text-sm text-blueberry">
+>>>>>>> heroku/main
                 {submitError}
               </p>
             )}
 
+<<<<<<< HEAD
             <footer className="flex flex-col gap-3 rounded-[2.5rem] border border-mauve/25 bg-white/95 px-6 py-6 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+=======
+            <footer className="flex flex-col gap-3 rounded-[2.5rem] border border-babyBlue/25 bg-white/95 px-6 py-6 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+>>>>>>> heroku/main
               <p className="text-xs uppercase tracking-[0.35em] text-slate-400">
                 Step 2 of 3 · Create profile
               </p>
               <button
                 type="submit"
                 disabled={submitting}
+<<<<<<< HEAD
                 className={`inline-flex items-center justify-center rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition ${
+=======
+                className={`inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+>>>>>>> heroku/main
                   submitting ? "opacity-60" : "hover:-translate-y-1 hover:shadow-dreamy"
                 }`}
               >
                 {submitting ? (
                   <span className="inline-flex items-center gap-2">
+<<<<<<< HEAD
                     <span className="h-3 w-3 animate-spin rounded-full border-2 border-mauve border-t-transparent" />
+=======
+                    <span className="h-3 w-3 animate-spin rounded-full border-2 border-blueberry border-t-transparent" />
+>>>>>>> heroku/main
                     Saving…
                   </span>
                 ) : (

@@ -4,7 +4,11 @@ export function MentorCard({ mentor }) {
   if (!mentor) return null;
 
   return (
+<<<<<<< HEAD
     <div className="rounded-2xl border border-blush/40 bg-white/80 p-6 shadow-soft">
+=======
+    <div className="rounded-2xl border border-babyPink/40 bg-white/80 p-6 shadow-soft">
+>>>>>>> heroku/main
       <div className="flex items-center gap-3">
         <img
           src={
@@ -15,21 +19,35 @@ export function MentorCard({ mentor }) {
           className="h-12 w-12 rounded-full border border-white shadow-inner"
         />
         <div>
+<<<<<<< HEAD
           <p className="font-medium text-charcoal">{mentor.name}</p>
           {Array.isArray(mentor.specialties) && mentor.specialties.length > 0 && (
             <p className="text-xs uppercase tracking-[0.3em] text-charcoal/50">
+=======
+          <p className="font-medium text-blueberry">{mentor.name}</p>
+          {Array.isArray(mentor.specialties) && mentor.specialties.length > 0 && (
+            <p className="text-xs uppercase tracking-[0.3em] text-darkText/50">
+>>>>>>> heroku/main
               {mentor.specialties.join(" • ")}
             </p>
           )}
         </div>
       </div>
       <div className="mt-3 flex items-center justify-between">
+<<<<<<< HEAD
         <span className="text-sm text-charcoal/70">
+=======
+        <span className="text-sm text-darkText/70">
+>>>>>>> heroku/main
           ${(mentor.rateCents || 4000) / 100}/hr
         </span>
         <button
           type="button"
+<<<<<<< HEAD
           className="rounded-xl border border-blush/40 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal transition hover:-translate-y-0.5 hover:bg-blush/30"
+=======
+          className="rounded-xl border border-babyPink/40 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry transition hover:-translate-y-0.5 hover:bg-babyPink/30"
+>>>>>>> heroku/main
         >
           View
         </button>

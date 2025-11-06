@@ -20,6 +20,7 @@ export default function ClientOverview() {
 
   return (
     <motion.section {...sectionMotion} transition={{ duration: 0.35 }} className="space-y-6">
+<<<<<<< HEAD
       <div className="rounded-[2.25rem] border border-gold/25 bg-ivory/90 p-6 shadow-soft backdrop-blur-sm sm:p-8">
         <h2 className="font-heading text-2xl text-charcoal sm:text-3xl">
           Hi {firstName} — welcome back ✨
@@ -32,6 +33,20 @@ export default function ClientOverview() {
           <p className="font-body text-sm text-charcoal/70 sm:text-base">
             Concierge lead:
             <span className="ml-1 font-medium text-charcoal">{mentorName}</span>
+=======
+      <div className="rounded-[2.25rem] border border-gold/25 bg-cream/90 p-6 shadow-soft backdrop-blur-sm sm:p-8">
+        <h2 className="font-heading text-2xl text-blueberry sm:text-3xl">
+          Hi {firstName} — welcome back ✨
+        </h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 sm:items-center">
+          <p className="font-body text-sm text-darkText/70 sm:text-base">
+            Your current membership:
+            <span className="ml-1 font-semibold text-blueberry">{tier}</span>
+          </p>
+          <p className="font-body text-sm text-darkText/70 sm:text-base">
+            Concierge lead:
+            <span className="ml-1 font-medium text-blueberry">{mentorName}</span>
+>>>>>>> heroku/main
           </p>
         </div>
       </div>

@@ -27,6 +27,7 @@ const notes = [
 const BlogSection = () => (
   <section className="space-y-4">
     <header className="space-y-1">
+<<<<<<< HEAD
       <h2 className="font-heading text-lg text-charcoal">Taylor-Made Blog</h2>
       <p className="text-sm font-body text-charcoal/70">Seasonal reminders, registry highlights, and concierge notes tailored to your due date.</p>
     </header>
@@ -36,6 +37,17 @@ const BlogSection = () => (
           <p className="font-heading text-charcoal">{touch.title}</p>
           <p className="mt-2 text-sm font-body text-charcoal/75">{touch.detail}</p>
           <span className="mt-3 inline-block rounded-full bg-mauve/20 px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal">
+=======
+      <h2 className="font-heading text-lg text-blueberry">Taylor-Made Blog</h2>
+      <p className="text-sm font-body text-darkText/70">Seasonal reminders, registry highlights, and concierge notes tailored to your due date.</p>
+    </header>
+    <div className="grid gap-4 md:grid-cols-2">
+      {conciergeTouches.map((touch) => (
+        <article key={touch.id} className="rounded-3xl border border-babyBlue/30 bg-white px-5 py-4 shadow-soft">
+          <p className="font-heading text-blueberry">{touch.title}</p>
+          <p className="mt-2 text-sm font-body text-darkText/75">{touch.detail}</p>
+          <span className="mt-3 inline-block rounded-full bg-babyBlue/20 px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry">
+>>>>>>> heroku/main
             {touch.status}
           </span>
         </article>
@@ -47,6 +59,7 @@ const BlogSection = () => (
 const Schedule = () => (
   <section className="space-y-4">
     <header className="space-y-1">
+<<<<<<< HEAD
       <h2 className="font-heading text-lg text-charcoal">Upcoming Moments</h2>
       <p className="text-sm font-body text-charcoal/70">Everything is coordinated—just peek, breathe, and show up glam-ready.</p>
     </header>
@@ -59,6 +72,20 @@ const Schedule = () => (
               <p className="text-xs uppercase tracking-[0.3em] text-charcoal/60">{moment.date}</p>
             </div>
             <span className="rounded-full bg-blush/20 px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal">
+=======
+      <h2 className="font-heading text-lg text-blueberry">Upcoming Moments</h2>
+      <p className="text-sm font-body text-darkText/70">Everything is coordinated—just peek, breathe, and show up glam-ready.</p>
+    </header>
+    <div className="rounded-3xl border border-babyPink/30 bg-white shadow-soft">
+      <ul className="divide-y divide-babyPink/20">
+        {upcomingMoments.map((moment) => (
+          <li key={moment.id} className="flex items-center justify-between px-5 py-4">
+            <div>
+              <p className="font-heading text-blueberry">{moment.label}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-darkText/60">{moment.date}</p>
+            </div>
+            <span className="rounded-full bg-babyPink/20 px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry">
+>>>>>>> heroku/main
               {moment.time}
             </span>
           </li>
@@ -71,6 +98,7 @@ const Schedule = () => (
 const Wishlist = () => (
   <section className="space-y-4">
     <header className="space-y-1">
+<<<<<<< HEAD
       <h2 className="font-heading text-lg text-charcoal">Wishlist & Registry Highlights</h2>
       <p className="text-sm font-body text-charcoal/70">Preview what Taylor and your mentor have curated—no decision fatigue needed.</p>
     </header>
@@ -79,6 +107,16 @@ const Wishlist = () => (
         <article key={item.id} className="rounded-3xl border border-mauve/40 bg-white px-5 py-4 shadow-soft">
           <p className="font-heading text-charcoal">{item.item}</p>
           <span className="mt-3 inline-block rounded-full bg-mauve/20 px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal">
+=======
+      <h2 className="font-heading text-lg text-blueberry">Wishlist & Registry Highlights</h2>
+      <p className="text-sm font-body text-darkText/70">Preview what Taylor and your mentor have curated—no decision fatigue needed.</p>
+    </header>
+    <div className="grid gap-4 md:grid-cols-2">
+      {wishlist.map((item) => (
+        <article key={item.id} className="rounded-3xl border border-pastelPurple/40 bg-white px-5 py-4 shadow-soft">
+          <p className="font-heading text-blueberry">{item.item}</p>
+          <span className="mt-3 inline-block rounded-full bg-pastelPurple/20 px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry">
+>>>>>>> heroku/main
             {item.status}
           </span>
         </article>
@@ -90,6 +128,7 @@ const Wishlist = () => (
 const MentorNotes = () => (
   <section className="space-y-4">
     <header className="space-y-1">
+<<<<<<< HEAD
       <h2 className="font-heading text-lg text-charcoal">Mentor Notes</h2>
       <p className="text-sm font-body text-charcoal/70">Your concierge circle keeps every detail confidential and curated just for you.</p>
     </header>
@@ -101,6 +140,19 @@ const MentorNotes = () => (
             <span className="text-xs uppercase tracking-[0.3em] text-charcoal/60">{note.timestamp}</span>
           </div>
           <p className="mt-2 text-sm font-body text-charcoal/80">{note.message}</p>
+=======
+      <h2 className="font-heading text-lg text-blueberry">Mentor Notes</h2>
+      <p className="text-sm font-body text-darkText/70">Your concierge circle keeps every detail confidential and curated just for you.</p>
+    </header>
+    <div className="space-y-3">
+      {notes.map((note) => (
+        <article key={note.id} className="rounded-3xl border border-babyBlue/30 bg-white px-5 py-4 shadow-soft">
+          <div className="flex items-center justify-between">
+            <p className="font-heading text-blueberry">{note.mentor}</p>
+            <span className="text-xs uppercase tracking-[0.3em] text-darkText/60">{note.timestamp}</span>
+          </div>
+          <p className="mt-2 text-sm font-body text-darkText/80">{note.message}</p>
+>>>>>>> heroku/main
         </article>
       ))}
     </div>
@@ -165,9 +217,15 @@ const UserPortal = () => {
 
   if (state.status === "loading") {
     return (
+<<<<<<< HEAD
       <main className="flex min-h-screen items-center justify-center bg-ivory px-6">
         <div className="rounded-[2.5rem] border border-blush/40 bg-white/90 px-8 py-10 text-center shadow-soft">
           <p className="font-heading text-charcoal">Curating your Taylor-Made experience…</p>
+=======
+      <main className="flex min-h-screen items-center justify-center bg-cream px-6">
+        <div className="rounded-[2.5rem] border border-babyPink/40 bg-white/90 px-8 py-10 text-center shadow-soft">
+          <p className="font-heading text-blueberry">Curating your Taylor-Made experience…</p>
+>>>>>>> heroku/main
         </div>
       </main>
     );
@@ -175,6 +233,7 @@ const UserPortal = () => {
 
   if (state.status === "unauthorized") {
     return (
+<<<<<<< HEAD
       <main className="flex min-h-screen items-center justify-center bg-ivory px-6">
         <div className="space-y-4 rounded-[2.5rem] border border-blush/40 bg-white/90 px-8 py-10 text-center shadow-soft">
           <p className="font-heading text-charcoal">{state.error}</p>
@@ -182,6 +241,15 @@ const UserPortal = () => {
             type="button"
             onClick={() => navigate("/portal")}
             className="mx-auto rounded-full bg-mauve px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition-transform duration-200 hover:-translate-y-1 hover:shadow-dreamy"
+=======
+      <main className="flex min-h-screen items-center justify-center bg-cream px-6">
+        <div className="space-y-4 rounded-[2.5rem] border border-babyPink/40 bg-white/90 px-8 py-10 text-center shadow-soft">
+          <p className="font-heading text-blueberry">{state.error}</p>
+          <button
+            type="button"
+            onClick={() => navigate("/portal")}
+            className="mx-auto rounded-full bg-babyBlue px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition-transform duration-200 hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
           >
             Go to Sign In
           </button>
@@ -192,6 +260,7 @@ const UserPortal = () => {
 
   if (state.status === "error") {
     return (
+<<<<<<< HEAD
       <main className="flex min-h-screen items-center justify-center bg-ivory px-6">
         <div className="space-y-4 rounded-[2.5rem] border border-blush/40 bg-white/90 px-8 py-10 text-center shadow-soft">
           <p className="font-heading text-charcoal">{state.error}</p>
@@ -199,6 +268,15 @@ const UserPortal = () => {
             type="button"
             onClick={() => window.location.reload()}
             className="mx-auto rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition-transform duration-200 hover:-translate-y-1 hover:shadow-dreamy"
+=======
+      <main className="flex min-h-screen items-center justify-center bg-cream px-6">
+        <div className="space-y-4 rounded-[2.5rem] border border-babyPink/40 bg-white/90 px-8 py-10 text-center shadow-soft">
+          <p className="font-heading text-blueberry">{state.error}</p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="mx-auto rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition-transform duration-200 hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
           >
             Retry
           </button>
@@ -210,17 +288,30 @@ const UserPortal = () => {
   const user = state.data;
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-ivory text-charcoal">
       <header className="sticky top-0 z-40 border-b border-blush/30 bg-white/90 backdrop-blur shadow-soft">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
           <div className="flex flex-col">
             <span className="text-xs uppercase tracking-[0.3em] text-charcoal/60">Taylor-Made Concierge</span>
             <span className="font-playful text-2xl text-charcoal">Member Lounge</span>
+=======
+    <div className="min-h-screen bg-cream text-darkText">
+      <header className="sticky top-0 z-40 border-b border-babyPink/30 bg-white/90 backdrop-blur shadow-soft">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-[0.3em] text-darkText/60">Taylor-Made Concierge</span>
+            <span className="font-playful text-2xl text-blueberry">Member Lounge</span>
+>>>>>>> heroku/main
           </div>
           <button
             type="button"
             onClick={handleSignOut}
+<<<<<<< HEAD
             className="rounded-full border border-blush/40 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft hover:-translate-y-1 hover:shadow-dreamy"
+=======
+            className="rounded-full border border-babyPink/40 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
           >
             Log Out
           </button>
@@ -228,10 +319,17 @@ const UserPortal = () => {
       </header>
 
       <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8">
+<<<<<<< HEAD
         <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 px-6 py-8 shadow-soft">
           <p className="text-xs uppercase tracking-[0.3em] text-charcoal/60">Welcome Home</p>
           <h1 className="mt-2 font-playful text-3xl text-charcoal">Hi {user?.name || 'Lovely Family'} 💕</h1>
           <p className="mt-3 max-w-2xl font-body text-sm text-charcoal/75">
+=======
+        <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 px-6 py-8 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-darkText/60">Welcome Home</p>
+          <h1 className="mt-2 font-playful text-3xl text-blueberry">Hi {user?.name || 'Lovely Family'} 💕</h1>
+          <p className="mt-3 max-w-2xl font-body text-sm text-darkText/75">
+>>>>>>> heroku/main
             Your mentor circle and Taylor are orchestrating every detail—registry, design, and celebrations. Peek below for what’s already polished and what’s up next.
           </p>
         </section>
@@ -243,7 +341,11 @@ const UserPortal = () => {
       </main>
 
       <footer className="px-4 pb-6">
+<<<<<<< HEAD
         <div className="mx-auto max-w-5xl rounded-2xl border border-blush/30 bg-blush/10 px-6 py-3 text-center text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal/50">
+=======
+        <div className="mx-auto max-w-5xl rounded-2xl border border-babyPink/30 bg-babyPink/10 px-6 py-3 text-center text-[0.65rem] font-heading uppercase tracking-[0.3em] text-darkText/50">
+>>>>>>> heroku/main
           Taylor-Made Baby Co. • Confidential Concierge Experience • NDA Protected
         </div>
       </footer>

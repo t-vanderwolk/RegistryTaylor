@@ -6,8 +6,13 @@ import heroSecondary from "../assets/ultrasound-pics.jpeg";
 import heroAccent from "../assets/blue-baby.jpeg";
 import heroHighlight from "../assets/cozy-baby.jpeg";
 import api from "../lib/api";
+<<<<<<< HEAD
 import Button from "./ui/Button";
 import ResponsiveContainer from "./ui/ResponsiveContainer";
+=======
+import Button from "./UI/Button";
+import ResponsiveContainer from "./UI/ResponsiveContainer";
+>>>>>>> heroku/main
 
 const highlightCards = [
   {
@@ -114,10 +119,17 @@ const Hero = () => {
   return (
     <section
       id="home"
+<<<<<<< HEAD
       className="relative isolate overflow-hidden rounded-b-[3.25rem] bg-gradient-to-br from-blush/70 via-ivory to-mauve/55 text-charcoal"
     >
       <div
         className="pointer-events-none absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-blush/40 blur-3xl"
+=======
+      className="relative isolate overflow-hidden rounded-b-[3.25rem] bg-gradient-to-br from-babyPink/70 via-cream to-softMint/55 text-blueberry"
+    >
+      <div
+        className="pointer-events-none absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-babyPink/40 blur-3xl"
+>>>>>>> heroku/main
         aria-hidden="true"
       />
       <div
@@ -139,6 +151,7 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="space-y-5">
+<<<<<<< HEAD
               <span className="inline-flex w-full max-w-xs items-center justify-center rounded-full border border-mauve/40 bg-ivory/90 px-4 py-2 text-[0.7rem] font-heading uppercase tracking-[0.4em] text-mauve/90 shadow-soft sm:max-w-sm sm:px-6">
                 Invite-only baby planning concierge
               </span>
@@ -151,6 +164,20 @@ const Hero = () => {
                 </h1>
                 <div className="mx-auto h-1 w-14 rounded-full bg-gold/70 lg:mx-0" aria-hidden="true" />
                 <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-charcoal/80 sm:text-lg lg:mx-0">
+=======
+              <span className="inline-flex w-full max-w-xs items-center justify-center rounded-full border border-mauve/40 bg-cream/90 px-4 py-2 text-[0.7rem] font-heading uppercase tracking-[0.4em] text-mauve/90 shadow-soft sm:max-w-sm sm:px-6">
+                Invite-only baby planning concierge
+              </span>
+              <div className="space-y-3">
+                <p className="font-script text-6xl leading-none text-blueberry drop-shadow-[0_18px_28px_rgba(62,58,71,0.28)] sm:text-7xl">
+                  Taylor-Made
+                </p>
+                <h1 className="text-4xl font-heading leading-tight text-blueberry sm:text-5xl md:text-6xl">
+                  Baby Co.
+                </h1>
+                <div className="mx-auto h-1 w-14 rounded-full bg-gold/70 lg:mx-0" aria-hidden="true" />
+                <p className="mx-auto max-w-2xl font-body text-base leading-relaxed text-darkText/80 sm:text-lg lg:mx-0">
+>>>>>>> heroku/main
                   Because parenthood should start with confidence, not confusion. We curate registry suites,
                   design nurseries, and coordinate celebrations with a concierge touch.
                 </p>
@@ -161,14 +188,24 @@ const Hero = () => {
               {highlightCards.map((item) => (
                 <article
                   key={item.title}
+<<<<<<< HEAD
                   className="group h-full rounded-[1.85rem] border border-gold/25 bg-ivory/90 p-5 text-center shadow-soft transition duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-dreamy sm:text-left"
+=======
+                  className="group h-full rounded-[1.85rem] border border-gold/25 bg-cream/90 p-5 text-center shadow-soft transition duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-dreamy sm:text-left"
+>>>>>>> heroku/main
                 >
                   <p className="font-heading text-[0.7rem] uppercase tracking-[0.35em] text-mauve/80">
                     {item.title}
                   </p>
+<<<<<<< HEAD
                   <p className="mt-3 font-body text-sm leading-relaxed text-charcoal/70">{item.copy}</p>
                   <span
                     className="mt-4 inline-flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-charcoal/55"
+=======
+                  <p className="mt-3 font-body text-sm leading-relaxed text-darkText/70">{item.copy}</p>
+                  <span
+                    className="mt-4 inline-flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-blueberry/55"
+>>>>>>> heroku/main
                     aria-hidden="true"
                   >
                     Gentle guidance
@@ -210,7 +247,11 @@ const Hero = () => {
                   }
                 }}
                 placeholder="Private invite code"
+<<<<<<< HEAD
                 className="min-h-[48px] flex-1 rounded-full border border-mauve/35 bg-ivory px-5 font-body text-sm tracking-[0.18em] text-charcoal shadow-inner focus:border-mauve focus:outline-none focus:ring-2 focus:ring-mauve/30"
+=======
+                className="min-h-[48px] flex-1 rounded-full border border-mauve/35 bg-cream px-5 font-body text-sm tracking-[0.18em] text-blueberry shadow-inner focus:border-mauve focus:outline-none focus:ring-2 focus:ring-mauve/30"
+>>>>>>> heroku/main
                 autoComplete="off"
                 inputMode="text"
               />
@@ -224,6 +265,7 @@ const Hero = () => {
                 {status === "loading" ? "Verifying…" : "Verify Code"}
               </Button>
             </motion.form>
+<<<<<<< HEAD
             <div className="min-h-[1.25rem] font-body text-sm text-charcoal" aria-live="polite">
               {message && (
                 <span className={status === "error" ? "text-rose-500" : "text-charcoal/80"}>{message}</span>
@@ -237,6 +279,21 @@ const Hero = () => {
                     {item.label}
                   </p>
                   <p className="inline-flex rounded-full bg-white/80 px-4 py-1 font-body text-sm text-charcoal/80">
+=======
+            <div className="min-h-[1.25rem] font-body text-sm text-blueberry" aria-live="polite">
+              {message && (
+                <span className={status === "error" ? "text-rose-500" : "text-blueberry/80"}>{message}</span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-5 rounded-full border border-gold/25 bg-gradient-to-r from-white/0 via-babyPink/25 to-white/5 px-6 py-5 text-center shadow-soft backdrop-blur lg:justify-start">
+              {statHighlights.map((item) => (
+                <div key={item.label} className="space-y-1">
+                  <p className="inline-flex rounded-full bg-babyPink/60 px-4 py-1 text-[0.62rem] font-heading uppercase tracking-[0.32em] text-blueberry">
+                    {item.label}
+                  </p>
+                  <p className="inline-flex rounded-full bg-white/80 px-4 py-1 font-body text-sm text-darkText/80">
+>>>>>>> heroku/main
                     {item.value}
                   </p>
                 </div>
@@ -262,7 +319,11 @@ const Hero = () => {
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
                 />
                 <div
+<<<<<<< HEAD
                   className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blush/20 via-transparent to-mauve/22 opacity-0 transition group-hover:opacity-75"
+=======
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-br from-babyPink/20 via-transparent to-blueberry/22 opacity-0 transition group-hover:opacity-75"
+>>>>>>> heroku/main
                   aria-hidden="true"
                 />
               </figure>

@@ -3,8 +3,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+<<<<<<< HEAD
 import EmptyState from "../components/ui/EmptyState";
 import api from "../lib/api";
+=======
+import EmptyState from "../components/UI/EmptyState";
+import api from "../lib/api";
+import MarketingLayout from "../layouts/MarketingLayout";
+>>>>>>> heroku/main
 import blogImageOne from "../assets/happy-baby.jpeg";
 import blogImageTwo from "../assets/mom-support.jpeg";
 import blogImageThree from "../assets/video-chat.jpeg";
@@ -12,6 +18,7 @@ import blogImageFour from "../assets/baby-blanket.jpeg";
 
 const blogGallery = [blogImageOne, blogImageTwo, blogImageThree, blogImageFour];
 
+<<<<<<< HEAD
 // ✅ Accessible markdown component overrides
 const markdownComponents = {
   h1: ({ children }) => (
@@ -67,6 +74,53 @@ const markdownComponents = {
     >
       {children}
     </a>
+=======
+const markdownComponents = {
+  h1: ({ node, ...props }) => (
+    <h1 className="mt-10 text-3xl font-serif text-blueberry sm:text-4xl" {...props} />
+  ),
+  h2: ({ node, ...props }) => (
+    <h2 className="mt-10 text-2xl font-serif text-blueberry sm:text-3xl" {...props} />
+  ),
+  h3: ({ node, ...props }) => (
+    <h3 className="mt-8 text-xl font-serif text-blueberry sm:text-2xl" {...props} />
+  ),
+  h4: ({ node, ...props }) => (
+    <h4 className="mt-6 text-lg font-serif text-blueberry" {...props} />
+  ),
+  p: ({ node, ...props }) => (
+    <p className="mt-4 text-sm leading-relaxed text-neutral-600 sm:text-base" {...props} />
+  ),
+  ul: ({ node, ordered, ...props }) => (
+    <ul
+      className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-neutral-600 sm:text-base"
+      {...props}
+    />
+  ),
+  ol: ({ node, ordered, ...props }) => (
+    <ol
+      className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-neutral-600 sm:text-base"
+      {...props}
+    />
+  ),
+  li: ({ node, ...props }) => <li {...props} />,
+  strong: ({ node, ...props }) => <strong className="font-semibold text-blueberry" {...props} />,
+  table: ({ node, ...props }) => (
+    <div className="mt-6 overflow-x-auto">
+      <table className="min-w-full divide-y divide-primary/20 overflow-hidden rounded-2xl border border-primary/20 text-left text-sm text-neutral-600">
+        {props.children}
+      </table>
+    </div>
+  ),
+  thead: ({ node, ...props }) => (
+    <thead className="bg-softPink/40 text-xs font-heading uppercase tracking-[0.2em] text-primary/80" {...props} />
+  ),
+  tbody: ({ node, ...props }) => <tbody className="divide-y divide-primary/10" {...props} />,
+  th: ({ node, ...props }) => <th className="px-4 py-3" {...props} />,
+  td: ({ node, ...props }) => <td className="px-4 py-3" {...props} />,
+  a: ({ node, ...props }) => (
+    <a className="text-primary underline decoration-dotted underline-offset-4" {...props} />
+>>>>>>> heroku/main
   ),
 };
 
@@ -84,11 +138,15 @@ const formatDate = (value) => {
   if (!value) return "";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
+<<<<<<< HEAD
   return date.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
+=======
+  return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+>>>>>>> heroku/main
 };
 
 const BlogPost = () => {
@@ -99,7 +157,10 @@ const BlogPost = () => {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(null);
 
+<<<<<<< HEAD
   // ✅ Fetch current post
+=======
+>>>>>>> heroku/main
   useEffect(() => {
     let active = true;
     const loadPost = async () => {
@@ -112,26 +173,44 @@ const BlogPost = () => {
         setStatus("success");
       } catch (err) {
         if (!active) return;
+<<<<<<< HEAD
         const message =
           err.response?.data?.error?.message || "We couldn’t find that article.";
+=======
+        const message = err.response?.data?.error?.message || "We couldn’t find that article.";
+>>>>>>> heroku/main
         setError(message);
         setStatus(err.response?.status === 404 ? "not-found" : "error");
       }
     };
+<<<<<<< HEAD
     loadPost();
+=======
+
+    loadPost();
+
+>>>>>>> heroku/main
     return () => {
       active = false;
     };
   }, [slug]);
 
+<<<<<<< HEAD
   // ✅ Fetch related posts
   useEffect(() => {
     let active = true;
     if (!post) return undefined;
+=======
+  useEffect(() => {
+    let active = true;
+    if (!post) return undefined;
+
+>>>>>>> heroku/main
     const loadRelated = async () => {
       try {
         const response = await api.get("/api/v1/blog");
         if (!active) return;
+<<<<<<< HEAD
         const allPosts = Array.isArray(response.data?.data)
           ? response.data.data
           : [];
@@ -142,18 +221,34 @@ const BlogPost = () => {
       }
     };
     loadRelated();
+=======
+        const allPosts = Array.isArray(response.data?.data) ? response.data.data : [];
+        const curated = allPosts.filter((item) => item.slug !== slug).slice(0, 3);
+        setRelatedPosts(curated);
+      } catch (err) {
+        if (active) setRelatedPosts([]);
+      }
+    };
+
+    loadRelated();
+
+>>>>>>> heroku/main
     return () => {
       active = false;
     };
   }, [post, slug]);
 
+<<<<<<< HEAD
   // ✅ Choose hero image
+=======
+>>>>>>> heroku/main
   const heroImage = useMemo(() => {
     if (!post) return blogGallery[0];
     const index = Math.abs(post.slug?.length || 0) % blogGallery.length;
     return blogGallery[index];
   }, [post]);
 
+<<<<<<< HEAD
   // Loading view
   if (status === "loading") {
     return (
@@ -203,11 +298,57 @@ const BlogPost = () => {
           className="absolute inset-0 h-full w-full object-cover opacity-20"
           loading="lazy"
         />
+=======
+  if (status === "loading") {
+    return (
+      <MarketingLayout>
+        <main className="bg-softBeige py-24">
+          <div className="mx-auto max-w-5xl rounded-[3rem] border border-primary/20 bg-white p-10 shadow-soft">
+            <div className="h-8 w-40 animate-pulse rounded-full bg-softPink/60" />
+            <div className="mt-4 h-12 w-3/4 animate-pulse rounded-full bg-softPink/50" />
+            <div className="mt-6 space-y-3">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="h-4 w-full animate-pulse rounded-full bg-softPink/40" />
+              ))}
+            </div>
+          </div>
+        </main>
+      </MarketingLayout>
+    );
+  }
+
+  if (status !== "success" || !post) {
+    return (
+      <MarketingLayout>
+        <main className="bg-softBeige py-24">
+          <div className="mx-auto max-w-4xl">
+            <EmptyState
+              title="Article not available"
+              description={error || "Taylor is tidying this page. Please try again soon."}
+              icon={SparklesIcon}
+              className="bg-softPink"
+              actionLabel="Return to blog"
+              onAction={() => navigate("/blog")}
+              action={null}
+            />
+          </div>
+        </main>
+      </MarketingLayout>
+    );
+  }
+
+  return (
+    <MarketingLayout>
+      <div className="space-y-16 pb-24 pt-16">
+      <section className="relative mx-auto max-w-5xl overflow-hidden rounded-[3.5rem] border border-primary/25 bg-white text-left shadow-soft">
+        <img src={heroImage} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" />
+>>>>>>> heroku/main
         <div className="absolute inset-0 bg-white/80" aria-hidden="true" />
         <div className="relative flex flex-col gap-6 px-6 py-12 sm:px-12 sm:py-16">
           <button
             type="button"
             onClick={() => navigate(-1)}
+<<<<<<< HEAD
             className="inline-flex w-full items-center justify-center rounded-full border border-mauve/20 bg-white/70 px-4 py-2 text-xs font-heading uppercase tracking-[0.32em] text-mauve transition hover:-translate-y-1 hover:scale-105 hover:bg-blush sm:w-auto sm:self-start"
           >
             Back
@@ -223,6 +364,15 @@ const BlogPost = () => {
               {post.excerpt}
             </p>
           )}
+=======
+            className="inline-flex w-full items-center justify-center rounded-full border border-primary/20 bg-white/70 px-4 py-2 text-xs font-heading uppercase tracking-[0.32em] text-primary transition hover:-translate-y-1 hover:scale-105 hover:bg-softPink sm:w-auto sm:self-start"
+          >
+            Back
+          </button>
+          <div className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Taylor-Made Blog</div>
+          <h1 className="text-3xl font-serif text-blueberry sm:text-4xl md:text-5xl">{post.title}</h1>
+          {post.excerpt && <p className="max-w-3xl text-sm leading-relaxed text-neutral-600 sm:text-base">{post.excerpt}</p>}
+>>>>>>> heroku/main
           <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
             <span>{post.category || "Guides"}</span>
             <span aria-hidden="true">•</span>
@@ -239,13 +389,18 @@ const BlogPost = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* Post Body */}
       <section className="mx-auto max-w-4xl rounded-[3rem] border border-mauve/25 bg-white px-6 py-12 shadow-soft sm:px-12">
+=======
+      <section className="mx-auto max-w-4xl rounded-[3rem] border border-primary/25 bg-white px-6 py-12 shadow-soft sm:px-12">
+>>>>>>> heroku/main
         <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
           {post.content || ""}
         </ReactMarkdown>
       </section>
 
+<<<<<<< HEAD
       {/* Related Posts */}
       <section className="mx-auto max-w-5xl space-y-8 rounded-[3rem] border border-mauve/25 bg-white px-6 py-14 shadow-soft sm:px-12">
         <header className="text-center sm:text-left">
@@ -257,6 +412,14 @@ const BlogPost = () => {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-neutral-600 sm:max-w-3xl sm:text-base">
             Keep exploring concierge tips, planning frameworks, and Member → Mentor reflections from the Taylor-Made community.
+=======
+      <section className="mx-auto max-w-5xl space-y-8 rounded-[3rem] border border-primary/25 bg-white px-6 py-14 shadow-soft sm:px-12">
+        <header className="text-center sm:text-left">
+          <p className="text-xs font-serif uppercase tracking-[0.32em] text-primary/80">Fresh Highlights</p>
+          <h2 className="mt-3 text-3xl font-serif text-blueberry sm:text-4xl">More Taylor-Made Stories</h2>
+          <p className="mt-4 text-sm leading-relaxed text-neutral-600 sm:max-w-3xl sm:text-base">
+            Keep exploring concierge tips, planning frameworks, and real-life registry wins from the Taylor-Made community.
+>>>>>>> heroku/main
           </p>
         </header>
 
@@ -265,7 +428,11 @@ const BlogPost = () => {
             title="More features are brewing"
             description="Taylor is curating more posts right now. Check back soon for fresh highlights."
             icon={SparklesIcon}
+<<<<<<< HEAD
             className="bg-blush"
+=======
+            className="bg-softPink"
+>>>>>>> heroku/main
             actionLabel="All posts"
             onAction={() => navigate("/blog")}
           />
@@ -274,7 +441,11 @@ const BlogPost = () => {
             {relatedPosts.map((item, index) => (
               <article
                 key={item.slug || item.id || `related-${index}`}
+<<<<<<< HEAD
                 className="group flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-mauve/20 bg-white text-left shadow-soft transition duration-300 hover:-translate-y-2 hover:shadow-md"
+=======
+                className="group flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-primary/20 bg-white text-left shadow-soft transition duration-300 hover:-translate-y-2 hover:shadow-md"
+>>>>>>> heroku/main
               >
                 <figure className="relative h-48 w-full overflow-hidden">
                   <img
@@ -287,6 +458,7 @@ const BlogPost = () => {
                 <div className="flex flex-1 flex-col gap-4 px-8 pb-6 pt-6">
                   <div className="flex flex-wrap items-center justify-between gap-3 text-[0.7rem] font-heading uppercase tracking-[0.28em] text-neutral-500">
                     <span>{item.category || "Blog"}</span>
+<<<<<<< HEAD
                     {item.visibility === "members_only" && (
                       <span className="flex items-center gap-1 text-mauve">
                         🔒 Members Only
@@ -299,6 +471,12 @@ const BlogPost = () => {
                       {item.excerpt}
                     </p>
                   )}
+=======
+                    {item.visibility === "members_only" && <span className="flex items-center gap-1 text-primary">🔒 Members Only</span>}
+                  </div>
+                  <h3 className="text-2xl font-serif text-blueberry sm:text-3xl">{item.title}</h3>
+                  {item.excerpt && <p className="text-sm leading-relaxed text-neutral-600 sm:text-base">{item.excerpt}</p>}
+>>>>>>> heroku/main
                   <div className="mt-auto flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.24em] text-neutral-400">
                     <span>By Taylor-Made Baby Co.</span>
                     {item.publishedAt && (
@@ -312,7 +490,11 @@ const BlogPost = () => {
                 <div className="flex flex-wrap items-center gap-4 px-8 pb-8">
                   <Link
                     to={`/blog/${item.slug || item.id}`}
+<<<<<<< HEAD
                     className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-mauve px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md sm:w-auto"
+=======
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-heading uppercase tracking-[0.28em] text-white transition hover:-translate-y-1 hover:scale-105 hover:shadow-md sm:w-auto"
+>>>>>>> heroku/main
                   >
                     Read Article
                   </Link>
@@ -325,7 +507,12 @@ const BlogPost = () => {
           </div>
         )}
       </section>
+<<<<<<< HEAD
     </div>
+=======
+      </div>
+    </MarketingLayout>
+>>>>>>> heroku/main
   );
 };
 

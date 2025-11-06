@@ -19,7 +19,11 @@ const servicePackages = [
       "Registry stewardship, vendor vetting, and twice-monthly mentor check-ins keep every necessity on track.",
     highlights: [
       "Multi-retailer registry management with white-glove returns",
+<<<<<<< HEAD
       "Quarterly budget snapshots and curated planning lists",
+=======
+      "Quarterly budget snapshots and curated shopping lists",
+>>>>>>> heroku/main
       "Mentor office hours for gear, feeding, and travel support",
     ],
   },
@@ -54,7 +58,11 @@ const onDemandExperiences = [
     id: "gear-lab",
     title: "Gear Lab Session",
     badge: "Included with Signature",
+<<<<<<< HEAD
     copy: "Hands-on testing or virtual demos for strollers, travel systems, and nursery tech so you choose once with confidence.",
+=======
+    copy: "Hands-on testing or virtual demos for strollers, travel systems, and nursery tech so you buy once with confidence.",
+>>>>>>> heroku/main
   },
   {
     id: "registry-refresh",
@@ -97,7 +105,11 @@ const featuredGuides = [
     title: "Nursery Palette Lookbook",
     type: "PDF",
     updated: "Jul 14, 2024",
+<<<<<<< HEAD
     summary: "Curated color stories, textiles, and blush inspo pulled from recent installs and client mood boards.",
+=======
+    summary: "Curated color stories, textiles, and accent inspo pulled from recent installs and client mood boards.",
+>>>>>>> heroku/main
   },
   {
     id: "registry-checklist",
@@ -135,7 +147,11 @@ const quickReferences = [
 
 const statusStyles = {
   Active: "bg-emerald-100 text-emerald-700",
+<<<<<<< HEAD
   Booking: "bg-mauve/40 text-charcoal",
+=======
+  Booking: "bg-babyBlue/40 text-blueberry",
+>>>>>>> heroku/main
   Waitlist: "bg-amber-100 text-amber-700",
 };
 
@@ -146,6 +162,7 @@ const Services = () => {
 
   return (
     <div className="space-y-8">
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-4">
           <p className="inline-flex items-center rounded-full border border-mauve/30 bg-mauve/20 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-charcoal">
@@ -153,6 +170,15 @@ const Services = () => {
           </p>
           <h1 className="font-heading text-3xl text-charcoal">Curate the care that fits your season.</h1>
           <p className="max-w-3xl text-sm font-body leading-relaxed text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-4">
+          <p className="inline-flex items-center rounded-full border border-babyBlue/30 bg-babyBlue/20 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.35em] text-blueberry">
+            Concierge Services
+          </p>
+          <h1 className="font-heading text-3xl text-blueberry">Curate the care that fits your season.</h1>
+          <p className="max-w-3xl text-sm font-body leading-relaxed text-darkText/70">
+>>>>>>> heroku/main
             Explore concierge packages, on-demand experiences, and ways to reach Taylor when you need her most. Every request is handled discreetly and synced with your mentor team.
           </p>
         </header>
@@ -160,8 +186,13 @@ const Services = () => {
 
       <section className="rounded-[2.5rem] border border-gold/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-3">
+<<<<<<< HEAD
           <h2 className="text-2xl font-serif text-charcoal">Request time with {mentorName}</h2>
           <p className="text-sm text-charcoal/70">
+=======
+          <h2 className="text-2xl font-serif text-blueberry">Request time with {mentorName}</h2>
+          <p className="text-sm text-darkText/70">
+>>>>>>> heroku/main
             Choose your preferred window and Taylor will confirm within one business day.
           </p>
         </div>
@@ -170,17 +201,29 @@ const Services = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-2">
             <h2 className="font-heading text-2xl text-charcoal">Signature Packages</h2>
             <p className="text-sm font-body text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <h2 className="font-heading text-2xl text-blueberry">Signature Packages</h2>
+            <p className="text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
               Choose your current concierge tier or explore an upgrade. Status badges show current availability.
             </p>
           </div>
           <Link
             to="../messages"
+<<<<<<< HEAD
             className="inline-flex items-center justify-center rounded-full border border-blush/40 bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+=======
+            className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
           >
             Ask Taylor about tiers
           </Link>
@@ -189,6 +232,7 @@ const Services = () => {
           {servicePackages.map((service) => (
             <article
               key={service.id}
+<<<<<<< HEAD
               className="flex h-full flex-col gap-4 rounded-[2rem] border border-mauve/25 bg-white/95 p-6 shadow-soft"
             >
               <div className="flex items-start justify-between gap-3">
@@ -199,22 +243,45 @@ const Services = () => {
                 <span
                   className={`whitespace-nowrap rounded-full px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.35em] ${
                     statusStyles[service.status] || "bg-mauve/30 text-charcoal"
+=======
+              className="flex h-full flex-col gap-4 rounded-[2rem] border border-babyBlue/25 bg-white/95 p-6 shadow-soft"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-heading text-xl text-blueberry">{service.name}</h3>
+                  <p className="mt-2 text-sm font-body text-darkText/70">{service.description}</p>
+                </div>
+                <span
+                  className={`whitespace-nowrap rounded-full px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.35em] ${
+                    statusStyles[service.status] || "bg-babyBlue/30 text-blueberry"
+>>>>>>> heroku/main
                   }`}
                 >
                   {service.status}
                 </span>
               </div>
+<<<<<<< HEAD
               <ul className="space-y-2 text-sm font-body text-charcoal/70">
                 {service.highlights.map((highlight) => (
                   <li key={highlight} className="flex items-start gap-2">
                     <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-blush" />
+=======
+              <ul className="space-y-2 text-sm font-body text-darkText/70">
+                {service.highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-start gap-2">
+                    <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-babyPink" />
+>>>>>>> heroku/main
                     <span>{highlight}</span>
                   </li>
                 ))}
               </ul>
               <Link
                 to="/contact"
+<<<<<<< HEAD
                 className="mt-auto inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal transition hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
+=======
+                className="mt-auto inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry transition hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+>>>>>>> heroku/main
               >
                 Request consultation
               </Link>
@@ -223,10 +290,17 @@ const Services = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-3">
           <h2 className="font-heading text-2xl text-charcoal">On-Demand Experiences</h2>
           <p className="text-sm font-body text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-3">
+          <h2 className="font-heading text-2xl text-blueberry">On-Demand Experiences</h2>
+          <p className="text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Layer these concierge sprints onto any membership. Taylor confirms timing and deliverables within 24 hours.
           </p>
         </div>
@@ -234,6 +308,7 @@ const Services = () => {
           {onDemandExperiences.map((experience) => (
             <article
               key={experience.id}
+<<<<<<< HEAD
               className="flex h-full flex-col justify-between rounded-[2rem] border border-mauve/25 bg-mauve/10 p-6 shadow-soft"
             >
               <header className="space-y-2">
@@ -246,6 +321,20 @@ const Services = () => {
               <Link
                 to="../messages"
                 className="mt-5 inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal transition hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
+=======
+              className="flex h-full flex-col justify-between rounded-[2rem] border border-babyBlue/25 bg-babyBlue/10 p-6 shadow-soft"
+            >
+              <header className="space-y-2">
+                <p className="inline-flex items-center rounded-full border border-babyPink/40 bg-white/70 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.3em] text-blueberry/80">
+                  {experience.badge}
+                </p>
+                <h3 className="font-heading text-lg text-blueberry">{experience.title}</h3>
+              </header>
+              <p className="mt-3 flex-1 text-sm font-body leading-relaxed text-darkText/75">{experience.copy}</p>
+              <Link
+                to="../messages"
+                className="mt-5 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry transition hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+>>>>>>> heroku/main
               >
                 Hold my spot
               </Link>
@@ -254,17 +343,29 @@ const Services = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-2">
             <h2 className="font-heading text-2xl text-charcoal">Featured Guides</h2>
             <p className="text-sm font-body text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <h2 className="font-heading text-2xl text-blueberry">Featured Guides</h2>
+            <p className="text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
               Member-favorite downloads curated by Taylor. Save, share, or ask for a bespoke version.
             </p>
           </div>
           <Link
             to="../messages"
+<<<<<<< HEAD
             className="inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
+=======
+            className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+>>>>>>> heroku/main
           >
             Request updates
           </Link>
@@ -273,6 +374,7 @@ const Services = () => {
           {featuredGuides.map((guide) => (
             <article
               key={guide.id}
+<<<<<<< HEAD
               className="flex h-full flex-col gap-4 rounded-[2rem] border border-mauve/25 bg-white/95 p-6 shadow-soft"
             >
               <header className="flex items-start justify-between gap-3">
@@ -289,6 +391,24 @@ const Services = () => {
                 <button
                   type="button"
                   className="inline-flex items-center gap-2 rounded-full border border-mauve/30 bg-white px-4 py-2 text-charcoal hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
+=======
+              className="flex h-full flex-col gap-4 rounded-[2rem] border border-babyBlue/25 bg-white/95 p-6 shadow-soft"
+            >
+              <header className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-heading text-xl text-blueberry">{guide.title}</h3>
+                  <p className="mt-2 text-sm font-body text-darkText/70">{guide.summary}</p>
+                </div>
+                <span className="whitespace-nowrap rounded-full bg-babyBlue/20 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.35em] text-blueberry/80">
+                  {guide.type}
+                </span>
+              </header>
+              <div className="mt-auto flex items-center justify-between text-xs font-heading uppercase tracking-[0.3em] text-darkText/40">
+                <span>Updated {guide.updated}</span>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+>>>>>>> heroku/main
                 >
                   <DocumentArrowDownIcon className="h-4 w-4" aria-hidden="true" />
                   Download
@@ -299,10 +419,17 @@ const Services = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-3">
           <h2 className="font-heading text-2xl text-charcoal">Quick Reference Templates</h2>
           <p className="text-sm font-body text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-3">
+          <h2 className="font-heading text-2xl text-blueberry">Quick Reference Templates</h2>
+          <p className="text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Concierge staples you can duplicate and customize. Taylor will pre-fill details—just drop a note in Messages.
           </p>
         </div>
@@ -310,6 +437,7 @@ const Services = () => {
           {quickReferences.map((item) => (
             <article
               key={item.id}
+<<<<<<< HEAD
               className="rounded-[2rem] border border-mauve/40 bg-white px-5 py-6 text-left shadow-soft"
             >
               <span className="inline-flex items-center justify-center rounded-2xl border border-mauve/40 bg-mauve/30 p-3 text-charcoal">
@@ -320,6 +448,18 @@ const Services = () => {
               <Link
                 to="../messages"
                 className="mt-4 inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
+=======
+              className="rounded-[2rem] border border-pastelPurple/40 bg-white px-5 py-6 text-left shadow-soft"
+            >
+              <span className="inline-flex items-center justify-center rounded-2xl border border-pastelPurple/40 bg-pastelPurple/30 p-3 text-blueberry">
+                <BookmarkSquareIcon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <h3 className="mt-4 font-heading text-lg text-blueberry">{item.title}</h3>
+              <p className="mt-2 text-sm font-body leading-relaxed text-darkText/70">{item.blurb}</p>
+              <Link
+                to="../messages"
+                className="mt-4 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+>>>>>>> heroku/main
               >
                 Personalize for me
               </Link>
@@ -328,10 +468,17 @@ const Services = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-4">
           <h2 className="font-heading text-2xl text-charcoal">Need concierge support now?</h2>
           <p className="text-sm font-body text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-4">
+          <h2 className="font-heading text-2xl text-blueberry">Need concierge support now?</h2>
+          <p className="text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Choose the lane that matches your request. We route everything to your mentor circle and follow up fast.
           </p>
           <div className="grid gap-5 md:grid-cols-3">
@@ -340,6 +487,7 @@ const Services = () => {
               return (
                 <article
                   key={item.id}
+<<<<<<< HEAD
                   className="rounded-[2rem] border border-mauve/40 bg-white px-5 py-6 text-left shadow-soft"
                 >
                   <span className="inline-flex items-center justify-center rounded-2xl border border-mauve/40 bg-mauve/30 p-3 text-charcoal">
@@ -347,37 +495,69 @@ const Services = () => {
                   </span>
                   <h3 className="mt-4 font-heading text-lg text-charcoal">{item.title}</h3>
                   <p className="mt-2 text-sm font-body leading-relaxed text-charcoal/70">{item.detail}</p>
+=======
+                  className="rounded-[2rem] border border-pastelPurple/40 bg-white px-5 py-6 text-left shadow-soft"
+                >
+                  <span className="inline-flex items-center justify-center rounded-2xl border border-pastelPurple/40 bg-pastelPurple/30 p-3 text-blueberry">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-4 font-heading text-lg text-blueberry">{item.title}</h3>
+                  <p className="mt-2 text-sm font-body leading-relaxed text-darkText/70">{item.detail}</p>
+>>>>>>> heroku/main
                 </article>
               );
             })}
           </div>
         </div>
+<<<<<<< HEAD
         <form className="mt-8 space-y-4 rounded-[2rem] border border-mauve/40 bg-mauve/15 p-6">
           <div className="grid gap-4 md:grid-cols-2">
             <label className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/70">
+=======
+        <form className="mt-8 space-y-4 rounded-[2rem] border border-pastelPurple/40 bg-pastelPurple/15 p-6">
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry/70">
+>>>>>>> heroku/main
               Request type
               <input
                 type="text"
                 placeholder="Nursery install, travel planning, gifting"
+<<<<<<< HEAD
                 className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none focus:ring-2 focus:ring-mauve/30"
                 name="request-type"
               />
             </label>
             <label className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/70">
+=======
+                className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
+                name="request-type"
+              />
+            </label>
+            <label className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry/70">
+>>>>>>> heroku/main
               Preferred timing
               <input
                 type="text"
                 placeholder="This week, next month, exact date"
+<<<<<<< HEAD
                 className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none focus:ring-2 focus:ring-mauve/30"
+=======
+                className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
+>>>>>>> heroku/main
                 name="preferred-timing"
               />
             </label>
           </div>
+<<<<<<< HEAD
           <label className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/70">
+=======
+          <label className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry/70">
+>>>>>>> heroku/main
             Details for Taylor
             <textarea
               rows={4}
               placeholder="Share anything that helps us prepare — guests, vendors, budget, or travel details."
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none focus:ring-2 focus:ring-mauve/30"
               name="details"
             />
@@ -387,6 +567,17 @@ const Services = () => {
             <button
               type="button"
               className="rounded-full bg-blush px-6 py-3 font-heading uppercase tracking-[0.35em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+=======
+              className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none focus:ring-2 focus:ring-babyBlue/30"
+              name="details"
+            />
+          </label>
+          <div className="flex flex-col items-center gap-3 text-xs text-darkText/60 sm:flex-row sm:justify-between">
+            <span>Replies arrive inside Messages within 24 hours.</span>
+            <button
+              type="button"
+              className="rounded-full bg-babyPink px-6 py-3 font-heading uppercase tracking-[0.35em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
             >
               Send concierge request
             </button>

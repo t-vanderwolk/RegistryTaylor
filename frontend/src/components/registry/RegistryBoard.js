@@ -165,6 +165,7 @@ const RegistryBoard = ({ role = "client" }) => {
 
   return (
     <div className="space-y-8">
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/25 bg-white/95 p-6 shadow-soft sm:p-8">
         <header className="space-y-2">
           <span className="inline-flex items-center gap-2 rounded-full border border-mauve/25 bg-mauve/15 px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.4em] text-charcoal">
@@ -172,6 +173,15 @@ const RegistryBoard = ({ role = "client" }) => {
           </span>
           <h2 className="font-heading text-3xl text-charcoal sm:text-4xl">{pageCopy.title}</h2>
           <p className="max-w-3xl text-sm font-body leading-relaxed text-charcoal/70">{pageCopy.description}</p>
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/25 bg-white/95 p-6 shadow-soft sm:p-8">
+        <header className="space-y-2">
+          <span className="inline-flex items-center gap-2 rounded-full border border-babyBlue/25 bg-babyBlue/15 px-4 py-1 text-[0.65rem] font-heading uppercase tracking-[0.4em] text-blueberry">
+            {pageCopy.eyebrow}
+          </span>
+          <h2 className="font-heading text-3xl text-blueberry sm:text-4xl">{pageCopy.title}</h2>
+          <p className="max-w-3xl text-sm font-body leading-relaxed text-darkText/70">{pageCopy.description}</p>
+>>>>>>> heroku/main
         </header>
 
         {(message || error) && (
@@ -187,68 +197,116 @@ const RegistryBoard = ({ role = "client" }) => {
         )}
 
         <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-2">
+<<<<<<< HEAD
           <label className="space-y-2 text-sm font-body text-charcoal/70 lg:col-span-2">
+=======
+          <label className="space-y-2 text-sm font-body text-darkText/70 lg:col-span-2">
+>>>>>>> heroku/main
             Product name
             <input
               type="text"
               value={form.title}
               onChange={handleChange("title")}
               placeholder="e.g. Kyte Baby Sleep Bag"
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               required
             />
           </label>
 
+<<<<<<< HEAD
           <label className="space-y-2 text-sm font-body text-charcoal/70">
+=======
+          <label className="space-y-2 text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Retailer / Brand
             <input
               type="text"
               value={form.retailer}
               onChange={handleChange("retailer")}
               placeholder="Crate & Barrel, Maisonette, etc."
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
             />
           </label>
 
           <label className="space-y-2 text-sm font-body text-charcoal/70">
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+            />
+          </label>
+
+          <label className="space-y-2 text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Category
             <input
               type="text"
               value={form.category}
               onChange={handleChange("category")}
               placeholder="Gear, Nursery, Feeding…"
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
             />
           </label>
 
           <label className="space-y-2 text-sm font-body text-charcoal/70">
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+            />
+          </label>
+
+          <label className="space-y-2 text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Quantity
             <input
               type="text"
               inputMode="numeric"
               value={form.quantity}
               onChange={handleChange("quantity")}
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
             />
           </label>
 
           <label className="space-y-2 text-sm font-body text-charcoal/70">
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+            />
+          </label>
+
+          <label className="space-y-2 text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Price / Budget
             <input
               type="text"
               value={form.price}
               onChange={handleChange("price")}
               placeholder="$"
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
             />
           </label>
 
           <label className="space-y-2 text-sm font-body text-charcoal/70">
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+            />
+          </label>
+
+          <label className="space-y-2 text-sm font-body text-darkText/70">
+>>>>>>> heroku/main
             Status
             <select
               value={form.status}
               onChange={handleChange("status")}
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             >
               {STATUS_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -258,32 +316,52 @@ const RegistryBoard = ({ role = "client" }) => {
             </select>
           </label>
 
+<<<<<<< HEAD
           <label className="space-y-2 text-sm font-body text-charcoal/70 lg:col-span-2">
+=======
+          <label className="space-y-2 text-sm font-body text-darkText/70 lg:col-span-2">
+>>>>>>> heroku/main
             Outside link
             <input
               type="url"
               value={form.link}
               onChange={handleChange("link")}
               placeholder="https://www.retailer.com/listing"
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
             />
           </label>
 
           <label className="space-y-2 text-sm font-body text-charcoal/70 lg:col-span-2">
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+            />
+          </label>
+
+          <label className="space-y-2 text-sm font-body text-darkText/70 lg:col-span-2">
+>>>>>>> heroku/main
             Notes for Taylor / Mentor
             <textarea
               rows={3}
               value={form.notes}
               onChange={handleChange("notes")}
               placeholder="Color preferences, must-include accessories, shipping reminders…"
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
+=======
+              className="w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             />
           </label>
 
           <div className="flex flex-wrap items-center gap-3 lg:col-span-2">
             <button
               type="submit"
+<<<<<<< HEAD
               className="inline-flex items-center justify-center rounded-full bg-blush px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-charcoal shadow-toy transition hover:-translate-y-0.5 hover:shadow-dreamy"
+=======
+              className="inline-flex items-center justify-center rounded-full bg-babyPink px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-toy transition hover:-translate-y-0.5 hover:shadow-dreamy"
+>>>>>>> heroku/main
             >
               {editingId ? "Update item" : "Add item"}
             </button>
@@ -291,7 +369,11 @@ const RegistryBoard = ({ role = "client" }) => {
               <button
                 type="button"
                 onClick={handleCancelEdit}
+<<<<<<< HEAD
                 className="inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-mauve/10"
+=======
+                className="inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyBlue/10"
+>>>>>>> heroku/main
               >
                 Cancel
               </button>
@@ -305,7 +387,11 @@ const RegistryBoard = ({ role = "client" }) => {
                 setEditingId(null);
                 setForm({ ...emptyFormState });
               }}
+<<<<<<< HEAD
               className="ml-auto inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-charcoal/60 transition hover:-translate-y-0.5 hover:bg-blush/10"
+=======
+              className="ml-auto inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-6 py-3 text-xs font-heading uppercase tracking-[0.35em] text-darkText/60 transition hover:-translate-y-0.5 hover:bg-babyPink/10"
+>>>>>>> heroku/main
             >
               Reset sample data
             </button>
@@ -313,15 +399,23 @@ const RegistryBoard = ({ role = "client" }) => {
         </form>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-blush/30 bg-white/95 p-6 shadow-soft sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-1 flex-col gap-2 sm:max-w-md">
             <label className="text-xs font-heading uppercase tracking-[0.35em] text-charcoal/50">Search registry</label>
+=======
+      <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/95 p-6 shadow-soft sm:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-1 flex-col gap-2 sm:max-w-md">
+            <label className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Search registry</label>
+>>>>>>> heroku/main
             <input
               type="search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Filter by product, brand, or category"
+<<<<<<< HEAD
               className="rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
             />
           </div>
@@ -331,6 +425,17 @@ const RegistryBoard = ({ role = "client" }) => {
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
               className="rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2 sm:w-48">
+            <label className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Status</label>
+            <select
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             >
               <option value="all">All statuses</option>
               {STATUS_OPTIONS.map((option) => (
@@ -343,9 +448,15 @@ const RegistryBoard = ({ role = "client" }) => {
         </div>
 
         <div className="mt-6 overflow-x-auto">
+<<<<<<< HEAD
           <table className="min-w-full divide-y divide-mauve/20 text-left text-sm">
             <thead>
               <tr className="text-[0.7rem] uppercase tracking-[0.35em] text-charcoal/50">
+=======
+          <table className="min-w-full divide-y divide-babyBlue/20 text-left text-sm">
+            <thead>
+              <tr className="text-[0.7rem] uppercase tracking-[0.35em] text-darkText/50">
+>>>>>>> heroku/main
                 <th scope="col" className="px-4 py-3">Item</th>
                 <th scope="col" className="px-4 py-3">Status</th>
                 <th scope="col" className="px-4 py-3">Qty</th>
@@ -355,12 +466,21 @@ const RegistryBoard = ({ role = "client" }) => {
                 <th scope="col" className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
+<<<<<<< HEAD
             <tbody className="divide-y divide-mauve/10">
               {filteredItems.map((item) => (
                 <tr key={item.id} className="align-top">
                   <td className="px-4 py-4">
                     <p className="font-heading text-charcoal">{item.title}</p>
                     <p className="text-xs font-body uppercase tracking-[0.25em] text-charcoal/50">
+=======
+            <tbody className="divide-y divide-babyBlue/10">
+              {filteredItems.map((item) => (
+                <tr key={item.id} className="align-top">
+                  <td className="px-4 py-4">
+                    <p className="font-heading text-blueberry">{item.title}</p>
+                    <p className="text-xs font-body uppercase tracking-[0.25em] text-darkText/50">
+>>>>>>> heroku/main
                       {item.retailer || "—"} · {item.category || "General"}
                     </p>
                   </td>
@@ -368,7 +488,11 @@ const RegistryBoard = ({ role = "client" }) => {
                     <select
                       value={item.status}
                       onChange={(event) => handleStatusChange(item.id, event.target.value)}
+<<<<<<< HEAD
                       className="w-full rounded-2xl border border-mauve/30 bg-white px-3 py-2 text-xs text-charcoal focus:border-blush focus:outline-none"
+=======
+                      className="w-full rounded-2xl border border-babyBlue/30 bg-white px-3 py-2 text-xs text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                     >
                       {STATUS_OPTIONS.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -376,6 +500,7 @@ const RegistryBoard = ({ role = "client" }) => {
                         </option>
                       ))}
                     </select>
+<<<<<<< HEAD
                     <p className="mt-2 text-[0.65rem] uppercase tracking-[0.3em] text-charcoal/40">
                       Added by {item.addedBy || "client"}
                     </p>
@@ -384,6 +509,16 @@ const RegistryBoard = ({ role = "client" }) => {
                   <td className="px-4 py-4 text-sm text-charcoal/80">{item.price || "—"}</td>
                   <td className="px-4 py-4 text-sm text-charcoal/70">
                     {item.notes ? item.notes : <span className="text-charcoal/40">No notes yet</span>}
+=======
+                    <p className="mt-2 text-[0.65rem] uppercase tracking-[0.3em] text-darkText/40">
+                      Added by {item.addedBy || "client"}
+                    </p>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-darkText/80">{item.quantity || 1}</td>
+                  <td className="px-4 py-4 text-sm text-darkText/80">{item.price || "—"}</td>
+                  <td className="px-4 py-4 text-sm text-darkText/70">
+                    {item.notes ? item.notes : <span className="text-darkText/40">No notes yet</span>}
+>>>>>>> heroku/main
                   </td>
                   <td className="px-4 py-4 text-sm">
                     {item.link ? (
@@ -391,12 +526,20 @@ const RegistryBoard = ({ role = "client" }) => {
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"
+<<<<<<< HEAD
                         className="inline-flex items-center gap-1 rounded-full border border-mauve/30 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-charcoal hover:-translate-y-0.5 hover:bg-blush/20"
+=======
+                        className="inline-flex items-center gap-1 rounded-full border border-babyBlue/30 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/20"
+>>>>>>> heroku/main
                       >
                         View Link
                       </a>
                     ) : (
+<<<<<<< HEAD
                       <span className="text-charcoal/40">No link</span>
+=======
+                      <span className="text-darkText/40">No link</span>
+>>>>>>> heroku/main
                     )}
                   </td>
                   <td className="px-4 py-4 text-right">
@@ -404,7 +547,11 @@ const RegistryBoard = ({ role = "client" }) => {
                       <button
                         type="button"
                         onClick={() => handleEdit(item)}
+<<<<<<< HEAD
                         className="rounded-full border border-mauve/30 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-charcoal transition hover:-translate-y-0.5 hover:bg-mauve/10"
+=======
+                        className="rounded-full border border-babyBlue/30 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-blueberry transition hover:-translate-y-0.5 hover:bg-babyBlue/10"
+>>>>>>> heroku/main
                       >
                         Edit
                       </button>
@@ -421,7 +568,11 @@ const RegistryBoard = ({ role = "client" }) => {
               ))}
               {!filteredItems.length && (
                 <tr>
+<<<<<<< HEAD
                   <td colSpan={7} className="px-4 py-6 text-center text-sm text-charcoal/60">
+=======
+                  <td colSpan={7} className="px-4 py-6 text-center text-sm text-darkText/60">
+>>>>>>> heroku/main
                     No registry items match this view yet. Add one above to get started.
                   </td>
                 </tr>

@@ -12,7 +12,11 @@ import {
 } from "recharts";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import api from "../lib/api";
+<<<<<<< HEAD
 import EmptyState from "../components/ui/EmptyState";
+=======
+import EmptyState from "../components/UI/EmptyState";
+>>>>>>> heroku/main
 import RegistryBoard from "../components/registry/RegistryBoard";
 import { useRegistryStore } from "../hooks/useRegistryStore";
 
@@ -150,7 +154,11 @@ const InviteManagement = ({ onApproved }) => {
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Leads</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Invitation Requests</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Invitation Requests</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">
             Review prospective families, approve concierge access, or decline with a gentle touch.
           </p>
@@ -158,7 +166,11 @@ const InviteManagement = ({ onApproved }) => {
         <button
           type="button"
           onClick={loadRequests}
+<<<<<<< HEAD
           className="rounded-full border border-mauve/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
         >
           Refresh
         </button>
@@ -170,7 +182,11 @@ const InviteManagement = ({ onApproved }) => {
         </div>
       )}
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/40 bg-white/95 p-6 shadow-lg">
+=======
+      <section className="rounded-[2rem] border border-babyPink/40 bg-white/95 p-6 shadow-lg">
+>>>>>>> heroku/main
         {loading ? (
           <p className="text-sm text-slate-500">Loading invitation requests…</p>
         ) : requests.length === 0 ? (
@@ -180,11 +196,19 @@ const InviteManagement = ({ onApproved }) => {
             {requests.map((request) => (
               <article
                 key={request.id}
+<<<<<<< HEAD
                 className="rounded-3xl border border-mauve/30 bg-white px-5 py-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="font-heading text-charcoal">{request.name}</p>
+=======
+                className="rounded-3xl border border-babyBlue/30 bg-white px-5 py-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="font-heading text-blueberry">{request.name}</p>
+>>>>>>> heroku/main
                     <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-slate-500">
                       <a href={`mailto:${request.email}`} className="underline">{request.email}</a>
                       {request.zip_code && <span>ZIP {request.zip_code}</span>}
@@ -200,7 +224,11 @@ const InviteManagement = ({ onApproved }) => {
                     >
                       {request.status}
                     </span>
+<<<<<<< HEAD
                     <span className="inline-flex items-center rounded-full border border-mauve/30 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.3em] text-charcoal/80">
+=======
+                    <span className="inline-flex items-center rounded-full border border-babyBlue/30 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.3em] text-blueberry/80">
+>>>>>>> heroku/main
                       {request.requested_role === 'mentor' ? 'Mentor' : 'Client'}
                     </span>
                   </div>
@@ -258,12 +286,20 @@ const SidebarContent = ({ items, basePath, onClose, showClose }) => (
     <div className="flex items-center justify-between">
       <div>
         <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Taylor-Made</p>
+<<<<<<< HEAD
         <p className="text-lg font-heading text-charcoal">Admin Studio</p>
+=======
+        <p className="text-lg font-heading text-blueberry">Admin Studio</p>
+>>>>>>> heroku/main
       </div>
       {showClose && (
         <button
           type="button"
+<<<<<<< HEAD
           className="rounded-full border border-slate-200 px-2 py-1 text-xs text-slate-500 transition-colors hover:border-mauve hover:text-charcoal"
+=======
+          className="rounded-full border border-slate-200 px-2 py-1 text-xs text-slate-500 transition-colors hover:border-blueberry hover:text-blueberry"
+>>>>>>> heroku/main
           onClick={onClose}
         >
           ✕
@@ -278,8 +314,13 @@ const SidebarContent = ({ items, basePath, onClose, showClose }) => (
           className={({ isActive }) =>
             `block rounded-2xl px-4 py-3 shadow-md backdrop-blur-md transition ${
               isActive
+<<<<<<< HEAD
                 ? "bg-gradient-to-r from-mauve/70 to-blush/70 text-white shadow-lg"
                 : "bg-white/60 text-slate-600 hover:bg-mauve/20 hover:text-charcoal"
+=======
+                ? "bg-gradient-to-r from-babyBlue/70 to-babyPink/70 text-white shadow-lg"
+                : "bg-white/60 text-slate-600 hover:bg-babyBlue/20 hover:text-blueberry"
+>>>>>>> heroku/main
             }`
           }
           onClick={onClose}
@@ -325,32 +366,54 @@ const Topbar = ({ adminName, onToggleSidebar, onSignOut }) => {
         <div className="flex items-center gap-3">
           <button
             onClick={onToggleSidebar}
+<<<<<<< HEAD
             className="lg:hidden rounded-full border border-slate-200 px-3 py-2 text-xs font-heading uppercase tracking-[0.35em] text-charcoal"
+=======
+            className="lg:hidden rounded-full border border-slate-200 px-3 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry"
+>>>>>>> heroku/main
           >
             Menu
           </button>
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-mauve/20 font-heading text-charcoal shadow">
+=======
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-babyBlue/20 font-heading text-blueberry shadow">
+>>>>>>> heroku/main
               TM
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Taylor-Made Concierge</p>
+<<<<<<< HEAD
               <p className="font-playful text-2xl text-charcoal">Admin Suite</p>
+=======
+              <p className="font-playful text-2xl text-blueberry">Admin Suite</p>
+>>>>>>> heroku/main
             </div>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-3">
           <div className="hidden text-right lg:block">
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Signed in</p>
+<<<<<<< HEAD
             <p className="font-semibold text-charcoal">{adminName}</p>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blush/30 text-charcoal font-heading">
+=======
+            <p className="font-semibold text-blueberry">{adminName}</p>
+          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-babyPink/30 text-blueberry font-heading">
+>>>>>>> heroku/main
             {adminName.charAt(0)}
           </div>
           <button
             type="button"
             onClick={onSignOut}
+<<<<<<< HEAD
             className="rounded-full border border-blush/60 bg-blush/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-blush/20"
+=======
+            className="rounded-full border border-babyPink/60 bg-babyPink/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyPink/20"
+>>>>>>> heroku/main
           >
             Log Out
           </button>
@@ -503,13 +566,21 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Pulse</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Operations Dashboard</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Operations Dashboard</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Live counts from the client, mentor, and invite programs.</p>
         </div>
         <div className="flex items-center gap-3">
           <Link
             to={`${dashboardBasePath}/messages`}
+<<<<<<< HEAD
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-blush/60 bg-white text-charcoal shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+=======
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-babyPink/60 bg-white text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+>>>>>>> heroku/main
             aria-label="View Messages"
           >
             <EnvelopeIcon className="h-5 w-5" />
@@ -517,7 +588,11 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
           <button
             type="button"
             onClick={reload}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+            className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
           >
             Refresh
           </button>
@@ -534,24 +609,43 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
         {metricCards.map((metric) => (
           <article
             key={metric.id}
+<<<<<<< HEAD
             className="rounded-[2rem] border border-mauve/30 bg-gradient-to-tr from-white via-mauve/10 to-blush/10 p-6 shadow-lg"
           >
             <p className="text-xs uppercase tracking-[0.3em] text-slate-500">{metric.label}</p>
             <p className="mt-3 font-heading text-3xl text-charcoal">{formatValue(metric.value)}</p>
+=======
+            className="rounded-[2rem] border border-babyBlue/30 bg-gradient-to-tr from-white via-babyBlue/10 to-babyPink/10 p-6 shadow-lg"
+          >
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-500">{metric.label}</p>
+            <p className="mt-3 font-heading text-3xl text-blueberry">{formatValue(metric.value)}</p>
+>>>>>>> heroku/main
           </article>
         ))}
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-mauve/40 bg-white/95 p-6 shadow-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="font-heading text-xl text-charcoal">Blog Q & A Submissions</h2>
             <p className="text-sm text-charcoal/60">Review reader questions and publish answers to the public blog.</p>
+=======
+      <section className="rounded-[2rem] border border-pastelPurple/40 bg-white/95 p-6 shadow-lg">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="font-heading text-xl text-blueberry">Blog Q & A Submissions</h2>
+            <p className="text-sm text-darkText/60">Review reader questions and publish answers to the public blog.</p>
+>>>>>>> heroku/main
           </div>
           <button
             type="button"
             onClick={loadQuestions}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/40 bg-white px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+            className="rounded-full border border-pastelPurple/40 bg-white px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
           >
             Refresh
           </button>
@@ -586,65 +680,109 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
               return (
                 <article
                   key={question.id}
+<<<<<<< HEAD
                   className="flex h-full flex-col gap-4 rounded-2xl border border-mauve/40 bg-white/95 p-5 shadow-soft"
                 >
                   <header className="space-y-3">
                     <div className="flex flex-col gap-1">
                       <p className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/50">
+=======
+                  className="flex h-full flex-col gap-4 rounded-2xl border border-pastelPurple/40 bg-white/95 p-5 shadow-soft"
+                >
+                  <header className="space-y-3">
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/50">
+>>>>>>> heroku/main
                         {question.username || 'Guest'} · {new Date(question.created_at).toLocaleDateString()}
                       </p>
                       <input
                         type="text"
                         value={draft.username}
                         onChange={(event) => handleDraftChange(question.id, 'username', event.target.value)}
+<<<<<<< HEAD
                         className="w-full rounded-2xl border border-mauve/40 bg-white px-3 py-2 font-heading text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                        className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-2 font-heading text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                         placeholder="Username"
                       />
                       <input
                         type="email"
                         value={draft.email}
                         onChange={(event) => handleDraftChange(question.id, 'email', event.target.value)}
+<<<<<<< HEAD
                         className="w-full rounded-2xl border border-mauve/40 bg-white px-3 py-2 font-body text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+                        className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-2 font-body text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                         placeholder="Email"
                       />
                     </div>
                     <textarea
                       value={draft.question}
                       onChange={(event) => handleDraftChange(question.id, 'question', event.target.value)}
+<<<<<<< HEAD
                       className="w-full rounded-2xl border border-mauve/40 bg-white px-3 py-2 font-heading text-base text-charcoal focus:border-blush focus:outline-none"
+=======
+                      className="w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-2 font-heading text-base text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                       rows={3}
                     />
                   </header>
 
+<<<<<<< HEAD
                   <label className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/50">
+=======
+                  <label className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/50">
+>>>>>>> heroku/main
                     Answer
                     <textarea
                       value={draft.answer}
                       onChange={(event) => handleDraftChange(question.id, 'answer', event.target.value)}
                       rows={4}
+<<<<<<< HEAD
                       className="mt-2 w-full rounded-2xl border border-mauve/40 bg-white px-3 py-3 font-body text-sm text-charcoal/80 focus:border-blush focus:outline-none"
+=======
+                      className="mt-2 w-full rounded-2xl border border-pastelPurple/40 bg-white px-3 py-3 font-body text-sm text-darkText/80 focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
                       placeholder="Craft a thoughtful concierge response…"
                     />
                   </label>
 
+<<<<<<< HEAD
         <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal/60">
+=======
+        <div className="flex flex-wrap items-center gap-3 text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">
+>>>>>>> heroku/main
           <span>Status</span>
           <select
             value={draft.status}
             onChange={(event) => handleDraftChange(question.id, 'status', event.target.value)}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/40 bg-white px-3 py-1 text-charcoal focus:border-blush focus:outline-none"
+=======
+            className="rounded-full border border-pastelPurple/40 bg-white px-3 py-1 text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
           >
             <option value="pending">Pending</option>
             <option value="published">Published</option>
           </select>
         </div>
 
+<<<<<<< HEAD
         <div className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal/60">
+=======
+        <div className="flex flex-col gap-2 text-xs font-heading uppercase tracking-[0.3em] text-darkText/60">
+>>>>>>> heroku/main
           <span>Assigned Mentor</span>
           <select
             value={draft.assigned_to || ''}
             onChange={(event) => handleDraftChange(question.id, 'assigned_to', event.target.value || null)}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/40 bg-white px-3 py-1 text-charcoal focus:border-blush focus:outline-none"
+=======
+            className="rounded-full border border-pastelPurple/40 bg-white px-3 py-1 text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             disabled={mentorsLoading}
           >
             <option value="">Unassigned</option>
@@ -661,7 +799,11 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
           <button
             type="button"
             onClick={() => handleSaveQuestion(question.id)}
+<<<<<<< HEAD
                       className="rounded-full bg-mauve px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+=======
+                      className="rounded-full bg-babyBlue px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy"
+>>>>>>> heroku/main
                     >
                       Save
                     </button>
@@ -680,6 +822,7 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
         )}
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/40 bg-white/90 p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
@@ -687,6 +830,15 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
             <p className="text-sm text-slate-500">Invites, new clients, and messages by month.</p>
           </div>
         <button className="rounded-full bg-gradient-to-r from-mauve to-blush px-4 py-2 text-xs font-heading uppercase text-white shadow-md">
+=======
+      <section className="rounded-[2rem] border border-babyPink/40 bg-white/90 p-6 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-heading text-xl text-blueberry">Engagement Over Time</h2>
+            <p className="text-sm text-slate-500">Invites, new clients, and messages by month.</p>
+          </div>
+        <button className="rounded-full bg-gradient-to-r from-babyBlue to-babyPink px-4 py-2 text-xs font-heading uppercase text-white shadow-md">
+>>>>>>> heroku/main
           Export
         </button>
       </div>
@@ -711,8 +863,13 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
         )}
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-mauve/30 bg-white/90 p-6 shadow-lg">
         <h2 className="font-heading text-xl text-charcoal">Recent Invites</h2>
+=======
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/90 p-6 shadow-lg">
+        <h2 className="font-heading text-xl text-blueberry">Recent Invites</h2>
+>>>>>>> heroku/main
         <p className="text-sm text-slate-500">Latest codes generated across concierge programs.</p>
         {loading ? (
           <p className="mt-4 text-sm text-slate-500">Loading recent invites...</p>
@@ -723,10 +880,17 @@ const AdminDashboard = ({ basePath: dashboardBasePath = "/admin" }) => {
             {recentInvites.map((invite) => (
               <div
                 key={invite.code}
+<<<<<<< HEAD
                 className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-mauve/20 bg-white px-5 py-4 shadow-soft"
               >
                 <div>
                   <p className="font-heading text-charcoal">{invite.code}</p>
+=======
+                className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-babyBlue/20 bg-white px-5 py-4 shadow-soft"
+              >
+                <div>
+                  <p className="font-heading text-blueberry">{invite.code}</p>
+>>>>>>> heroku/main
                   <p className="text-xs text-slate-500">{invite.role}</p>
                 </div>
                 <div className="text-right text-xs text-slate-400">
@@ -806,13 +970,21 @@ const ClientDirectory = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Members</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Active Clients</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Active Clients</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Families with live access to the concierge studio.</p>
         </div>
         <button
           type="button"
           onClick={loadClients}
+<<<<<<< HEAD
           className="rounded-full border border-mauve/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
         >
           Refresh
         </button>
@@ -822,7 +994,11 @@ const ClientDirectory = () => {
         <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">{error}</div>
       )}
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-lg">
+=======
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+>>>>>>> heroku/main
         {loading ? (
           <p className="text-sm text-slate-500">Loading clients...</p>
         ) : clients.length === 0 ? (
@@ -830,13 +1006,21 @@ const ClientDirectory = () => {
         ) : (
           <ul className="space-y-4">
             {clients.map((client) => (
+<<<<<<< HEAD
               <li key={client.id} className="rounded-3xl border border-mauve/20 bg-white px-5 py-4 shadow-soft">
+=======
+              <li key={client.id} className="rounded-3xl border border-babyBlue/20 bg-white px-5 py-4 shadow-soft">
+>>>>>>> heroku/main
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
                     <button
                       type="button"
                       onClick={() => openClientDetail(client.id)}
+<<<<<<< HEAD
                       className="font-heading text-lg text-charcoal underline-offset-4 hover:underline"
+=======
+                      className="font-heading text-lg text-blueberry underline-offset-4 hover:underline"
+>>>>>>> heroku/main
                     >
                       {client.name}
                     </button>
@@ -853,7 +1037,11 @@ const ClientDirectory = () => {
                     {client.mentors.map((mentor) => (
                       <span
                         key={mentor.id}
+<<<<<<< HEAD
                         className="inline-flex items-center rounded-full bg-mauve/10 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.25em] text-charcoal"
+=======
+                        className="inline-flex items-center rounded-full bg-babyBlue/10 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.25em] text-blueberry"
+>>>>>>> heroku/main
                       >
                         {mentor.name}
                       </span>
@@ -878,16 +1066,24 @@ const ClientDirectory = () => {
             <section>
               <h3 className="font-heading text-xs uppercase tracking-[0.3em] text-slate-400">Contact</h3>
               <div className="mt-3 space-y-2">
+<<<<<<< HEAD
                 <p><span className="font-semibold text-charcoal">Email:</span> {clientDetail.client.email}</p>
                 {clientDetail.client.phone && <p><span className="font-semibold text-charcoal">Phone:</span> {clientDetail.client.phone}</p>}
                 {clientDetail.client.zip_code && <p><span className="font-semibold text-charcoal">ZIP:</span> {clientDetail.client.zip_code}</p>}
                 <p><span className="font-semibold text-charcoal">Member since:</span> {formatDate(clientDetail.client.created_at)}</p>
+=======
+                <p><span className="font-semibold text-blueberry">Email:</span> {clientDetail.client.email}</p>
+                {clientDetail.client.phone && <p><span className="font-semibold text-blueberry">Phone:</span> {clientDetail.client.phone}</p>}
+                {clientDetail.client.zip_code && <p><span className="font-semibold text-blueberry">ZIP:</span> {clientDetail.client.zip_code}</p>}
+                <p><span className="font-semibold text-blueberry">Member since:</span> {formatDate(clientDetail.client.created_at)}</p>
+>>>>>>> heroku/main
               </div>
             </section>
 
             <section>
               <h3 className="font-heading text-xs uppercase tracking-[0.3em] text-slate-400">Concierge Details</h3>
               <div className="mt-3 space-y-2">
+<<<<<<< HEAD
                 <p><span className="font-semibold text-charcoal">Package:</span> {clientDetail.client.package_choice || 'N/A'}</p>
                 <p><span className="font-semibold text-charcoal">Due date:</span> {formatDate(clientDetail.client.due_date)}</p>
                 {clientDetail.client.mentor_preference && (
@@ -895,6 +1091,15 @@ const ClientDirectory = () => {
                 )}
                 {clientDetail.client.family_intro && (
                   <p className="whitespace-pre-line"><span className="font-semibold text-charcoal">Family intro:</span> {clientDetail.client.family_intro}</p>
+=======
+                <p><span className="font-semibold text-blueberry">Package:</span> {clientDetail.client.package_choice || 'N/A'}</p>
+                <p><span className="font-semibold text-blueberry">Due date:</span> {formatDate(clientDetail.client.due_date)}</p>
+                {clientDetail.client.mentor_preference && (
+                  <p><span className="font-semibold text-blueberry">Mentor preference:</span> {clientDetail.client.mentor_preference}</p>
+                )}
+                {clientDetail.client.family_intro && (
+                  <p className="whitespace-pre-line"><span className="font-semibold text-blueberry">Family intro:</span> {clientDetail.client.family_intro}</p>
+>>>>>>> heroku/main
                 )}
               </div>
             </section>
@@ -907,7 +1112,11 @@ const ClientDirectory = () => {
                 <ul className="mt-3 space-y-2">
                   {clientDetail.mentors.map((mentor) => (
                     <li key={mentor.id}>
+<<<<<<< HEAD
                       <span className="font-semibold text-charcoal">{mentor.name}</span>
+=======
+                      <span className="font-semibold text-blueberry">{mentor.name}</span>
+>>>>>>> heroku/main
                       <p className="text-xs text-slate-500">{mentor.specialty || 'Concierge mentor'}</p>
                     </li>
                   ))}
@@ -922,9 +1131,15 @@ const ClientDirectory = () => {
               ) : (
                 <ul className="mt-3 space-y-2">
                   {clientDetail.invites.map((invite) => (
+<<<<<<< HEAD
                     <li key={invite.code} className="rounded-2xl border border-mauve/20 bg-mauve/10 px-3 py-2">
                       <div className="flex items-center justify-between">
                         <span className="font-heading text-charcoal">{invite.code}</span>
+=======
+                    <li key={invite.code} className="rounded-2xl border border-babyBlue/20 bg-babyBlue/10 px-3 py-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-heading text-blueberry">{invite.code}</span>
+>>>>>>> heroku/main
                         <span className="text-xs uppercase tracking-[0.3em] text-slate-400">{invite.used_at ? 'Used' : 'Open'}</span>
                       </div>
                       <p className="text-xs text-slate-500">Created {formatDate(invite.created_at)}</p>
@@ -1001,13 +1216,21 @@ const MentorDirectory = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Concierge Team</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Active Mentors</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Active Mentors</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Specialists currently supporting families.</p>
         </div>
         <button
           type="button"
           onClick={loadMentors}
+<<<<<<< HEAD
           className="rounded-full border border-mauve/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
         >
           Refresh
         </button>
@@ -1017,7 +1240,11 @@ const MentorDirectory = () => {
         <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">{error}</div>
       )}
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/30 bg-white/95 p-6 shadow-lg">
+=======
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+>>>>>>> heroku/main
         {loading ? (
           <p className="text-sm text-slate-500">Loading mentors...</p>
         ) : mentors.length === 0 ? (
@@ -1027,14 +1254,22 @@ const MentorDirectory = () => {
             {mentors.map((mentor) => (
               <li
                 key={mentor.id}
+<<<<<<< HEAD
                 className="rounded-3xl border border-blush/20 bg-white px-5 py-4 shadow-soft"
+=======
+                className="rounded-3xl border border-babyPink/20 bg-white px-5 py-4 shadow-soft"
+>>>>>>> heroku/main
               >
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
                     <button
                       type="button"
                       onClick={() => openMentorDetail(mentor.id)}
+<<<<<<< HEAD
                       className="font-heading text-lg text-charcoal underline-offset-4 hover:underline"
+=======
+                      className="font-heading text-lg text-blueberry underline-offset-4 hover:underline"
+>>>>>>> heroku/main
                     >
                       {mentor.name}
                     </button>
@@ -1062,7 +1297,11 @@ const MentorDirectory = () => {
                     {mentor.clients.map((client) => (
                       <span
                         key={client.id}
+<<<<<<< HEAD
                         className="inline-flex items-center rounded-full bg-mauve/10 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.25em] text-charcoal"
+=======
+                        className="inline-flex items-center rounded-full bg-babyBlue/10 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.25em] text-blueberry"
+>>>>>>> heroku/main
                       >
                         {client.name}
                       </span>
@@ -1087,15 +1326,22 @@ const MentorDirectory = () => {
             <section>
               <h3 className="font-heading text-xs uppercase tracking-[0.3em] text-slate-400">Contact</h3>
               <div className="mt-3 space-y-2">
+<<<<<<< HEAD
                 <p><span className="font-semibold text-charcoal">Email:</span> {mentorDetail.mentor.email}</p>
                 {mentorDetail.mentor.phone && <p><span className="font-semibold text-charcoal">Phone:</span> {mentorDetail.mentor.phone}</p>}
                 <p><span className="font-semibold text-charcoal">Joined:</span> {formatDate(mentorDetail.mentor.created_at)}</p>
+=======
+                <p><span className="font-semibold text-blueberry">Email:</span> {mentorDetail.mentor.email}</p>
+                {mentorDetail.mentor.phone && <p><span className="font-semibold text-blueberry">Phone:</span> {mentorDetail.mentor.phone}</p>}
+                <p><span className="font-semibold text-blueberry">Joined:</span> {formatDate(mentorDetail.mentor.created_at)}</p>
+>>>>>>> heroku/main
               </div>
             </section>
 
             <section>
               <h3 className="font-heading text-xs uppercase tracking-[0.3em] text-slate-400">Profile</h3>
               <div className="mt-3 space-y-2">
+<<<<<<< HEAD
                 <p><span className="font-semibold text-charcoal">Specialty:</span> {mentorDetail.mentor.specialty || 'Concierge mentor'}</p>
                 {mentorDetail.mentor.availability && (
                   <p><span className="font-semibold text-charcoal">Availability:</span> {mentorDetail.mentor.availability}</p>
@@ -1107,6 +1353,19 @@ const MentorDirectory = () => {
                 {mentorDetail.mentor.certifications?.length > 0 && (
                   <p>
                     <span className="font-semibold text-charcoal">Certifications:</span>{' '}
+=======
+                <p><span className="font-semibold text-blueberry">Specialty:</span> {mentorDetail.mentor.specialty || 'Concierge mentor'}</p>
+                {mentorDetail.mentor.availability && (
+                  <p><span className="font-semibold text-blueberry">Availability:</span> {mentorDetail.mentor.availability}</p>
+                )}
+                <p><span className="font-semibold text-blueberry">Capacity:</span> {mentorDetail.mentor.max_clients || 'Flexible'}</p>
+                {mentorDetail.mentor.bio && (
+                  <p className="whitespace-pre-line"><span className="font-semibold text-blueberry">Bio:</span> {mentorDetail.mentor.bio}</p>
+                )}
+                {mentorDetail.mentor.certifications?.length > 0 && (
+                  <p>
+                    <span className="font-semibold text-blueberry">Certifications:</span>{' '}
+>>>>>>> heroku/main
                     {mentorDetail.mentor.certifications.join(', ')}
                   </p>
                 )}
@@ -1121,7 +1380,11 @@ const MentorDirectory = () => {
                 <ul className="mt-3 space-y-2">
                   {mentorDetail.clients.map((client) => (
                     <li key={client.id}>
+<<<<<<< HEAD
                       <span className="font-semibold text-charcoal">{client.name}</span>
+=======
+                      <span className="font-semibold text-blueberry">{client.name}</span>
+>>>>>>> heroku/main
                       <p className="text-xs text-slate-500">
                         {client.package_choice || 'Package TBD'} · Due {formatDate(client.due_date)}
                       </p>
@@ -1138,9 +1401,15 @@ const MentorDirectory = () => {
               ) : (
                 <ul className="mt-3 space-y-2">
                   {mentorDetail.invites.map((invite) => (
+<<<<<<< HEAD
                     <li key={invite.code} className="rounded-2xl border border-mauve/20 bg-mauve/10 px-3 py-2">
                       <div className="flex items-center justify-between">
                         <span className="font-heading text-charcoal">{invite.code}</span>
+=======
+                    <li key={invite.code} className="rounded-2xl border border-babyBlue/20 bg-babyBlue/10 px-3 py-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-heading text-blueberry">{invite.code}</span>
+>>>>>>> heroku/main
                         <span className="text-xs uppercase tracking-[0.3em] text-slate-400">{invite.used_at ? 'Used' : 'Open'}</span>
                       </div>
                       <p className="text-xs text-slate-500">Created {formatDate(invite.created_at)}</p>
@@ -1298,16 +1567,27 @@ const AdminMessages = () => {
 
   return (
     <div className="grid min-h-[520px] gap-6 lg:grid-cols-[320px_1fr]">
+<<<<<<< HEAD
       <aside className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-soft">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-heading text-lg text-charcoal">Threads</h2>
+=======
+      <aside className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-soft">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-heading text-lg text-blueberry">Threads</h2>
+>>>>>>> heroku/main
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Client inbox</p>
           </div>
           <button
             type="button"
             onClick={loadThreads}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/40 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+            className="rounded-full border border-babyBlue/40 px-3 py-1 text-[0.7rem] font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
           >
             Refresh
           </button>
@@ -1327,13 +1607,22 @@ const AdminMessages = () => {
                 onClick={() => handleSelectThread(thread.id)}
                 className={`w-full rounded-2xl px-4 py-3 text-left text-sm transition ${
                   thread.id === activeThreadId
+<<<<<<< HEAD
                     ? 'border border-blush/40 bg-blush/20 text-charcoal'
                     : 'border border-transparent text-charcoal/70 hover:bg-blush/10'
+=======
+                    ? 'border border-babyPink/40 bg-babyPink/20 text-blueberry'
+                    : 'border border-transparent text-darkText/70 hover:bg-babyPink/10'
+>>>>>>> heroku/main
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
+<<<<<<< HEAD
                     <p className="font-heading text-charcoal">{thread.name}</p>
+=======
+                    <p className="font-heading text-blueberry">{thread.name}</p>
+>>>>>>> heroku/main
                     <p className="text-[0.65rem] uppercase tracking-[0.3em] text-slate-400">
                       {thread.package || 'Package TBD'}
                     </p>
@@ -1344,7 +1633,11 @@ const AdminMessages = () => {
                     )}
                   </div>
                   {thread.unread_count > 0 && (
+<<<<<<< HEAD
                     <span className="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-blush/70 px-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-white">
+=======
+                    <span className="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-babyPink/70 px-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-white">
+>>>>>>> heroku/main
                       {thread.unread_count}
                     </span>
                   )}
@@ -1355,9 +1648,15 @@ const AdminMessages = () => {
         </div>
       </aside>
 
+<<<<<<< HEAD
       <section className="flex flex-col rounded-[2rem] border border-mauve/30 bg-white/95 shadow-soft">
         <header className="border-b border-mauve/30 px-6 py-4">
           <h2 className="font-heading text-lg text-charcoal">
+=======
+      <section className="flex flex-col rounded-[2rem] border border-babyBlue/30 bg-white/95 shadow-soft">
+        <header className="border-b border-babyBlue/30 px-6 py-4">
+          <h2 className="font-heading text-lg text-blueberry">
+>>>>>>> heroku/main
             {conversation?.client?.name || 'Select a conversation'}
           </h2>
           {conversation?.mentors?.length > 0 && (
@@ -1379,6 +1678,7 @@ const AdminMessages = () => {
                 key={message.id}
                 className={`max-w-xl rounded-2xl px-4 py-3 text-sm shadow-soft ${
                   adminUser && message.sender_id === adminUser.id
+<<<<<<< HEAD
                     ? 'ml-auto bg-mauve/25 text-charcoal'
                     : 'bg-blush/25 text-charcoal'
                 }`}
@@ -1386,27 +1686,48 @@ const AdminMessages = () => {
                 <p className="text-xs uppercase tracking-[0.3em] text-charcoal/60">{message.sender_name}</p>
                 <p className="mt-1 whitespace-pre-line">{message.body}</p>
                 <p className="mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-charcoal/40">
+=======
+                    ? 'ml-auto bg-babyBlue/25 text-darkText'
+                    : 'bg-babyPink/25 text-darkText'
+                }`}
+              >
+                <p className="text-xs uppercase tracking-[0.3em] text-darkText/60">{message.sender_name}</p>
+                <p className="mt-1 whitespace-pre-line">{message.body}</p>
+                <p className="mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-darkText/40">
+>>>>>>> heroku/main
                   {new Date(message.created_at).toLocaleString()}
                 </p>
               </div>
             ))
           )}
         </div>
+<<<<<<< HEAD
         <footer className="border-t border-mauve/30 px-6 py-4">
+=======
+        <footer className="border-t border-babyBlue/30 px-6 py-4">
+>>>>>>> heroku/main
           <form className="flex flex-col gap-3" onSubmit={handleSendMessage}>
             <textarea
               value={messageBody}
               onChange={(event) => setMessageBody(event.target.value)}
               placeholder="Type an update for this family"
               rows={3}
+<<<<<<< HEAD
               className="w-full rounded-2xl border border-mauve/40 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="w-full rounded-2xl border border-babyBlue/40 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             />
             <div className="flex items-center justify-between text-xs text-slate-400">
               <span>Messages are shared with the family and assigned mentors.</span>
               <button
                 type="submit"
                 disabled={!messageBody.trim() || sending || !activeThreadId}
+<<<<<<< HEAD
                 className={`rounded-full bg-blush px-5 py-2 font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition ${
+=======
+                className={`rounded-full bg-babyPink px-5 py-2 font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+>>>>>>> heroku/main
                   !messageBody.trim() || sending || !activeThreadId ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-dreamy'
                 }`}
               >
@@ -1487,10 +1808,17 @@ const AdminCalendar = () => {
   };
 
   const eventBadgeStyles = {
+<<<<<<< HEAD
     client_due_date: 'bg-blush/30 text-charcoal',
     invite_request: 'bg-mauve/30 text-charcoal',
     invite_handled: 'bg-emerald-100 text-emerald-700',
     mentor_onboarded: 'bg-mauve/30 text-mauve',
+=======
+    client_due_date: 'bg-babyPink/30 text-blueberry',
+    invite_request: 'bg-babyBlue/30 text-blueberry',
+    invite_handled: 'bg-emerald-100 text-emerald-700',
+    mentor_onboarded: 'bg-pastelPurple/30 text-pastelPurple-900',
+>>>>>>> heroku/main
   };
 
   return (
@@ -1498,14 +1826,22 @@ const AdminCalendar = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Operations</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Concierge Calendar</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Concierge Calendar</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Milestones, invites, and mentor onboarding at a glance.</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => changeMonth(-1)}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/40 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+            className="rounded-full border border-babyBlue/40 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
           >
             Prev
           </button>
@@ -1513,7 +1849,11 @@ const AdminCalendar = () => {
           <button
             type="button"
             onClick={() => changeMonth(1)}
+<<<<<<< HEAD
             className="rounded-full border border-mauve/40 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+            className="rounded-full border border-babyBlue/40 px-3 py-1 text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
           >
             Next
           </button>
@@ -1522,7 +1862,11 @@ const AdminCalendar = () => {
 
       {error && <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">{error}</div>}
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-lg">
+=======
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+>>>>>>> heroku/main
         {loading ? (
           <p className="text-sm text-slate-500">Loading calendar…</p>
         ) : (
@@ -1539,11 +1883,19 @@ const AdminCalendar = () => {
                 <div
                   key={key}
                   className={`min-h-[100px] rounded-2xl border px-2 py-2 ${
+<<<<<<< HEAD
                     day.isCurrentMonth ? 'border-mauve/20 bg-white' : 'border-transparent bg-white/60 text-slate-300'
                   } ${day.isToday ? 'ring-2 ring-blush/60' : ''}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-charcoal">{day.date.getUTCDate()}</span>
+=======
+                    day.isCurrentMonth ? 'border-babyBlue/20 bg-white' : 'border-transparent bg-white/60 text-slate-300'
+                  } ${day.isToday ? 'ring-2 ring-babyPink/60' : ''}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-blueberry">{day.date.getUTCDate()}</span>
+>>>>>>> heroku/main
                   </div>
                   <div className="mt-2 space-y-1">
                     {dayEvents.slice(0, 3).map((event) => (
@@ -1569,6 +1921,7 @@ const AdminCalendar = () => {
         )}
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Legend</h2>
         <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-600">
@@ -1577,12 +1930,26 @@ const AdminCalendar = () => {
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="inline-block h-3 w-3 rounded-full bg-mauve/60" /> Invite request
+=======
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Legend</h2>
+        <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-600">
+          <span className="inline-flex items-center gap-2">
+            <span className="inline-block h-3 w-3 rounded-full bg-babyPink/60" /> Client due date
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="inline-block h-3 w-3 rounded-full bg-babyBlue/60" /> Invite request
+>>>>>>> heroku/main
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="inline-block h-3 w-3 rounded-full bg-emerald-400" /> Invite handled
           </span>
           <span className="inline-flex items-center gap-2">
+<<<<<<< HEAD
             <span className="inline-block h-3 w-3 rounded-full bg-mauve/60" /> Mentor onboarded
+=======
+            <span className="inline-block h-3 w-3 rounded-full bg-pastelPurple/60" /> Mentor onboarded
+>>>>>>> heroku/main
           </span>
         </div>
       </section>
@@ -1627,11 +1994,19 @@ const AdminRegistryManager = () => {
 
   return (
     <div className="space-y-8">
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-6 shadow-soft">
         <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="text-xs font-heading uppercase tracking-[0.35em] text-slate-400">Concierge Snapshot</span>
             <h1 className="font-playful text-3xl text-charcoal">Registry Overview</h1>
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-6 shadow-soft">
+        <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="text-xs font-heading uppercase tracking-[0.35em] text-slate-400">Concierge Snapshot</span>
+            <h1 className="font-playful text-3xl text-blueberry">Registry Overview</h1>
+>>>>>>> heroku/main
             <p className="text-sm text-slate-500">
               Monitor the shared registry workspace. Updates reflect instantly across client, mentor, and admin portals.
             </p>
@@ -1639,7 +2014,11 @@ const AdminRegistryManager = () => {
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+<<<<<<< HEAD
             className="inline-flex items-center justify-center rounded-full border border-blush/40 bg-blush/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.35em] text-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-blush/20"
+=======
+            className="inline-flex items-center justify-center rounded-full border border-babyPink/40 bg-babyPink/10 px-4 py-2 text-xs font-heading uppercase tracking-[0.35em] text-blueberry shadow-soft transition hover:-translate-y-0.5 hover:bg-babyPink/20"
+>>>>>>> heroku/main
           >
             Add new item
           </button>
@@ -1648,9 +2027,15 @@ const AdminRegistryManager = () => {
           {highlightCards.map((card) => (
             <article
               key={card.label}
+<<<<<<< HEAD
               className="rounded-2xl border border-mauve/30 bg-mauve/10 px-5 py-4 text-sm text-charcoal"
             >
               <p className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/60">{card.label}</p>
+=======
+              className="rounded-2xl border border-babyBlue/30 bg-babyBlue/10 px-5 py-4 text-sm text-blueberry"
+            >
+              <p className="text-xs font-heading uppercase tracking-[0.3em] text-blueberry/60">{card.label}</p>
+>>>>>>> heroku/main
               <p className="mt-2 text-2xl font-heading">{card.value}</p>
             </article>
           ))}
@@ -1762,13 +2147,22 @@ const ServicesContent = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Offerings</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Services & Content</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Services & Content</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Curate packages, digital resources, and concierge experiences.</p>
         </div>
       </header>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Create a new service</h2>
+=======
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Create a new service</h2>
+>>>>>>> heroku/main
         <p className="mt-1 text-xs uppercase tracking-[0.3em] text-slate-400">Drafts are private until published</p>
         <form onSubmit={handleAddService} className="mt-6 grid gap-4 md:grid-cols-2">
           <label className="text-sm">
@@ -1777,7 +2171,11 @@ const ServicesContent = () => {
               type="text"
               value={form.name}
               onChange={handleChange("name")}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Concierge VIP Day"
               required
             />
@@ -1788,7 +2186,11 @@ const ServicesContent = () => {
               type="text"
               value={form.category}
               onChange={handleChange("category")}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Packages, Content, Event"
             />
           </label>
@@ -1798,7 +2200,11 @@ const ServicesContent = () => {
               type="text"
               value={form.price}
               onChange={handleChange("price")}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="$499, Included, Custom"
             />
           </label>
@@ -1808,7 +2214,11 @@ const ServicesContent = () => {
               value={form.summary}
               onChange={handleChange("summary")}
               rows={3}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Outline what makes this experience special."
               required
             />
@@ -1817,7 +2227,11 @@ const ServicesContent = () => {
             {message && <p className="text-xs font-heading uppercase tracking-[0.3em] text-slate-400">{message}</p>}
             <button
               type="submit"
+<<<<<<< HEAD
               className="rounded-full bg-blush px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+=======
+              className="rounded-full bg-babyPink px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
             >
               Save Draft
             </button>
@@ -1826,16 +2240,28 @@ const ServicesContent = () => {
       </section>
 
       <section className="space-y-4">
+<<<<<<< HEAD
         <h2 className="font-heading text-lg text-charcoal">Live & Draft Services</h2>
+=======
+        <h2 className="font-heading text-lg text-blueberry">Live & Draft Services</h2>
+>>>>>>> heroku/main
         <div className="grid gap-4 md:grid-cols-2">
           {services.map((service) => (
             <article
               key={service.id}
+<<<<<<< HEAD
               className="rounded-[2rem] border border-mauve/25 bg-white/95 p-6 shadow-soft"
             >
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="font-heading text-xl text-charcoal">{service.name}</p>
+=======
+              className="rounded-[2rem] border border-babyBlue/25 bg-white/95 p-6 shadow-soft"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="font-heading text-xl text-blueberry">{service.name}</p>
+>>>>>>> heroku/main
                   <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{service.category}</p>
                 </div>
                 <span
@@ -1854,7 +2280,11 @@ const ServicesContent = () => {
                 <button
                   type="button"
                   onClick={() => toggleStatus(service.id)}
+<<<<<<< HEAD
                   className="rounded-full border border-mauve/40 px-4 py-2 font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+                  className="rounded-full border border-babyBlue/40 px-4 py-2 font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
                 >
                   {service.status === 'published' ? 'Unpublish' : 'Publish'}
                 </button>
@@ -1864,15 +2294,24 @@ const ServicesContent = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Resource Library</h2>
+=======
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Resource Library</h2>
+>>>>>>> heroku/main
         <p className="mt-1 text-xs uppercase tracking-[0.3em] text-slate-400">Quick links for the concierge team</p>
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           {RESOURCE_LIBRARY.map((resource) => (
             <a
               key={resource.id}
               href={resource.link}
+<<<<<<< HEAD
               className="rounded-3xl border border-mauve/20 bg-mauve/10 p-4 text-sm text-charcoal shadow-soft transition hover:-translate-y-1 hover:shadow-dreamy"
+=======
+              className="rounded-3xl border border-babyBlue/20 bg-babyBlue/10 p-4 text-sm text-blueberry shadow-soft transition hover:-translate-y-1 hover:shadow-dreamy"
+>>>>>>> heroku/main
             >
               <p className="font-heading">{resource.title}</p>
               <p className="mt-2 text-xs text-slate-500">{resource.type}</p>
@@ -1905,13 +2344,21 @@ const ReportsOverview = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Insights</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Reports & Analytics</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Reports & Analytics</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Compare invite flow, onboarding, and mentor engagement.</p>
         </div>
         <button
           type="button"
           onClick={reload}
+<<<<<<< HEAD
           className="rounded-full border border-mauve/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-soft transition hover:-translate-y-0.5"
+=======
+          className="rounded-full border border-babyBlue/50 bg-white/80 px-4 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-soft transition hover:-translate-y-0.5"
+>>>>>>> heroku/main
         >
           Refresh
         </button>
@@ -1922,6 +2369,7 @@ const ReportsOverview = () => {
       )}
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+<<<<<<< HEAD
         <article className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-soft">
           <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Total Invites (6 mo)</p>
           <p className="mt-2 text-3xl font-heading text-charcoal">{totals.invites}</p>
@@ -1942,6 +2390,28 @@ const ReportsOverview = () => {
 
       <section className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Monthly Trend</h2>
+=======
+        <article className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Total Invites (6 mo)</p>
+          <p className="mt-2 text-3xl font-heading text-blueberry">{totals.invites}</p>
+        </article>
+        <article className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">New Clients (6 mo)</p>
+          <p className="mt-2 text-3xl font-heading text-blueberry">{totals.clients}</p>
+        </article>
+        <article className="rounded-[2rem] border border-babyBlue/20 bg-white/95 p-6 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Messages Logged</p>
+          <p className="mt-2 text-3xl font-heading text-blueberry">{totals.messages}</p>
+        </article>
+        <article className="rounded-[2rem] border border-babyPink/20 bg-white/95 p-6 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Active Concierge Team</p>
+          <p className="mt-2 text-3xl font-heading text-blueberry">{stats?.active_mentors ?? '--'}</p>
+        </article>
+      </section>
+
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Monthly Trend</h2>
+>>>>>>> heroku/main
         <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Invite requests vs onboarding vs messaging</p>
         <div className="mt-6 h-72">
           <ResponsiveContainer>
@@ -1964,8 +2434,13 @@ const ReportsOverview = () => {
         )}
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Recent Invite Activity</h2>
+=======
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Recent Invite Activity</h2>
+>>>>>>> heroku/main
         {loading ? (
           <p className="mt-3 text-sm text-slate-500">Compiling invite data…</p>
         ) : recentInvites.length === 0 ? (
@@ -1974,7 +2449,11 @@ const ReportsOverview = () => {
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-[540px] text-left text-sm text-slate-600">
               <thead>
+<<<<<<< HEAD
                 <tr className="border-b border-mauve/20 text-xs uppercase tracking-[0.3em] text-slate-400">
+=======
+                <tr className="border-b border-babyBlue/20 text-xs uppercase tracking-[0.3em] text-slate-400">
+>>>>>>> heroku/main
                   <th className="py-3">Code</th>
                   <th className="py-3">Role</th>
                   <th className="py-3">Assigned</th>
@@ -1984,8 +2463,13 @@ const ReportsOverview = () => {
               </thead>
               <tbody>
                 {recentInvites.map((invite) => (
+<<<<<<< HEAD
                   <tr key={invite.code} className="border-b border-mauve/10">
                     <td className="py-3 font-heading text-charcoal">{invite.code}</td>
+=======
+                  <tr key={invite.code} className="border-b border-babyBlue/10">
+                    <td className="py-3 font-heading text-blueberry">{invite.code}</td>
+>>>>>>> heroku/main
                     <td className="py-3 capitalize">{invite.role}</td>
                     <td className="py-3">{invite.assigned_name || 'Unassigned'}</td>
                     <td className="py-3">{invite.created_at ? new Date(invite.created_at).toLocaleDateString() : '--'}</td>
@@ -2008,7 +2492,11 @@ const AdminSettings = () => {
   const [brand, setBrand] = useState({
     studioName: "Taylor-Made Baby Co.",
     supportEmail: "support@taylormadebaby.co",
+<<<<<<< HEAD
     mauveColor: "#5b6ee1",
+=======
+    primaryColor: "#5b6ee1",
+>>>>>>> heroku/main
     timezone: "America/Phoenix",
   });
   const [preferences, setPreferences] = useState({
@@ -2054,7 +2542,11 @@ const AdminSettings = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Configuration</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Admin Settings</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Admin Settings</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Update brand details, communication preferences, and security policies.</p>
         </div>
       </header>
@@ -2063,8 +2555,13 @@ const AdminSettings = () => {
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{message}</div>
       )}
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Brand Identity</h2>
+=======
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Brand Identity</h2>
+>>>>>>> heroku/main
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -2078,7 +2575,11 @@ const AdminSettings = () => {
               type="text"
               value={brand.studioName}
               onChange={handleBrandChange('studioName')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             />
           </label>
           <label className="text-sm">
@@ -2087,16 +2588,26 @@ const AdminSettings = () => {
               type="email"
               value={brand.supportEmail}
               onChange={handleBrandChange('supportEmail')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             />
           </label>
           <label className="text-sm">
             Primary color
             <input
               type="color"
+<<<<<<< HEAD
               value={brand.mauveColor}
               onChange={handleBrandChange('mauveColor')}
               className="mt-2 h-12 w-32 cursor-pointer rounded-2xl border border-mauve/30 bg-white"
+=======
+              value={brand.primaryColor}
+              onChange={handleBrandChange('primaryColor')}
+              className="mt-2 h-12 w-32 cursor-pointer rounded-2xl border border-babyBlue/30 bg-white"
+>>>>>>> heroku/main
             />
           </label>
           <label className="text-sm">
@@ -2104,7 +2615,11 @@ const AdminSettings = () => {
             <select
               value={brand.timezone}
               onChange={handleBrandChange('timezone')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             >
               <option value="America/Phoenix">America/Phoenix</option>
               <option value="America/New_York">America/New_York</option>
@@ -2116,7 +2631,11 @@ const AdminSettings = () => {
             <button
               type="submit"
               disabled={savingBrand}
+<<<<<<< HEAD
               className={`rounded-full bg-blush px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition ${
+=======
+              className={`rounded-full bg-babyPink px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+>>>>>>> heroku/main
                 savingBrand ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-dreamy'
               }`}
             >
@@ -2126,8 +2645,13 @@ const AdminSettings = () => {
         </form>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Communication & Security</h2>
+=======
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Communication & Security</h2>
+>>>>>>> heroku/main
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -2175,7 +2699,11 @@ const AdminSettings = () => {
             <button
               type="submit"
               disabled={savingPrefs}
+<<<<<<< HEAD
               className={`rounded-full bg-mauve px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-white shadow-pop transition ${
+=======
+              className={`rounded-full bg-babyBlue px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-white shadow-pop transition ${
+>>>>>>> heroku/main
                 savingPrefs ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-dreamy'
               }`}
             >
@@ -2195,16 +2723,28 @@ const ProfileDrawer = ({ open, onClose, title, loading, error, children }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-stretch justify-end">
       <div className="absolute inset-0 bg-slate-900/40" onClick={onClose} />
+<<<<<<< HEAD
       <aside className="relative h-full w-full max-w-md overflow-y-auto border-l border-mauve/20 bg-white px-6 py-8 shadow-2xl">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Profile Overview</p>
             <h2 className="font-playful text-2xl text-charcoal">{title}</h2>
+=======
+      <aside className="relative h-full w-full max-w-md overflow-y-auto border-l border-babyBlue/20 bg-white px-6 py-8 shadow-2xl">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Profile Overview</p>
+            <h2 className="font-playful text-2xl text-blueberry">{title}</h2>
+>>>>>>> heroku/main
           </div>
           <button
             type="button"
             onClick={onClose}
+<<<<<<< HEAD
             className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500 transition hover:border-mauve hover:text-charcoal"
+=======
+            className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-500 transition hover:border-blueberry hover:text-blueberry"
+>>>>>>> heroku/main
           >
             Close
           </button>
@@ -2361,17 +2901,29 @@ const BlogManager = () => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Content Studio</p>
+<<<<<<< HEAD
           <h1 className="font-playful text-3xl text-charcoal">Blog Manager</h1>
+=======
+          <h1 className="font-playful text-3xl text-blueberry">Blog Manager</h1>
+>>>>>>> heroku/main
           <p className="text-sm text-slate-500">Draft, publish, and update private lounge posts.</p>
         </div>
       </header>
 
       {message && (
+<<<<<<< HEAD
         <div className="rounded-2xl border border-mauve/30 bg-mauve/10 px-4 py-3 text-sm text-charcoal">{message}</div>
       )}
 
       <section className="rounded-[2rem] border border-mauve/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">{form.id ? 'Edit Post' : 'Create Post'}</h2>
+=======
+        <div className="rounded-2xl border border-babyBlue/30 bg-babyBlue/10 px-4 py-3 text-sm text-blueberry">{message}</div>
+      )}
+
+      <section className="rounded-[2rem] border border-babyBlue/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">{form.id ? 'Edit Post' : 'Create Post'}</h2>
+>>>>>>> heroku/main
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <label className="text-sm">
             Title
@@ -2379,7 +2931,11 @@ const BlogManager = () => {
               type="text"
               value={form.title}
               onChange={handleInputChange('title')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Welcome to the concierge lounge"
               required
             />
@@ -2390,7 +2946,11 @@ const BlogManager = () => {
               type="text"
               value={form.slug}
               onChange={handleInputChange('slug')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="stroller-styles-demystified"
             />
           </label>
@@ -2400,7 +2960,11 @@ const BlogManager = () => {
               type="text"
               value={form.category}
               onChange={handleInputChange('category')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Announcements, Mentor Notes, Events"
               required
             />
@@ -2410,7 +2974,11 @@ const BlogManager = () => {
             <select
               value={form.visibility}
               onChange={handleInputChange('visibility')}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
             >
               <option value="public">Public</option>
               <option value="members_only">Members Only</option>
@@ -2422,7 +2990,11 @@ const BlogManager = () => {
               value={form.excerpt}
               onChange={handleInputChange('excerpt')}
               rows={3}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Optional summary shown on the public blog."
             />
           </label>
@@ -2432,7 +3004,11 @@ const BlogManager = () => {
               value={form.content}
               onChange={handleInputChange('content')}
               rows={6}
+<<<<<<< HEAD
               className="mt-2 w-full rounded-2xl border border-mauve/30 bg-white px-4 py-3 text-sm text-charcoal focus:border-blush focus:outline-none"
+=======
+              className="mt-2 w-full rounded-2xl border border-babyBlue/30 bg-white px-4 py-3 text-sm text-blueberry focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
               placeholder="Write your post here..."
               required
             />
@@ -2450,7 +3026,11 @@ const BlogManager = () => {
             <button
               type="submit"
               disabled={saving}
+<<<<<<< HEAD
               className={`rounded-full bg-blush px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-charcoal shadow-pop transition ${
+=======
+              className={`rounded-full bg-babyPink px-5 py-3 text-xs font-heading uppercase tracking-[0.3em] text-blueberry shadow-pop transition ${
+>>>>>>> heroku/main
                 saving ? 'opacity-60' : 'hover:-translate-y-1 hover:shadow-dreamy'
               }`}
             >
@@ -2460,8 +3040,13 @@ const BlogManager = () => {
         </form>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2rem] border border-blush/30 bg-white/95 p-6 shadow-lg">
         <h2 className="font-heading text-lg text-charcoal">Recent Posts</h2>
+=======
+      <section className="rounded-[2rem] border border-babyPink/30 bg-white/95 p-6 shadow-lg">
+        <h2 className="font-heading text-lg text-blueberry">Recent Posts</h2>
+>>>>>>> heroku/main
         {loading ? (
           <p className="mt-4 text-sm text-slate-500">Loading posts…</p>
         ) : error ? (
@@ -2471,10 +3056,17 @@ const BlogManager = () => {
         ) : (
           <div className="mt-4 space-y-3">
             {posts.map((post) => (
+<<<<<<< HEAD
               <article key={post.id} className="rounded-3xl border border-mauve/20 bg-white px-5 py-4 shadow-soft">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
                     <h3 className="font-heading text-lg text-charcoal">{post.title}</h3>
+=======
+              <article key={post.id} className="rounded-3xl border border-babyBlue/20 bg-white px-5 py-4 shadow-soft">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <h3 className="font-heading text-lg text-blueberry">{post.title}</h3>
+>>>>>>> heroku/main
                     <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{post.category}</p>
                     <p className="text-xs text-slate-500">Slug: {post.slug}</p>
                     <p className="text-xs text-slate-500">Visibility: {post.visibility === 'members_only' ? 'Members Only' : 'Public'}</p>
@@ -2486,7 +3078,11 @@ const BlogManager = () => {
                     <button
                       type="button"
                       onClick={() => handleEdit(post)}
+<<<<<<< HEAD
                       className="rounded-full border border-mauve/30 px-3 py-1 font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+                      className="rounded-full border border-babyBlue/30 px-3 py-1 font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
                     >
                       Edit
                     </button>
@@ -2533,7 +3129,11 @@ const AdminPortal = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex min-h-screen bg-gradient-to-br from-ivory via-white to-mauve/20 text-charcoal">
+=======
+    <div className="flex min-h-screen bg-gradient-to-br from-cream via-white to-babyBlue/20 text-darkText">
+>>>>>>> heroku/main
       <Sidebar items={NAV_ITEMS} basePath={basePath} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex flex-1 flex-col">
         <Topbar adminName={adminName} onToggleSidebar={() => setSidebarOpen((v) => !v)} onSignOut={handleSignOut} />
@@ -2565,9 +3165,15 @@ const AdminPortal = () => {
               <Route
                 path="*"
                 element={
+<<<<<<< HEAD
                   <div className="rounded-[2rem] border border-blush/40 bg-white p-12 text-center shadow-md">
                     <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Not Found</p>
                     <h2 className="mt-4 font-playful text-3xl text-charcoal">This view is in concierge prep.</h2>
+=======
+                  <div className="rounded-[2rem] border border-babyPink/40 bg-white p-12 text-center shadow-md">
+                    <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Not Found</p>
+                    <h2 className="mt-4 font-playful text-3xl text-blueberry">This view is in concierge prep.</h2>
+>>>>>>> heroku/main
                   </div>
                 }
               />

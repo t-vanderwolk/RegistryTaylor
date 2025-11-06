@@ -2,7 +2,10 @@
   "name": "registry-taylor",
   "version": "0.1.0",
   "private": true,
+<<<<<<< HEAD
   "proxy": "http://localhost:5050",
+=======
+>>>>>>> heroku/main
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@testing-library/dom": "^10.4.1",
@@ -13,19 +16,31 @@
     "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "recharts": "^2.12.7",
     "remark-gfm": "^4.0.0",
+=======
+    "react-router-dom": "^6.22.3",
+    "react-markdown": "^9.0.1",
+    "react-scripts": "5.0.1",
+    "remark-gfm": "^4.0.0",
+    "recharts": "^2.12.7",
+>>>>>>> heroku/main
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+<<<<<<< HEAD
     "eject": "react-scripts eject",
     "lint": "eslint ."
+=======
+    "eject": "react-scripts eject"
+>>>>>>> heroku/main
   },
   "eslintConfig": {
     "extends": [
@@ -52,7 +67,11 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.4.31",
     "postcss-attribute-case-insensitive": "^6.0.2",
+<<<<<<< HEAD
     "tailwindcss": "^3.4.3",
     "typescript": "^5.9.3"
+=======
+    "tailwindcss": "^3.4.3"
+>>>>>>> heroku/main
   }
 }

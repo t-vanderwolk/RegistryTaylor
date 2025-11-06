@@ -187,8 +187,13 @@ const MyJourney = () => {
 
   if (state.status === "loading") {
     return (
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-blush/30 bg-white/90 p-8 text-center shadow-soft backdrop-blur-sm">
         <p className="font-heading text-charcoal">Mapping your Taylor-Made journey…</p>
+=======
+      <section className="rounded-[2.5rem] border border-babyPink/30 bg-white/90 p-8 text-center shadow-soft backdrop-blur-sm">
+        <p className="font-heading text-blueberry">Mapping your Taylor-Made journey…</p>
+>>>>>>> heroku/main
       </section>
     );
   }
@@ -219,6 +224,7 @@ const MyJourney = () => {
 
   return (
     <div className="space-y-8">
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-4">
           <span className="inline-flex items-center rounded-full border border-mauve/30 bg-mauve/10 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-charcoal">
@@ -226,6 +232,15 @@ const MyJourney = () => {
           </span>
           <h1 className="font-heading text-3xl text-charcoal">Hi {parentName.split(" ")[0]}, here is {babyName}&rsquo;s current arc.</h1>
           <p className="max-w-2xl text-sm font-body leading-relaxed text-charcoal/70">
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-4">
+          <span className="inline-flex items-center rounded-full border border-babyBlue/30 bg-babyBlue/10 px-4 py-2 text-[0.65rem] font-heading uppercase tracking-[0.3em] text-blueberry">
+            {packageChoice} Journey
+          </span>
+          <h1 className="font-heading text-3xl text-blueberry">Hi {parentName.split(" ")[0]}, here is {babyName}&rsquo;s current arc.</h1>
+          <p className="max-w-2xl text-sm font-body leading-relaxed text-darkText/70">
+>>>>>>> heroku/main
             We keep every milestone paced and polished. Update your Bio when details shift so the countdown, registry, and concierge touches always align.
           </p>
           <div className="grid gap-4 sm:grid-cols-4">
@@ -236,6 +251,7 @@ const MyJourney = () => {
           </div>
           {journey.progressPercent > 0 && (
             <div>
+<<<<<<< HEAD
               <p className="text-xs font-heading uppercase tracking-[0.35em] text-charcoal/50">Journey Progress</p>
               <div className="mt-2 h-3 w-full rounded-full bg-blush/20">
                 <div
@@ -244,16 +260,34 @@ const MyJourney = () => {
                 />
               </div>
               <p className="mt-2 text-xs font-body text-charcoal/60">{journey.progressPercent}% of your concierge timeline is complete.</p>
+=======
+              <p className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Journey Progress</p>
+              <div className="mt-2 h-3 w-full rounded-full bg-babyPink/20">
+                <div
+                  className="h-full rounded-full bg-babyPink"
+                  style={{ width: `${journey.progressPercent}%` }}
+                />
+              </div>
+              <p className="mt-2 text-xs font-body text-darkText/60">{journey.progressPercent}% of your concierge timeline is complete.</p>
+>>>>>>> heroku/main
             </div>
           )}
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <div className="space-y-4">
           <header className="space-y-2">
             <h2 className="font-heading text-2xl text-charcoal">Taylor-Made Timeline</h2>
             <p className="text-sm font-body text-charcoal/70">We choreograph each touchpoint so you can stay present. Here&rsquo;s where we are right now.</p>
+=======
+      <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <div className="space-y-4">
+          <header className="space-y-2">
+            <h2 className="font-heading text-2xl text-blueberry">Taylor-Made Timeline</h2>
+            <p className="text-sm font-body text-darkText/70">We choreograph each touchpoint so you can stay present. Here&rsquo;s where we are right now.</p>
+>>>>>>> heroku/main
           </header>
           <ol className="space-y-4">
             {timeline.map((item) => (
@@ -261,19 +295,34 @@ const MyJourney = () => {
                 key={item.key}
                 className={`rounded-3xl border px-5 py-4 shadow-soft transition ${
                   item.status === "complete"
+<<<<<<< HEAD
                     ? "border-mauve/40 bg-mauve/10"
                     : item.status === "active"
                     ? "border-blush/40 bg-blush/15"
+=======
+                    ? "border-babyBlue/40 bg-babyBlue/10"
+                    : item.status === "active"
+                    ? "border-babyPink/40 bg-babyPink/15"
+>>>>>>> heroku/main
                     : "border-darkText/10 bg-white"
                 }`}
               >
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+<<<<<<< HEAD
                   <p className="font-heading text-charcoal">{item.title}</p>
                   <span className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/50">
                     Week {item.week}
                   </span>
                 </div>
                 <p className="mt-2 text-sm font-body text-charcoal/75">{item.detail}</p>
+=======
+                  <p className="font-heading text-blueberry">{item.title}</p>
+                  <span className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/50">
+                    Week {item.week}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm font-body text-darkText/75">{item.detail}</p>
+>>>>>>> heroku/main
                 <JourneyStatus status={item.status} />
               </li>
             ))}
@@ -281,6 +330,7 @@ const MyJourney = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-blush/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-2">
           <h2 className="font-heading text-2xl text-charcoal">Concierge Milestones</h2>
@@ -290,31 +340,58 @@ const MyJourney = () => {
           <div className="h-full rounded-full bg-blush" style={{ width: `${milestonePercent}%` }} />
         </div>
         <p className="mt-2 text-xs font-body text-charcoal/50">{totalCompletedPhases} of {TOTAL_PROJECT_PHASES} concierge phases prepared.</p>
+=======
+      <section className="rounded-[2.5rem] border border-babyPink/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-2">
+          <h2 className="font-heading text-2xl text-blueberry">Concierge Milestones</h2>
+          <p className="text-sm font-body text-darkText/70">{completedMilestones} of {milestones.length} major moments complete · {milestonePercent}% of Taylor’s plan.</p>
+        </header>
+        <div className="mt-6 h-3 w-full rounded-full bg-babyPink/20">
+          <div className="h-full rounded-full bg-babyPink" style={{ width: `${milestonePercent}%` }} />
+        </div>
+        <p className="mt-2 text-xs font-body text-darkText/50">{totalCompletedPhases} of {TOTAL_PROJECT_PHASES} concierge phases prepared.</p>
+>>>>>>> heroku/main
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {milestones.map((item) => (
             <article
               key={item.id}
               className={`rounded-[2rem] border px-6 py-5 shadow-soft ${
+<<<<<<< HEAD
                 item.done ? "border-mauve/30 bg-mauve/10" : "border-blush/30 bg-white"
               }`}
             >
               <p className="font-heading text-lg text-charcoal">{item.title}</p>
               <p className="mt-2 text-sm font-body text-charcoal/70">{item.detail}</p>
+=======
+                item.done ? "border-babyBlue/30 bg-babyBlue/10" : "border-babyPink/30 bg-white"
+              }`}
+            >
+              <p className="font-heading text-lg text-blueberry">{item.title}</p>
+              <p className="mt-2 text-sm font-body text-darkText/70">{item.detail}</p>
+>>>>>>> heroku/main
             </article>
           ))}
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-2">
           <h2 className="font-heading text-2xl text-charcoal">Focus with Taylor</h2>
           <p className="text-sm font-body text-charcoal/70">These are the next concierge moves on deck. Share updates and the team will keep momentum.
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-2">
+          <h2 className="font-heading text-2xl text-blueberry">Focus with Taylor</h2>
+          <p className="text-sm font-body text-darkText/70">These are the next concierge moves on deck. Share updates and the team will keep momentum.
+>>>>>>> heroku/main
           </p>
         </header>
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {focusItems.map((item) => (
             <article
               key={item.id}
+<<<<<<< HEAD
               className="flex h-full flex-col justify-between rounded-[2rem] border border-mauve/25 bg-mauve/10 px-6 py-5 shadow-soft"
             >
               <div className="space-y-3">
@@ -327,6 +404,20 @@ const MyJourney = () => {
               <Link
                 to={item.link}
                 className="mt-5 inline-flex items-center justify-center rounded-full border border-mauve/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal hover:-translate-y-0.5 hover:bg-blush/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-mauve/60"
+=======
+              className="flex h-full flex-col justify-between rounded-[2rem] border border-babyBlue/25 bg-babyBlue/10 px-6 py-5 shadow-soft"
+            >
+              <div className="space-y-3">
+                <span className="inline-flex items-center rounded-full border border-babyPink/40 bg-white/70 px-3 py-1 text-[0.6rem] font-heading uppercase tracking-[0.3em] text-blueberry/80">
+                  Concierge focus
+                </span>
+                <h3 className="font-heading text-lg text-blueberry">{item.title}</h3>
+                <p className="text-sm font-body leading-relaxed text-darkText/75">{item.description}</p>
+              </div>
+              <Link
+                to={item.link}
+                className="mt-5 inline-flex items-center justify-center rounded-full border border-babyBlue/30 bg-white px-5 py-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry hover:-translate-y-0.5 hover:bg-babyPink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-babyBlue/60"
+>>>>>>> heroku/main
               >
                 {item.cta}
               </Link>
@@ -335,33 +426,56 @@ const MyJourney = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-2">
           <h2 className="font-heading text-2xl text-charcoal">Concierge Checklist</h2>
           <p className="text-sm font-body text-charcoal/70">Quick actions to keep everything flowing smoothly.</p>
+=======
+      <section className="rounded-[2.5rem] border border-babyBlue/30 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-2">
+          <h2 className="font-heading text-2xl text-blueberry">Concierge Checklist</h2>
+          <p className="text-sm font-body text-darkText/70">Quick actions to keep everything flowing smoothly.</p>
+>>>>>>> heroku/main
         </header>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {checklist.map((item, index) => (
             <div
               key={`${item.title}-${index}`}
               className={`rounded-3xl border px-6 py-5 shadow-soft transition ${
+<<<<<<< HEAD
                 item.done ? "border-mauve/30 bg-mauve/10" : "border-blush/30 bg-white"
+=======
+                item.done ? "border-babyBlue/30 bg-babyBlue/10" : "border-babyPink/30 bg-white"
+>>>>>>> heroku/main
               }`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
+<<<<<<< HEAD
                   <p className="font-heading text-charcoal">{item.title}</p>
                   <p className="mt-2 text-sm font-body text-charcoal/70">{item.detail}</p>
                 </div>
                 {item.done && (
                   <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-mauve/40 text-xs font-heading uppercase text-charcoal">
+=======
+                  <p className="font-heading text-blueberry">{item.title}</p>
+                  <p className="mt-2 text-sm font-body text-darkText/70">{item.detail}</p>
+                </div>
+                {item.done && (
+                  <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-babyBlue/40 text-xs font-heading uppercase text-blueberry">
+>>>>>>> heroku/main
                     ✓
                   </span>
                 )}
               </div>
               <Link
                 to={item.link}
+<<<<<<< HEAD
                 className="mt-4 inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal"
+=======
+                className="mt-4 inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry"
+>>>>>>> heroku/main
               >
                 {item.cta}
               </Link>
@@ -370,10 +484,17 @@ const MyJourney = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="rounded-[2.5rem] border border-mauve/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
         <header className="space-y-2">
           <h2 className="font-heading text-2xl text-charcoal">Memory Lane</h2>
           <p className="text-sm font-body text-charcoal/70">Drop milestones, love notes, or behind-the-scenes details so mentors can celebrate with you.</p>
+=======
+      <section className="rounded-[2.5rem] border border-pastelPurple/40 bg-white/95 p-8 shadow-soft backdrop-blur-sm">
+        <header className="space-y-2">
+          <h2 className="font-heading text-2xl text-blueberry">Memory Lane</h2>
+          <p className="text-sm font-body text-darkText/70">Drop milestones, love notes, or behind-the-scenes details so mentors can celebrate with you.</p>
+>>>>>>> heroku/main
         </header>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <MemoryCard
@@ -395,12 +516,21 @@ const MyJourney = () => {
             to="/community-forum"
           />
         </div>
+<<<<<<< HEAD
         <div className="mt-8 rounded-[2rem] border border-mauve/40 bg-white px-6 py-5 shadow-soft">
           <p className="text-xs font-heading uppercase tracking-[0.35em] text-charcoal/50">Recent wins</p>
           <ul className="mt-3 space-y-2 text-sm font-body text-charcoal/75">
             {recentWinPlaceholders.map((win) => (
               <li key={win} className="flex items-start gap-2">
                 <span className="mt-1 h-2 w-2 rounded-full bg-mauve/60" />
+=======
+        <div className="mt-8 rounded-[2rem] border border-pastelPurple/40 bg-white px-6 py-5 shadow-soft">
+          <p className="text-xs font-heading uppercase tracking-[0.35em] text-darkText/50">Recent wins</p>
+          <ul className="mt-3 space-y-2 text-sm font-body text-darkText/75">
+            {recentWinPlaceholders.map((win) => (
+              <li key={win} className="flex items-start gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-blueberry/60" />
+>>>>>>> heroku/main
                 <span>{win}</span>
               </li>
             ))}
@@ -414,9 +544,15 @@ const MyJourney = () => {
 const JourneyStat = ({ label, value }) => {
   const displayValue = value === null || value === undefined || value === "" ? "-" : value;
   return (
+<<<<<<< HEAD
     <div className="rounded-3xl border border-mauve/30 bg-white px-5 py-4 shadow-soft">
       <p className="text-xs font-heading uppercase tracking-[0.3em] text-charcoal/50">{label}</p>
       <p className="mt-2 text-lg font-heading text-charcoal">{displayValue}</p>
+=======
+    <div className="rounded-3xl border border-babyBlue/30 bg-white px-5 py-4 shadow-soft">
+      <p className="text-xs font-heading uppercase tracking-[0.3em] text-darkText/50">{label}</p>
+      <p className="mt-2 text-lg font-heading text-blueberry">{displayValue}</p>
+>>>>>>> heroku/main
     </div>
   );
 };
@@ -432,10 +568,17 @@ const JourneyStatus = ({ status }) => {
     <span
       className={`mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-[0.65rem] font-heading uppercase tracking-[0.3em] ${
         status === "complete"
+<<<<<<< HEAD
           ? "bg-mauve/30 text-charcoal"
           : status === "active"
           ? "bg-blush/30 text-charcoal"
           : "bg-darkText/10 text-charcoal/60"
+=======
+          ? "bg-babyBlue/30 text-blueberry"
+          : status === "active"
+          ? "bg-babyPink/30 text-blueberry"
+          : "bg-darkText/10 text-darkText/60"
+>>>>>>> heroku/main
       }`}
     >
       {copy}
@@ -444,10 +587,17 @@ const JourneyStatus = ({ status }) => {
 };
 
 const MemoryCard = ({ title, detail, actionLabel, to }) => (
+<<<<<<< HEAD
   <div className="rounded-3xl border border-mauve/40 bg-white px-6 py-5 shadow-soft transition hover:-translate-y-1 hover:shadow-dreamy">
     <p className="font-heading text-charcoal">{title}</p>
     <p className="mt-3 text-sm font-body text-charcoal/70">{detail}</p>
     <Link to={to} className="mt-4 inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.3em] text-charcoal">
+=======
+  <div className="rounded-3xl border border-pastelPurple/40 bg-white px-6 py-5 shadow-soft transition hover:-translate-y-1 hover:shadow-dreamy">
+    <p className="font-heading text-blueberry">{title}</p>
+    <p className="mt-3 text-sm font-body text-darkText/70">{detail}</p>
+    <Link to={to} className="mt-4 inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.3em] text-blueberry">
+>>>>>>> heroku/main
       {actionLabel}
     </Link>
   </div>

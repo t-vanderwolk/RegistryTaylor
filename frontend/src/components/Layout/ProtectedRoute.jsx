@@ -8,9 +8,15 @@ const ProtectedRoute = ({ allowedRoles = [], children }) => {
 
   if (loading) {
     return (
+<<<<<<< HEAD
       <main className="flex min-h-screen items-center justify-center bg-ivory px-6">
         <div className="rounded-[2.5rem] border border-blush/40 bg-white/90 px-10 py-12 text-center shadow-soft">
           <p className="font-heading text-charcoal">Loading your concierge experience…</p>
+=======
+      <main className="flex min-h-screen items-center justify-center bg-cream px-6">
+        <div className="rounded-[2.5rem] border border-babyPink/40 bg-white/90 px-10 py-12 text-center shadow-soft">
+          <p className="font-heading text-blueberry">Loading your concierge experience…</p>
+>>>>>>> heroku/main
         </div>
       </main>
     );

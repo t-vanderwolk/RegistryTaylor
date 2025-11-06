@@ -42,23 +42,39 @@ export function BookingForm({ mentorId }) {
         type="datetime-local"
         value={startsAt}
         onChange={(event) => setStartsAt(event.target.value)}
+<<<<<<< HEAD
         className="w-full rounded-xl border border-blush/40 bg-white px-3 py-2 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
+=======
+        className="w-full rounded-xl border border-babyPink/40 bg-white px-3 py-2 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
       />
       <input
         type="datetime-local"
         value={endsAt}
         onChange={(event) => setEndsAt(event.target.value)}
+<<<<<<< HEAD
         className="w-full rounded-xl border border-blush/40 bg-white px-3 py-2 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
+=======
+        className="w-full rounded-xl border border-babyPink/40 bg-white px-3 py-2 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+>>>>>>> heroku/main
       />
       <textarea
         value={notes}
         onChange={(event) => setNotes(event.target.value)}
         placeholder="Anything we should know?"
+<<<<<<< HEAD
         className="w-full rounded-xl border border-blush/40 bg-white px-3 py-2 text-sm text-charcoal shadow-inner focus:border-blush focus:outline-none"
         rows={3}
       />
       <button
         className="inline-flex w-full items-center justify-center rounded-xl bg-mauve px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy disabled:cursor-not-allowed disabled:opacity-70"
+=======
+        className="w-full rounded-xl border border-babyPink/40 bg-white px-3 py-2 text-sm text-blueberry shadow-inner focus:border-babyPink focus:outline-none"
+        rows={3}
+      />
+      <button
+        className="inline-flex w-full items-center justify-center rounded-xl bg-blueberry px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-dreamy disabled:cursor-not-allowed disabled:opacity-70"
+>>>>>>> heroku/main
         disabled={status.loading}
       >
         {status.loading ? "Requesting…" : "Request Booking"}

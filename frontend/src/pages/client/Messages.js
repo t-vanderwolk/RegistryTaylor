@@ -1,6 +1,7 @@
 import React from "react";
 import { ThreadView } from "../../features/clients";
 import { useSafeFetch } from "../../hooks/useSafeFetch";
+<<<<<<< HEAD
 import EmptyState from "../../components/ui/EmptyState";
 
 const Messages = () => {
@@ -10,6 +11,17 @@ const Messages = () => {
 
   if (loading) {
     return <p className="text-sm text-charcoal/70">Loading your thread…</p>;
+=======
+import EmptyState from "../../components/UI/EmptyState";
+
+const Messages = () => {
+  const { data, loading, error } = useSafeFetch("/api/me", {}, { fallback: {} });
+  const threadId = data?.threads?.[0]?.id || "primary";
+  const mentorNames = Array.isArray(data?.mentor?.team) ? data.mentor.team : [];
+
+  if (loading) {
+    return <p className="text-sm text-darkText/70">Loading your thread…</p>;
+>>>>>>> heroku/main
   }
 
   if (error) {
@@ -22,12 +34,21 @@ const Messages = () => {
   }
 
   return (
+<<<<<<< HEAD
     <section className="space-y-6 rounded-[2.5rem] border border-blush/40 bg-white/90 p-6 shadow-soft">
       <header className="text-center">
         <p className="text-xs uppercase tracking-[0.35em] text-charcoal/50">Concierge messages</p>
         <h1 className="mt-2 text-3xl font-serif text-charcoal">Stay in touch with Taylor</h1>
         {mentorNames.length > 0 && (
           <p className="mt-2 text-xs uppercase tracking-[0.3em] text-charcoal/50">
+=======
+    <section className="space-y-6 rounded-[2.5rem] border border-babyPink/40 bg-white/90 p-6 shadow-soft">
+      <header className="text-center">
+        <p className="text-xs uppercase tracking-[0.35em] text-darkText/50">Concierge messages</p>
+        <h1 className="mt-2 text-3xl font-serif text-blueberry">Stay in touch with Taylor</h1>
+        {mentorNames.length > 0 && (
+          <p className="mt-2 text-xs uppercase tracking-[0.3em] text-darkText/50">
+>>>>>>> heroku/main
             Mentor team: {mentorNames.join(", ")}
           </p>
         )}

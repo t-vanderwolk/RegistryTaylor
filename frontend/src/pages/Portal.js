@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+<<<<<<< HEAD
+=======
+import MarketingLayout from "../layouts/MarketingLayout";
+>>>>>>> heroku/main
 import Section from "../design-system/Section";
 import Card from "../design-system/Card";
 import Button from "../design-system/Button";
@@ -61,10 +65,18 @@ const Portal = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="space-y-20 bg-ivory pb-24 pt-16 sm:space-y-28">
         <Section>
           <motion.div
             className="relative overflow-hidden rounded-[3rem] border border-mauve/40 bg-white/90 px-6 py-16 text-center shadow-[0_28px_70px_-30px_rgba(62,58,71,0.3)] sm:px-12"
+=======
+    <MarketingLayout>
+      <div className="space-y-20 bg-cream pb-24 pt-16 sm:space-y-28">
+        <Section>
+          <motion.div
+            className="relative overflow-hidden rounded-[3rem] border border-primary/40 bg-white/90 px-6 py-16 text-center shadow-[0_28px_70px_-30px_rgba(62,58,71,0.3)] sm:px-12"
+>>>>>>> heroku/main
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
@@ -76,7 +88,11 @@ const Portal = () => {
               className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-10"
             />
             <div className="relative space-y-4">
+<<<<<<< HEAD
               <span className="inline-flex items-center justify-center rounded-full bg-mauve/40 px-5 py-2 text-xs font-heading uppercase tracking-[0.35em] text-charcoal">
+=======
+              <span className="inline-flex items-center justify-center rounded-full bg-primary/40 px-5 py-2 text-xs font-heading uppercase tracking-[0.35em] text-ink">
+>>>>>>> heroku/main
                 Private Member Portal
               </span>
               <H1>Welcome back, concierge member</H1>
@@ -129,6 +145,7 @@ const Portal = () => {
                 <Button
                   type="submit"
                   disabled={status.loading || authLoading}
+<<<<<<< HEAD
                   className="w-full bg-mauve text-white shadow-[0_10px_30px_-18px_rgba(166,138,178,0.65)] hover:brightness-105"
                 >
                   {status.loading || authLoading ? "Signing In…" : "Sign In"}
@@ -136,6 +153,15 @@ const Portal = () => {
                 <P className="text-xs text-charcoal/60">
                   Trouble logging in? Email{' '}
                   <a className="font-semibold text-mauve underline" href="mailto:RegistryWithTaylor@gmail.com">
+=======
+                  className="w-full bg-mauveDeep text-white shadow-[0_10px_30px_-18px_rgba(166,138,178,0.65)] hover:brightness-105"
+                >
+                  {status.loading || authLoading ? "Signing In…" : "Sign In"}
+                </Button>
+                <P className="text-xs text-ink/60">
+                  Trouble logging in? Email{' '}
+                  <a className="font-semibold text-mauveDeep underline" href="mailto:RegistryWithTaylor@gmail.com">
+>>>>>>> heroku/main
                     RegistryWithTaylor@gmail.com
                   </a>{' '}
                   for a refreshed link.
@@ -153,18 +179,30 @@ const Portal = () => {
               <div className="flex flex-wrap gap-3">
                 <Link
                   to="/request-invite"
+<<<<<<< HEAD
                   className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-white shadow-soft transition hover:brightness-105"
+=======
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-mauveDeep px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-white shadow-soft transition hover:brightness-105"
+>>>>>>> heroku/main
                 >
                   Request Invite
                 </Link>
                 <Link
                   to="/membership"
+<<<<<<< HEAD
                   className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-mauve/60 bg-white/90 px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-charcoal shadow-soft transition hover:bg-mauve/10"
+=======
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-mauveDeep/60 bg-white/90 px-6 py-3 text-sm font-heading uppercase tracking-[0.35em] text-ink shadow-soft transition hover:bg-mauveDeep/10"
+>>>>>>> heroku/main
                 >
                   Membership Overview
                 </Link>
               </div>
+<<<<<<< HEAD
               <ul className="space-y-3 text-xs uppercase tracking-[0.35em] text-charcoal/60">
+=======
+              <ul className="space-y-3 text-xs uppercase tracking-[0.35em] text-ink/60">
+>>>>>>> heroku/main
                 <li>Private clientele · lifetime concierge access</li>
                 <li>Design footprint · Tempe · Phoenix · Scottsdale · Cape Cod</li>
                 <li>Celebrations · Registries · Nursery Styling</li>
@@ -172,7 +210,12 @@ const Portal = () => {
             </Card>
           </motion.div>
         </Section>
+<<<<<<< HEAD
     </div>
+=======
+      </div>
+    </MarketingLayout>
+>>>>>>> heroku/main
   );
 };
 

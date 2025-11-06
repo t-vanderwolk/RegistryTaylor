@@ -25,7 +25,11 @@ export const membershipTiers = [
     intro: "For families who want stress-free registry and gear support handled start to finish.",
     items: [
       "Curated baby registries across Amazon, Target, Pottery Barn Kids, Nordstrom, and more",
+<<<<<<< HEAD
       "Curated sourcing recommendations for strollers, car seats, and everyday gear",
+=======
+      "Personal shopping recommendations for strollers, car seats, and everyday gear",
+>>>>>>> heroku/main
       "White-glove returns and exchanges managed discreetly",
       "One virtual or in-home consultation",
       "Access to Taylor’s vetted vendor list — nannies, doulas, night nurses, lactation consultants",
@@ -40,8 +44,13 @@ export const membershipTiers = [
     headline: "Includes everything in Essentials, plus:",
     items: [
       "Full nursery design plan with furniture curation and décor styling",
+<<<<<<< HEAD
       "In-home concierge sourcing and setup of gear",
       "Baby wardrobe essentials curation for hospital, travel, and first weeks",
+=======
+      "In-home personal shopping and setup of gear",
+      "Baby wardrobe essentials shopping for hospital, travel, and first weeks",
+>>>>>>> heroku/main
       "Travel preparation concierge — car seat installs, stroller packing, airport support",
       "Family integration planning for siblings, pets, and in-laws",
     ],
@@ -77,7 +86,11 @@ export const conciergePillars = [
   },
   {
     icon: "🛍️",
+<<<<<<< HEAD
     title: "Concierge Sourcing & Guidance",
+=======
+    title: "Personal Shopping & Concierge",
+>>>>>>> heroku/main
     blurb: "Everything from the first stroller trial to the final layette arrives ready for baby.",
     points: [
       "In-home or virtual consultations scheduled around your calendar",

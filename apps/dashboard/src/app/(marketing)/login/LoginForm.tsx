@@ -2,99 +2,81 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Route } from "next";
-import api from "@/lib/apiClient";
-import { isAxiosError } from "axios";
-import type { UserRole } from "@/lib/auth";
+import { loginUser } from "@/lib/auth";
+import { STORED_TOKEN_KEY, STORED_USER_KEY } from "@/lib/sessionKeys";
 
-const PRIMARY_BUTTON_CLASSES =
-  "inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-7 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 hover:bg-[#c29aab] disabled:cursor-not-allowed disabled:opacity-70";
+const INPUT_CLASSES =
+  "w-full rounded-lg border border-[#D9C48E]/40 bg-white p-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]";
+const BUTTON_CLASSES =
+  "inline-flex w-full items-center justify-center rounded-full bg-[#C8A1B4] px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70";
 
 export default function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submitting) return;
+    if (loading) return;
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email")?.toString().trim() ?? "";
-    const password = formData.get("password")?.toString() ?? "";
+    type LoginFormFields = HTMLFormElement & {
+      email: HTMLInputElement;
+      password: HTMLInputElement;
+    };
+
+    const form = event.currentTarget as LoginFormFields;
+    const email = form.email.value.trim();
+    const password = form.password.value.trim();
 
     if (!email || !password) {
-      setError("Enter your email and password to continue.");
+      setError("Enter your email and password.");
       return;
     }
 
-    setSubmitting(true);
-    setError(null);
-
     try {
-      const { data: payload } = await api.post<{
-        id: string;
-        email: string;
-        role: UserRole;
-        redirectTo?: string;
-      }>("/api/auth/login", { email, password });
-      const roleToRoute: Record<UserRole, Route> = {
-        ADMIN: "/dashboard/admin",
-        MENTOR: "/dashboard/mentor",
-        MEMBER: "/dashboard/member",
-      };
-      const fallbackRole: UserRole = payload?.role ?? "MEMBER";
-      const destination: Route =
-        (payload?.redirectTo as Route | undefined) ?? roleToRoute[fallbackRole];
+      setLoading(true);
+      setError(null);
 
-      router.push(destination);
-      router.refresh();
-    } catch (error) {
-      setSubmitting(false);
-      if (isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          setError("Invalid credentials. Please double-check your email and password.");
-          return;
+      const { user, token } = await loginUser(email, password);
+      const dashboardPath = `/dashboard/${user.role.toLowerCase()}`;
+
+      try {
+        localStorage.setItem(STORED_USER_KEY, JSON.stringify(user));
+        if (token) {
+          localStorage.setItem(STORED_TOKEN_KEY, token);
         }
-        setError(error.response?.data?.message ?? "Unable to login. Please try again.");
-        return;
+      } catch {
+        console.warn("⚠️ Unable to persist session data to localStorage.");
       }
-      setError(error instanceof Error ? error.message : "Unexpected error. Please try again.");
+
+      console.log("✅ LOGIN SUCCESS:", user);
+      console.log("🔀 Redirecting to:", dashboardPath);
+      console.log("⏳ Waiting for SessionInitializer to hydrate and handle redirect…");
+      setTimeout(() => {
+        router.replace(dashboardPath);
+      }, 300);
+    } catch (err) {
+      console.error("❗ LoginForm.tsx:52 handleSubmit error", err);
+      const message = err instanceof Error ? err.message : "Unable to login. Please try again.";
+      setError(message);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <label className="space-y-2 text-sm text-[#3E2F35]/75">
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Email</span>
-        <input
-          required
-          type="email"
-          name="email"
-          autoComplete="email"
-          className="w-full rounded-[1.5rem] border border-[#D9C48E]/30 bg-white px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]"
-        />
-      </label>
-
-      <label className="space-y-2 text-sm text-[#3E2F35]/75">
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">Password</span>
-        <input
-          required
-          type="password"
-          name="password"
-          autoComplete="current-password"
-          className="w-full rounded-[1.5rem] border border-[#D9C48E]/30 bg-white px-4 py-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]"
-        />
-      </label>
-
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input name="email" type="email" placeholder="Email" className={INPUT_CLASSES} autoComplete="email" />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        className={INPUT_CLASSES}
+        autoComplete="current-password"
+      />
       {error ? <p className="text-sm text-[#b05f71]">{error}</p> : null}
-
-      <button
-        type="submit"
-        disabled={submitting}
-        className={PRIMARY_BUTTON_CLASSES}
-      >
-        {submitting ? "Signing in…" : "Login"}
+      <button disabled={loading} type="submit" className={BUTTON_CLASSES}>
+        {loading ? "Signing in…" : "Login"}
       </button>
     </form>
   );

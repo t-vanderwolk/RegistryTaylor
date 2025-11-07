@@ -2,6 +2,7 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { greatVibes, nunito, playfair, playfairSc } from "@/app/fonts";
+import SessionInitializer from "@/components/SessionInitializer";
 
 export const metadata: Metadata = {
   title: {
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-ivory font-sans text-charcoal-500 antialiased">
+        <SessionInitializer />
         {children}
       </body>
     </html>

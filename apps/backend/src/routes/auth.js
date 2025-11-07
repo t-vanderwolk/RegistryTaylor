@@ -61,10 +61,13 @@ router.post(
     const redirectTo = roleDashboardMap[user.role] || '/dashboard/member';
 
     res.cookie('token', token, cookieOptions).json({
-      id: user.id,
-      email: user.email,
-      role: user.role,
+      token,
       redirectTo,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
     });
   }),
 );

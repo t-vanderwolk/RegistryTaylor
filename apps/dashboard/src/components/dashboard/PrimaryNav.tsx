@@ -13,6 +13,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import LogoutButton from "@/components/LogoutButton";
 
 type NavItem = {
   label: string;
@@ -149,12 +150,9 @@ export default function PrimaryNav({
           {showAuthControls ? (
             <div className="flex items-center gap-3">
               {profileMenu}
-              <Link
-                href={"/logout" as Route}
-                className="rounded-full border border-mauve-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal transition hover:bg-blush-200/60 hover:text-mauve-600"
-              >
+              <LogoutButton className="rounded-full border border-mauve-500/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal transition hover:bg-blush-200/60 hover:text-mauve-600">
                 Logout
-              </Link>
+              </LogoutButton>
             </div>
           ) : ctaLink ? (
             <Link

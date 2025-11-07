@@ -1,7 +1,8 @@
-import type { ComponentType, ReactNode } from "react";
-import type { AuthenticatedUser } from "@/lib/auth";
-import { requireUser } from "@/lib/auth";
-import Link from "next/link";
+"use client";
+
+import { useEffect, useMemo, useRef, useState, type ComponentType, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import type { AuthenticatedUser, UserRole } from "@/lib/auth";
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import MentorDashboardNav from "@/components/dashboard/MentorDashboardNav";
 import AdminDashboardNav from "@/components/dashboard/AdminDashboardNav";
@@ -9,6 +10,7 @@ import ProfileMenu from "@/components/dashboard/ProfileMenu";
 import { greatVibes, nunito, playfair } from "@/app/fonts";
 import DashboardPrimaryNav from "@/components/dashboard/PrimaryNav";
 import MemberLayout from "@/components/layouts/MemberLayout";
+import LogoutButton from "@/components/LogoutButton";
 
 type DashboardLayoutProps = {
   children: ReactNode;
@@ -27,6 +29,45 @@ type DashboardShellProps = DashboardShellCopy & {
   children: ReactNode;
   NavComponent: NavComponent;
 };
+
+type RoleConfig = DashboardShellCopy & { NavComponent: NavComponent };
+
+const STORAGE_KEY = "tm_user";
+
+const ROLE_CONFIG: Record<UserRole, RoleConfig> = {
+  MEMBER: {
+    NavComponent: DashboardNav,
+    headerSubtitle: "Member Dashboard",
+    asideTitle: "Navigate",
+    asideDescription: "Explore every part of your bespoke concierge journey with ease.",
+  },
+  MENTOR: {
+    NavComponent: MentorDashboardNav,
+    headerSubtitle: "Mentor Studio",
+    asideTitle: "Guide families",
+    asideDescription: "Monitor mentees, confirm salon events, and celebrate milestones tailored to your cohort.",
+  },
+  ADMIN: {
+    NavComponent: AdminDashboardNav,
+    headerSubtitle: "Admin Control Center",
+    asideTitle: "Operations overview",
+    asideDescription: "Manage invites, mentor availability, and registry health to deliver concierge-level care.",
+  },
+};
+
+function hydrateStoredUser(): AuthenticatedUser | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored ? (JSON.parse(stored) as AuthenticatedUser) : null;
+  } catch {
+    window.localStorage.removeItem(STORAGE_KEY);
+    return null;
+  }
+}
 
 function DashboardShell({
   user,
@@ -65,12 +106,9 @@ function DashboardShell({
           </div>
           <div className="mt-4 flex items-center justify-between md:hidden">
             <ProfileMenu user={user} />
-            <Link
-              href="/logout"
-              className="rounded-full border border-tm-mauve/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-tm-charcoal transition hover:bg-tm-blush/60 hover:text-tm-mauve"
-            >
+            <LogoutButton className="rounded-full border border-tm-mauve/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-tm-charcoal transition hover:bg-tm-blush/60 hover:text-tm-mauve">
               Logout
-            </Link>
+            </LogoutButton>
           </div>
           <div className="mt-4 lg:hidden">
             <NavComponent orientation="horizontal" />
@@ -97,45 +135,62 @@ function DashboardShell({
   );
 }
 
-export default async function DashboardLayout({ children }: DashboardLayoutProps) {
-  const user = await requireUser();
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
+  const router = useRouter();
+  const [user, setUser] = useState<AuthenticatedUser | null>(null);
+  const [checked, setChecked] = useState(false);
+  const hasRedirected = useRef(false);
 
-  if (user.role === "MENTOR") {
-    return (
-      <DashboardShell
-        user={user}
-        NavComponent={MentorDashboardNav}
-        headerSubtitle="Mentor Studio"
-        asideTitle="Guide families"
-        asideDescription="Monitor mentees, confirm salon events, and celebrate milestones tailored to your cohort."
-      >
-        {children}
-      </DashboardShell>
-    );
-  }
+  useEffect(() => {
+    if (checked || hasRedirected.current) {
+      return;
+    }
 
-  if (user.role === "ADMIN") {
+    const stored = hydrateStoredUser();
+    if (stored) {
+      setUser(stored);
+      setChecked(true);
+      return;
+    }
+
+    setChecked(true);
+    hasRedirected.current = true;
+    router.replace("/login");
+  }, [checked, router]);
+
+  useEffect(() => {
+    function handleStorage(event: StorageEvent) {
+      if (event.key !== STORAGE_KEY) return;
+      const next = hydrateStoredUser();
+      if (next) {
+        setUser(next);
+        return;
+      }
+      if (!hasRedirected.current) {
+        hasRedirected.current = true;
+        router.replace("/login");
+      }
+    }
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, [router]);
+
+  const config = useMemo(() => {
+    if (!user) return null;
+    return ROLE_CONFIG[user.role] ?? ROLE_CONFIG.MEMBER;
+  }, [user]);
+
+  if (!checked || !user || !config) {
     return (
-      <DashboardShell
-        user={user}
-        NavComponent={AdminDashboardNav}
-        headerSubtitle="Admin Control Center"
-        asideTitle="Operations overview"
-        asideDescription="Manage invites, mentor availability, and registry health to deliver concierge-level care."
-      >
-        {children}
-      </DashboardShell>
+      <div className="flex min-h-screen items-center justify-center bg-tm-ivory text-tm-charcoal">
+        <p className="text-sm font-semibold tracking-[0.35em] uppercase text-tm-mauve/70">Loading dashboard…</p>
+      </div>
     );
   }
 
   return (
-    <DashboardShell
-      user={user}
-      NavComponent={DashboardNav}
-      headerSubtitle="Member Dashboard"
-      asideTitle="Navigate"
-      asideDescription="Explore every part of your bespoke concierge journey with ease."
-    >
+    <DashboardShell user={user} {...config}>
       {children}
     </DashboardShell>
   );

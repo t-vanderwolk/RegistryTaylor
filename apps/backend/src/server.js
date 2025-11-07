@@ -20,6 +20,15 @@ import cookieParser from './middleware/cookieParser.js';
 
 const app = express();
 
+const cspDirectives = {
+  ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+};
+
+if (config.env !== 'production') {
+  const scriptSrc = cspDirectives['script-src'] ?? ["'self'"];
+  cspDirectives['script-src'] = [...scriptSrc, "'unsafe-eval'"];
+}
+
 const defaultAllowedOrigins = [
   'http://localhost:3000',
   'https://www.taylormadebabyco.com',
@@ -49,7 +58,13 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: cspDirectives,
+    },
+  }),
+);
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

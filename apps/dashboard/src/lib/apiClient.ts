@@ -1,4 +1,5 @@
 import axios, { type Method } from "axios";
+import { STORED_TOKEN_KEY } from "@/lib/sessionKeys";
 
 export type ApiFetchOptions = RequestInit;
 
@@ -10,6 +11,30 @@ const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
+});
+
+function getBrowserStoredToken(): string | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  try {
+    return window.localStorage.getItem(STORED_TOKEN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+api.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const token = getBrowserStoredToken();
+    if (token) {
+      config.headers = config.headers ?? {};
+      if (!config.headers.Authorization) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  }
+  return config;
 });
 
 export default api;

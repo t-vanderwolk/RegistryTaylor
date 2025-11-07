@@ -14,9 +14,11 @@
     "prisma:studio": "prisma studio --schema=./prisma/schema.prisma",
     "migrate": "prisma migrate deploy --schema=./prisma/schema.prisma",
     "generate": "prisma generate --schema=./prisma/schema.prisma",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "postinstall": "npm run prisma:generate"
   },
   "dependencies": {
+    "@prisma/client": "^6.18.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -26,7 +28,6 @@
     "pg": "^8.11.5"
   },
   "devDependencies": {
-    "@prisma/client": "^6.18.0",
     "nodemon": "^3.1.10",
     "prisma": "^6.18.0"
   },

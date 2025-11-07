@@ -1,8 +1,9 @@
 import { randomUUID } from "node:crypto";
-import prisma from "@tmbc/db/prisma";
-import { Prisma, $Enums } from "@prisma/client";
+import axios, { type AxiosRequestConfig } from "axios";
 import { normalizeAffiliateLink } from "@/app/api/registry/affiliate";
 import registrySource from "@/data/registryItems.json";
+import { API_URL } from "@/lib/apiClient";
+import { getSession } from "@/lib/auth";
 import { resolveCategory } from "@/lib/server/registryTaxonomy";
 import type {
   RegistryCategory,
@@ -35,6 +36,93 @@ function getConnectionStore(): RegistryConnectionStore {
 // Helpers
 // ----------------------------------------------------
 const AFFILIATE_QUERY = "_j=taylormadebabyco.com";
+
+type RegistryMentorNoteRecord = {
+  id: string;
+  registryItemId: string;
+  mentorId?: string | null;
+  content?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type RegistryItemRecord = {
+  id: string;
+  userId: string;
+  name: string;
+  brand?: string | null;
+  price?: number | string | null;
+  category?: string | null;
+  imageUrl?: string | null;
+  url?: string | null;
+  retailer?: string | null;
+  notes?: string | null;
+  source?: RegistrySource;
+  affiliateUrl?: string | null;
+  affiliateId?: string | null;
+  externalId?: string | null;
+  importedFrom?: string | null;
+  mentorNotes: RegistryMentorNoteRecord[];
+};
+
+type RegistryCatalogRecord = {
+  id: string;
+  externalId?: string | null;
+  title: string;
+  brand?: string | null;
+  retailer?: string | null;
+  category?: string | null;
+  price?: number | string | null;
+  image?: string | null;
+  url?: string | null;
+  affiliateUrl?: string | null;
+  source: RegistrySource;
+};
+
+type RegistryNoteRecord = {
+  id: string;
+  registryItemId: string;
+  mentorId?: string | null;
+  content?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  registryItem: {
+    userId: string;
+  };
+};
+
+async function registryRequest<T>(
+  config: AxiosRequestConfig,
+  { requireAuth = true }: { requireAuth?: boolean } = {}
+): Promise<T> {
+  const session = await getSession();
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+    ...(config.headers as Record<string, string>),
+  };
+
+  if (config.data !== undefined && !headers["Content-Type"]) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  if (requireAuth) {
+    if (!session?.token) {
+      throw new Error("Not authenticated");
+    }
+    headers.Authorization = `Bearer ${session.token}`;
+  } else if (session?.token && !headers.Authorization) {
+    headers.Authorization = `Bearer ${session.token}`;
+  }
+
+  const response = await axios({
+    baseURL: API_URL,
+    withCredentials: true,
+    ...config,
+    headers,
+  });
+
+  return response.data as T;
+}
 
 function appendAffiliateTag(url?: string | null): string {
   if (!url) return "";
@@ -103,26 +191,24 @@ const registryCatalog: AppRegistryItem[] = (registrySource as RawRegistryItem[])
 // ----------------------------------------------------
 // Mappers
 // ----------------------------------------------------
-type RegistryItemRecord = Prisma.RegistryItemGetPayload<{
-  include: { mentorNotes: { include: { mentor: true } } };
-}>;
-type RegistryNoteRecord = Prisma.RegistryNoteGetPayload<{ include: { registryItem: true } }>;
-
 function toAppRegistryItem(record: RegistryItemRecord): AppRegistryItem {
+  const mentorNotes = Array.isArray(record.mentorNotes) ? record.mentorNotes : [];
   const latestNote =
-    record.mentorNotes.length > 0
-      ? record.mentorNotes.reduce((a, b) => (b.updatedAt > a.updatedAt ? b : a))
+    mentorNotes.length > 0
+      ? mentorNotes.reduce((a, b) =>
+          new Date(b.updatedAt ?? 0).getTime() > new Date(a.updatedAt ?? 0).getTime() ? b : a
+        )
       : null;
 
   return {
     id: record.id,
     name: record.name,
     brand: record.brand ?? record.retailer ?? "Taylor Concierge",
-    price: record.price ? Number(record.price) : null,
+    price: parsePrice(record.price),
     category: resolveCategory(record.category),
     image: record.imageUrl ?? null,
     affiliateUrl: record.affiliateUrl ?? record.url ?? "",
-    registrySource: record.source as RegistrySource,
+    registrySource: (record.source ?? "static") as RegistrySource,
     retailer: record.retailer ?? null,
     description: record.notes ?? null,
     affiliateId: record.affiliateId ?? null,
@@ -134,62 +220,17 @@ function toAppRegistryItem(record: RegistryItemRecord): AppRegistryItem {
 }
 
 function toAppRegistryNote(record: RegistryNoteRecord): AppRegistryNote {
+  const createdAt = new Date(record.createdAt ?? Date.now()).toISOString();
+  const updatedAt = new Date(record.updatedAt ?? record.createdAt ?? Date.now()).toISOString();
+
   return {
     id: record.id,
     userId: record.registryItem.userId,
     productId: record.registryItemId,
     mentorId: record.mentorId ?? undefined,
     note: record.content ?? "",
-    createdAt: record.createdAt.toISOString(),
-    updatedAt: record.updatedAt.toISOString(),
-  };
-}
-
-// ----------------------------------------------------
-// Persistence Normalization
-// ----------------------------------------------------
-function externalKeyFromItem(item: AppRegistryItem): string {
-  return item.externalId ?? item.affiliateId ?? item.id;
-}
-
-function normalizeForPersistence(userId: string, item: AppRegistryItem) {
-  const externalId = externalKeyFromItem(item);
-  const sourceUrl = item.affiliateUrl ?? item.url ?? "";
-  const affiliateUrl = sourceUrl ? normalizeAffiliateLink(sourceUrl, item.registrySource) : "";
-  const persistedUrl = item.url ?? sourceUrl ?? null;
-
-  return {
-    create: {
-      userId,
-      name: item.name,
-      brand: item.brand ?? null,
-      price: item.price ?? null,
-      category: item.category ?? null,
-      imageUrl: item.image ?? null,
-      url: persistedUrl,
-      retailer: item.retailer ?? null,
-      notes: item.description ?? null,
-      source: item.registrySource as $Enums.RegistrySource,
-      externalId,
-      importedFrom: item.importedFrom ?? null,
-      affiliateUrl,
-      affiliateId: item.affiliateId ?? null,
-    },
-    update: {
-      name: item.name,
-      brand: item.brand ?? null,
-      price: item.price ?? null,
-      category: item.category ?? null,
-      imageUrl: item.image ?? null,
-      url: persistedUrl,
-      retailer: item.retailer ?? null,
-      notes: item.description ?? null,
-      source: item.registrySource as $Enums.RegistrySource,
-      importedFrom: item.importedFrom ?? null,
-      affiliateUrl,
-      affiliateId: item.affiliateId ?? null,
-    },
-    externalId,
+    createdAt,
+    updatedAt,
   };
 }
 
@@ -197,12 +238,12 @@ function normalizeForPersistence(userId: string, item: AppRegistryItem) {
 // Core Registry Logic
 // ----------------------------------------------------
 export async function listUserRegistryItems(userId: string): Promise<AppRegistryItem[]> {
-  const records = await prisma.registryItem.findMany({
-    where: { userId },
-    include: { mentorNotes: { include: { mentor: true } } },
-    orderBy: [{ createdAt: "desc" }],
+  const data = await registryRequest<{ items: RegistryItemRecord[] }>({
+    method: "GET",
+    url: "/registry/entry",
+    params: { userId },
   });
-  return records.map(toAppRegistryItem);
+  return data.items.map(toAppRegistryItem);
 }
 
 export async function getRegistryItems(userId: string): Promise<AppRegistryItem[]> {
@@ -210,9 +251,14 @@ export async function getRegistryItems(userId: string): Promise<AppRegistryItem[
 }
 
 export async function getCatalogItems() {
-  return prisma.registryCatalogItem.findMany({
-    orderBy: [{ source: "asc" }, { title: "asc" }],
-  });
+  const data = await registryRequest<{ items: RegistryCatalogRecord[] }>(
+    {
+      method: "GET",
+      url: "/registry/catalog",
+    },
+    { requireAuth: false }
+  );
+  return data.items;
 }
 
 export async function addRegistryItem(input: {
@@ -230,52 +276,61 @@ export async function addRegistryItem(input: {
   externalId?: string | null;
   source?: RegistrySource;
 }): Promise<AppRegistryItem> {
-  const externalId = input.externalId ?? input.url ?? randomUUID();
-  const record = await prisma.registryItem.create({
+  const payload = {
+    name: input.name,
+    brand: input.brand ?? null,
+    price: input.price ?? null,
+    category: input.category ?? null,
+    imageUrl: input.image ?? null,
+    url: input.url ?? null,
+    retailer: input.retailer ?? null,
+    notes: input.description ?? null,
+    source: input.source ?? "static",
+    affiliateUrl: input.affiliateUrl ?? input.url ?? null,
+    affiliateId: input.affiliateId ?? input.externalId ?? null,
+    externalId: input.externalId ?? input.url ?? randomUUID(),
+    importedFrom: input.url ?? null,
+  };
+
+  const { item } = await registryRequest<{ item: RegistryItemRecord }>({
+    method: "POST",
+    url: "/registry/entry",
     data: {
       userId: input.userId,
-      name: input.name,
-      brand: input.brand ?? null,
-      price: input.price ?? null,
-      category: input.category ?? null,
-      imageUrl: input.image ?? null,
-      url: input.url ?? null,
-      retailer: input.retailer ?? null,
-      notes: input.description ?? null,
-      source: (input.source ?? "macro") as $Enums.RegistrySource,
-      affiliateUrl: input.affiliateUrl ?? input.url ?? null,
-      affiliateId: input.affiliateId ?? input.externalId ?? externalId,
-      externalId,
+      item: payload,
     },
-    include: { mentorNotes: { include: { mentor: true } } },
   });
-  return toAppRegistryItem(record);
+
+  return toAppRegistryItem(item);
 }
 
 export async function updateRegistryItem(id: string, data: Partial<AppRegistryItem>): Promise<AppRegistryItem> {
-  const update: Prisma.RegistryItemUpdateInput = {};
-  if (data.name !== undefined) update.name = data.name;
-  if (data.brand !== undefined) update.brand = data.brand ?? null;
-  if (data.price !== undefined) update.price = data.price ?? null;
-  if (data.category !== undefined) update.category = data.category ?? null;
-  if (data.image !== undefined) update.imageUrl = data.image ?? null;
-  if (data.url !== undefined) update.url = data.url ?? null;
-  if (data.retailer !== undefined) update.retailer = data.retailer ?? null;
-  if (data.description !== undefined) update.notes = data.description ?? null;
-  if (data.affiliateUrl !== undefined) update.affiliateUrl = data.affiliateUrl ?? null;
-  if (data.affiliateId !== undefined) update.affiliateId = data.affiliateId ?? null;
-  // if (data.source !== undefined) update.source = data.source as $Enums.RegistrySource;
+  const payload: Record<string, unknown> = {};
+  if (data.name !== undefined) payload.name = data.name;
+  if (data.brand !== undefined) payload.brand = data.brand ?? null;
+  if (data.price !== undefined) payload.price = data.price ?? null;
+  if (data.category !== undefined) payload.category = data.category ?? null;
+  if (data.image !== undefined) payload.image = data.image ?? null;
+  if (data.url !== undefined) payload.url = data.url ?? null;
+  if (data.retailer !== undefined) payload.retailer = data.retailer ?? null;
+  if (data.description !== undefined) payload.description = data.description ?? null;
+  if (data.affiliateUrl !== undefined) payload.affiliateUrl = data.affiliateUrl ?? null;
+  if (data.affiliateId !== undefined) payload.affiliateId = data.affiliateId ?? null;
 
-  const record = await prisma.registryItem.update({
-    where: { id },
-    data: update,
-    include: { mentorNotes: { include: { mentor: true } } },
+  const { item } = await registryRequest<{ item: RegistryItemRecord }>({
+    method: "PUT",
+    url: `/registry/entry/${id}`,
+    data: payload,
   });
-  return toAppRegistryItem(record);
+
+  return toAppRegistryItem(item);
 }
 
 export async function deleteRegistryItem(id: string): Promise<void> {
-  await prisma.registryItem.delete({ where: { id } });
+  await registryRequest({
+    method: "DELETE",
+    url: `/registry/entry/${id}`,
+  });
 }
 
 // ----------------------------------------------------
@@ -353,17 +408,17 @@ export async function upsertBabylistItems(
 }
 
 export async function addItemsToUserRegistry(userId: string, items: AppRegistryItem[]): Promise<AppRegistryItem[]> {
-  if (!items.length) return listUserRegistryItems(userId);
-  const operations = items.map((item) => {
-    const normalized = normalizeForPersistence(userId, item);
-    return prisma.registryItem.upsert({
-      where: { externalId_userId: { externalId: normalized.externalId, userId } },
-      create: normalized.create,
-      update: normalized.update,
-    });
+  if (!items.length) {
+    return listUserRegistryItems(userId);
+  }
+
+  const data = await registryRequest<{ items: RegistryItemRecord[] }>({
+    method: "POST",
+    url: "/registry/entry/bulk",
+    data: { userId, items },
   });
-  await prisma.$transaction(operations);
-  return listUserRegistryItems(userId);
+
+  return data.items.map(toAppRegistryItem);
 }
 
 export async function mergeAffiliateFeeds(userId: string | null, affiliateItems: AppRegistryItem[]): Promise<AppRegistryItem[]> {
@@ -382,40 +437,39 @@ export async function upsertRegistryNote(
   mentorId: string,
   note: string
 ): Promise<AppRegistryNote | null> {
-  const registryItem = await prisma.registryItem.findFirst({ where: { id: productId, userId } });
-  if (!registryItem) return null;
-
-  const trimmed = note.trim();
-  if (!trimmed) {
-    await prisma.registryNote.deleteMany({ where: { registryItemId: productId, mentorId } });
-    return null;
-  }
-
-  const record = await prisma.registryNote.upsert({
-    where: { registryItemId_mentorId: { registryItemId: productId, mentorId } },
-    update: { content: trimmed },
-    create: { registryItemId: productId, mentorId, content: trimmed },
-    include: { registryItem: true },
+  const response = await registryRequest<{ note: RegistryNoteRecord | null }>({
+    method: "POST",
+    url: "/registry/notes",
+    data: {
+      userId,
+      productId,
+      mentorId,
+      note,
+    },
   });
-  return toAppRegistryNote(record);
+  return response.note ? toAppRegistryNote(response.note) : null;
 }
 
 export async function getRegistryNote(userId: string, productId: string, mentorId?: string): Promise<AppRegistryNote | null> {
-  const record = await prisma.registryNote.findFirst({
-    where: { registryItemId: productId, registryItem: { userId }, ...(mentorId ? { mentorId } : {}) },
-    orderBy: { updatedAt: "desc" },
-    include: { registryItem: true },
+  const response = await registryRequest<{ note: RegistryNoteRecord | null }>({
+    method: "GET",
+    url: "/registry/notes",
+    params: {
+      userId,
+      productId,
+      mentorId,
+    },
   });
-  return record ? toAppRegistryNote(record) : null;
+  return response.note ? toAppRegistryNote(response.note) : null;
 }
 
 export async function listRegistryNotesForUser(userId: string): Promise<AppRegistryNote[]> {
-  const records = await prisma.registryNote.findMany({
-    where: { registryItem: { userId } },
-    include: { registryItem: true },
-    orderBy: { updatedAt: "desc" },
+  const response = await registryRequest<{ notes: RegistryNoteRecord[] }>({
+    method: "GET",
+    url: "/registry/notes",
+    params: { userId },
   });
-  return records.map(toAppRegistryNote);
+  return (response.notes ?? []).map(toAppRegistryNote);
 }
 // ----------------------------------------------------
 // Catalog Helpers (restore for API compatibility)
@@ -424,46 +478,44 @@ export async function addCatalogItemToUserRegistry(
   userId: string,
   catalogItemId: string
 ): Promise<AppRegistryItem> {
-  const catalogItem = await prisma.registryCatalogItem.findUnique({
-    where: { id: catalogItemId },
-  });
+  const response = await registryRequest<{ item: RegistryCatalogRecord }>(
+    {
+      method: "GET",
+      url: `/registry/catalog/${catalogItemId}`,
+    },
+    { requireAuth: false }
+  );
 
+  const catalogItem = response.item;
   if (!catalogItem) {
     throw new Error("Catalog item not found");
   }
 
-  const appItem: AppRegistryItem = {
-    id: catalogItem.id,
+  const payload = {
     name: catalogItem.title,
     brand: catalogItem.brand ?? catalogItem.retailer ?? "Taylor Concierge",
-    price: catalogItem.price ? Number(catalogItem.price) : null,
-    category: resolveCategory(catalogItem.category),
-    image: catalogItem.image ?? null,
-    affiliateUrl: catalogItem.affiliateUrl ?? catalogItem.url ?? "",
-    registrySource: catalogItem.source as RegistrySource,
+    price: parsePrice(catalogItem.price),
+    category: catalogItem.category ?? null,
+    imageUrl: catalogItem.image ?? null,
+    url: catalogItem.url ?? null,
     retailer: catalogItem.retailer ?? null,
-    description: null,
-    affiliateId: catalogItem.externalId ?? null,
+    source: catalogItem.source ?? "static",
+    affiliateUrl: catalogItem.affiliateUrl ?? catalogItem.url ?? null,
+    affiliateId: catalogItem.externalId ?? catalogItem.id,
     externalId: catalogItem.externalId ?? catalogItem.id,
     importedFrom: catalogItem.url ?? null,
-    url: catalogItem.url ?? null,
-    mentorNote: null,
   };
 
-  const normalized = normalizeForPersistence(userId, appItem);
-  const record = await prisma.registryItem.upsert({
-    where: {
-      externalId_userId: {
-        externalId: normalized.externalId,
-        userId,
-      },
+  const { item } = await registryRequest<{ item: RegistryItemRecord }>({
+    method: "POST",
+    url: "/registry/entry",
+    data: {
+      userId,
+      item: payload,
     },
-    create: normalized.create,
-    update: normalized.update,
-    include: { mentorNotes: { include: { mentor: true } } },
   });
 
-  return toAppRegistryItem(record);
+  return toAppRegistryItem(item);
 }
 
 export async function addCatalogItemsToUserByFocus(

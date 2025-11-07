@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
-import { apiFetch } from "@/lib/apiClient";
+import api from "@/lib/apiClient";
+import { isAxiosError } from "axios";
 import type { UserRole } from "@/lib/auth";
 
 const PRIMARY_BUTTON_CLASSES =
@@ -31,16 +32,12 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const payload = await apiFetch<{
+      const { data: payload } = await api.post<{
         id: string;
         email: string;
         role: UserRole;
         redirectTo?: string;
-      }>("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+      }>("/api/auth/login", { email, password });
       const roleToRoute: Record<UserRole, Route> = {
         ADMIN: "/dashboard/admin",
         MENTOR: "/dashboard/mentor",
@@ -52,9 +49,17 @@ export default function LoginForm() {
 
       router.push(destination);
       router.refresh();
-    } catch (err) {
+    } catch (error) {
       setSubmitting(false);
-      setError(err instanceof Error ? err.message : "Unexpected error. Please try again.");
+      if (isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setError("Invalid credentials. Please double-check your email and password.");
+          return;
+        }
+        setError(error.response?.data?.message ?? "Unable to login. Please try again.");
+        return;
+      }
+      setError(error instanceof Error ? error.message : "Unexpected error. Please try again.");
     }
   }
 

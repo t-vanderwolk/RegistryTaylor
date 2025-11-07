@@ -20,29 +20,35 @@ import cookieParser from './middleware/cookieParser.js';
 
 const app = express();
 
-const allowedOrigins =
-  config.env === 'development'
-    ? ['http://localhost:3000', 'http://127.0.0.1:3000']
-    : config.clientOrigins.length
-    ? config.clientOrigins
-    : [config.clientUrl];
+const defaultAllowedOrigins = [
+  'http://localhost:3000',
+  'https://www.taylormadebabyco.com',
+  'https://taylormadebabyco.com',
+  'https://taylor-made-7f1024d95529.herokuapp.com',
+];
 
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) {
-        return callback(null, true);
-      }
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error(`Origin ${origin} not allowed by CORS`));
-    },
-    credentials: true,
-  }),
-);
+const envAllowedOrigins = process.env.CLIENT_URLS
+  ? process.env.CLIENT_URLS.split(',').map((url) => url.trim()).filter(Boolean)
+  : [];
+
+const allowedOrigins = Array.from(new Set([...envAllowedOrigins, ...defaultAllowedOrigins]));
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    console.warn(`❌ Blocked by CORS: ${origin}`);
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 app.use(helmet());
 
 app.get('/health', (_req, res) => {

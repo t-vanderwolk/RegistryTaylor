@@ -1,55 +1,79 @@
+import axios, { type Method } from "axios";
+
 export type ApiFetchOptions = RequestInit;
 
-function resolveBaseUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_API_URL ??
-    process.env.API_URL ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    "http://localhost:5050"
-  );
+export const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"
+).replace(/\/$/, "");
+
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
+});
+
+export default api;
+
+function toPlainHeaders(headers?: HeadersInit): Record<string, string> {
+  if (!headers) return {};
+  if (headers instanceof Headers) {
+    return Object.fromEntries(headers.entries());
+  }
+  if (Array.isArray(headers)) {
+    return headers.reduce<Record<string, string>>((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+  }
+  return { ...headers };
 }
 
-function buildUrl(endpoint: string): string {
-  const base = resolveBaseUrl().replace(/\/$/, "");
-  if (!endpoint.startsWith("/")) {
-    return `${base}/${endpoint}`;
+function parseBody(body?: BodyInit | null): unknown {
+  if (!body) return undefined;
+  if (typeof body === "string") {
+    try {
+      return JSON.parse(body);
+    } catch {
+      return body;
+    }
   }
-  return `${base}${endpoint}`;
+  return body;
 }
 
 export async function apiFetch<T = unknown>(
   endpoint: string,
   options: ApiFetchOptions = {}
 ): Promise<T> {
-  const headers = new Headers(options.headers ?? {});
-  if (!headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
+  const headers = toPlainHeaders(options.headers);
+  if (!headers["Content-Type"]) {
+    headers["Content-Type"] = "application/json";
   }
 
-  const response = await fetch(buildUrl(endpoint), {
-    ...options,
-    headers,
-    credentials: options.credentials ?? "include",
-  });
-
-  const contentType = response.headers.get("content-type") ?? "";
-
-  if (!response.ok) {
-    let message = `API error: ${endpoint}`;
-    if (contentType.includes("application/json")) {
-      try {
-        const errorBody = await response.json();
-        message = errorBody?.error?.message ?? errorBody?.message ?? message;
-      } catch {
-        // Ignore JSON parse errors and fall back to default message.
-      }
+  try {
+    const response = await api.request<T>({
+      url: endpoint,
+      method: (options.method ?? "GET") as Method,
+      data: parseBody(options.body),
+      headers,
+      withCredentials:
+        options.credentials !== undefined
+          ? options.credentials === "include"
+          : true,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        (error.response?.data as { message?: string; error?: { message?: string } })
+          ?.message ||
+        (error.response?.data as { message?: string; error?: { message?: string } })
+          ?.error?.message ||
+        error.message ||
+        "API request failed.";
+      throw new Error(message);
     }
-    throw new Error(message);
+    throw error instanceof Error
+      ? error
+      : new Error("API request failed. Please try again.");
   }
-
-  if (contentType.includes("application/json")) {
-    return (await response.json()) as T;
-  }
-
-  return null as T;
 }

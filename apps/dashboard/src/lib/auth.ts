@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import api from "@/lib/apiClient";
+import { isAxiosError } from "axios";
 
 export type UserRole = "MEMBER" | "MENTOR" | "ADMIN";
 
@@ -16,42 +18,35 @@ type SessionContext = {
   user: AuthenticatedUser;
 };
 
-function resolveApiBaseUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_API_URL ??
-    process.env.API_URL ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    "http://localhost:5050"
-  );
-}
-
 async function fetchAuthenticatedUser(token: string): Promise<AuthenticatedUser | null> {
   if (!token) return null;
 
-  const response = await fetch(`${resolveApiBaseUrl()}/api/auth/me`, {
-    headers: {
-      Cookie: `token=${token}`,
-      Accept: "application/json",
-    },
-    cache: "no-store",
-  });
+  try {
+    const { data } = await api.get<{ id: string; email: string; role: UserRole }>(
+      "/api/auth/me",
+      {
+        headers: {
+          Cookie: `token=${token}`,
+          Accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
 
-  if (response.status === 401) {
-    return null;
+    return {
+      id: data.id,
+      email: data.email,
+      role: data.role,
+      name: null,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status === 401) {
+      return null;
+    }
+    throw new Error(
+      `Failed to verify authentication (${isAxiosError(error) ? error.message : "unknown error"})`
+    );
   }
-
-  if (!response.ok) {
-    throw new Error(`Failed to verify authentication (${response.status})`);
-  }
-
-  const data = (await response.json()) as { id: string; email: string; role: UserRole };
-
-  return {
-    id: data.id,
-    email: data.email,
-    role: data.role,
-    name: null,
-  };
 }
 
 export async function getSession(): Promise<SessionContext | null> {

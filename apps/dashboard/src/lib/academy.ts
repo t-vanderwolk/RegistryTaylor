@@ -1,7 +1,6 @@
-import prisma from "@tmbc/db/prisma";
-import { Prisma } from "@prisma/client";
+import axios from "axios";
 import { addModuleFocusToRegistry } from "@/lib/registry";
-import { apiFetch } from "@/lib/apiClient";
+import { API_URL, apiFetch } from "@/lib/apiClient";
 import { getMemberToken, getSession } from "@/lib/auth";
 import type {
   AcademyModule,
@@ -43,13 +42,13 @@ type ModuleRecord = {
   lecture: string;
   workbookPrompt: string;
   order: number;
-  content: Prisma.JsonValue | null;
+  content: unknown;
   progress?: Array<{
     percent: number | null;
     completed: boolean;
     quizScore: number | null;
     reflection: string | null;
-    updatedAt?: Date | null;
+    updatedAt?: Date | string | null;
   }>;
 };
 
@@ -85,6 +84,22 @@ const BRAND_BACKGROUND = "#FAF9F7";
 const BRAND_TEXT = "#3E2F35";
 const BRAND_BORDER = "#E8E3E1";
 const BRAND_ACCENT = "#D6C1C7";
+
+async function fetchAcademyApi<T>(endpoint: string): Promise<T> {
+  const session = await getSession();
+  if (!session?.token) {
+    throw new Error("Not authenticated");
+  }
+
+  const response = await axios.get<T>(`${API_URL}/academy${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${session.token}`,
+    },
+    withCredentials: true,
+  });
+
+  return response.data;
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -566,101 +581,64 @@ function mapRecordToBackend(record: ModuleRecord): BackendModule {
   };
 }
 
-function buildProgressSelection(userId: string | null): Prisma.AcademyProgressFindManyArgs {
-  return {
-    orderBy: { updatedAt: "desc" },
-    select: {
-      percent: true,
-      completed: true,
-      quizScore: true,
-      reflection: true,
-      updatedAt: true,
-    },
-    ...(userId ? { where: { userId }, take: 1 } : { take: 0 }),
-  };
+async function fetchModuleRecords(): Promise<BackendModule[]> {
+  const data = await fetchAcademyApi<{ modules: ModuleRecord[] }>("/modules");
+  return data.modules.map((record) => mapRecordToBackend(record));
 }
 
-async function resolveUserId(options: GetModulesOptions = {}): Promise<string | null> {
-  if (options.includeProgress === false) {
-    return null;
+async function fetchModuleRecordBySlug(slug: string): Promise<BackendModule | undefined> {
+  try {
+    const data = await fetchAcademyApi<{ module: ModuleRecord }>(`/modules/${slug}`);
+    return mapRecordToBackend(data.module);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return undefined;
+    }
+    throw error;
   }
-  if (options.userId !== undefined) {
-    return options.userId ?? null;
-  }
-  const session = await getSession();
-  return session?.user?.id ?? null;
-}
-
-async function fetchModuleRecords(userId: string | null): Promise<BackendModule[]> {
-  const progressSelection = buildProgressSelection(userId);
-  const records = await prisma.academyModule.findMany({
-    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      category: true,
-      summary: true,
-      lecture: true,
-      workbookPrompt: true,
-      order: true,
-      content: true,
-      progress: progressSelection,
-    },
-  });
-
-  return records.map((record) => mapRecordToBackend(record as ModuleRecord));
-}
-
-async function fetchModuleRecordBySlug(
-  slug: string,
-  userId: string | null
-): Promise<BackendModule | undefined> {
-  const progressSelection = buildProgressSelection(userId);
-  const record = await prisma.academyModule.findFirst({
-    where: { slug },
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      category: true,
-      summary: true,
-      lecture: true,
-      workbookPrompt: true,
-      order: true,
-      content: true,
-      progress: progressSelection,
-    },
-  });
-
-  if (!record) {
-    return undefined;
-  }
-
-  return mapRecordToBackend(record as ModuleRecord);
 }
 
 export async function getDetailedModules(options: GetModulesOptions = {}): Promise<AcademyModule[]> {
-  const userId = await resolveUserId(options);
-  const records = await fetchModuleRecords(userId);
-  return records.map(normalizeModule);
+  const records = await fetchModuleRecords();
+  const modules = records.map(normalizeModule);
+
+  if (options.includeProgress === false) {
+    return modules.map((module) => ({ ...module, progress: undefined }));
+  }
+
+  return modules;
 }
 
 export async function getDetailedModuleBySlug(
   slug: string,
   options: GetModulesOptions = {}
 ): Promise<AcademyModule | undefined> {
-  const userId = await resolveUserId(options);
-  const record = await fetchModuleRecordBySlug(slug, userId);
-  return record ? normalizeModule(record) : undefined;
+  const record = await fetchModuleRecordBySlug(slug);
+  if (!record) {
+    return undefined;
+  }
+  const normalized = normalizeModule(record);
+  if (options.includeProgress === false) {
+    return { ...normalized, progress: undefined };
+  }
+  return normalized;
 }
 
 export async function getModules() {
-  return prisma.academyModule.findMany({ orderBy: { order: "asc" } });
+  const data = await fetchAcademyApi<{ modules: ModuleRecord[] }>("/modules");
+  return data.modules;
 }
 
 export async function getModuleBySlug(slug: string) {
-  return prisma.academyModule.findUnique({ where: { slug } });
+  try {
+    const data = await fetchAcademyApi<{ module: ModuleRecord }>(`/modules/${slug}`);
+    return data.module;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return undefined;
+    }
+    throw error;
+  }
 }
 
 export async function getAcademyModules(): Promise<AcademyModule[]> {

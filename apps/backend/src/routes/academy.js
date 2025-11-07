@@ -19,30 +19,57 @@ const resolveModuleWhere = (moduleId, moduleSlug) => {
   return null;
 };
 
+const moduleSelection = (userId) => ({
+  id: true,
+  slug: true,
+  title: true,
+  summary: true,
+  category: true,
+  lecture: true,
+  workbookPrompt: true,
+  order: true,
+  content: true,
+  progress: {
+    where: userId ? { userId } : undefined,
+    orderBy: { updatedAt: 'desc' },
+    select: {
+      percent: true,
+      completed: true,
+      quizScore: true,
+      reflection: true,
+      updatedAt: true,
+    },
+    take: userId ? 1 : 0,
+  },
+});
+
 router.get(
   '/modules',
   requireAuth,
   asyncHandler(async (req, res) => {
     const modules = await prisma.academyModule.findMany({
-      orderBy: { createdAt: 'asc' },
-      include: {
-        progress: {
-          where: { userId: req.user.id },
-          select: { percent: true },
-        },
-      },
+      orderBy: [{ order: 'asc' }, { createdAt: 'asc' }],
+      select: moduleSelection(req.user.id),
     });
 
-    const formatted = modules.map((module) => ({
-      id: module.id,
-      title: module.title,
-      slug: module.slug,
-      summary: module.summary,
-      content: module.content,
-      progress: module.progress[0]?.percent ?? 0,
-    }));
+    res.json({ modules });
+  }),
+);
 
-    res.json({ modules: formatted });
+router.get(
+  '/modules/:slug',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const module = await prisma.academyModule.findFirst({
+      where: { slug: req.params.slug },
+      select: moduleSelection(req.user.id),
+    });
+
+    if (!module) {
+      return res.status(404).json({ message: 'Module not found.' });
+    }
+
+    res.json({ module });
   }),
 );
 

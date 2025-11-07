@@ -4,6 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
+import { API_URL } from "@/lib/apiClient";
+import { STORED_TOKEN_KEY } from "@/lib/sessionKeys";
+import { clearStoredToken } from "@/lib/auth";
 
 const BASE_LINKS: ReadonlyArray<{ label: string; href: Route }> = [
   { label: "Home", href: "/" as Route },
@@ -43,40 +46,36 @@ export default function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const sessionEndpoint = `${API_URL}/api/auth/session`;
 
   useEffect(() => {
     let isMounted = true;
 
-    const clearClientToken = () => {
-      if (typeof window === "undefined") return;
-      try {
-        window.localStorage.removeItem("tmbc.token");
-      } catch {
-        // Ignore local storage access errors (e.g., private mode).
-      }
-    };
-
     const evaluateSession = async () => {
       try {
-        const response = await fetch("/api/session", { credentials: "include" });
-        if (!response.ok) {
+        if (typeof window === "undefined") return;
+        const token = window.localStorage.getItem(STORED_TOKEN_KEY);
+        if (!token) {
           if (isMounted) setIsAuthenticated(false);
-          clearClientToken();
           return;
         }
 
-        const data = (await response.json()) as { authenticated?: boolean };
+        const response = await fetch(sessionEndpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+          cache: "no-store",
+        });
+
         if (isMounted) {
-          setIsAuthenticated(Boolean(data?.authenticated));
-          if (!data?.authenticated) {
-            clearClientToken();
+          setIsAuthenticated(response.ok);
+          if (response.status === 401 || response.status === 404) {
+            clearStoredToken();
           }
         }
       } catch {
-        if (isMounted) {
-          setIsAuthenticated(false);
-        }
-        clearClientToken();
+        if (isMounted) setIsAuthenticated(false);
       }
     };
 
@@ -94,7 +93,7 @@ export default function Navbar() {
       window.removeEventListener("focus", evaluateSession);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [sessionEndpoint]);
 
   useEffect(() => {
     setMenuOpen(false);

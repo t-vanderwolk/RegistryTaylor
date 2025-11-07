@@ -19,6 +19,47 @@ const roleDashboardMap = {
 const buildToken = (user) =>
   jwt.sign({ id: user.id, role: user.role }, config.jwtSecret, { expiresIn: '7d' });
 
+const validRoles = new Set(['ADMIN', 'MENTOR', 'MEMBER']);
+
+const authSelect = {
+  id: true,
+  email: true,
+  role: true,
+};
+
+const baseCookieOptions = {
+  httpOnly: true,
+  sameSite: 'lax',
+  secure: config.env === 'production',
+  path: '/',
+};
+
+const tokenCookieOptions = {
+  ...baseCookieOptions,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
+const normalizeEmail = (email = '') => String(email).trim().toLowerCase();
+
+const resolveRole = (role) => {
+  if (!role) return 'MEMBER';
+  const normalized = String(role).trim().toUpperCase();
+  return validRoles.has(normalized) ? normalized : 'MEMBER';
+};
+
+const respondWithUser = async (userId, res) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: authSelect,
+  });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  return res.json(user);
+};
+
 router.post(
   '/login',
   asyncHandler(async (req, res) => {
@@ -28,13 +69,11 @@ router.post(
       return res.status(400).json({ message: 'Email and password are required.' });
     }
 
-    const normalizedEmail = String(email).trim().toLowerCase();
+    const normalizedEmail = normalizeEmail(email);
     const user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
       select: {
-        id: true,
-        email: true,
-        role: true,
+        ...authSelect,
         passwordHash: true,
       },
     });
@@ -50,17 +89,13 @@ router.post(
     }
 
     const token = buildToken(user);
-
-    const cookieOptions = {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: config.env === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    };
+    if (!token) {
+      return res.status(500).json({ message: 'Unable to generate session token.' });
+    }
 
     const redirectTo = roleDashboardMap[user.role] || '/dashboard/member';
 
-    res.cookie('token', token, cookieOptions).json({
+    res.cookie('token', token, tokenCookieOptions).json({
       token,
       redirectTo,
       user: {
@@ -72,28 +107,73 @@ router.post(
   }),
 );
 
+router.post(
+  '/register',
+  asyncHandler(async (req, res) => {
+    const { email, password, role } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required.' });
+    }
+
+    const normalizedEmail = normalizeEmail(email);
+    const existingUser = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      select: { id: true },
+    });
+
+    if (existingUser) {
+      return res.status(409).json({ message: 'Email already registered.' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const assignedRole = resolveRole(role);
+
+    const createdUser = await prisma.user.create({
+      data: {
+        email: normalizedEmail,
+        passwordHash,
+        role: assignedRole,
+      },
+      select: authSelect,
+    });
+
+    const token = buildToken(createdUser);
+    const redirectTo = roleDashboardMap[createdUser.role] || '/dashboard/member';
+
+    res
+      .status(201)
+      .cookie('token', token, tokenCookieOptions)
+      .json({
+        token,
+        redirectTo,
+        user: createdUser,
+      });
+  }),
+);
+
 router.get(
   '/me',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true,
-        email: true,
-        role: true,
-      },
-    });
+    await respondWithUser(req.user.id, res);
+  }),
+);
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+router.get(
+  '/session',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    await respondWithUser(req.user.id, res);
+  }),
+);
 
-    res.json({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    });
+router.delete(
+  '/session',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    res.clearCookie('token', baseCookieOptions);
+    res.status(204).json({ message: 'Session cleared' });
   }),
 );
 

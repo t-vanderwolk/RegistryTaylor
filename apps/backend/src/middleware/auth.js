@@ -22,7 +22,16 @@ export function requireAuth(req, res, next) {
   }
 
   try {
-    req.user = jwt.verify(token, config.jwtSecret);
+    const payload = jwt.verify(token, config.jwtSecret);
+
+    if (!payload?.id || !payload?.role) {
+      return res.status(401).json({ error: 'Invalid token payload' });
+    }
+
+    req.user = {
+      id: payload.id,
+      role: payload.role,
+    };
     next();
   } catch (error) {
     return res.status(401).json({ error: 'Invalid token' });
@@ -38,4 +47,5 @@ export function requireRole(...roles) {
   };
 }
 
+export const authenticateToken = requireAuth;
 export default requireAuth;

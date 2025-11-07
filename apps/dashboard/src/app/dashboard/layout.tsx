@@ -1,8 +1,6 @@
-"use client";
-
-import { useEffect, useMemo, useRef, useState, type ComponentType, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
-import type { AuthenticatedUser, UserRole } from "@/lib/auth";
+import type { ComponentType, ReactNode } from "react";
+import { fetchAuthenticatedUser, type AuthenticatedUser, type UserRole } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import MentorDashboardNav from "@/components/dashboard/MentorDashboardNav";
 import AdminDashboardNav from "@/components/dashboard/AdminDashboardNav";
@@ -32,8 +30,6 @@ type DashboardShellProps = DashboardShellCopy & {
 
 type RoleConfig = DashboardShellCopy & { NavComponent: NavComponent };
 
-const STORAGE_KEY = "tm_user";
-
 const ROLE_CONFIG: Record<UserRole, RoleConfig> = {
   MEMBER: {
     NavComponent: DashboardNav,
@@ -45,29 +41,17 @@ const ROLE_CONFIG: Record<UserRole, RoleConfig> = {
     NavComponent: MentorDashboardNav,
     headerSubtitle: "Mentor Studio",
     asideTitle: "Guide families",
-    asideDescription: "Monitor mentees, confirm salon events, and celebrate milestones tailored to your cohort.",
+    asideDescription:
+      "Monitor mentees, confirm salon events, and celebrate milestones tailored to your cohort.",
   },
   ADMIN: {
     NavComponent: AdminDashboardNav,
     headerSubtitle: "Admin Control Center",
     asideTitle: "Operations overview",
-    asideDescription: "Manage invites, mentor availability, and registry health to deliver concierge-level care.",
+    asideDescription:
+      "Manage invites, mentor availability, and registry health to deliver concierge-level care.",
   },
 };
-
-function hydrateStoredUser(): AuthenticatedUser | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as AuthenticatedUser) : null;
-  } catch {
-    window.localStorage.removeItem(STORAGE_KEY);
-    return null;
-  }
-}
 
 function DashboardShell({
   user,
@@ -81,8 +65,8 @@ function DashboardShell({
     user.role === "ADMIN"
       ? ("/dashboard/admin" as const)
       : user.role === "MENTOR"
-      ? ("/dashboard/mentor" as const)
-      : ("/dashboard/member" as const);
+        ? ("/dashboard/mentor" as const)
+        : ("/dashboard/member" as const);
 
   return (
     <div
@@ -135,59 +119,12 @@ function DashboardShell({
   );
 }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const router = useRouter();
-  const [user, setUser] = useState<AuthenticatedUser | null>(null);
-  const [checked, setChecked] = useState(false);
-  const hasRedirected = useRef(false);
-
-  useEffect(() => {
-    if (checked || hasRedirected.current) {
-      return;
-    }
-
-    const stored = hydrateStoredUser();
-    if (stored) {
-      setUser(stored);
-      setChecked(true);
-      return;
-    }
-
-    setChecked(true);
-    hasRedirected.current = true;
-    router.replace("/login");
-  }, [checked, router]);
-
-  useEffect(() => {
-    function handleStorage(event: StorageEvent) {
-      if (event.key !== STORAGE_KEY) return;
-      const next = hydrateStoredUser();
-      if (next) {
-        setUser(next);
-        return;
-      }
-      if (!hasRedirected.current) {
-        hasRedirected.current = true;
-        router.replace("/login");
-      }
-    }
-
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, [router]);
-
-  const config = useMemo(() => {
-    if (!user) return null;
-    return ROLE_CONFIG[user.role] ?? ROLE_CONFIG.MEMBER;
-  }, [user]);
-
-  if (!checked || !user || !config) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-tm-ivory text-tm-charcoal">
-        <p className="text-sm font-semibold tracking-[0.35em] uppercase text-tm-mauve/70">Loading dashboard…</p>
-      </div>
-    );
+export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+  const user = await fetchAuthenticatedUser();
+  if (!user) {
+    redirect("/login");
   }
+  const config = ROLE_CONFIG[user.role] ?? ROLE_CONFIG.MEMBER;
 
   return (
     <DashboardShell user={user} {...config}>

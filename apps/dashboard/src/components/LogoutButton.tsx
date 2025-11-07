@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { clearStoredToken, clearStoredUser } from "@/lib/auth";
+import api from "@/lib/apiClient";
 
 type LogoutButtonProps = {
   className?: string;
@@ -12,21 +13,28 @@ type LogoutButtonProps = {
 export default function LogoutButton({ className = "", children = "Logout" }: LogoutButtonProps) {
   const router = useRouter();
 
-  const logout = () => {
+  const logout = async () => {
     try {
+      await Promise.allSettled([
+        api.delete("/api/auth/session"),
+        fetch("/api/session", { method: "DELETE", credentials: "include" }),
+      ]);
+    } finally {
       clearStoredUser();
       clearStoredToken();
-      fetch("/logout", { method: "POST" }).catch(() => {
-        // ignore failures; cookie will expire eventually
-      });
-    } finally {
       console.log("🚪 Logged out");
       router.replace("/login");
     }
   };
 
   return (
-    <button type="button" onClick={logout} className={className}>
+    <button
+      type="button"
+      onClick={() => {
+        void logout();
+      }}
+      className={className}
+    >
       {children}
     </button>
   );

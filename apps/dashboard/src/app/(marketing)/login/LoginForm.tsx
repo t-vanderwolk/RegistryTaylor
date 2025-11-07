@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/lib/auth";
-import { STORED_TOKEN_KEY, STORED_USER_KEY } from "@/lib/sessionKeys";
+import { STORED_SESSION_USER_KEY, STORED_TOKEN_KEY } from "@/lib/sessionKeys";
 
 const INPUT_CLASSES =
   "w-full rounded-lg border border-[#D9C48E]/40 bg-white p-3 text-sm text-[#3E2F35] outline-none focus:border-[#C8A1B4] focus:shadow-[0_0_0_3px_rgba(200,161,180,0.25)]";
@@ -41,12 +41,23 @@ export default function LoginForm() {
       const dashboardPath = `/dashboard/${user.role.toLowerCase()}`;
 
       try {
-        localStorage.setItem(STORED_USER_KEY, JSON.stringify(user));
+        console.log("🔐 TOKEN CHECK:", token);
         if (token) {
           localStorage.setItem(STORED_TOKEN_KEY, token);
+          sessionStorage.setItem(STORED_SESSION_USER_KEY, JSON.stringify(user));
+          await fetch("/api/session", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ token }),
+          });
+        } else {
+          console.warn("⚠️ Missing token from login response. Skipping session sync.");
         }
-      } catch {
-        console.warn("⚠️ Unable to persist session data to localStorage.");
+      } catch (syncError) {
+        console.warn("⚠️ Unable to persist session state to storage.", syncError);
       }
 
       console.log("✅ LOGIN SUCCESS:", user);

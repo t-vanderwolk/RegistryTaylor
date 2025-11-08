@@ -35,7 +35,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    typedRoutes: true,
+    typedRoutes: false,
     serverComponentsExternalPackages: ['@prisma/client'],
   },
   async redirects() {

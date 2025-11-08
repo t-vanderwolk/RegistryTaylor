@@ -6,6 +6,7 @@ export type WorkbookSectionState = {
 };
 
 export type WorkbookContent = {
+  text?: string | null;
   sections: Record<string, WorkbookSectionState>;
   lastSavedAt?: string;
 };

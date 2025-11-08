@@ -48,7 +48,7 @@ export default function SupportHub({ user }: SupportHubProps) {
           Support Hub
         </p>
         <h1 className="mt-3 font-[var(--font-playfair)] text-3xl text-[#3E2F35]">
-          Hi {user.name ?? user.email}, here's what's on deck
+          Hi {user.name ?? user.email}, here&rsquo;s what&rsquo;s on deck
         </h1>
         <p className="mt-4 max-w-3xl text-sm text-[#3E2F35]/70">
           Track concierge announcements, mentor polls, and open requests that need a response.

@@ -1,30 +1,31 @@
+import type { Route } from "next";
 import type { UserRole } from "@/lib/auth";
 
 export type NavItem = {
-  href: string;
+  href: Route;
   label: string;
 };
 
 const memberNav: NavItem[] = [
-  { href: "/dashboard/member", label: "Home" },
-  { href: "/dashboard/learn", label: "Academy" },
-  { href: "/dashboard/community", label: "Community" },
-  { href: "/dashboard/journal", label: "Journal" },
-  { href: "/dashboard/support", label: "Support Hub" },
+  { href: "/dashboard/member" as const, label: "Home" },
+  { href: "/dashboard/learn" as const, label: "Academy" },
+  { href: "/dashboard/community" as const, label: "Community" },
+  { href: "/dashboard/journal" as const, label: "Journal" },
+  { href: "/dashboard/support" as const, label: "Support Hub" },
 ];
 
 const mentorNav: NavItem[] = [
-  { href: "/dashboard/mentor", label: "Studio" },
-  { href: "/dashboard/community", label: "Community" },
-  { href: "/dashboard/support", label: "Support" },
-  { href: "/dashboard/learn", label: "Academy" },
+  { href: "/dashboard/mentor" as const, label: "Studio" },
+  { href: "/dashboard/community" as const, label: "Community" },
+  { href: "/dashboard/support" as const, label: "Support" },
+  { href: "/dashboard/learn" as const, label: "Academy" },
 ];
 
 const adminNav: NavItem[] = [
-  { href: "/dashboard/admin", label: "Command" },
-  { href: "/dashboard/community", label: "Community" },
-  { href: "/dashboard/support", label: "Support" },
-  { href: "/dashboard/learn", label: "Academy" },
+  { href: "/dashboard/admin" as const, label: "Command" },
+  { href: "/dashboard/community" as const, label: "Community" },
+  { href: "/dashboard/support" as const, label: "Support" },
+  { href: "/dashboard/learn" as const, label: "Academy" },
 ];
 
 export const DASHBOARD_NAV_MAP: Record<UserRole, NavItem[]> = {

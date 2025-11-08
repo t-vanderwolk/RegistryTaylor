@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import api from "@/lib/apiClient";
+import api, { API_URL } from "@/lib/apiClient";
 import { isAxiosError } from "axios";
 import {
   LEGACY_STORED_USER_KEY,
@@ -36,11 +36,7 @@ type PersistStoredUserOptions = {
   persistSession?: boolean;
 };
 
-const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_URL ||
-  process.env.API_URL ||
-  "http://localhost:5050"
-).replace(/\/$/, "");
+const API_BASE_URL = API_URL;
 
 const SESSION_ENDPOINT = `${API_BASE_URL}/api/auth/session`;
 
@@ -361,11 +357,13 @@ export async function getMemberToken(): Promise<string | null> {
 function redirectForRole(role: UserRole): never {
   switch (role) {
     case "MENTOR":
-      redirect("/dashboard/mentor");
+      return redirect("/dashboard/mentor");
     case "ADMIN":
-      redirect("/dashboard/admin");
+      return redirect("/dashboard/admin");
+    case "MEMBER":
+      return redirect("/dashboard/member");
     default:
-      redirect("/dashboard/member");
+      return redirect("/dashboard");
   }
 }
 
@@ -419,9 +417,11 @@ export type LoginResult = {
   redirectTo?: string | null;
 };
 
+const AUTH_LOGIN_PATH = "/api/auth/login";
+
 export async function loginUser(email: string, password: string): Promise<LoginResult> {
   try {
-    const { data } = await api.post<LoginPayload>("/api/auth/login", { email, password });
+    const { data } = await api.post<LoginPayload>(AUTH_LOGIN_PATH, { email, password });
 
     let payload: FlattenedLoginPayload;
     let redirectTo: string | null | undefined;
@@ -461,3 +461,8 @@ export async function loginUser(email: string, password: string): Promise<LoginR
     throw new Error("Unable to login. Please try again.");
   }
 }
+
+export const login = async (credentials: { email: string; password: string }) => {
+  const response = await api.post(AUTH_LOGIN_PATH, credentials);
+  return response.data;
+};

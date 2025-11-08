@@ -19,11 +19,9 @@ import {
   setSessionUserCache,
   type AuthenticatedUser,
 } from "@/lib/auth";
+import { API_URL } from "@/lib/apiClient";
 
-const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"
-).replace(/\/$/, "");
-const SESSION_ENDPOINT = `${API_BASE_URL}/api/auth/session`;
+const SESSION_ENDPOINT = `${API_URL}/api/auth/session`;
 const MIN_CACHE_CHECK_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 const SESSION_CACHE_CHECK_INTERVAL_MS = Math.min(
   Math.max(MIN_CACHE_CHECK_INTERVAL_MS, SESSION_CACHE_MAX_AGE_MS / 4),

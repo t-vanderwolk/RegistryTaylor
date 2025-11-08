@@ -3,14 +3,46 @@ import { STORED_TOKEN_KEY } from "@/lib/sessionKeys";
 
 export type ApiFetchOptions = RequestInit;
 
-export const API_URL = (
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"
-).replace(/\/$/, "");
+function normalizeApiBase(rawUrl: string): string {
+  const trimmed = rawUrl.trim().replace(/\/+$/, "");
+  if (!trimmed) {
+    return "http://localhost:5050";
+  }
 
-const api = axios.create({
+  const suffixes = ["/api", "/api/v1"];
+  const lowered = trimmed.toLowerCase();
+  for (const suffix of suffixes) {
+    if (lowered.endsWith(suffix)) {
+      return trimmed.slice(0, -suffix.length) || trimmed;
+    }
+  }
+
+  return trimmed;
+}
+
+export const API_URL = normalizeApiBase(
+  process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || "http://localhost:5050",
+);
+
+export function buildApiPath(endpoint: string): string {
+  if (!endpoint) {
+    return "/api";
+  }
+  if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+    return endpoint;
+  }
+
+  const prefixed = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  if (prefixed === "/api" || prefixed.startsWith("/api/")) {
+    return prefixed;
+  }
+  return `/api${prefixed}`;
+}
+
+const apiClient = axios.create({
   baseURL: API_URL,
-  withCredentials: true,
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 function getBrowserStoredToken(): string | null {
@@ -24,7 +56,7 @@ function getBrowserStoredToken(): string | null {
   }
 }
 
-api.interceptors.request.use((config) => {
+apiClient.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = getBrowserStoredToken();
     if (token) {
@@ -37,7 +69,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export default api;
+export default apiClient;
 
 function toPlainHeaders(headers?: HeadersInit): Record<string, string> {
   if (!headers) return {};
@@ -73,10 +105,11 @@ export async function apiFetch<T = unknown>(
   if (!headers["Content-Type"]) {
     headers["Content-Type"] = "application/json";
   }
+  const url = buildApiPath(endpoint);
 
   try {
-    const response = await api.request<T>({
-      url: endpoint,
+    const response = await apiClient.request<T>({
+      url,
       method: (options.method ?? "GET") as Method,
       data: parseBody(options.body),
       headers,

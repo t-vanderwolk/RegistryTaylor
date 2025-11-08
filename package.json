@@ -2,6 +2,10 @@
   "name": "registry-taylor",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",

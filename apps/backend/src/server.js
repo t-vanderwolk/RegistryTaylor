@@ -29,33 +29,25 @@ if (config.env !== 'production') {
   cspDirectives['script-src'] = [...scriptSrc, "'unsafe-eval'"];
 }
 
-const defaultAllowedOrigins = [
+const allowedOrigins = [
   'http://localhost:3000',
-  'https://www.taylormadebabyco.com',
-  'https://taylormadebabyco.com',
-  'https://taylor-made-7f1024d95529.herokuapp.com',
+  'https://taylor-made-api-5289731b5afb.herokuapp.com',
 ];
 
-const envAllowedOrigins = process.env.CLIENT_URLS
-  ? process.env.CLIENT_URLS.split(',').map((url) => url.trim()).filter(Boolean)
-  : [];
-
-const allowedOrigins = Array.from(new Set([...envAllowedOrigins, ...defaultAllowedOrigins]));
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    console.warn(`❌ Blocked by CORS: ${origin}`);
-    return callback(new Error('Not allowed by CORS'));
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      console.warn(`❌ Blocked CORS request from ${origin}`);
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -95,7 +87,7 @@ app.use((err, _req, res, _next) => {
 });
 
 const server = app.listen(config.port, () => {
-  console.log(`🚀 Taylor-Made Baby Co. backend ready on port ${config.port}`);
+  console.log(`Taylor-Made Baby Co API listening on port ${config.port}`);
 });
 
 const gracefulShutdown = async (signal) => {

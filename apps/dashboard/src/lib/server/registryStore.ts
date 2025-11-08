@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import axios, { type AxiosRequestConfig } from "axios";
 import { normalizeAffiliateLink } from "@/app/api/registry/affiliate";
 import registrySource from "@/data/registryItems.json";
-import { API_URL } from "@/lib/apiClient";
+import { API_URL, buildApiPath } from "@/lib/apiClient";
 import { getSession } from "@/lib/auth";
 import { resolveCategory } from "@/lib/server/registryTaxonomy";
 import type {
@@ -114,10 +114,16 @@ async function registryRequest<T>(
     headers.Authorization = `Bearer ${session.token}`;
   }
 
+  const url =
+    typeof config.url === "string" && !config.url.startsWith("http")
+      ? buildApiPath(config.url)
+      : config.url;
+
   const response = await axios({
     baseURL: API_URL,
     withCredentials: true,
     ...config,
+    url,
     headers,
   });
 
@@ -535,4 +541,4 @@ export function listCatalogItems(): AppRegistryItem[] {
 
 export function listCatalogItemsByFocus(category: RegistryCategory): AppRegistryItem[] {
   return registryCatalog.filter((item) => item.category === category).map(cloneItem);
-};
+}

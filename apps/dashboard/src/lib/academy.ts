@@ -1,6 +1,6 @@
 import axios from "axios";
 import { addModuleFocusToRegistry } from "@/lib/registry";
-import { API_URL, apiFetch } from "@/lib/apiClient";
+import apiClient, { apiFetch, buildApiPath } from "@/lib/apiClient";
 import { getMemberToken, getSession } from "@/lib/auth";
 import type {
   AcademyModule,
@@ -91,7 +91,8 @@ async function fetchAcademyApi<T>(endpoint: string): Promise<T> {
     throw new Error("Not authenticated");
   }
 
-const response = await axios.get<T>(`${API_URL}/api/academy${endpoint}`, {    headers: {
+  const response = await apiClient.get<T>(buildApiPath(`/academy${endpoint}`), {
+    headers: {
       Authorization: `Bearer ${session.token}`,
     },
     withCredentials: true,

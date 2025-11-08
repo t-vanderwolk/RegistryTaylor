@@ -10,10 +10,10 @@
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
     "dev:all": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
-  "start": "node backend/server.js",
- "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.18.3 --activate",
+    "start": "node backend/server.js",
+    "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.18.3 --activate",
     "build": "pnpm --filter taylor-made-app build",
-    "heroku-postbuild": "pnpm --filter apps/backend run build",
+    "heroku-postbuild": "echo 'JS backend, no build needed'",
     "migrate": "npm run migrate --prefix apps/backend",
     "seed": "npm run seed --prefix apps/backend",
     "lint": "npm run lint --prefix apps/dashboard",
@@ -54,10 +54,10 @@
     "tsx": "^4.7.1",
     "typescript": "5.3.3"
   },
-"engines": {
-  "node": "20.x",
-  "pnpm": "10.18.3"
-},
+  "engines": {
+    "node": "20.x",
+    "pnpm": "10.18.3"
+  },
   "packageManager": "pnpm@10.18.3",
   "prisma": {
     "seed": "tsx apps/backend/prisma/seed.ts"

@@ -1,1 +1,1 @@
-web: node --enable-source-maps apps/backend/src/server.js
+web: cd apps/backend && node src/server.js

@@ -91,8 +91,7 @@ async function fetchAcademyApi<T>(endpoint: string): Promise<T> {
     throw new Error("Not authenticated");
   }
 
-  const response = await axios.get<T>(`${API_URL}/academy${endpoint}`, {
-    headers: {
+const response = await axios.get<T>(`${API_URL}/api/academy${endpoint}`, {    headers: {
       Authorization: `Bearer ${session.token}`,
     },
     withCredentials: true,

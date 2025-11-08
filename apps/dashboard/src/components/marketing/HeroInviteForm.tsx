@@ -33,7 +33,7 @@ export default function HeroInviteForm() {
         throw new Error("Invite invalid");
       }
 
-      router.push(`/onboarding/create-profile?code=${encodeURIComponent(normalized)}` as Route);
+      router.push(`/login?invite=${encodeURIComponent(normalized)}` as Route);
     } catch {
       setSubmitting(false);
       setError("That invite code isn’t recognized. Please try again or request an invite.");
@@ -44,7 +44,7 @@ export default function HeroInviteForm() {
     <div className="w-full max-w-sm rounded-[2.5rem] border border-gold/60 bg-blush/80 p-6 shadow-[0_12px_32px_rgba(177,132,153,0.25)] backdrop-blur">
       <h2 className="font-serif text-2xl text-mauve-500">Already invited?</h2>
       <p className="mt-2 text-sm leading-relaxed text-charcoal/80">
-        Enter your Taylor-Made code to continue onboarding instantly.
+        Enter your Taylor-Made code to confirm your access, then sign in to continue your journey.
       </p>
       <form onSubmit={handleSubmit} className="mt-5 space-y-4">
         <label className="block text-sm font-semibold uppercase tracking-[0.28em] text-charcoal/70">
@@ -66,7 +66,7 @@ export default function HeroInviteForm() {
           disabled={submitting}
           className="w-full rounded-full bg-rose px-6 py-3 text-sm font-semibold uppercase tracking-[0.28em] text-charcoal shadow-blush-soft transition hover:-translate-y-0.5 hover:bg-tm-hover disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {submitting ? "Verifying…" : "Start onboarding"}
+          {submitting ? "Verifying…" : "Continue to login"}
         </button>
       </form>
     </div>

@@ -4,11 +4,6 @@ export type QuickAccessData = {
     nextTitle: string | null;
     href: string;
   };
-  registry: {
-    itemsAdded: number;
-    goalCount: number;
-    href: string;
-  };
   reflection: {
     excerpt: string | null;
     updatedAt: string | null;

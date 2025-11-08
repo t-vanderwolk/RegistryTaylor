@@ -32,7 +32,7 @@ const InviteCodeForm = () => {
         throw new Error("Invalid invite code");
       }
 
-      router.push(`/onboarding/create-profile?code=${encodeURIComponent(normalizedCode)}` as Route);
+      router.push(`/login?invite=${encodeURIComponent(normalizedCode)}` as Route);
     } catch {
       setError("That invite code isn’t recognized — please try again or request a new invite.");
       setSubmitting(false);
@@ -43,7 +43,7 @@ const InviteCodeForm = () => {
     <div className="rounded-2xl border border-gold/40 bg-taupe/60 p-6 shadow-md">
       <h2 className="font-serif text-2xl text-charcoal-700">Already received an invite?</h2>
       <p className="mt-2 font-sans text-[17px] text-charcoal-500 leading-[1.7]">
-        Enter your Taylor-Made invite code to continue with onboarding.
+        Enter your Taylor-Made invite code to confirm access, then continue to login.
       </p>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <label className="block text-sm font-semibold text-charcoal-700">
@@ -64,7 +64,7 @@ const InviteCodeForm = () => {
           className="w-full rounded-full bg-mauve-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-mauve-700 disabled:cursor-not-allowed disabled:opacity-75"
           disabled={submitting}
         >
-          {submitting ? "Verifying…" : "Enter invite code"}
+          {submitting ? "Verifying…" : "Continue to login"}
         </button>
       </form>
     </div>

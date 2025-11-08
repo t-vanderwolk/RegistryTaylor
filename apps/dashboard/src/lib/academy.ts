@@ -1,5 +1,4 @@
 import axios from "axios";
-import { addModuleFocusToRegistry } from "@/lib/registry";
 import apiClient, { apiFetch, buildApiPath } from "@/lib/apiClient";
 import { getMemberToken, getSession } from "@/lib/auth";
 import type {
@@ -24,7 +23,6 @@ type BackendModule = {
   accentColor?: string | null;
   heroImage?: string | null;
   estimatedMinutes?: number | null;
-  registryFocus?: string | null;
   progress?: number | null;
   progressCompleted?: boolean | null;
   progressQuizScore?: number | null;
@@ -62,7 +60,6 @@ type ModuleMeta = {
   tagline?: string | null;
   category?: string | null;
   journey?: string | null;
-  registryFocus?: string | null;
   estimatedMinutes?: number | null;
   accentColor?: string | null;
   heroImage?: string | null;
@@ -157,8 +154,6 @@ function parseContentBlock(value: unknown): ModuleContentBlock | null {
       : undefined,
     prompt: typeof value.prompt === "string" ? value.prompt : undefined,
     ctaLabel: typeof value.ctaLabel === "string" ? value.ctaLabel : undefined,
-    productId: typeof value.productId === "string" ? value.productId : undefined,
-    externalId: typeof value.externalId === "string" ? value.externalId : undefined,
     percent:
       typeof value.percent === "number"
         ? value.percent
@@ -301,25 +296,6 @@ function parseWorkbookSection(value: unknown, index: number): WorkbookSection | 
               ? value.body
               : undefined,
         placeholder: typeof value.placeholder === "string" ? value.placeholder : undefined,
-      };
-    }
-    case "registry": {
-      return {
-        id,
-        type: "registry",
-        title: title ?? "Registry highlight",
-        description,
-        productId: typeof value.productId === "string" ? value.productId : undefined,
-        externalId: typeof value.externalId === "string" ? value.externalId : undefined,
-        fallback: isRecord(value.fallback)
-          ? {
-              title: typeof value.fallback.title === "string" ? value.fallback.title : undefined,
-              description:
-                typeof value.fallback.description === "string" ? value.fallback.description : null,
-              image: typeof value.fallback.image === "string" ? value.fallback.image : undefined,
-              url: typeof value.fallback.url === "string" ? value.fallback.url : undefined,
-            }
-          : undefined,
       };
     }
     case "milestone": {
@@ -516,7 +492,6 @@ function normalizeModule(raw: BackendModule): AcademyModule {
     tagline: meta.tagline ?? raw.summary ?? null,
     journey: (meta.journey ?? raw.journey ?? meta.category ?? category ?? null) as AcademyModule["journey"],
     category: category,
-    registryFocus: meta.registryFocus ?? raw.registryFocus ?? null,
     estimatedMinutes:
       typeof meta.estimatedMinutes === "number"
         ? meta.estimatedMinutes
@@ -667,18 +642,4 @@ export async function markModuleComplete(slug: string, percent: number = 100): P
     },
     body: JSON.stringify({ moduleSlug: slug, percent }),
   });
-}
-
-export async function addModuleToRegistry(slug: string): Promise<void> {
-  const session = await getSession();
-  if (!session?.user?.id) {
-    throw new Error("Not authenticated");
-  }
-
-  const moduleEntry = await getAcademyModule(slug);
-  if (!moduleEntry?.registryFocus) {
-    return;
-  }
-
-  await addModuleFocusToRegistry(session.user.id, moduleEntry.registryFocus);
 }

@@ -37,7 +37,6 @@ function fallbackFromStatic(module: StaticAcademyModule, index: number): Academy
     subtitle: module.subtitle ?? null,
     summary: module.subtitle ?? module.title,
     tagline: module.subtitle ?? null,
-    registryFocus: module.registryFocus ?? null,
     estimatedMinutes: module.estimatedMinutes ?? null,
     accentColor: module.accentColor ?? "#C8A1B4",
     heroImage: module.heroImage ?? null,

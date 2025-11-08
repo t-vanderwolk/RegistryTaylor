@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { WorkbookEntry } from "@/app/dashboard/academy/workbook/workbookApi";
+import type { WorkbookEntry } from "@/types/workbook";
 import WorkbookEntryCard from "@/app/dashboard/academy/workbook/WorkbookEntryCard";
 
 type MentorWorkbookViewProps = {

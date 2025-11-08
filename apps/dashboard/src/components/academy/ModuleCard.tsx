@@ -85,8 +85,8 @@ export default function ModuleCard({ module, isActive = false }: ModuleCardProps
 
       <div className="space-y-6 text-sm leading-relaxed text-charcoal-500">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal-300">Focus</p>
-          <p className="mt-1 text-base text-charcoal-600">{module.registryFocus ?? "Taylor-Made Academy"}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal-300">Journey</p>
+          <p className="mt-1 text-base text-charcoal-600">{badgeLabel}</p>
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal-300">Estimated time</p>

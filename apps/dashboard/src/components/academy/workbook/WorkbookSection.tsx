@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { WorkbookSection as WorkbookSectionDefinition } from "@/types/academy";
-import type { WorkbookSectionState } from "@/app/dashboard/academy/workbook/workbookApi";
+import type { WorkbookSectionState } from "@/types/workbook";
 import WorkbookCheckbox from "./WorkbookCheckbox";
 import WorkbookInput from "./WorkbookInput";
 import WorkbookReflection from "./WorkbookReflection";
@@ -134,12 +134,6 @@ function renderContent(
         <div className="space-y-2 text-sm text-[#3E2F35]/85">
           {section.ctaDescription ? <p>{section.ctaDescription}</p> : null}
         </div>
-      );
-    case "registry":
-      return (
-        <p className="text-sm text-[#3E2F35]/85">
-          This workbook section highlights a registry item inside the lesson content.
-        </p>
       );
     default:
       return null;

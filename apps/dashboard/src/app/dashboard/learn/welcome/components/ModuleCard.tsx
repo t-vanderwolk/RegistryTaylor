@@ -29,7 +29,7 @@ export default function ModuleCard({ module }: ModuleCardProps) {
   const { label, action, percent } = describeProgress(module);
   const accentColor = module.accentColor ?? "#C8A1B4";
   const heroImage = module.heroImage ?? "/images/academy/nursery-vision.jpg";
-  const registryFocus = module.registryFocus ?? "Taylor-Made Focus";
+  const focusLabel = module.category ?? module.tagline ?? module.title;
 
   return (
     <article className="group flex h-full flex-col justify-between gap-6 overflow-hidden rounded-academy-xl border border-blush-300/60 bg-ivory/95 p-6 shadow-mauve-card transition duration-200 ease-bloom hover:-translate-y-1 hover:shadow-blush-lift">
@@ -55,8 +55,8 @@ export default function ModuleCard({ module }: ModuleCardProps) {
         <div className="grid gap-4 rounded-academy border border-blush-300/60 bg-white/80 p-4 text-sm text-charcoal-500">
           <div className="flex items-center justify-between gap-4">
             <div className="space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">Focus</p>
-              <p>{registryFocus}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">Journey</p>
+              <p>{focusLabel}</p>
             </div>
             <div className="flex items-center gap-2">
               <ProgressRing value={percent} size={56} progressColor={accentColor} trackColor="#EED6D3">

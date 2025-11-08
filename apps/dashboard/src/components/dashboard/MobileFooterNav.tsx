@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { href: "/dashboard/member", label: "Home", icon: "🏠" },
   { href: "/dashboard/learn", label: "Learn", icon: "🎓" },
-  { href: "/dashboard/plan", label: "Plan", icon: "🍼" },
-  { href: "/dashboard/connect", label: "Connect", icon: "💬" },
-  { href: "/dashboard/academy/workbook", label: "Reflect", icon: "🪞" },
+  { href: "/dashboard/community", label: "Community", icon: "💬" },
+  { href: "/dashboard/support", label: "Support", icon: "🛟" },
+  { href: "/dashboard/journal", label: "Journal", icon: "📝" },
 ] as const;
 
 export default function MobileFooterNav() {

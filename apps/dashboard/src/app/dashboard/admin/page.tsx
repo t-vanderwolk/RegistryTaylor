@@ -1,19 +1,10 @@
-"use client";
-import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function AdminDashboard() {
-  const [user, setUser] = useState<any>(null);
+import { requireAdmin } from "@/lib/auth";
+import AdminOverview from "@/components/admin/AdminOverview";
 
-  useEffect(() => {
-    const stored = localStorage.getItem("tm_user");
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
-
-  return (
-    <main className="p-10 text-[#3E2F35]">
-      <h1 className="text-2xl font-semibold">
-        {user ? `Welcome, ${user.role}!` : "Loading your dashboard..."}
-      </h1>
-    </main>
-  );
+export default async function AdminDashboard() {
+  const user = await requireAdmin();
+  return <AdminOverview user={user} />;
 }

@@ -8,9 +8,9 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   BookOpen,
-  ClipboardList,
   PenTool,
   Users,
+  LifeBuoy,
   Menu,
   X,
   type LucideIcon,
@@ -53,13 +53,6 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
       _pathname.startsWith("/dashboard/learn") || _pathname.startsWith("/dashboard/academy"),
   },
   {
-    label: "Plan & Registry",
-    href: "/dashboard/plan" as Route,
-    Icon: ClipboardList,
-    isActive: (_pathname) =>
-      _pathname.startsWith("/dashboard/plan") || _pathname.startsWith("/dashboard/registry"),
-  },
-  {
     label: "Journal",
     href: "/dashboard/journal" as Route,
     Icon: PenTool,
@@ -71,7 +64,13 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
     href: "/dashboard/community" as Route,
     Icon: Users,
     isActive: (_pathname) =>
-      _pathname.startsWith("/dashboard/community") || _pathname.startsWith("/dashboard/connect"),
+      _pathname.startsWith("/dashboard/community"),
+  },
+  {
+    label: "Support",
+    href: "/dashboard/support" as Route,
+    Icon: LifeBuoy,
+    isActive: (_pathname) => _pathname.startsWith("/dashboard/support"),
   },
 ];
 

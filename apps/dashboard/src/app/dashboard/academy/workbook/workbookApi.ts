@@ -1,49 +1,32 @@
-import { apiFetch } from "@/lib/apiClient";
+import type { WorkbookContent, WorkbookEntry } from "@/types/workbook";
 
-export type WorkbookSectionState = {
-  checklist?: Record<string, boolean>;
-  text?: string;
-  reflection?: string;
-  completed?: boolean;
-};
-
-export type WorkbookContent = {
-  text?: string;
-  images?: string[];
-  sections?: Record<string, WorkbookSectionState>;
-  lastSavedAt?: string;
-};
-
-export type WorkbookEntry = {
-  id: string;
-  memberId: string;
+type UpsertWorkbookEntryPayload = {
   moduleSlug: string;
   content: WorkbookContent;
-  shared: boolean;
-  createdAt: string;
-  updatedAt: string;
+  shared?: boolean;
 };
 
-export async function fetchWorkbookEntries(memberId: string): Promise<WorkbookEntry[]> {
-  try {
-    const data = await apiFetch<{ entries?: WorkbookEntry[] }>(`/api/workbook/${memberId}`, {
-      cache: "no-store",
-      credentials: "include",
-    });
-    return data.entries ?? [];
-  } catch {
-    return [];
-  }
-}
-
 export async function getWorkbookEntry(moduleSlug: string): Promise<WorkbookEntry | null> {
+  if (!moduleSlug) {
+    return null;
+  }
+
   try {
-    const data = await apiFetch<{ entry?: WorkbookEntry | null }>(`/api/workbook/module/${moduleSlug}`, {
-      cache: "no-store",
+    const response = await fetch(`/api/workbook/entry/${encodeURIComponent(moduleSlug)}`, {
+      method: "GET",
+      headers: { Accept: "application/json" },
       credentials: "include",
+      cache: "no-store",
     });
-    return data.entry ?? null;
-  } catch {
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const payload = (await response.json()) as { entry?: WorkbookEntry | null };
+    return payload.entry ?? null;
+  } catch (error) {
+    console.error("Unable to fetch workbook entry", error);
     return null;
   }
 }
@@ -51,27 +34,24 @@ export async function getWorkbookEntry(moduleSlug: string): Promise<WorkbookEntr
 export async function upsertWorkbookEntry({
   moduleSlug,
   content,
-  shared,
-}: {
-  moduleSlug: string;
-  content: WorkbookContent;
-  shared: boolean;
-}): Promise<WorkbookEntry> {
-  const data = await apiFetch<{ entry: WorkbookEntry }>("/api/workbook", {
-    method: "POST",
-    body: JSON.stringify({ moduleSlug, content, shared }),
-    cache: "no-store",
-    credentials: "include",
-  });
-  return data.entry;
-}
+  shared = false,
+}: UpsertWorkbookEntryPayload): Promise<WorkbookEntry> {
+  if (!moduleSlug) {
+    throw new Error("moduleSlug is required to save a workbook entry.");
+  }
 
-export async function updateShareState(id: string, shared: boolean): Promise<WorkbookEntry> {
-  const data = await apiFetch<{ entry: WorkbookEntry }>(`/api/workbook/${id}/share`, {
+  const response = await fetch(`/api/workbook/entry/${encodeURIComponent(moduleSlug)}`, {
     method: "PUT",
-    body: JSON.stringify({ shared }),
-    cache: "no-store",
+    headers: { "Content-Type": "application/json" },
     credentials: "include",
+    body: JSON.stringify({ content, shared: Boolean(shared) }),
   });
-  return data.entry;
+
+  if (!response.ok) {
+    const errorBody = (await response.json().catch(() => null)) as { message?: string } | null;
+    throw new Error(errorBody?.message ?? "Unable to save workbook entry.");
+  }
+
+  const payload = (await response.json()) as { entry: WorkbookEntry };
+  return payload.entry;
 }

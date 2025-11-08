@@ -6,13 +6,8 @@ import { Download, NotebookPen, PanelsTopLeft } from "lucide-react";
 import WorkbookSection from "@/components/academy/workbook/WorkbookSection";
 import WorkbookSubmit from "@/components/academy/workbook/WorkbookSubmit";
 import type { WorkbookSection as WorkbookSectionDefinition } from "@/types/academy";
-import {
-  getWorkbookEntry,
-  upsertWorkbookEntry,
-  type WorkbookContent,
-  type WorkbookEntry,
-  type WorkbookSectionState,
-} from "@/app/dashboard/academy/workbook/workbookApi";
+import { getWorkbookEntry, upsertWorkbookEntry } from "@/app/dashboard/academy/workbook/workbookApi";
+import type { WorkbookContent, WorkbookEntry, WorkbookSectionState } from "@/types/workbook";
 
 type WorkbookPanelProps = {
   moduleSlug: string;

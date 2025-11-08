@@ -3,29 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { Route } from "next";
-
-type QuickAccessCardsProps = {
-  academy: {
-    percentComplete: number;
-    nextTitle: string | null;
-    href: string;
-  };
-  registry: {
-    itemsAdded: number;
-    goalCount: number;
-    href: string;
-  };
-  reflection: {
-    excerpt: string | null;
-    updatedAt: string | null;
-    href: string;
-  };
-  mentor: {
-    title: string | null;
-    dateLabel: string | null;
-    href: string;
-  };
-};
+import type { QuickAccessData } from "@/app/dashboard/member/types";
 
 const cardMotion = {
   initial: { opacity: 0, y: 22 },
@@ -65,16 +43,18 @@ function formatDateLabel(value: string | null): string | null {
 
 export default function QuickAccessCards({
   academy,
-  registry,
   reflection,
   mentor,
-}: QuickAccessCardsProps) {
-  const registryPercent =
-    registry.goalCount > 0 ? Math.min(100, Math.round((registry.itemsAdded / registry.goalCount) * 100)) : 0;
-  const mentorDate = formatDateLabel(mentor.dateLabel);
+}: QuickAccessData) {
+  const safeMentor = mentor ?? {
+    title: null,
+    dateLabel: null,
+    href: "/dashboard/support",
+  };
+  const mentorDate = formatDateLabel(safeMentor.dateLabel ?? null);
 
   return (
-    <section aria-label="Quick access" className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <section aria-label="Quick access" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       <motion.article
         {...cardMotion}
         transition={{ duration: 0.45, ease: "easeOut" }}
@@ -111,37 +91,6 @@ export default function QuickAccessCards({
       <motion.article
         {...cardMotion}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="group flex flex-col gap-4 rounded-2xl border border-blush-300/60 bg-white/85 p-6 shadow-blush-soft backdrop-blur-sm"
-      >
-        <div className="flex items-center justify-between">
-          <span className="text-lg">🎯</span>
-          <span className="dashboard-pill border-mauve-500/20 bg-white/80 text-[0.6rem] shadow-none">
-            Registry
-          </span>
-        </div>
-        <div className="space-y-2">
-          <h3 className="font-serif text-xl text-charcoal-700">My Registry Plan</h3>
-          <p className="text-sm leading-relaxed text-charcoal-400">
-            {registry.itemsAdded} items curated &middot; {Math.max(registry.goalCount - registry.itemsAdded, 0)} to go.
-          </p>
-        </div>
-        <div className="space-y-2">
-          <ProgressTrack value={registryPercent} srLabel={`${registryPercent}% curated`} />
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">
-            {registryPercent}% curated
-          </span>
-        </div>
-        <Link
-          href={registry.href as Route}
-          className="academy-outline-button justify-center gap-2"
-        >
-          Open Registry
-        </Link>
-      </motion.article>
-
-      <motion.article
-        {...cardMotion}
-        transition={{ duration: 0.55, ease: "easeOut" }}
         className="group flex flex-col gap-4 rounded-2xl border border-blush-300/70 bg-ivory p-6 shadow-mauve-card"
       >
         <div className="flex items-center justify-between">
@@ -169,7 +118,7 @@ export default function QuickAccessCards({
 
       <motion.article
         {...cardMotion}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
         className="group flex flex-col gap-4 rounded-2xl border border-blush-300/70 bg-ivory p-6 shadow-mauve-card"
       >
         <div className="flex items-center justify-between">
@@ -181,14 +130,14 @@ export default function QuickAccessCards({
         <div className="space-y-2">
           <h3 className="font-serif text-xl text-charcoal-700">Mentor Moments</h3>
           <p className="text-sm leading-relaxed text-charcoal-400">
-            {mentor.title ?? "We’ll post your mentor’s next session soon."}
+            {safeMentor.title ?? "We’ll post your mentor’s next session soon."}
           </p>
         </div>
         <p className="text-xs uppercase tracking-[0.3em] text-charcoal-300">
           {mentorDate ?? "Awaiting next session"}
         </p>
         <Link
-          href={mentor.href as Route}
+          href={(safeMentor.href ?? "/dashboard/support") as Route}
           className="academy-button justify-center gap-2 bg-mauve-500/90 text-white"
         >
           View details

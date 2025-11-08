@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { apiFetch } from "@/lib/apiClient";
 
 const PRIMARY_BUTTON_CLASSES =
   "inline-flex items-center justify-center gap-2 rounded-full bg-[#C8A1B4] px-7 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] shadow-[0_8px_30px_rgba(200,161,180,0.15)] transition-transform duration-200 hover:scale-105 hover:bg-[#c29aab] disabled:cursor-not-allowed disabled:opacity-70";
@@ -33,10 +32,16 @@ export default function InviteRequestForm() {
     setError(null);
 
     try {
-      await apiFetch("/api/invites/request", {
+      const response = await fetch("/api/invites/request", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
+      if (!response.ok) {
+        const errorPayload = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(errorPayload?.error || "Unable to submit invite request.");
+      }
 
       const redirectTo = "/thank-you" as const;
       router.push(redirectTo);

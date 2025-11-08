@@ -41,7 +41,6 @@ export default function LoginForm() {
       const dashboardPath = `/dashboard/${user.role.toLowerCase()}`;
 
       try {
-        console.log("🔐 TOKEN CHECK:", token);
         if (token) {
           localStorage.setItem(STORED_TOKEN_KEY, token);
           sessionStorage.setItem(STORED_SESSION_USER_KEY, JSON.stringify(user));
@@ -51,7 +50,7 @@ export default function LoginForm() {
               "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({ token }),
+            body: JSON.stringify({ token, role: user.role }),
           });
         } else {
           console.warn("⚠️ Missing token from login response. Skipping session sync.");
@@ -60,9 +59,6 @@ export default function LoginForm() {
         console.warn("⚠️ Unable to persist session state to storage.", syncError);
       }
 
-      console.log("✅ LOGIN SUCCESS:", user);
-      console.log("🔀 Redirecting to:", dashboardPath);
-      console.log("⏳ Waiting for SessionInitializer to hydrate and handle redirect…");
       setTimeout(() => {
         router.replace(dashboardPath as any); // temporary fix for Next.js typedRoutes
       }, 300);

@@ -7,7 +7,6 @@ import InsightBlock from "@/components/academy/blocks/InsightBlock";
 import TipBlock from "@/components/academy/blocks/TipBlock";
 import ReflectBlock from "@/components/academy/blocks/ReflectBlock";
 import MentorBlock from "@/components/academy/blocks/MentorBlock";
-import RegistryBlock from "@/components/academy/blocks/RegistryBlock";
 import MilestoneBlock from "@/components/academy/blocks/MilestoneBlock";
 
 type LectureRendererProps = {
@@ -72,22 +71,6 @@ export default function LectureRenderer({ blocks, mentorNote, onReflectionSave }
                 role={entry.subheading}
               />
             );
-          case "registry": {
-            const fallback = entry.fallback ??
-              (entry.metadata && typeof entry.metadata === "object" && "fallback" in entry.metadata
-                ? (entry.metadata.fallback as { title?: string; description?: string | null; image?: string | null; url?: string | null })
-                : undefined);
-            return (
-              <RegistryBlock
-                key={key}
-                title={entry.heading ?? "Registry recommendation"}
-                description={entry.body}
-                productId={entry.productId}
-                externalId={entry.externalId}
-                fallback={fallback}
-              />
-            );
-          }
           case "milestone":
             return (
               <MilestoneBlock

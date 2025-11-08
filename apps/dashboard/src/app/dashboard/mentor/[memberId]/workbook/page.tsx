@@ -1,6 +1,6 @@
 import { apiFetch } from "@/lib/apiClient";
-import { requireMentor } from "@/lib/auth";
-import type { WorkbookEntry } from "@/app/dashboard/academy/workbook/workbookApi";
+import { getSession, requireMentor } from "@/lib/auth";
+import type { WorkbookEntry } from "@/types/workbook";
 import MentorWorkbookView from "./MentorWorkbookView";
 import MessagePanel from "@/components/connect/MessagePanel";
 
@@ -16,12 +16,15 @@ export const metadata = {
 
 export default async function MentorWorkbookPage({ params }: MentorWorkbookPageProps) {
   await requireMentor();
+  const session = await getSession();
 
   let entries: WorkbookEntry[] = [];
   try {
+    const headers = session?.token ? { Authorization: `Bearer ${session.token}` } : undefined;
     const data = await apiFetch<{ entries?: WorkbookEntry[] }>(`/api/workbook/${params.memberId}`, {
       cache: "no-store",
       credentials: "include",
+      headers,
     });
     entries = data.entries?.filter((entry) => entry.shared) ?? [];
   } catch (error) {

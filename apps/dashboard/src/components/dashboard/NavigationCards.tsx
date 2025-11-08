@@ -18,19 +18,19 @@ const CARDS: ReadonlyArray<NavCard> = [
     href: "/dashboard/learn/welcome",
   },
   {
-    title: "Plan",
-    description: "Curate the dynamic registry with concierge-approved essentials.",
-    href: "/dashboard/plan",
+    title: "Community",
+    description: "RSVP for upcoming salons and keep an eye on the community feed.",
+    href: "/dashboard/community",
   },
   {
-    title: "Reflect",
+    title: "Support",
+    description: "Track concierge requests, polls, and announcements that need follow-up.",
+    href: "/dashboard/support",
+  },
+  {
+    title: "Journal",
     description: "Capture rituals, prompts, and moodboards inside your journal.",
     href: "/dashboard/journal",
-  },
-  {
-    title: "Profile",
-    description: "Update preferences, concierge notes, and nursery vision.",
-    href: "/dashboard/profile",
   },
 ] as const;
 
@@ -46,7 +46,7 @@ export default function NavigationCards() {
         <div>
           <p className="text-xs uppercase tracking-[0.4em] text-[#3E2F35]/55">Navigate the journey</p>
           <h2 className="text-2xl font-[var(--font-playfair)] text-[#3E2F35]">
-            Learn · Plan · Reflect · Profile
+            Learn · Community · Support · Journal
           </h2>
         </div>
       </div>

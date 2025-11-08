@@ -4,7 +4,7 @@ export const revalidate = 0;
 import { NextRequest, NextResponse } from "next/server";
 import { apiFetch } from "@/lib/apiClient";
 import { getSession, verifyUserFromToken, type AuthenticatedUser } from "@/lib/auth";
-import type { WorkbookEntry } from "@/app/dashboard/academy/workbook/workbookApi";
+import type { WorkbookEntry } from "@/types/workbook";
 import type {
   AnnouncementCardData,
   CommunityHighlightCard,
@@ -90,15 +90,6 @@ type ModulesResponse = {
   modules: AcademyModule[];
 };
 
-type RegistryItemsResponse = {
-  items: Array<{
-    id: string;
-    name?: string;
-    category?: string | null;
-    status?: string | null;
-  }>;
-};
-
 function getTokenFromRequest(request: NextRequest): string | null {
   const header = request.headers.get("authorization");
   if (header?.startsWith("Bearer ")) {
@@ -137,34 +128,29 @@ export async function GET(request: NextRequest) {
       Cookie: `token=${tokenToUse}`,
     };
 
-    const [profileResult, eventsResult, communityResult, modulesResult, registryResult, reflectionsResult] =
+    const [profileResult, eventsResult, communityResult, modulesResult, reflectionsResult] =
       await Promise.allSettled([
         apiFetch<ApiProfileResponse>("/api/profiles/me", {
           cache: "no-store",
           credentials: "include",
           headers: authHeaders,
         }),
-      apiFetch<ApiEventsResponse>("/api/events/upcoming", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-      apiFetch<ApiCommunityPostsResponse>("/api/community/posts", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-      apiFetch<ModulesResponse>("/api/academy/modules", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-      apiFetch<RegistryItemsResponse>("/api/registry-items", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-        apiFetch<{ entries?: WorkbookEntry[] }>(`/api/workbook/${member.id}`, {
+        apiFetch<ApiEventsResponse>("/api/events/upcoming", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        }),
+        apiFetch<ApiCommunityPostsResponse>("/api/community/posts", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        }),
+        apiFetch<ModulesResponse>("/api/academy/modules", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        }),
+        apiFetch<{ entries?: WorkbookEntry[] }>("/api/workbook?limit=8", {
           cache: "no-store",
           credentials: "include",
           headers: authHeaders,
@@ -175,7 +161,6 @@ export async function GET(request: NextRequest) {
     const eventsResponse = eventsResult.status === "fulfilled" ? eventsResult.value : null;
     const communityResponse = communityResult.status === "fulfilled" ? communityResult.value : null;
     const modules = modulesResult.status === "fulfilled" ? modulesResult.value.modules ?? [] : [];
-    const registryItems = registryResult.status === "fulfilled" ? registryResult.value.items ?? [] : [];
     const workbookEntries =
       reflectionsResult.status === "fulfilled" ? reflectionsResult.value.entries ?? [] : [];
 
@@ -226,8 +211,6 @@ export async function GET(request: NextRequest) {
       : 0;
     const nextModule = modules.find((module) => !module.progress?.completed) ?? modules[0] ?? null;
 
-    const registryGoal = Math.max(40, registryItems.length + 10);
-
     const latestReflection = [...workbookEntries]
       .sort(
         (a, b) =>
@@ -254,10 +237,10 @@ export async function GET(request: NextRequest) {
       createdAt: post.createdAt,
     }));
 
-    const announcements = buildAnnouncements(weeklyEvents, communityPosts, registryItems);
+    const announcements = buildAnnouncements(weeklyEvents, communityPosts);
     const mentorMoment = weeklyEvents[0] ?? null;
     const streakDays = Math.max(completedModules * 2, workbookEntries.length ? 3 : 1);
-    const badges = buildBadges(percentComplete, completedModules, registryItems.length);
+    const badges = buildBadges(percentComplete, completedModules);
 
     const quickAccess: QuickAccessData = {
       academy: {
@@ -265,20 +248,15 @@ export async function GET(request: NextRequest) {
         nextTitle: nextModule?.title ?? null,
         href: nextModule ? `/dashboard/learn/${nextModule.slug}` : "/dashboard/learn",
       },
-      registry: {
-        itemsAdded: registryItems.length,
-        goalCount: registryGoal,
-        href: "/dashboard/plan",
-      },
       reflection: {
         excerpt: reflectionExcerpt,
         updatedAt: latestReflection?.updatedAt ?? latestReflection?.createdAt ?? null,
-        href: "/dashboard/academy/workbook",
+        href: "/dashboard/journal",
       },
       mentor: {
         title: mentorMoment?.title ?? bookings[0]?.title ?? null,
         dateLabel: mentorMoment?.startsAt ?? bookings[0]?.startsAt ?? null,
-        href: mentorId ? `/dashboard/connect?mentor=${mentorId}` : "/dashboard/connect",
+        href: "/dashboard/community",
       },
     };
 
@@ -362,7 +340,7 @@ function findModuleTitle(slug: string, modules: AcademyModule[]): string {
   return match?.title ?? "Taylor-Made Reflection";
 }
 
-function buildBadges(percentComplete: number, completedModules: number, registryItems: number): string[] {
+function buildBadges(percentComplete: number, completedModules: number): string[] {
   const badges: string[] = [];
   if (percentComplete >= 75) {
     badges.push("Calm Momentum");
@@ -376,17 +354,12 @@ function buildBadges(percentComplete: number, completedModules: number, registry
     badges.push("Chapter Collector");
   }
 
-  if (registryItems >= 15) {
-    badges.push("Registry Maven");
-  }
-
   return badges;
 }
 
 function buildAnnouncements(
   events: WeeklyEvent[],
-  community: CommunityPreviewPost[],
-  registryItems: RegistryItemsResponse["items"]
+  community: CommunityPreviewPost[]
 ): AnnouncementCardData[] {
   const cards: AnnouncementCardData[] = [];
 
@@ -423,19 +396,6 @@ function buildAnnouncements(
       ctaLabel: "Read post",
     });
   });
-
-  const featureItem = registryItems[0];
-  if (featureItem) {
-    cards.push({
-      id: `perk-${featureItem.id}`,
-      title: featureItem.name ?? "Concierge Pick of the Week",
-      description:
-        "Curated by your mentor to keep gifting beautifully coordinated. Tap through to explore details.",
-      badge: "Affiliate Perk",
-      href: "/dashboard/plan",
-      ctaLabel: "View perk",
-    });
-  }
 
   return cards;
 }

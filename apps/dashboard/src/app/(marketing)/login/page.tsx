@@ -6,7 +6,17 @@ export const metadata = {
   description: "Sign in to access your Taylor-Made Baby Co. dashboard and concierge journey.",
 };
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: {
+    invite?: string | string[];
+  };
+};
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
+  const inviteParam = searchParams?.invite;
+  const inviteCode = Array.isArray(inviteParam) ? inviteParam[0] : inviteParam;
+  const normalizedInviteCode = inviteCode ? inviteCode.toUpperCase() : null;
+
   return (
     <PageSection>
       <div className="mx-auto grid max-w-screen-lg gap-10 rounded-[2.5rem] border border-[#C8A1B4]/30 bg-white p-8 shadow-[0_8px_30px_rgba(200,161,180,0.12)] md:grid-cols-[0.55fr,0.45fr] md:p-12">
@@ -20,6 +30,12 @@ export default function LoginPage() {
         </div>
 
         <div className="rounded-[2rem] border border-[#D9C48E]/30 bg-[#FFFAF8] p-6 shadow-inner">
+          {normalizedInviteCode ? (
+            <div className="mb-4 rounded-2xl border border-[#C8A1B4]/40 bg-white/80 p-4 text-xs font-semibold uppercase tracking-[0.25em] text-[#3E2F35]">
+              Invite code <span className="font-mono">{normalizedInviteCode}</span> is verified — sign in with your
+              concierge credentials to finish onboarding.
+            </div>
+          ) : null}
           <LoginForm />
         </div>
       </div>

@@ -25,7 +25,6 @@ export async function GET() {
       order: module.order,
       lecture: module.lecture,
       workbookPrompt: module.workbookPrompt,
-      registryFocus: module.registryFocus,
       estimatedMinutes: module.estimatedMinutes,
       accentColor: module.accentColor,
       heroImage: module.heroImage,

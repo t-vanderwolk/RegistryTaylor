@@ -25,21 +25,12 @@ export type ModuleContentBlock = {
     | "tip"
     | "reflect"
     | "mentor"
-    | "registry"
     | "milestone";
   items?: string[];
   prompt?: string;
   ctaLabel?: string;
-  productId?: string;
-  externalId?: string;
   percent?: number | null;
   metadata?: Record<string, unknown>;
-  fallback?: {
-    title?: string;
-    description?: string | null;
-    image?: string | null;
-    url?: string | null;
-  };
 };
 
 export type MentorNote = {
@@ -54,7 +45,6 @@ export type WorkbookItemType =
   | "tip"
   | "reflection"
   | "submit"
-  | "registry"
   | "milestone";
 
 export interface WorkbookSection {
@@ -66,19 +56,11 @@ export interface WorkbookSection {
   content?: string;
   description?: string | null;
   placeholder?: string | null;
-  productId?: string | null;
-  externalId?: string | null;
   percent?: number | null;
   headline?: string | null;
   message?: string | null;
   ctaLabel?: string | null;
   ctaDescription?: string | null;
-  fallback?: {
-    title?: string;
-    description?: string | null;
-    image?: string | null;
-    url?: string | null;
-  };
   metadata?: Record<string, unknown>;
 }
 
@@ -113,7 +95,6 @@ export type AcademyModule = {
   subtitle?: string | null;
   summary: string;
   tagline?: string | null;
-  registryFocus?: string | null;
   estimatedMinutes?: number | null;
   accentColor?: string | null;
   heroImage?: string | null;
@@ -132,8 +113,6 @@ export type AcademyModule = {
 export type DashboardTab =
   | "academy"
   | "learn"
-  | "plan"
-  | "registry"
   | "community"
   | "connect"
   | "journal"

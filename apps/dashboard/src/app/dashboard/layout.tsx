@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import type { ComponentType, ReactNode } from "react";
 import { fetchAuthenticatedUser, type AuthenticatedUser, type UserRole } from "@/lib/auth";
 import { redirect } from "next/navigation";

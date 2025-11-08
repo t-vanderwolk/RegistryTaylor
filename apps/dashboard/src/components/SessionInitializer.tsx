@@ -130,9 +130,9 @@ export default function SessionInitializer() {
 
   useEffect(() => {
     if (sessionUser && pathname === "/login") {
-      router.replace(getDashboardPath(sessionUser.role));
+      router.replace(getDashboardPath(sessionUser.role) as any); // cast for typedRoutes compatibility
     }
-  }, [pathname, router, sessionUser]);
+  }, [pathname, router, sessionUser, softLogout]);
 
   useEffect(() => {
     if (!hydrated || typeof window === "undefined") {
@@ -174,8 +174,12 @@ export default function SessionInitializer() {
         if (cachedUser) {
           hydrateFromCache(cachedUser);
           if (onLogin) {
-            router.replace(getDashboardPath(cachedUser.role));
+            router.replace(getDashboardPath(cachedUser.role) as any);
           }
+          return;
+        }
+
+        if (!token) {
           return;
         }
 
@@ -189,7 +193,7 @@ export default function SessionInitializer() {
         persistStoredUser(verifiedUser);
 
         if (onLogin) {
-          router.replace(getDashboardPath(verifiedUser.role));
+          router.replace(getDashboardPath(verifiedUser.role) as any);
         }
       } catch (error) {
         console.error(`SessionInitializer: ${reason} session enforcement failed`, error);
@@ -225,7 +229,7 @@ export default function SessionInitializer() {
       window.removeEventListener("storage", storageHandler);
       window.clearInterval(intervalId);
     };
-  }, [hydrated, pathname, router]);
+  }, [hydrated, pathname, router, softLogout]);
 
   return null;
 }

@@ -32,6 +32,7 @@ if (config.env !== 'production') {
 const allowedOrigins = [
   'http://localhost:3000',
   'https://taylor-made-api-5289731b5afb.herokuapp.com',
+  'https://taylor-made-baby-co.vercel.app',
 ];
 
 app.use(
@@ -44,7 +45,7 @@ app.use(
       return callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
@@ -86,8 +87,9 @@ app.use((err, _req, res, _next) => {
     .json({ message: err.message || 'Unexpected server error.' });
 });
 
-const server = app.listen(config.port, () => {
-  console.log(`Taylor-Made Baby Co API listening on port ${config.port}`);
+const PORT = process.env.PORT || 5050;
+const server = app.listen(PORT, () => {
+  console.log(`✅ Taylor-Made Baby Co API live on port ${PORT}`);
 });
 
 const gracefulShutdown = async (signal) => {

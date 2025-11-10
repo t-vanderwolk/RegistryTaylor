@@ -10,7 +10,7 @@
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
     "dev:all": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
-    "start": "node backend/server.js",
+    "start": "npm run start --prefix apps/dashboard",
     "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.18.3 --activate",
     "build": "pnpm --filter taylor-made-app build",
     "heroku-postbuild": "echo 'JS backend, no build needed'",

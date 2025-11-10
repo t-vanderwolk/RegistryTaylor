@@ -11,7 +11,7 @@
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
     "dev:all": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/dashboard\"",
-    "start": "node server.js",
+   "start": "node apps/backend/src/app.js",
     "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.18.3 --activate",
     "build": "pnpm --filter taylor-made-app build",
     "migrate": "npm run migrate --prefix apps/backend",

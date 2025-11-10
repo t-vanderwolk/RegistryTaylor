@@ -41,10 +41,17 @@ const allowedOrigins = new Set([
   ...config.clientOrigins,
 ]);
 
+const wildcardOrigins = [
+  /^https:\/\/(?:[a-z0-9-]+\.)?taylormadebabyco\.com$/i,
+];
+
+const isAllowedOrigin = (origin) =>
+  allowedOrigins.has(origin) || wildcardOrigins.some((pattern) => pattern.test(origin));
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.has(origin)) {
+      if (!origin || isAllowedOrigin(origin)) {
         return callback(null, true);
       }
       logWarn(`❌ Blocked CORS request from ${origin}`);

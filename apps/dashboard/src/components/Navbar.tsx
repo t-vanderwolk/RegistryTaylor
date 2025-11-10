@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import type { Route } from "next";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-const links = [
-  { name: "Learn", href: "/learn" },
-  { name: "Plan", href: "/plan" },
-  { name: "Connect", href: "/connect" },
-  { name: "Membership", href: "/membership" },
+const links: ReadonlyArray<{ name: string; href: Route }> = [
+  { name: "Learn", href: "/learn" as Route },
+  { name: "Plan", href: "/plan" as Route },
+  { name: "Connect", href: "/connect" as Route },
+  { name: "Membership", href: "/membership" as Route },
 ];
 
 export default function Navbar() {
@@ -21,7 +22,7 @@ export default function Navbar() {
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-mauve/20 bg-ivory/90 backdrop-blur-md shadow-sm">
       <div className="mx-auto flex items-center justify-between px-5 py-3 text-charcoal md:px-10">
         <Link
-          href="/"
+          href={"/" as Route}
           className="font-[var(--font-great-vibes)] text-2xl text-mauve md:text-3xl"
         >
           Taylor-Made Baby Co.
@@ -47,7 +48,7 @@ export default function Navbar() {
           ))}
           <li>
             <Link
-              href="/login"
+              href={"/login" as Route}
               className="rounded-full bg-mauve px-4 py-2 text-white transition hover:bg-blush"
             >
               Login
@@ -75,7 +76,7 @@ export default function Navbar() {
               ))}
               <li>
                 <Link
-                  href="/login"
+                  href={"/login" as Route}
                   onClick={close}
                   className="rounded-full bg-mauve px-6 py-2 text-white transition hover:bg-blush"
                 >

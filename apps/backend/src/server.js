@@ -1,29 +1,24 @@
-import cors from "cors";
+import app from "./app.js";
+import config from "./config.js";
+import prisma from "./db/prismaClient.js";
+import { logInfo } from "./utils/logger.js";
 
-const allowedOrigins = [
-  "https://www.taylormadebabyco.com",
-  "https://taylor-made-7f1024d95529.herokuapp.com",
-  "https://taylor-made-api-5289731b5afb.herokuapp.com",
-  "http://localhost:3000",
-];
+const PORT = config.port || 5050;
 
-app.use((req, res, next) => {
-  console.log("🌐 CORS Request from:", req.headers.origin);
-  next();
+const server = app.listen(PORT, () => {
+  logInfo(`✅ Taylor-Made Baby Co API live on port ${PORT}`);
 });
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.warn("❌ Blocked by CORS:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const gracefulShutdown = async (signal) => {
+  logInfo(`Received ${signal}, shutting down gracefully...`);
+  server.close(async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
+};
+
+["SIGINT", "SIGTERM"].forEach((signal) => {
+  process.on(signal, () => gracefulShutdown(signal));
+});
+
+export default server;

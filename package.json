@@ -12,7 +12,7 @@
     "dev": "concurrently \"pnpm run dev:backend\" \"pnpm run dev:dashboard\"",
     "dev:backend": "pnpm --filter tm-backend dev",
     "dev:dashboard": "pnpm --filter taylor-made-app dev",
-    "start": "node server.js",
+"start": "node server.js",
     "build": "pnpm run build:backend && pnpm run build:dashboard",
     "build:backend": "pnpm --filter tm-backend prisma:generate",
     "build:dashboard": "pnpm --filter taylor-made-app build",

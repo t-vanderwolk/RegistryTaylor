@@ -33,34 +33,42 @@ if (config.env !== "production") {
 }
 
 // --- CORS Configuration ---
-const allowedOrigins = [
-  "https://www.taylormadebabyco.com",
-  "https://taylor-made-7f1024d95529.herokuapp.com",
-  "https://taylor-made-api-5289731b5afb.herokuapp.com",
+const allowedOrigins = new Set([
   "http://localhost:3000",
+  "https://www.taylormadebabyco.com",
+  "https://taylormadebabyco.com",
+  "https://taylor-made-7f1024d95529.herokuapp.com",
+  "https://taylor-made.herokuapp.com",
+  "https://taylor-made-baby-co.vercel.app",
+  "https://taylor-made-api-5289731b5afb.herokuapp.com",
   ...(config.clientOrigins || []),
-];
+]);
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  return allowedOrigins.has(origin);
+};
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (isAllowedOrigin(origin)) {
+      return callback(null, true);
+    }
+    console.warn(`🚫 Blocked CORS request from: ${origin}`);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
 app.use((req, _res, next) => {
   console.log("🌐 Incoming Origin:", req.headers.origin || "No origin");
   next();
 });
 
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
-      }
-      console.warn("❌ Blocked by CORS:", origin);
-      callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());

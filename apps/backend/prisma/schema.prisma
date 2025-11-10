@@ -19,8 +19,6 @@ model User {
   questionnaire    Questionnaire?    @relation("UserQuestionnaire")
   academyProgress  AcademyProgress[] @relation("UserProgress")
   quizzes          Quiz[]            @relation("UserQuizzes")
-  registryItems    RegistryItem[]
-  registryNotes    RegistryNote[]    @relation("UserNotes")
   workbookEntries  WorkbookEntry[]   @relation("UserWorkbookEntries")
   announcements    Announcement[]    @relation("UserAnnouncements")
   comments         Comment[]         @relation("UserComments")
@@ -110,59 +108,6 @@ model Quiz {
   @@index([userId])
 }
 
-model RegistryItem {
-  id           String         @id @default(uuid())
-  userId       String
-  name         String
-  brand        String?
-  category     String?
-  price        Decimal?       @db.Decimal(10, 2)
-  url          String?
-  source       RegistrySource @default(myregistry)
-  affiliateId  String?
-  affiliateUrl String?
-  externalId   String
-  imageUrl     String?
-  importedFrom String?
-  notes        String?
-  retailer     String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  mentorNotes  RegistryNote[]
-
-  @@unique([externalId, userId])
-}
-
-model RegistryNote {
-  id             String       @id @default(uuid())
-  registryItemId String
-  mentorId       String?
-  content        String?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  mentor         User?        @relation("UserNotes", fields: [mentorId], references: [id])
-  registryItem   RegistryItem @relation(fields: [registryItemId], references: [id], onDelete: Cascade)
-
-  @@unique([registryItemId, mentorId])
-}
-
-model RegistryCatalogItem {
-  id           String         @id @default(uuid())
-  externalId   String?
-  title        String
-  brand        String?
-  retailer     String?
-  category     String?
-  price        Decimal?       @db.Decimal(10, 2)
-  image        String?
-  url          String?
-  affiliateUrl String?
-  source       RegistrySource @default(myregistry)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-}
-
 model CommunityPost {
   id        String    @id @default(uuid())
   authorId  String
@@ -231,6 +176,7 @@ model WorkbookEntry {
   memberId   String
   moduleSlug String
   content    Json
+  shared     Boolean       @default(false)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
   member     User          @relation("UserWorkbookEntries", fields: [memberId], references: [id], onDelete: Cascade)
@@ -303,17 +249,6 @@ enum UserRole {
   MEMBER
   MENTOR
   ADMIN
-}
-
-enum RegistrySource {
-  macro
-  silvercross
-  awin
-  cj
-  myregistry
-  babylist
-  impact
-  static
 }
 
 enum RsvpStatus {

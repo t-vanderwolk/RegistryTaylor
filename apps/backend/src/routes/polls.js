@@ -1,4 +1,5 @@
 import express from 'express';
+
 import prisma from '../db/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 
@@ -110,7 +111,7 @@ router.post(
     const { pollId } = req.params;
     const { question, category, isActive, closesAt, options } = req.body ?? {};
 
-    const poll = await prisma.poll.update({
+    await prisma.poll.update({
       where: { id: pollId },
       data: {
         ...(typeof question === 'string' ? { question } : {}),

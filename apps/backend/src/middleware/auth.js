@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import config from '../config.js';
 
 const getTokenFromRequest = (req) => {
@@ -33,7 +34,7 @@ export function requireAuth(req, res, next) {
       role: payload.role,
     };
     next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({ error: 'Invalid token' });
   }
 }

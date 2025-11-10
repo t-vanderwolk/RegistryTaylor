@@ -1,4 +1,5 @@
 import express from 'express';
+
 import prisma from '../db/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 
@@ -6,6 +7,10 @@ const router = express.Router();
 
 const asyncHandler = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
+
+router.get('/', (_req, res) => {
+  res.json({ message: 'Messages API active' });
+});
 
 router.get(
   '/:userId',

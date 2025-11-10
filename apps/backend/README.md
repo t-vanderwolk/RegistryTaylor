@@ -52,7 +52,6 @@ apps/backend/
 │       ├── auth.js
 │       ├── profiles.js
 │       ├── academy.js
-│       ├── registry.js
 │       ├── community.js
 │       ├── blog.js
 │       └── events.js
@@ -67,7 +66,6 @@ Prisma models cover the MVP use cases:
 - `Profile` (per-user concierge profile, optional mentor link)
 - `Questionnaire` (member intake data)
 - `AcademyModule`, `AcademyProgress`, `WorkbookEntry` for the learning experience
-- `RegistryItem` & `RegistryEntry` for curated registries
 - `CommunityPost` for mentor/member announcements
 - `Event` & `EventRsvp` for live sessions
 - `BlogPost` for public marketing content
@@ -83,7 +81,6 @@ All routes are mounted under `/api/*`:
 | `/api/auth` | `POST /register`, `POST /login`, `GET /me` | JWT auth |
 | `/api/profiles` | `GET /me`, `PUT /me`, `GET /mentors` | Member & mentor profiles |
 | `/api/academy` | `GET /modules`, `POST /progress` | Academy modules + progress |
-| `/api/registry` | `GET /catalog`, `POST /entry`, `DELETE /entry/:id` | Registry catalog + member entries |
 | `/api/community` | `GET /posts`, `POST /posts` | Community posts |
 | `/api/blog` | `GET /`, `GET /:slug` | Public blog |
 | `/api/events` | `GET /upcoming`, `POST /rsvp` | Live event listings + RSVP |
@@ -97,7 +94,6 @@ All mutating routes require a valid `Authorization: Bearer <token>` header.
 - Admin, mentor, and member users (`Karma` password)
 - Linked profiles + intake questionnaire
 - Academy modules, progress, and workbook entry
-- Registry catalog and member selections
 - Community welcome post, marketing blog posts, live event + RSVP
 
 ## Development Notes

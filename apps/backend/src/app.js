@@ -1,102 +1,120 @@
-import cors from 'cors';
-import express from 'express';
-import helmet from 'helmet';
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
 
-import config from './config.js';
-import { healthCheck } from './controllers/healthController.js';
-import cookieParser from './middleware/cookieParser.js';
-import academyRoutes from './routes/academy.js';
-import announcementsRoutes from './routes/announcements.js';
-import authRoutes from './routes/auth.js';
-import blogRoutes from './routes/blog.js';
-import commentsRoutes from './routes/comments.js';
-import communityRoutes from './routes/community.js';
-import eventsRoutes from './routes/events.js';
-import messagesRoutes from './routes/messages.js';
-import pinterestRoutes from './routes/pinterest.js';
-import pollsRoutes from './routes/polls.js';
-import profilesRoutes from './routes/profiles.js';
-import registryRoutes from './routes/registry.js';
-import workbookRoutes from './routes/workbook.js';
-import { logError, logWarn } from './utils/logger.js';
+import config from "./config.js";
+import { healthCheck } from "./controllers/healthController.js";
+import cookieParser from "./middleware/cookieParser.js";
+import academyRoutes from "./routes/academy.js";
+import announcementsRoutes from "./routes/announcements.js";
+import authRoutes from "./routes/auth.js";
+import blogRoutes from "./routes/blog.js";
+import commentsRoutes from "./routes/comments.js";
+import communityRoutes from "./routes/community.js";
+import eventsRoutes from "./routes/events.js";
+import messagesRoutes from "./routes/messages.js";
+import pinterestRoutes from "./routes/pinterest.js";
+import pollsRoutes from "./routes/polls.js";
+import profilesRoutes from "./routes/profiles.js";
+import registryRoutes from "./routes/registry.js";
+import workbookRoutes from "./routes/workbook.js";
+import { logError, logWarn } from "./utils/logger.js";
 
 const app = express();
 
+// --- Content Security Policy ---
 const cspDirectives = {
   ...helmet.contentSecurityPolicy.getDefaultDirectives(),
 };
 
-if (config.env !== 'production') {
-  const scriptSrc = cspDirectives['script-src'] ?? ["'self'"];
-  cspDirectives['script-src'] = [...scriptSrc, "'unsafe-eval'"];
+if (config.env !== "production") {
+  const scriptSrc = cspDirectives["script-src"] ?? ["'self'"];
+  cspDirectives["script-src"] = [...scriptSrc, "'unsafe-eval'"];
 }
 
-const allowedOrigins = new Set([
-  'http://localhost:3000',
-  'https://taylor-made-baby-co.vercel.app',
-  'https://www.taylormadebabyco.com',
-  'https://taylormadebabyco.com',
-  'https://taylor-made-7f1024d95529.herokuapp.com',
-  'https://taylor-made-api-5289731b5afb.herokuapp.com',
-  ...config.clientOrigins,
-]);
-
-const wildcardOrigins = [
-  /^https:\/\/(?:[a-z0-9-]+\.)?taylormadebabyco\.com$/i,
+// --- CORS Configuration ---
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://taylor-made-baby-co.vercel.app",
+  "https://www.taylormadebabyco.com",
+  "https://taylormadebabyco.com",
+  "https://taylor-made-7f1024d95529.herokuapp.com",
+  "https://taylor-made-api-5289731b5afb.herokuapp.com",
+  ...(config.clientOrigins || []),
 ];
 
-const isAllowedOrigin = (origin) =>
-  allowedOrigins.has(origin) || wildcardOrigins.some((pattern) => pattern.test(origin));
+const wildcardOrigins = [/^https:\/\/(?:[a-z0-9-]+\.)?taylormadebabyco\.com$/i];
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  return (
+    allowedOrigins.includes(origin) ||
+    wildcardOrigins.some((pattern) => pattern.test(origin))
+  );
+};
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || isAllowedOrigin(origin)) {
-        return callback(null, true);
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+      } else {
+        logWarn(`❌ Blocked CORS request from ${origin}`);
+        callback(new Error("Not allowed by CORS"));
       }
-      logWarn(`❌ Blocked CORS request from ${origin}`);
-      return callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }),
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
+    exposedHeaders: ["Set-Cookie"],
+  })
 );
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: cspDirectives,
-    },
-  }),
+    contentSecurityPolicy: { directives: cspDirectives },
+  })
 );
 
-app.get('/health', healthCheck);
+// --- Health Check Route ---
+app.get("/health", healthCheck);
 
-app.use('/api/auth', authRoutes);
-app.use('/api/profiles', profilesRoutes);
-app.use('/api/academy', academyRoutes);
-app.use('/api/community', communityRoutes);
-app.use('/api/blog', blogRoutes);
-app.use('/api/events', eventsRoutes);
-app.use('/api/announcements', announcementsRoutes);
-app.use('/api/comments', commentsRoutes);
-app.use('/api/pinterest', pinterestRoutes);
-app.use('/api/polls', pollsRoutes);
-app.use('/api/messages', messagesRoutes);
-app.use('/api/registry', registryRoutes);
-app.use('/api/workbook', workbookRoutes);
+// --- API Routes ---
+app.use("/api/auth", authRoutes);
+app.use("/api/profiles", profilesRoutes);
+app.use("/api/academy", academyRoutes);
+app.use("/api/community", communityRoutes);
+app.use("/api/blog", blogRoutes);
+app.use("/api/events", eventsRoutes);
+app.use("/api/announcements", announcementsRoutes);
+app.use("/api/comments", commentsRoutes);
+app.use("/api/pinterest", pinterestRoutes);
+app.use("/api/polls", pollsRoutes);
+app.use("/api/messages", messagesRoutes);
+app.use("/api/registry", registryRoutes);
+app.use("/api/workbook", workbookRoutes);
 
+// --- 404 Handler ---
 app.use((req, res) => {
-  res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
+  res
+    .status(404)
+    .json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
 });
 
- 
+// --- Error Handler ---
 app.use((err, _req, res, _next) => {
-  logError('API error', err);
-  res.status(err.status || 500).json({ message: err.message || 'Unexpected server error.' });
+  logError("API error", err);
+  res
+    .status(err.status || 500)
+    .json({ message: err.message || "Unexpected server error." });
 });
 
 export default app;

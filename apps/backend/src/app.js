@@ -34,6 +34,8 @@ if (config.env !== 'production') {
 const allowedOrigins = new Set([
   'http://localhost:3000',
   'https://taylor-made-baby-co.vercel.app',
+  'https://www.taylormadebabyco.com',
+  'https://taylormadebabyco.com',
   'https://taylor-made-api-5289731b5afb.herokuapp.com',
   ...config.clientOrigins,
 ]);

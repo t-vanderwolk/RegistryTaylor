@@ -53,6 +53,11 @@ const isAllowedOrigin = (origin) => {
   );
 };
 
+app.use((req, _res, next) => {
+  console.log("🛰️ Incoming Origin:", req.headers.origin);
+  next();
+});
+
 app.use(
   cors({
     origin: (origin, callback) => {

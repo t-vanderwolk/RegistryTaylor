@@ -16,28 +16,14 @@ const BASE_LINKS: ReadonlyArray<{ label: string; href: Route }> = [
   { label: "Login", href: "/login" as Route },
 ] as const;
 
-const CTA_LINK: { label: string; href: Route } = {
-  label: "Request Invite",
-  href: "/request-invite" as Route,
-};
+const CTA_LINK = { label: "Request Invite", href: "/request-invite" as Route };
 
 function isActiveLink(pathname: string, href: string) {
-  if (href === "/") {
-    return pathname === "/";
-  }
-
-  if (href === "/learn") {
-    return pathname === "/learn";
-  }
-
-  if (href === "/community") {
-    return pathname === "/community";
-  }
-
-  if (href === "/dashboard") {
+  if (href === "/") return pathname === "/";
+  if (href === "/learn") return pathname === "/learn";
+  if (href === "/community") return pathname === "/community";
+  if (href === "/dashboard")
     return pathname === "/dashboard" || pathname.startsWith("/dashboard");
-  }
-
   return pathname === href;
 }
 
@@ -61,31 +47,25 @@ export default function Navbar() {
         }
 
         const response = await fetch(sessionEndpoint, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
           credentials: "include",
           cache: "no-store",
         });
 
         if (isMounted) {
           setIsAuthenticated(response.ok);
-          if (response.status === 401 || response.status === 404) {
+          if (response.status === 401 || response.status === 404)
             clearStoredToken();
-          }
         }
       } catch {
         if (isMounted) setIsAuthenticated(false);
       }
     };
 
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 12);
 
     evaluateSession();
     handleScroll();
-
     window.addEventListener("focus", evaluateSession);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
@@ -95,17 +75,17 @@ export default function Navbar() {
     };
   }, [sessionEndpoint]);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+  useEffect(() => setMenuOpen(false), [pathname]);
 
-  const links = useMemo(() => {
-    return BASE_LINKS.map((link) =>
-      link.href === "/login" && isAuthenticated
-        ? { label: "Dashboard", href: "/dashboard" as Route }
-        : link,
-    );
-  }, [isAuthenticated]);
+  const links = useMemo(
+    () =>
+      BASE_LINKS.map((link) =>
+        link.href === "/login" && isAuthenticated
+          ? { label: "Dashboard", href: "/dashboard" as Route }
+          : link,
+      ),
+    [isAuthenticated],
+  );
 
   const navClassName = [
     "sticky inset-x-0 top-0 z-50 border border-mauve-500/10 bg-ivory/80 backdrop-blur-sm transition-all",
@@ -121,7 +101,10 @@ export default function Navbar() {
           className="flex items-baseline space-x-2 transition hover:text-mauve-600"
           aria-label="Taylor-Made Baby Co. home"
         >
-          <span className="font-script text-4xl text-mauve-500 tracking-tight md:text-5xl">Taylor-Made</span>
+          {/* 🩰 Cursive logo text matches dashboard navbar */}
+          <span className="font-[var(--font-great-vibes)] text-4xl text-mauve-500 tracking-tight md:text-5xl">
+            Taylor-Made
+          </span>
           <span className="font-[var(--font-playfair-sc)] text-xl font-semibold uppercase tracking-[0.35em] text-charcoal md:text-2xl">
             Baby Co.
           </span>
@@ -129,7 +112,7 @@ export default function Navbar() {
 
         <button
           type="button"
-          onClick={() => setMenuOpen((value) => !value)}
+          onClick={() => setMenuOpen((v) => !v)}
           className="inline-flex items-center rounded-full bg-rose px-4 py-2 text-sm font-semibold text-charcoal shadow-[0_18px_28px_rgba(200,161,180,0.25)] transition hover:-translate-y-0.5 hover:bg-mauve-600 md:hidden"
           aria-expanded={menuOpen}
           aria-controls="tmbc-mobile-nav"
@@ -169,7 +152,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {menuOpen ? (
+      {menuOpen && (
         <div
           id="tmbc-mobile-nav"
           className="border-t border-mauve-500/15 bg-ivory/95 px-6 pb-6 pt-4 shadow-[0_22px_55px_rgba(200,161,180,0.2)] md:hidden"
@@ -194,7 +177,7 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-      ) : null}
+      )}
     </nav>
   );
 }

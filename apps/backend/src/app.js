@@ -36,6 +36,7 @@ const allowedOrigins = new Set([
   'https://taylor-made-baby-co.vercel.app',
   'https://www.taylormadebabyco.com',
   'https://taylormadebabyco.com',
+  'https://taylor-made-7f1024d95529.herokuapp.com',
   'https://taylor-made-api-5289731b5afb.herokuapp.com',
   ...config.clientOrigins,
 ]);

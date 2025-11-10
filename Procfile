@@ -1,1 +1,1 @@
-web: node apps/backend/src/server.js
+web: pnpm --filter taylor-made-app start

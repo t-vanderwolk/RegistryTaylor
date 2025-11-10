@@ -1,1 +1,7 @@
-apps/backend
+apps/backend/
+node_modules/
+pnpm-lock.yaml
+*.log
+.gitignore
+README.md
+.env*

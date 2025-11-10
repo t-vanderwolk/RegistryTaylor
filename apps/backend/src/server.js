@@ -1,24 +1,31 @@
-import app from './app.js';
-import config from './config.js';
-import prisma from './db/prismaClient.js';
-import { logInfo } from './utils/logger.js';
+import cors from "cors";
+import express from "express";
 
-const PORT = config.port || 5050;
+const app = express();
 
-const server = app.listen(PORT, () => {
-  logInfo(`✅ Taylor-Made Baby Co API live on port ${PORT}`);
-});
+// Allowed origins for CORS
+const allowedOrigins = [
+  "https://www.taylormadebabyco.com",
+  "https://taylormadebabyco.com",
+  "https://taylor-made-7f1024d95529.herokuapp.com", // your Heroku frontend
+  "http://localhost:3000", // for local dev
+];
 
-const gracefulShutdown = async (signal) => {
-  logInfo(`Received ${signal}, shutting down gracefully...`);
-  server.close(async () => {
-    await prisma.$disconnect();
-    process.exit(0);
-  });
-};
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow server-to-server or same-origin requests
+      if (!origin) return callback(null, true);
 
-['SIGINT', 'SIGTERM'].forEach((signal) => {
-  process.on(signal, () => gracefulShutdown(signal));
-});
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn(`❌ Blocked by CORS: ${origin}`);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // allow cookies / headers
+  })
+);
 
-export default server;
+app.use(express.json());

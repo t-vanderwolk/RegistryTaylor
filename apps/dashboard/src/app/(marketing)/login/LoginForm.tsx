@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Route } from "next";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/lib/auth";
 import { STORED_SESSION_USER_KEY, STORED_TOKEN_KEY } from "@/lib/sessionKeys";
@@ -64,7 +65,7 @@ export default function LoginForm() {
       console.log("🔀 Redirecting to:", dashboardPath);
       console.log("⏳ Waiting for SessionInitializer to hydrate and handle redirect…");
       setTimeout(() => {
-        router.replace(dashboardPath);
+        router.replace(dashboardPath as Route);
       }, 300);
     } catch (err) {
       console.error("❗ LoginForm.tsx:52 handleSubmit error", err);

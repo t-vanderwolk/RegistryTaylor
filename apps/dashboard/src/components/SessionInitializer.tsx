@@ -1,5 +1,6 @@
 "use client";
 
+import type { Route } from "next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
@@ -130,7 +131,7 @@ export default function SessionInitializer() {
 
   useEffect(() => {
     if (sessionUser && pathname === "/login") {
-      router.replace(getDashboardPath(sessionUser.role));
+      router.replace(getDashboardPath(sessionUser.role) as Route);
     }
   }, [pathname, router, sessionUser]);
 
@@ -170,11 +171,15 @@ export default function SessionInitializer() {
           return;
         }
 
+        if (!token) {
+          return;
+        }
+
         const cachedUser = getCachedSession();
         if (cachedUser) {
           hydrateFromCache(cachedUser);
           if (onLogin) {
-            router.replace(getDashboardPath(cachedUser.role));
+            router.replace(getDashboardPath(cachedUser.role) as Route);
           }
           return;
         }
@@ -189,7 +194,7 @@ export default function SessionInitializer() {
         persistStoredUser(verifiedUser);
 
         if (onLogin) {
-          router.replace(getDashboardPath(verifiedUser.role));
+          router.replace(getDashboardPath(verifiedUser.role) as Route);
         }
       } catch (error) {
         console.error(`SessionInitializer: ${reason} session enforcement failed`, error);
@@ -225,7 +230,7 @@ export default function SessionInitializer() {
       window.removeEventListener("storage", storageHandler);
       window.clearInterval(intervalId);
     };
-  }, [hydrated, pathname, router]);
+  }, [hydrated, pathname, router, softLogout]);
 
   return null;
 }

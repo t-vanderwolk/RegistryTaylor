@@ -4,8 +4,10 @@ import pluginImport from "eslint-plugin-import";
 
 export default [
   {
+    ignores: ["**/node_modules/**", "**/prisma/**"],
+  },
+  {
     files: ["**/*.js", "**/*.ts"],
-    ignores: ["node_modules/**", "prisma/**"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module", // ✅ allow import/export

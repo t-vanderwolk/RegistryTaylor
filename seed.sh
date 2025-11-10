@@ -7,7 +7,7 @@ echo "--------------------------------------------"
 # detect environment
 if [[ "$1" == "prod" || "$1" == "heroku" ]]; then
   echo "→ Target: Heroku production database"
-  export DATABASE_URL="$(heroku config:get DATABASE_URL --app taylor-made-api)"
+  export DATABASE_URL="$(heroku config:get DATABASE_URL --app taylor-made)"
 else
   echo "→ Target: Local PostgreSQL instance"
   export DATABASE_URL="postgresql://postgres:this_is_my_super_secret_password@localhost:5432/registry_taylor"
@@ -33,5 +33,4 @@ pnpm prisma db seed
 
 echo ""
 echo "✅ Seed complete for environment: ${1:-local}"
-
 

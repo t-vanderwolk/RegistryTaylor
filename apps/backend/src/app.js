@@ -40,7 +40,6 @@ const allowedOrigins = new Set([
   "https://taylor-made-7f1024d95529.herokuapp.com",
   "https://taylor-made.herokuapp.com",
   "https://taylor-made-baby-co.vercel.app",
-  "https://taylor-made-api-5289731b5afb.herokuapp.com",
   ...(config.clientOrigins || []),
 ]);
 
@@ -80,6 +79,7 @@ app.use(
 
 // --- Health Check Route ---
 app.get("/health", healthCheck);
+app.get("/api/health", healthCheck);
 app.get("/cors-check", (req, res) => {
   res.json({ ok: true, origin: req.headers.origin });
 });

@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
@@ -60,11 +59,16 @@ const config: Config = {
         "blush-pill": "0 12px 24px rgba(234, 201, 209, 0.35)",
       },
       backgroundImage: {
-        "academy-card": "linear-gradient(145deg, rgba(197, 165, 181, 0.35), rgba(255, 250, 248, 0.95))",
-        "academy-divider": "linear-gradient(120deg, rgba(197, 165, 181, 0.4), rgba(245, 230, 232, 0.65))",
-        "dashboard-header": "linear-gradient(125deg, rgba(255, 250, 248, 0.92), rgba(177, 132, 153, 0.55))",
-        "dashboard-strip": "linear-gradient(90deg, rgba(255, 250, 248, 0.7), rgba(177, 132, 153, 0.45))",
-        "notebook-lines": "linear-gradient(180deg, rgba(245, 230, 232, 0.5) 0, rgba(245, 230, 232, 0.5) 1px, transparent 1px, transparent 38px)",
+        "academy-card":
+          "linear-gradient(145deg, rgba(197, 165, 181, 0.35), rgba(255, 250, 248, 0.95))",
+        "academy-divider":
+          "linear-gradient(120deg, rgba(197, 165, 181, 0.4), rgba(245, 230, 232, 0.65))",
+        "dashboard-header":
+          "linear-gradient(125deg, rgba(255, 250, 248, 0.92), rgba(177, 132, 153, 0.55))",
+        "dashboard-strip":
+          "linear-gradient(90deg, rgba(255, 250, 248, 0.7), rgba(177, 132, 153, 0.45))",
+        "notebook-lines":
+          "linear-gradient(180deg, rgba(245, 230, 232, 0.5) 0, rgba(245, 230, 232, 0.5) 1px, transparent 1px, transparent 38px)",
       },
       borderRadius: {
         "2xl": "1rem",
@@ -78,5 +82,3 @@ const config: Config = {
   },
   plugins: [],
 };
-
-export default config;

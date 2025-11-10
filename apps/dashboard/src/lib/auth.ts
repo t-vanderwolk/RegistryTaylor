@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import api from "@/lib/apiClient";
+import api, { API_URL } from "@/lib/apiClient";
 import { isAxiosError } from "axios";
 import {
   LEGACY_STORED_USER_KEY,
@@ -36,11 +36,7 @@ type PersistStoredUserOptions = {
   persistSession?: boolean;
 };
 
-const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_URL ||
-  process.env.API_URL ||
-  "http://localhost:5050"
-).replace(/\/$/, "");
+const API_BASE_URL = API_URL;
 
 const SESSION_ENDPOINT = `${API_BASE_URL}/api/auth/session`;
 

@@ -3,9 +3,18 @@ import { STORED_TOKEN_KEY } from "@/lib/sessionKeys";
 
 export type ApiFetchOptions = RequestInit;
 
-export const API_URL = (
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"
-).replace(/\/$/, "");
+const resolveBaseUrl = (): string => {
+  if (typeof window !== "undefined") {
+    return window.location.origin;
+  }
+  return (
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.API_URL ||
+    "https://taylor-made-api-5289731b5afb.herokuapp.com"
+  );
+};
+
+export const API_URL = resolveBaseUrl().replace(/\/$/, "");
 
 const api = axios.create({
   baseURL: API_URL,

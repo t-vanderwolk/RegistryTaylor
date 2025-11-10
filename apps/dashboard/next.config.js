@@ -1,4 +1,13 @@
+const fs = require('node:fs');
 const path = require('path');
+const dotenv = require('dotenv');
+
+const rootEnvPath = path.resolve(__dirname, '../../.env');
+if (fs.existsSync(rootEnvPath)) {
+  dotenv.config({ path: rootEnvPath });
+} else {
+  dotenv.config();
+}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

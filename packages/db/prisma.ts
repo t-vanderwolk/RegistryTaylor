@@ -3,23 +3,32 @@ import path from "node:path";
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 
-if (!process.env.DATABASE_URL) {
-  const envCandidates = [
-    ".env.local",
-    ".env",
-    "../.env",
-    "../../.env",
-    "../../apps/.env",
-  ].map((relativePath) => path.resolve(process.cwd(), relativePath));
+const resolveRootEnv = (startDir: string): string | undefined => {
+  let current = startDir;
+  const { root } = path.parse(current);
+  let detected: string | undefined;
 
-  for (const candidate of envCandidates) {
+  while (true) {
+    const candidate = path.join(current, ".env");
     if (fs.existsSync(candidate)) {
-      dotenv.config({ path: candidate });
-      if (process.env.DATABASE_URL) {
-        break;
-      }
+      detected = candidate;
     }
+
+    if (current === root) {
+      break;
+    }
+
+    current = path.dirname(current);
   }
+
+  return detected;
+};
+
+const rootEnvPath = resolveRootEnv(process.cwd());
+if (rootEnvPath) {
+  dotenv.config({ path: rootEnvPath });
+} else {
+  dotenv.config();
 }
 
 declare global {

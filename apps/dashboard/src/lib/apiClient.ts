@@ -3,15 +3,26 @@ import { STORED_TOKEN_KEY } from "@/lib/sessionKeys";
 
 export type ApiFetchOptions = RequestInit;
 
+const DEFAULT_REMOTE_URL = "https://taylor-made.herokuapp.com";
+const LOCAL_UNIFIED_URL = "http://localhost:5050";
+
 const resolveBaseUrl = (): string => {
+  const configured = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL;
+  if (configured) {
+    return configured;
+  }
+
   if (typeof window !== "undefined") {
+    if (
+      window.location.hostname === "localhost" &&
+      window.location.port === "3000"
+    ) {
+      return LOCAL_UNIFIED_URL;
+    }
     return window.location.origin;
   }
-  return (
-    process.env.NEXT_PUBLIC_API_URL ||
-    process.env.API_URL ||
-    "https://taylor-made-api-5289731b5afb.herokuapp.com"
-  );
+
+  return DEFAULT_REMOTE_URL;
 };
 
 export const API_URL = resolveBaseUrl().replace(/\/$/, "");

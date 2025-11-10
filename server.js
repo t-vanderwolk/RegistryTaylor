@@ -1,3 +1,4 @@
+const fs = require("node:fs");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const dotenv = require("dotenv");
@@ -7,9 +8,19 @@ const next = require("next");
 
 const resolveFromRoot = (...segments) => path.join(__dirname, ...segments);
 
-const envFiles = [".env", "apps/backend/.env", "apps/dashboard/.env"];
-for (const file of envFiles) {
-  dotenv.config({ path: resolveFromRoot(file) });
+const rootEnvPath = resolveFromRoot(".env");
+if (fs.existsSync(rootEnvPath)) {
+  dotenv.config({ path: rootEnvPath });
+} else {
+  dotenv.config();
+}
+
+if (!process.env.TAILWIND_CONFIG) {
+  process.env.TAILWIND_CONFIG = resolveFromRoot("apps/dashboard/tailwind.config.js");
+}
+
+if (!process.env.POSTCSS_CONFIG) {
+  process.env.POSTCSS_CONFIG = resolveFromRoot("apps/dashboard/postcss.config.js");
 }
 
 const shouldPipeToBackend = (urlPath = "") => {

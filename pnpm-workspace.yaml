@@ -1,7 +1,7 @@
 packages:
-  - 'apps/backend'
-  - 'apps/dashboard'
-  - 'packages/*'
+  - "apps/backend"
+  - "apps/dashboard"
+  - "packages/db"
 
 onlyBuiltDependencies:
   - '@prisma/client'

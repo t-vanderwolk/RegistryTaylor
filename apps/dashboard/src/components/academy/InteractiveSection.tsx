@@ -7,11 +7,13 @@ import { useAcademyProgress } from "@/components/academy/ProgressContext";
 import ReflectionSection from "@/components/academy/ReflectionSection";
 import QuizBlock from "@/components/academy/QuizBlock";
 import type { ModuleProgress } from "@/types/academy";
+import { moduleQuizzes } from "@/app/dashboard/learn/welcome/data/moduleQuizzes";
 
 type QuizQuestion = {
   id: string;
   question: string;
   options: string[];
+  answer?: string;
 };
 
 type QuizPayload = {
@@ -57,6 +59,7 @@ export default function InteractiveSection({ moduleSlug, moduleTitle }: Interact
   const [quizError, setQuizError] = useState<string | null>(null);
   const [submittingQuiz, setSubmittingQuiz] = useState(false);
   const [showScoreCelebration, setShowScoreCelebration] = useState(false);
+  const [usingLocalQuiz, setUsingLocalQuiz] = useState(false);
 
   const [reflection, setReflection] = useState("");
   const [reflectionStatus, setReflectionStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -69,6 +72,11 @@ export default function InteractiveSection({ moduleSlug, moduleTitle }: Interact
   const pendingSave = useRef<number | null>(null);
 
   useEffect(() => {
+    setAnswers({});
+    setScore(baseProgress?.quizScore ?? null);
+  }, [moduleSlug, baseProgress?.quizScore]);
+
+  useEffect(() => {
     let cancelled = false;
     hasBootstrapped.current = false;
     skippedInitialSave.current = false;
@@ -76,6 +84,7 @@ export default function InteractiveSection({ moduleSlug, moduleTitle }: Interact
     async function bootstrap() {
       setLoading(true);
       try {
+        let remoteQuizLoaded = false;
         const [quizRes, reflectionRes] = await Promise.allSettled([
           fetch(`/api/academy/quiz?moduleSlug=${encodeURIComponent(moduleSlug)}`, {
             headers: { Accept: "application/json" },
@@ -88,8 +97,21 @@ export default function InteractiveSection({ moduleSlug, moduleTitle }: Interact
         if (!cancelled && quizRes.status === "fulfilled" && quizRes.value.ok) {
           const payload = (await quizRes.value.json()) as QuizPayload;
           const quizQuestions = payload.questions ?? [];
-          setQuestions(quizQuestions);
-          setTotalQuestions(quizQuestions.length);
+          if (quizQuestions.length) {
+            setQuestions(quizQuestions);
+            setTotalQuestions(quizQuestions.length);
+            setUsingLocalQuiz(false);
+            remoteQuizLoaded = true;
+          }
+        }
+
+        if (!cancelled && !remoteQuizLoaded) {
+          const fallbackQuiz = moduleQuizzes[moduleSlug];
+          if (fallbackQuiz?.questions.length) {
+            setQuestions(fallbackQuiz.questions);
+            setTotalQuestions(fallbackQuiz.questions.length);
+            setUsingLocalQuiz(true);
+          }
         }
 
         if (!cancelled && reflectionRes.status === "fulfilled" && reflectionRes.value.ok) {
@@ -107,6 +129,14 @@ export default function InteractiveSection({ moduleSlug, moduleTitle }: Interact
         }
       } catch (error) {
         console.error("Unable to bootstrap interactive section", error);
+        if (!cancelled) {
+          const fallbackQuiz = moduleQuizzes[moduleSlug];
+          if (fallbackQuiz?.questions.length) {
+            setQuestions(fallbackQuiz.questions);
+            setTotalQuestions(fallbackQuiz.questions.length);
+            setUsingLocalQuiz(true);
+          }
+        }
       } finally {
         if (!cancelled) {
           setLoading(false);
@@ -149,6 +179,33 @@ export default function InteractiveSection({ moduleSlug, moduleTitle }: Interact
 
     setSubmittingQuiz(true);
     setQuizError(null);
+
+    if (usingLocalQuiz) {
+      const fallbackQuiz = moduleQuizzes[moduleSlug];
+      if (!fallbackQuiz) {
+        setQuizError("Quiz unavailable right now. Please try again later.");
+        setSubmittingQuiz(false);
+        return;
+      }
+      const total = fallbackQuiz.questions.length;
+      const correctCount = fallbackQuiz.questions.reduce((count, question) => {
+        const response = (answers[question.id] ?? "").trim().toLowerCase();
+        const expected = (question.answer ?? "").trim().toLowerCase();
+        if (response && expected && response === expected) {
+          return count + 1;
+        }
+        return count;
+      }, 0);
+      setScore(correctCount);
+      setTotalQuestions(total);
+      setShowScoreCelebration(true);
+      window.setTimeout(() => setShowScoreCelebration(false), 1800);
+      updateProgress({
+        quizScore: correctCount,
+      });
+      setSubmittingQuiz(false);
+      return;
+    }
 
     try {
       const response = await fetch("/api/academy/quiz", {

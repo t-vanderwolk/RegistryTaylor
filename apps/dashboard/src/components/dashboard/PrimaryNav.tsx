@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   BookOpen,
+  ClipboardList,
   PenTool,
   Users,
   LifeBuoy,
@@ -51,6 +52,12 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
     Icon: BookOpen,
     isActive: (_pathname) =>
       _pathname.startsWith("/dashboard/learn") || _pathname.startsWith("/dashboard/academy"),
+  },
+  {
+    label: "Plan",
+    href: "/dashboard/plan" as Route,
+    Icon: ClipboardList,
+    isActive: (_pathname) => _pathname.startsWith("/dashboard/plan"),
   },
   {
     label: "Journal",

@@ -8,7 +8,8 @@ export type NavItem = {
 
 const memberNav: NavItem[] = [
   { href: "/dashboard/member" as const, label: "Home" },
-  { href: "/dashboard/learn" as const, label: "Academy" },
+  { href: "/dashboard/learn/welcome" as const, label: "Academy" },
+  { href: "/dashboard/plan" as const, label: "Plan" },
   { href: "/dashboard/community" as const, label: "Community" },
   { href: "/dashboard/journal" as const, label: "Journal" },
   { href: "/dashboard/support" as const, label: "Support Hub" },
@@ -16,16 +17,18 @@ const memberNav: NavItem[] = [
 
 const mentorNav: NavItem[] = [
   { href: "/dashboard/mentor" as const, label: "Studio" },
+  { href: "/dashboard/plan" as const, label: "Plan" },
   { href: "/dashboard/community" as const, label: "Community" },
   { href: "/dashboard/support" as const, label: "Support" },
-  { href: "/dashboard/learn" as const, label: "Academy" },
+  { href: "/dashboard/learn/welcome" as const, label: "Academy" },
 ];
 
 const adminNav: NavItem[] = [
   { href: "/dashboard/admin" as const, label: "Command" },
+  { href: "/dashboard/plan" as const, label: "Plan" },
   { href: "/dashboard/community" as const, label: "Community" },
   { href: "/dashboard/support" as const, label: "Support" },
-  { href: "/dashboard/learn" as const, label: "Academy" },
+  { href: "/dashboard/learn/welcome" as const, label: "Academy" },
 ];
 
 export const DASHBOARD_NAV_MAP: Record<UserRole, NavItem[]> = {

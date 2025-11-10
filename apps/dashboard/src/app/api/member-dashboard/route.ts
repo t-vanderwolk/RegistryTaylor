@@ -246,7 +246,7 @@ export async function GET(request: NextRequest) {
       academy: {
         percentComplete,
         nextTitle: nextModule?.title ?? null,
-        href: nextModule ? `/dashboard/learn/${nextModule.slug}` : "/dashboard/learn",
+        href: nextModule ? `/dashboard/learn/${nextModule.slug}` : "/dashboard/learn/welcome",
       },
       reflection: {
         excerpt: reflectionExcerpt,

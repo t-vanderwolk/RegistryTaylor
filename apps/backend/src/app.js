@@ -18,7 +18,7 @@ import pollsRoutes from "./routes/polls.js";
 import profilesRoutes from "./routes/profiles.js";
 import registryRoutes from "./routes/registry.js";
 import workbookRoutes from "./routes/workbook.js";
-import { logError, logWarn } from "./utils/logger.js";
+import { logError } from "./utils/logger.js";
 
 const app = express();
 
@@ -34,50 +34,31 @@ if (config.env !== "production") {
 
 // --- CORS Configuration ---
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://taylor-made-baby-co.vercel.app",
   "https://www.taylormadebabyco.com",
-  "https://taylormadebabyco.com",
   "https://taylor-made-7f1024d95529.herokuapp.com",
   "https://taylor-made-api-5289731b5afb.herokuapp.com",
+  "http://localhost:3000",
   ...(config.clientOrigins || []),
 ];
 
-const wildcardOrigins = [/^https:\/\/(?:[a-z0-9-]+\.)?taylormadebabyco\.com$/i];
-
-const isAllowedOrigin = (origin) => {
-  if (!origin) return true;
-  return (
-    allowedOrigins.includes(origin) ||
-    wildcardOrigins.some((pattern) => pattern.test(origin))
-  );
-};
-
 app.use((req, _res, next) => {
-  console.log("🛰️ Incoming Origin:", req.headers.origin);
+  console.log("🌐 Incoming Origin:", req.headers.origin || "No origin");
   next();
 });
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (isAllowedOrigin(origin)) {
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
-      } else {
-        logWarn(`❌ Blocked CORS request from ${origin}`);
-        callback(new Error("Not allowed by CORS"));
+        return;
       }
+      console.warn("❌ Blocked by CORS:", origin);
+      callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-      "Origin",
-    ],
-    exposedHeaders: ["Set-Cookie"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -91,6 +72,9 @@ app.use(
 
 // --- Health Check Route ---
 app.get("/health", healthCheck);
+app.get("/cors-check", (req, res) => {
+  res.json({ ok: true, origin: req.headers.origin });
+});
 
 // --- API Routes ---
 app.use("/api/auth", authRoutes);

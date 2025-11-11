@@ -19,8 +19,24 @@ import profilesRoutes from "./routes/profiles.js";
 import registryRoutes from "./routes/registry.js";
 import workbookRoutes from "./routes/workbook.js";
 import { logError } from "./utils/logger.js";
-
 const app = express();
+
+// ✅ CORS should be first
+app.use((req, _res, next) => {
+  console.log("🌐 Incoming Origin:", req.headers.origin || "No origin");
+  next();
+});
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+// Then the rest
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  helmet({
+    contentSecurityPolicy: { directives: cspDirectives },
+  })
+);
 
 // --- Content Security Policy ---
 const cspDirectives = {

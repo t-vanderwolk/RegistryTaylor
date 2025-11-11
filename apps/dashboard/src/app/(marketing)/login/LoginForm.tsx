@@ -122,7 +122,7 @@ export default function LoginForm() {
 
       console.log("✅ LOGIN SUCCESS:", user);
       console.log("🔀 Redirecting to:", dashboardPath);
-      router.push(dashboardPath as Route);
+      router.replace(dashboardPath as Route);
     } catch (err) {
       console.error("❗ LoginForm.tsx:52 handleSubmit error", err);
       const message = err instanceof Error ? err.message : "Unable to login. Please try again.";

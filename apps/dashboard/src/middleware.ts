@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_PATHS = new Set(["/", "/login", "/request-invite"]);
+const PUBLIC_PATHS = new Set(["/", "/login", "/request-invite", "/blog"]);
+const PUBLIC_PREFIXES = ["/api", "/blog/"];
 const DASHBOARD_PREFIX = "/dashboard";
-const API_PREFIX = "/api";
 const TOKEN_COOKIE = "token";
 
 const canonicalSiteUrl = (() => {
@@ -19,9 +19,8 @@ const canonicalSiteUrl = (() => {
 })();
 
 function isPublicPath(pathname: string) {
-  if (pathname.startsWith(API_PREFIX)) return true;
   if (PUBLIC_PATHS.has(pathname)) return true;
-  return false;
+  return PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 }
 
 export function middleware(req: NextRequest) {

@@ -8,12 +8,12 @@
     "packages/*"
   ],
   "scripts": {
+       "build": "cd apps/dashboard && npm run build",
+    "start": "node server.js",
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"pnpm run dev:backend\" \"pnpm run dev:dashboard\"",
     "dev:backend": "pnpm --filter tm-backend dev",
     "dev:dashboard": "pnpm --filter taylor-made-app dev",
-    "start": "node server.js",
-    "build": "pnpm run build:backend && pnpm run build:dashboard",
     "build:backend": "pnpm --filter tm-backend prisma:generate",
     "build:dashboard": "pnpm --filter taylor-made-app build",
     "lint": "pnpm --filter taylor-made-app lint",
@@ -37,7 +37,7 @@
     "knex": "^3.1.0",
     "lucide-react": "^0.548.0",
     "morgan": "^1.10.0",
-    "next": "^16.0.1",
+    "next": "^14.2.33",
     "nodemailer": "^7.0.10",
     "pg": "^8.11.5",
     "prisma": "6.18.0",

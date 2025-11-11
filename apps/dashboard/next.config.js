@@ -1,7 +1,5 @@
-// apps/dashboard/next.config.js
 const nextConfig = {
-  experimental: { typedRoutes: true }, // optional new flag
+  experimental: { typedRoutes: true },
   reactStrictMode: true,
-  output: "standalone",
 };
 module.exports = nextConfig;

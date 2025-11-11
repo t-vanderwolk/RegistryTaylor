@@ -21,10 +21,38 @@ import {
   type AuthenticatedUser,
 } from "@/lib/auth";
 
-const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"
-).replace(/\/$/, "");
-const SESSION_ENDPOINT = `${API_BASE_URL}/api/auth/session`;
+function normalizeOrigin(origin?: string | null) {
+  if (!origin) {
+    return null;
+  }
+  try {
+    return new URL(origin).origin;
+  } catch {
+    return origin.replace(/\/$/, "");
+  }
+}
+
+function resolveSiteOrigin() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL) ?? process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin;
+  }
+  return "http://localhost:5050";
+}
+
+function resolveApiBaseUrl() {
+  return (
+    normalizeOrigin(process.env.NEXT_PUBLIC_API_URL) ??
+    normalizeOrigin(process.env.API_URL) ??
+    resolveSiteOrigin()
+  );
+}
+
+function getSessionEndpoint() {
+  return `${resolveApiBaseUrl()}/api/auth/session`;
+}
 const MIN_CACHE_CHECK_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 const SESSION_CACHE_CHECK_INTERVAL_MS = Math.min(
   Math.max(MIN_CACHE_CHECK_INTERVAL_MS, SESSION_CACHE_MAX_AGE_MS / 4),
@@ -33,7 +61,8 @@ const SESSION_CACHE_CHECK_INTERVAL_MS = Math.min(
 
 async function requestSessionUser(token: string): Promise<AuthenticatedUser | null> {
   try {
-    const response = await fetch(SESSION_ENDPOINT, {
+    const sessionEndpoint = getSessionEndpoint();
+    const response = await fetch(sessionEndpoint, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -79,6 +108,7 @@ export default function SessionInitializer() {
   const [hydrated, setHydrated] = useState(false);
   const [sessionUser, setSessionUser] = useState<AuthenticatedUser | null>(null);
   const resolvingRef = useRef(false);
+  const memberRedirectTimeout = useRef<number | null>(null);
 
   useEffect(() => setHydrated(true), []);
 
@@ -134,6 +164,40 @@ export default function SessionInitializer() {
       router.replace(getDashboardPath(sessionUser.role) as Route);
     }
   }, [pathname, router, sessionUser]);
+
+  useEffect(() => {
+    if (!hydrated || typeof window === "undefined") {
+      return;
+    }
+
+    if (!sessionUser || sessionUser.role !== "MEMBER") {
+      if (memberRedirectTimeout.current) {
+        window.clearTimeout(memberRedirectTimeout.current);
+        memberRedirectTimeout.current = null;
+      }
+      return;
+    }
+
+    if (!pathname.startsWith("/dashboard") || pathname === "/dashboard/member") {
+      return;
+    }
+
+    if (memberRedirectTimeout.current) {
+      return;
+    }
+
+    memberRedirectTimeout.current = window.setTimeout(() => {
+      router.replace("/dashboard/member");
+      memberRedirectTimeout.current = null;
+    }, 150);
+
+    return () => {
+      if (memberRedirectTimeout.current) {
+        window.clearTimeout(memberRedirectTimeout.current);
+        memberRedirectTimeout.current = null;
+      }
+    };
+  }, [hydrated, pathname, router, sessionUser]);
 
   useEffect(() => {
     if (!hydrated || typeof window === "undefined") {
@@ -229,6 +293,10 @@ export default function SessionInitializer() {
       resolvingRef.current = false;
       window.removeEventListener("storage", storageHandler);
       window.clearInterval(intervalId);
+      if (memberRedirectTimeout.current) {
+        window.clearTimeout(memberRedirectTimeout.current);
+        memberRedirectTimeout.current = null;
+      }
     };
   }, [hydrated, pathname, router, softLogout]);
 

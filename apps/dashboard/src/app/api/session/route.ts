@@ -2,7 +2,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
 
 const TOKEN_COOKIE = "token";
 const MAX_AGE_SECONDS = 7 * 24 * 60 * 60;
@@ -39,4 +40,28 @@ export async function DELETE() {
   });
 
   return NextResponse.json({ ok: true });
+}
+
+export async function GET(request: NextRequest) {
+  const token = request.cookies.get(TOKEN_COOKIE)?.value;
+
+  if (!token) {
+    return NextResponse.json({ user: null }, { status: 401 });
+  }
+
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error("GET /api/session missing JWT_SECRET");
+    return NextResponse.json({ user: null }, { status: 500 });
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    if (!decoded || typeof decoded !== "object") {
+      return NextResponse.json({ user: null }, { status: 403 });
+    }
+    return NextResponse.json({ user: decoded }, { status: 200 });
+  } catch {
+    return NextResponse.json({ user: null }, { status: 403 });
+  }
 }

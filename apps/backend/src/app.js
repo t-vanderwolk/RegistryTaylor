@@ -33,15 +33,40 @@ if (config.env !== "production") {
 }
 
 /* -------------------- 🌐 CORS Configuration -------------------- */
-const allowedOrigins = new Set([
-  "http://localhost:3000",
+const envAllowedOrigins =
+  (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+const baseAllowedOrigins = new Set([
+  "http://localhost:5050",
   "https://www.taylormadebabyco.com",
   "https://taylormadebabyco.com",
   "https://taylor-made.herokuapp.com",
   "https://taylor-made-7f1024d95529.herokuapp.com",
   "https://taylor-made-baby-co.vercel.app",
-  ...(config.clientOrigins || []),
 ]);
+
+const derivedOrigins = [
+  process.env.NEXT_PUBLIC_SITE_URL,
+  process.env.NEXT_PUBLIC_API_URL,
+  process.env.API_URL,
+  process.env.CLIENT_URL,
+];
+
+[...(config.clientOrigins || []), ...envAllowedOrigins, ...derivedOrigins]
+  .filter(Boolean)
+  .forEach((origin) => {
+    try {
+      const normalized = new URL(origin).origin;
+      baseAllowedOrigins.add(normalized);
+    } catch {
+      baseAllowedOrigins.add(origin);
+    }
+  });
+
+const allowedOrigins = baseAllowedOrigins;
 
 const isAllowedOrigin = (origin) => {
   if (!origin) return true;

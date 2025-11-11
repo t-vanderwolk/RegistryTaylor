@@ -161,11 +161,34 @@ router.get(
   }),
 );
 
+const extractToken = (req) => {
+  if (req.cookies?.token) {
+    return req.cookies.token;
+  }
+  const bearer = req.headers.authorization;
+  if (bearer && bearer.startsWith('Bearer ')) {
+    return bearer.split(' ')[1];
+  }
+  return null;
+};
+
 router.get(
   '/session',
-  requireAuth,
   asyncHandler(async (req, res) => {
-    await respondWithUser(req.user.id, res);
+    const token = extractToken(req);
+    if (!token) {
+      return res.status(401).json({ message: 'Missing session token.' });
+    }
+
+    try {
+      const payload = jwt.verify(token, config.jwtSecret);
+      if (!payload?.id) {
+        return res.status(401).json({ message: 'Invalid session token.' });
+      }
+      await respondWithUser(payload.id, res);
+    } catch {
+      return res.status(401).json({ message: 'Invalid session token.' });
+    }
   }),
 );
 
@@ -175,6 +198,14 @@ router.delete(
   asyncHandler(async (req, res) => {
     res.clearCookie('token', baseCookieOptions);
     res.status(204).json({ message: 'Session cleared' });
+  }),
+);
+
+router.post(
+  '/logout',
+  asyncHandler(async (_req, res) => {
+    res.clearCookie('token', baseCookieOptions);
+    res.status(204).json({ message: 'Logged out' });
   }),
 );
 

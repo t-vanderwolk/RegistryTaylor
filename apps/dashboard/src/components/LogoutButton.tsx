@@ -16,7 +16,7 @@ export default function LogoutButton({ className = "", children = "Logout" }: Lo
   const logout = async () => {
     try {
       await Promise.allSettled([
-        api.delete("/api/auth/session"),
+        api.post("/api/auth/logout"),
         fetch("/api/session", { method: "DELETE", credentials: "include" }),
       ]);
     } finally {

@@ -19,26 +19,10 @@ import profilesRoutes from "./routes/profiles.js";
 import registryRoutes from "./routes/registry.js";
 import workbookRoutes from "./routes/workbook.js";
 import { logError } from "./utils/logger.js";
+
 const app = express();
 
-// ✅ CORS should be first
-app.use((req, _res, next) => {
-  console.log("🌐 Incoming Origin:", req.headers.origin || "No origin");
-  next();
-});
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
-// Then the rest
-app.use(express.json());
-app.use(cookieParser());
-app.use(
-  helmet({
-    contentSecurityPolicy: { directives: cspDirectives },
-  })
-);
-
-// --- Content Security Policy ---
+/* -------------------- 🛡 Content Security Policy -------------------- */
 const cspDirectives = {
   ...helmet.contentSecurityPolicy.getDefaultDirectives(),
 };
@@ -48,13 +32,13 @@ if (config.env !== "production") {
   cspDirectives["script-src"] = [...scriptSrc, "'unsafe-eval'"];
 }
 
-// --- CORS Configuration ---
+/* -------------------- 🌐 CORS Configuration -------------------- */
 const allowedOrigins = new Set([
   "http://localhost:3000",
   "https://www.taylormadebabyco.com",
   "https://taylormadebabyco.com",
-  "https://taylor-made-7f1024d95529.herokuapp.com",
   "https://taylor-made.herokuapp.com",
+  "https://taylor-made-7f1024d95529.herokuapp.com",
   "https://taylor-made-baby-co.vercel.app",
   ...(config.clientOrigins || []),
 ]);
@@ -66,9 +50,7 @@ const isAllowedOrigin = (origin) => {
 
 const corsOptions = {
   origin(origin, callback) {
-    if (isAllowedOrigin(origin)) {
-      return callback(null, true);
-    }
+    if (isAllowedOrigin(origin)) return callback(null, true);
     console.warn(`🚫 Blocked CORS request from: ${origin}`);
     return callback(new Error("Not allowed by CORS"));
   },
@@ -77,11 +59,15 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+/* -------------------- 🚀 Middleware Setup -------------------- */
+
+// ✅ Log incoming origins early
 app.use((req, _res, next) => {
   console.log("🌐 Incoming Origin:", req.headers.origin || "No origin");
   next();
 });
 
+// ✅ CORS first — handles preflight before anything else
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
@@ -93,14 +79,14 @@ app.use(
   })
 );
 
-// --- Health Check Route ---
+/* -------------------- 💓 Health Check Routes -------------------- */
 app.get("/health", healthCheck);
 app.get("/api/health", healthCheck);
 app.get("/cors-check", (req, res) => {
   res.json({ ok: true, origin: req.headers.origin });
 });
 
-// --- API Routes ---
+/* -------------------- 📦 API Routes -------------------- */
 app.use("/api/auth", authRoutes);
 app.use("/api/profiles", profilesRoutes);
 app.use("/api/academy", academyRoutes);
@@ -115,14 +101,14 @@ app.use("/api/messages", messagesRoutes);
 app.use("/api/registry", registryRoutes);
 app.use("/api/workbook", workbookRoutes);
 
-// --- 404 Handler ---
+/* -------------------- 🚫 404 Handler -------------------- */
 app.use((req, res) => {
   res
     .status(404)
     .json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
 });
 
-// --- Error Handler ---
+/* -------------------- ⚠️ Error Handler -------------------- */
 app.use((err, _req, res, _next) => {
   logError("API error", err);
   res

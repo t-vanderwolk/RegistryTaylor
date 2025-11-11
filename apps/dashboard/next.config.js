@@ -2,12 +2,13 @@ const fs = require('node:fs');
 const path = require('path');
 const dotenv = require('dotenv');
 
-const rootEnvPath = path.resolve(__dirname, '../../.env');
-if (fs.existsSync(rootEnvPath)) {
-  dotenv.config({ path: rootEnvPath });
-} else {
-  dotenv.config();
-}
+const envFiles = ['.env', '.env.local'];
+envFiles.forEach((file, index) => {
+  const envPath = path.resolve(__dirname, `../../${file}`);
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath, override: index > 0 });
+  }
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

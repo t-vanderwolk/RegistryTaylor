@@ -85,6 +85,13 @@ app.get("/api/health", healthCheck);
 app.get("/cors-check", (req, res) => {
   res.json({ ok: true, origin: req.headers.origin });
 });
+// app.get("/health", (req, res) => {
+//   res.json({ status: "ok", message: "Backend API running successfully." });
+// });
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "Backend API (via /api/health) running successfully." });
+});
 
 /* -------------------- 📦 API Routes -------------------- */
 app.use("/api/auth", authRoutes);

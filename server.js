@@ -23,7 +23,16 @@ if (!process.env.POSTCSS_CONFIG) {
   process.env.POSTCSS_CONFIG = resolveFromRoot("apps/dashboard/postcss.config.js");
 }
 
+const NEXT_API_HANDLED_PATHS = ["/api/session"];
+
+const isNextHandledApi = (urlPath = "") =>
+  NEXT_API_HANDLED_PATHS.some((path) => urlPath === path || urlPath.startsWith(`${path}/`));
+
 const shouldPipeToBackend = (urlPath = "") => {
+  if (isNextHandledApi(urlPath)) {
+    return false;
+  }
+
   if (
     urlPath === "/health" ||
     urlPath === "/cors-check" ||

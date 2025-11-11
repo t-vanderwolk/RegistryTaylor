@@ -7,7 +7,7 @@ const resolvedApiUrl =
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.API_URL ||
   (typeof window !== "undefined" ? window.location.origin : undefined) ||
-  "https://taylor-made.herokuapp.com";
+  "https://taylormadebabyco.com";
 
 export const API_URL = resolvedApiUrl.replace(/\/$/, "");
 

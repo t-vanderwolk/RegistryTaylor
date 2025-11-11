@@ -49,7 +49,7 @@ function getCurrentTab(pathname: string): DashboardTab | null {
 }
 
 export default function DashboardNav({ orientation = "vertical" }: DashboardNavProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const current = getCurrentTab(pathname);
 
   if (orientation === "horizontal") {

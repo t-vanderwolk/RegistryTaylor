@@ -24,7 +24,7 @@ const NAV_ITEMS = [
 ] satisfies ReadonlyArray<NavItem & { href: Route }>;
 
 export default function MentorDashboardNav({ orientation = "vertical" }: MentorDashboardNavProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   if (orientation === "horizontal") {
     return (

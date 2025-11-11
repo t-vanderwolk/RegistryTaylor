@@ -101,7 +101,7 @@ export default function PrimaryNav({
   brandHref = "/dashboard" as Route,
   showMobileNav = true,
 }: PrimaryNavProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   const computedNavItems = useMemo(() => {
     if (navItems) {

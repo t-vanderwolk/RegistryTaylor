@@ -1,27 +1,54 @@
-import { Nunito, Playfair_Display, Great_Vibes, Playfair_Display_SC } from "next/font/google";
+import localFont from "next/font/local";
 
-export const nunito = Nunito({
-  subsets: ["latin"],
+export const nunito = localFont({
+  src: [
+    {
+      path: "../fonts/nunito-latin-variable.woff2",
+      weight: "200 1000",
+      style: "normal",
+    },
+  ],
   variable: "--font-nunito",
   display: "swap",
 });
 
-export const playfair = Playfair_Display({
-  subsets: ["latin"],
+export const playfair = localFont({
+  src: [
+    {
+      path: "../fonts/playfair-display-latin-variable.woff2",
+      weight: "400 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-playfair",
   display: "swap",
 });
 
-export const playfairSc = Playfair_Display_SC({
-  subsets: ["latin"],
+export const playfairSc = localFont({
+  src: [
+    {
+      path: "../fonts/playfair-display-sc-latin-400.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/playfair-display-sc-latin-700.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-playfair-sc",
-  weight: ["400", "700"],
   display: "swap",
 });
 
-export const greatVibes = Great_Vibes({
-  subsets: ["latin"],
-  weight: "400",
+export const greatVibes = localFont({
+  src: [
+    {
+      path: "../fonts/great-vibes-latin-400.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   variable: "--font-great-vibes",
   display: "swap",
 });

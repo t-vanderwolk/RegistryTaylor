@@ -75,7 +75,7 @@ async function requestSessionUser(token: string): Promise<AuthenticatedUser | nu
 
 export default function SessionInitializer() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const [hydrated, setHydrated] = useState(false);
   const [sessionUser, setSessionUser] = useState<AuthenticatedUser | null>(null);
   const resolvingRef = useRef(false);

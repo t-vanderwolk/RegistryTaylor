@@ -9,7 +9,7 @@ type MemberLayoutProps = {
 };
 
 export default function MemberLayout({ children }: MemberLayoutProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   return (
     <AnimatePresence mode="wait">

@@ -25,7 +25,7 @@ const NAV_ITEMS = [
 ] satisfies ReadonlyArray<NavItem & { href: Route }>;
 
 export default function AdminDashboardNav({ orientation = "vertical" }: AdminDashboardNavProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   if (orientation === "horizontal") {
     return (

@@ -12,7 +12,7 @@ const NAV_ITEMS = [
 ] as const;
 
 export default function MobileFooterNav() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   return (
     <nav

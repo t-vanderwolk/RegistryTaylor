@@ -21,11 +21,25 @@ type MessagesPanelProps = {
 
 const fetcher = async (url: string): Promise<Message[]> => {
   const response = await fetch(url, { cache: "no-store", credentials: "include" });
+  const payload = await response.json().catch(() => null);
+
   if (!response.ok) {
-    const payload = await response.json().catch(() => ({}));
-    throw new Error(payload?.error ?? "Unable to load messages.");
+    const message =
+      (payload && typeof payload === "object" && "error" in payload && typeof payload.error === "string"
+        ? payload.error
+        : null) ?? "Unable to load messages.";
+    throw new Error(message);
   }
-  return (await response.json()) as Message[];
+
+  if (Array.isArray(payload)) {
+    return payload as Message[];
+  }
+
+  if (payload && typeof payload === "object" && Array.isArray((payload as { messages?: Message[] }).messages)) {
+    return (payload as { messages: Message[] }).messages;
+  }
+
+  return [];
 };
 
 function formatTimestamp(value: string): string {

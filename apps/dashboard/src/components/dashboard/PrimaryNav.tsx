@@ -39,9 +39,9 @@ type PrimaryNavProps = {
 const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
   {
     label: "Home",
-    href: "/dashboard" as Route,
+    href: "/dashboard/member" as Route,
     Icon: Home,
-    isActive: (_pathname) => _pathname === "/dashboard",
+    isActive: (_pathname) => _pathname === "/dashboard/member",
   },
   {
     label: "Learn",
@@ -52,24 +52,26 @@ const DASHBOARD_NAV_ITEMS: ReadonlyArray<NavItem> = [
   },
   {
     label: "Plan & Registry",
-    href: "/dashboard/plan" as Route,
+    href: "/dashboard/member/plan" as Route,
     Icon: ClipboardList,
     isActive: (_pathname) =>
-      _pathname.startsWith("/dashboard/plan") || _pathname.startsWith("/dashboard/registry"),
+      _pathname.startsWith("/dashboard/member/plan") || _pathname.startsWith("/dashboard/member/registry"),
   },
   {
     label: "Journal",
-    href: "/dashboard/journal" as Route,
+    href: "/dashboard/member/journal" as Route,
     Icon: PenTool,
     isActive: (_pathname) =>
-      _pathname.startsWith("/dashboard/journal") || _pathname.startsWith("/dashboard/academy/workbook"),
+      _pathname.startsWith("/dashboard/member/journal") ||
+      _pathname.startsWith("/dashboard/academy/workbook"),
   },
   {
     label: "Community",
-    href: "/dashboard/community" as Route,
+    href: "/dashboard/member/community" as Route,
     Icon: Users,
     isActive: (_pathname) =>
-      _pathname.startsWith("/dashboard/community") || _pathname.startsWith("/dashboard/connect"),
+      _pathname.startsWith("/dashboard/member/community") ||
+      _pathname.startsWith("/dashboard/member/events"),
   },
 ];
 
@@ -98,7 +100,7 @@ export default function PrimaryNav({
   navItems,
   showAuthControls = true,
   ctaLink = DEFAULT_CTA,
-  brandHref = "/dashboard" as Route,
+  brandHref = "/dashboard/member" as Route,
   showMobileNav = true,
 }: PrimaryNavProps) {
   const pathname = usePathname() ?? "";
@@ -107,7 +109,7 @@ export default function PrimaryNav({
     if (navItems) {
       return navItems;
     }
-    if (brandHref !== "/dashboard") {
+    if (brandHref !== "/dashboard/member") {
       return DASHBOARD_NAV_ITEMS.map((item) => {
         if (item.label !== "Home") {
           return item;

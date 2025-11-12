@@ -43,7 +43,7 @@ export default function WorkbookSection({ modules }: WorkbookSectionProps) {
           milestones—your mentor sees the updates instantly and keeps the concierge plan aligned.
         </p>
         <Link
-          href="/dashboard/academy/workbook"
+          href="/dashboard/member/journal"
           className="academy-outline-button w-max gap-2 px-5 py-2"
         >
           View full workbook →

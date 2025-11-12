@@ -38,18 +38,14 @@ function getCurrentTab(pathname: string): DashboardTab | null {
 
   if (
     pathname.startsWith("/dashboard/member/plan") ||
-    pathname.startsWith("/dashboard/member/registry") ||
-    pathname.startsWith("/dashboard/plan") ||
-    pathname.startsWith("/dashboard/registry")
+    pathname.startsWith("/dashboard/member/registry")
   ) {
     return "plan";
   }
 
   if (
     pathname.startsWith("/dashboard/member/community") ||
-    pathname.startsWith("/dashboard/member/events") ||
-    pathname.startsWith("/dashboard/community") ||
-    pathname.startsWith("/dashboard/connect")
+    pathname.startsWith("/dashboard/member/events")
   ) {
     return "connect";
   }
@@ -58,10 +54,7 @@ function getCurrentTab(pathname: string): DashboardTab | null {
     return "concierge";
   }
 
-  if (
-    pathname.startsWith("/dashboard/member/journal") ||
-    pathname.startsWith("/dashboard/journal")
-  ) {
+  if (pathname.startsWith("/dashboard/member/journal")) {
     return "journal";
   }
 

@@ -16,7 +16,20 @@ type MemberDashboardClientProps = {
 };
 
 export default function MemberDashboardClient({ payload }: MemberDashboardClientProps) {
-  const { header, quickAccess, progress, reflections, communityHighlights, announcements, messages, learn } = payload;
+  const header = {
+    firstName: payload.user.firstName,
+    membershipTier: payload.user.membershipTier,
+    mentorName: payload.profile.mentorName,
+    currentDate: payload.user.currentDate,
+  };
+
+  const quickAccess = payload.quickAccess;
+  const progress = payload.learn.progress;
+  const reflections = payload.journal.reflections;
+  const communityHighlights = payload.community.highlights;
+  const announcements = payload.community.announcements;
+  const messages = payload.community.messages;
+  const learn = { modules: payload.learn.modules };
 
   return (
     <div className="relative min-h-screen bg-[#FFF7FA]">

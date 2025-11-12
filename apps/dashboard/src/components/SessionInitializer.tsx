@@ -178,7 +178,7 @@ export default function SessionInitializer() {
       return;
     }
 
-    if (!pathname.startsWith("/dashboard") || pathname === "/dashboard/member") {
+    if (!pathname.startsWith("/dashboard") || pathname.startsWith("/dashboard/member")) {
       return;
     }
 

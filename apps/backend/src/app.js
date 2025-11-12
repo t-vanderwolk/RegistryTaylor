@@ -20,8 +20,6 @@ import registryRoutes from "./routes/registry.js";
 import workbookRoutes from "./routes/workbook.js";
 import adminInvitesRoutes from "./routes/admin/invites.js";
 import { logError } from "./utils/logger.js";
-import memberDashboardRoutes from "./routes/memberDashboard.js";
-import { requireAuth } from "./middleware/auth.js";
 
 const app = express();
 
@@ -136,8 +134,6 @@ app.use("/api/messages", messagesRoutes);
 app.use("/api/registry", registryRoutes);
 app.use("/api/workbook", workbookRoutes);
 app.use("/api/admin/invites", adminInvitesRoutes);
-app.use("/api/member-dashboard", requireAuth, memberDashboardRoutes);
-console.log("✅ Member Dashboard backend integration active");
 
 /* -------------------- 🚫 404 Handler -------------------- */
 app.use((req, res) => {

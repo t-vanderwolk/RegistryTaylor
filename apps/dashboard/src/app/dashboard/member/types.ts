@@ -67,18 +67,77 @@ export type LearnSpotlightData = {
   modules: AcademyModule[];
 };
 
-export type MemberDashboardPayload = {
-  header: {
-    firstName: string;
-    membershipTier: string;
-    mentorName: string;
-    currentDate: string;
-  };
-  quickAccess: QuickAccessData;
-  progress: ProgressOverviewData;
+export type RegistryItemSummary = {
+  id: string;
+  name?: string;
+  category?: string | null;
+  status?: string | null;
+};
+
+export type MemberProfileSummary = {
+  mentorId: string | null;
+  mentorName: string;
+  conciergePriority: string | null;
+};
+
+export type MemberUserSummary = {
+  id: string;
+  email: string;
+  firstName: string;
+  membershipTier: string;
+  currentDate: string;
+};
+
+export type RegistrySummary = {
+  goal: number;
+  items: RegistryItemSummary[];
+};
+
+export type JournalSummary = {
   reflections: ReflectionEntryCard[];
-  communityHighlights: CommunityHighlightCard[];
+  latestExcerpt: string | null;
+  lastUpdatedAt: string | null;
+};
+
+export type WorkbookSummary = {
+  entries: ReflectionEntryCard[];
+  totalEntries: number;
+};
+
+export type CommunitySummary = {
+  highlights: CommunityHighlightCard[];
   announcements: AnnouncementCardData[];
   messages: MessagesPanelData;
-  learn: LearnSpotlightData;
+};
+
+export type EventsSummary = {
+  weekly: Array<{
+    id: string;
+    title: string;
+    startsAt: string | null;
+    location: string | null;
+    description: string | null;
+  }>;
+  bookings: Array<{
+    id: string;
+    title: string;
+    startsAt: string | null;
+    location: string | null;
+    status: "GOING" | "INTERESTED" | "DECLINED" | null;
+  }>;
+};
+
+export type MemberDashboardPayload = {
+  user: MemberUserSummary;
+  profile: MemberProfileSummary;
+  learn: {
+    modules: AcademyModule[];
+    progress: ProgressOverviewData;
+  };
+  quickAccess: QuickAccessData;
+  registry: RegistrySummary;
+  journal: JournalSummary;
+  workbook: WorkbookSummary;
+  community: CommunitySummary;
+  events: EventsSummary;
 };

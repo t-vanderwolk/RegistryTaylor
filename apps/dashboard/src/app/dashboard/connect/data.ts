@@ -144,7 +144,7 @@ const FALLBACK_ANNOUNCEMENTS: AnnouncementCard[] = [
     summary: "New atelier hours begin next week with added evening mentor salons to accommodate working parents.",
     authorRole: "Admin",
     createdAt: new Date().toISOString(),
-    cta: { label: "View full calendar", href: "/dashboard/events" },
+    cta: { label: "View full calendar", href: "/dashboard/member/events" },
   },
   {
     id: "registry-drops",
@@ -160,7 +160,7 @@ const FALLBACK_ANNOUNCEMENTS: AnnouncementCard[] = [
     summary: "Doula Lola is leading Sunday’s slow studio circle with new postpartum rituals and movement prompts.",
     authorRole: "Mentor",
     createdAt: new Date().toISOString(),
-    cta: { label: "Save your spot", href: "/dashboard/connect#events" },
+    cta: { label: "Save your spot", href: "/dashboard/member/events" },
   },
 ];
 
@@ -350,7 +350,7 @@ function toAnnouncement(cardSource: CommunityFeedPost): AnnouncementCard {
     authorRole: cardSource.author.role,
     createdAt: cardSource.createdAt,
     cta: cardSource.tags.includes("event")
-      ? { label: "View event details", href: "/dashboard/events" }
+      ? { label: "View event details", href: "/dashboard/member/events" }
       : undefined,
   };
 }

@@ -84,7 +84,7 @@ export default function AcademyHeader({ modules }: AcademyHeaderProps) {
             </p>
           </div>
           <Link
-            href="/dashboard/academy/workbook"
+            href="/dashboard/member/journal"
             className="academy-button gap-2"
           >
             Open Workbook

@@ -11,11 +11,13 @@ import type {
   MemberDashboardPayload,
   QuickAccessData,
   ReflectionEntryCard,
+  RegistryItemSummary,
 } from "@/app/dashboard/member/types";
 import type { AcademyModule } from "@/types/academy";
 
 type ApiProfileResponse = {
   profile?: {
+    conciergePriority?: string | null;
     mentor?: {
       id: string;
       email?: string | null;
@@ -137,33 +139,30 @@ export async function GET(request: NextRequest) {
       Cookie: `token=${tokenToUse}`,
     };
 
-    const [profileResult, eventsResult, communityResult, modulesResult, registryResult, reflectionsResult] =
+    const hasRegistryEnv = Boolean(process.env.MYREGISTRY_API_KEY && process.env.MYREGISTRY_USER_ID);
+
+    const [profileResult, eventsResult, communityResult, modulesResult, reflectionsResult] =
       await Promise.allSettled([
         apiFetch<ApiProfileResponse>("/api/profiles/me", {
           cache: "no-store",
           credentials: "include",
           headers: authHeaders,
         }),
-      apiFetch<ApiEventsResponse>("/api/events/upcoming", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-      apiFetch<ApiCommunityPostsResponse>("/api/community/posts", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-      apiFetch<ModulesResponse>("/api/academy/modules", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
-      apiFetch<RegistryItemsResponse>("/api/registry-items", {
-        cache: "no-store",
-        credentials: "include",
-        headers: authHeaders,
-      }),
+        apiFetch<ApiEventsResponse>("/api/events/upcoming", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        }),
+        apiFetch<ApiCommunityPostsResponse>("/api/community/posts", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        }),
+        apiFetch<ModulesResponse>("/api/academy/modules", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        }),
         apiFetch<{ entries?: WorkbookEntry[] }>(`/api/workbook/${member.id}`, {
           cache: "no-store",
           credentials: "include",
@@ -175,9 +174,29 @@ export async function GET(request: NextRequest) {
     const eventsResponse = eventsResult.status === "fulfilled" ? eventsResult.value : null;
     const communityResponse = communityResult.status === "fulfilled" ? communityResult.value : null;
     const modules = modulesResult.status === "fulfilled" ? modulesResult.value.modules ?? [] : [];
-    const registryItems = registryResult.status === "fulfilled" ? registryResult.value.items ?? [] : [];
     const workbookEntries =
       reflectionsResult.status === "fulfilled" ? reflectionsResult.value.entries ?? [] : [];
+
+    let registryItems: RegistryItemSummary[] = [];
+    if (hasRegistryEnv) {
+      try {
+        const response = await apiFetch<RegistryItemsResponse>("/api/registry-items", {
+          cache: "no-store",
+          credentials: "include",
+          headers: authHeaders,
+        });
+        registryItems = response.items ?? [];
+      } catch (registryError) {
+        console.warn(
+          "member-dashboard: registry unavailable in this environment; returning empty registry."
+        );
+        console.error(registryError);
+      }
+    } else {
+      console.warn(
+        "member-dashboard: MYREGISTRY credentials not configured; returning empty registry results."
+      );
+    }
 
     const mentorId = profileResponse?.profile?.mentor?.id ?? null;
     const mentorEmail = profileResponse?.profile?.mentor?.email ?? null;
@@ -282,38 +301,76 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    const learnSpotlightModules = modules.slice(0, 3);
+    const progressOverview = {
+      totalModules,
+      completedModules,
+      percentComplete,
+      streakDays,
+      badges,
+    };
 
-    const payload: MemberDashboardPayload = {
-      header: {
-        firstName,
-        membershipTier: "Signature Taylor-Made",
-        mentorName,
-        currentDate: new Date().toLocaleDateString(undefined, {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-        }),
-      },
-      quickAccess,
-      progress: {
-        totalModules,
-        completedModules,
-        percentComplete,
-        streakDays,
-        badges,
-      },
+    const journalSummary = {
       reflections: reflectionEntries,
-      communityHighlights,
+      latestExcerpt: reflectionExcerpt,
+      lastUpdatedAt: latestReflection?.updatedAt ?? latestReflection?.createdAt ?? null,
+    };
+
+    const workbookSummary = {
+      entries: reflectionEntries,
+      totalEntries: workbookEntries.length,
+    };
+
+    const communitySummary = {
+      highlights: communityHighlights,
       announcements,
       messages: {
         mentorId,
         mentorName,
         memberName: firstName,
       },
+    };
+
+    const eventsSummary = {
+      weekly: weeklyEvents,
+      bookings,
+    };
+
+    const registrySummary = {
+      goal: registryGoal,
+      items: registryItems,
+    };
+
+    const userSummary = {
+      id: member.id,
+      email: member.email,
+      firstName,
+      membershipTier: "Signature Taylor-Made",
+      currentDate: new Date().toLocaleDateString(undefined, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      }),
+    };
+
+    const profileSummary = {
+      mentorId,
+      mentorName,
+      conciergePriority: profileResponse?.profile?.conciergePriority ?? null,
+    };
+
+    const payload: MemberDashboardPayload = {
+      user: userSummary,
+      profile: profileSummary,
       learn: {
-        modules: learnSpotlightModules,
+        modules,
+        progress: progressOverview,
       },
+      quickAccess,
+      registry: registrySummary,
+      journal: journalSummary,
+      workbook: workbookSummary,
+      community: communitySummary,
+      events: eventsSummary,
     };
 
     return NextResponse.json(payload);

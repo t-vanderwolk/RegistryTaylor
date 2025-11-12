@@ -35,7 +35,7 @@ export default function AnnouncementsFeed({ announcements }: AnnouncementsFeedPr
           </h2>
         </div>
         <Link
-          href="/dashboard/community"
+          href={"/dashboard/member/community" as Route}
           className="academy-outline-button gap-2 rounded-full"
         >
           View all

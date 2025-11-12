@@ -145,7 +145,7 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
         <Link
-          href="/dashboard/academy/workbook"
+          href="/dashboard/member/journal"
           className="academy-button justify-center gap-2 bg-mauve-500/90 text-white"
         >
           Open Reflection Studio

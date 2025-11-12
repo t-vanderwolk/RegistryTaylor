@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { statSync } = require("node:fs");
+const { statSync, existsSync } = require("node:fs");
 const { execSync } = require("node:child_process");
 const path = require("node:path");
 
@@ -10,7 +10,11 @@ const buildDir = path.join(dashboardDir, ".next");
 function hasNextBuild() {
   try {
     const stats = statSync(buildDir);
-    return stats.isDirectory();
+    if (!stats.isDirectory()) {
+      return false;
+    }
+    const buildIdFile = path.join(buildDir, "BUILD_ID");
+    return existsSync(buildIdFile);
   } catch {
     return false;
   }

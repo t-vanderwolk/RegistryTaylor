@@ -74,7 +74,7 @@ export default function ModuleCard({ module }: ModuleCardProps) {
       </div>
 
       <Link
-        href={`/dashboard/learn/${module.slug}`}
+        href={`/dashboard/member/learn/${module.slug}`}
         className="academy-button mt-2 w-full justify-center gap-2"
       >
         {action} →

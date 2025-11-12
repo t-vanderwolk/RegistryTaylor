@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
@@ -88,13 +88,6 @@ function desktopLinkClasses(active: boolean) {
   return [base, active ? activeClasses : inactive].join(" ");
 }
 
-function mobileLinkClasses(active: boolean) {
-  const base = "flex flex-col items-center gap-1 rounded-full px-3 py-2 text-[11px] font-semibold transition";
-  const inactive = "text-charcoal/70 hover:text-mauve-500";
-  const activeClasses = "text-charcoal bg-blush-200/40";
-  return [base, active ? activeClasses : inactive].join(" ");
-}
-
 export default function PrimaryNav({
   profileMenu,
   navItems,
@@ -104,6 +97,9 @@ export default function PrimaryNav({
   showMobileNav = true,
 }: PrimaryNavProps) {
   const pathname = usePathname() ?? "";
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const mobilePanelRef = useRef<HTMLDivElement | null>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement | null>(null);
 
   const computedNavItems = useMemo(() => {
     if (navItems) {
@@ -125,6 +121,53 @@ export default function PrimaryNav({
 
     return DASHBOARD_NAV_ITEMS;
   }, [navItems, brandHref]);
+
+  const toggleMobileNav = useCallback(() => {
+    setMobileNavOpen((prev) => !prev);
+  }, []);
+
+  const closeMobileNav = useCallback(() => {
+    setMobileNavOpen(false);
+  }, []);
+
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileNavOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileNavOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        mobilePanelRef.current &&
+        !mobilePanelRef.current.contains(target) &&
+        mobileToggleRef.current &&
+        !mobileToggleRef.current.contains(target)
+      ) {
+        setMobileNavOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleClickOutside);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileNavOpen]);
 
   return (
     <>
@@ -170,31 +213,114 @@ export default function PrimaryNav({
       </nav>
 
       {showMobileNav ? (
-        <nav className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%-2.5rem)] max-w-xl -translate-x-1/2 flex-col items-center rounded-3xl border border-mauve-500/20 bg-ivory/95 px-4 py-3 text-center shadow-[0_22px_55px_rgba(200,161,180,0.26)] backdrop-blur md:hidden">
-          <Link href={brandHref} className="flex flex-col items-center gap-1 pb-3" aria-label="Taylor-Made Baby Co. home">
-            <span className="font-script text-2xl text-mauve-500 tracking-tight">Taylor-Made</span>
-            <span className="text-[0.65rem] font-[var(--font-playfair-sc)] font-semibold uppercase tracking-[0.35em] text-charcoal">
-              Baby Co.
-            </span>
-          </Link>
-          {computedNavItems.map(({ label, href, Icon, isActive }) => {
-            const active = isActive ? isActive(pathname) : pathname === href;
-            return (
-              <Link key={href} href={href} className={mobileLinkClasses(active)}>
-                {Icon ? <Icon className={`h-5 w-5 ${active ? "text-[#C8A1B4]" : "text-[#3E2F35]/70"}`} /> : null}
-                <span>{label}</span>
-              </Link>
-            );
-          })}
-          {ctaLink && !showAuthControls ? (
-            <Link
-              href={ctaLink.href}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-mauve-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal transition hover:bg-blush-200/60 hover:text-mauve-600"
-            >
-              {ctaLink.label}
+        <>
+          <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b border-mauve-500/10 bg-ivory/95 px-4 py-3 shadow-sm shadow-mauve-500/10 backdrop-blur md:hidden">
+            <Link href={brandHref} className="flex items-center gap-2" aria-label="Taylor-Made Baby Co. home">
+              <span className="font-script text-2xl text-mauve-500 tracking-tight">Taylor-Made</span>
+              <span className="text-[0.6rem] font-[var(--font-playfair-sc)] font-semibold uppercase tracking-[0.35em] text-charcoal">
+                Baby Co.
+              </span>
             </Link>
+            <button
+              type="button"
+              onClick={toggleMobileNav}
+              ref={mobileToggleRef}
+              aria-expanded={mobileNavOpen}
+              aria-label="Toggle navigation menu"
+              className={[
+                "inline-flex items-center gap-2 rounded-full border border-mauve-500/30 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition",
+                mobileNavOpen ? "bg-mauve-500 text-white" : "text-charcoal hover:bg-blush-200/50",
+              ].join(" ")}
+            >
+              <span>{mobileNavOpen ? "Close" : "Menu"}</span>
+              <span
+                aria-hidden
+                className={[
+                  "relative block h-3 w-4",
+                  mobileNavOpen ? "text-white" : "text-charcoal",
+                ].join(" ")}
+              >
+                <span
+                  className={[
+                    "absolute left-0 block h-0.5 w-full origin-center rounded-full bg-current transition",
+                    mobileNavOpen ? "top-1/2 rotate-45" : "top-0",
+                  ].join(" ")}
+                />
+                <span
+                  className={[
+                    "absolute left-0 block h-0.5 w-full origin-center rounded-full bg-current transition",
+                    mobileNavOpen ? "opacity-0" : "top-1/2 -translate-y-1/2",
+                  ].join(" ")}
+                />
+                <span
+                  className={[
+                    "absolute left-0 block h-0.5 w-full origin-center rounded-full bg-current transition",
+                    mobileNavOpen ? "top-1/2 -rotate-45" : "bottom-0",
+                  ].join(" ")}
+                />
+              </span>
+            </button>
+          </nav>
+          {mobileNavOpen ? (
+            <>
+              <button
+                type="button"
+                aria-label="Close navigation menu"
+                className="fixed inset-0 z-30 bg-[rgba(17,8,10,0.45)] backdrop-blur-sm md:hidden"
+                onClick={closeMobileNav}
+              />
+              <div className="absolute inset-x-0 top-[3.75rem] z-40 px-4 md:hidden" aria-label="Mobile navigation">
+                <div
+                  ref={mobilePanelRef}
+                  className="rounded-3xl border border-mauve-500/20 bg-ivory px-5 pb-6 pt-5 shadow-[0_25px_60px_rgba(33,12,21,0.25)]"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal/50">Navigate</p>
+                  {profileMenu ? <div className="mt-3">{profileMenu}</div> : null}
+                  <ul className="mt-4 space-y-2">
+                    {computedNavItems.map(({ label, href, isActive }) => {
+                      const active = isActive ? isActive(pathname) : pathname === href;
+                      return (
+                        <li key={href}>
+                          <Link
+                            href={href}
+                            onClick={closeMobileNav}
+                            className={[
+                              "flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.25em] transition",
+                              active
+                                ? "bg-mauve-500 text-white shadow-mauve-card"
+                                : "bg-white text-charcoal hover:bg-blush-200/70",
+                            ].join(" ")}
+                          >
+                            <span>{label}</span>
+                            <span aria-hidden>→</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <div className="mt-4 space-y-2">
+                    {showAuthControls ? (
+                      <LogoutButton className="w-full rounded-full border border-mauve-500/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal transition hover:bg-blush-200/70">
+                        Logout
+                      </LogoutButton>
+                    ) : ctaLink ? (
+                      <Link
+                        href={ctaLink.href}
+                        onClick={closeMobileNav}
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-mauve-500 px-5 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-white shadow-mauve-card transition hover:bg-mauve-400"
+                      >
+                        {ctaLink.label}
+                      </Link>
+                    ) : null}
+                    <p className="text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-charcoal/50">
+                      Crafted for calm journeys
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </>
           ) : null}
-        </nav>
+        </>
       ) : null}
     </>
   );

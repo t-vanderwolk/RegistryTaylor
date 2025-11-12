@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,14 +18,6 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
 
   return (
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-[#EAC9D1]/40 bg-[#FFFAF8]/95 text-[#3E2F35] shadow-[0_20px_45px_rgba(62,47,53,0.08)] backdrop-blur-xl">
@@ -76,25 +68,21 @@ export default function Navbar() {
         {menuOpen ? (
           <motion.div
             key="mobile-menu"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute left-0 top-[72px] z-40 w-full md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="md:hidden"
           >
-            <div className="mx-auto w-[92%] rounded-2xl border border-[#EAC9D1]/50 bg-[#FFFAF8] text-center font-[var(--font-nunito)] shadow-[0_20px_45px_rgba(62,47,53,0.12)]">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col items-center gap-2 py-6"
-              >
+            <div className="border-t border-[#EAC9D1]/50 bg-[#FFFAF8] text-center font-[var(--font-nunito)] shadow-[0_20px_45px_rgba(62,47,53,0.12)]">
+              <div className="flex flex-col items-center gap-2 py-6">
                 {links.map((link, index) => (
                   <motion.div
                     key={link.label}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 * index }}
+                    className="w-full"
                   >
                     <Link
                       href={link.href}
@@ -114,23 +102,9 @@ export default function Navbar() {
                     Login
                   </Link>
                 </motion.div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {menuOpen ? (
-          <motion.div
-            key="mobile-overlay"
-            className="fixed inset-0 z-30 bg-[#3E2F35]/30 backdrop-blur-sm md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeMenu}
-            aria-hidden
-          />
         ) : null}
       </AnimatePresence>
     </nav>

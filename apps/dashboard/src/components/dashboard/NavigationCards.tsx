@@ -15,22 +15,27 @@ const CARDS: ReadonlyArray<NavCard> = [
   {
     title: "Learn",
     description: "Review your Academy pathway and track each trimester module.",
-    href: "/dashboard/member/learn/welcome",
+    href: "/dashboard/member/learn/welcome" as Route,
   },
   {
     title: "Plan",
     description: "Curate the dynamic registry with concierge-approved essentials.",
-    href: "/dashboard/plan",
+    href: "/dashboard/member/plan" as Route,
   },
   {
     title: "Reflect",
     description: "Capture rituals, prompts, and moodboards inside your journal.",
-    href: "/dashboard/journal",
+    href: "/dashboard/member/journal" as Route,
   },
   {
     title: "Profile",
     description: "Update preferences, concierge notes, and nursery vision.",
-    href: "/dashboard/profile",
+    href: "/dashboard/member/profile" as Route,
+  },
+  {
+    title: "Community",
+    description: "Join mentor salons, announcements, and private discussions.",
+    href: "/dashboard/member/community" as Route,
   },
 ] as const;
 

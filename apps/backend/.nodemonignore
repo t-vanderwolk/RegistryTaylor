@@ -1,0 +1,8 @@
+node_modules
+.next
+.env
+*.log
+*.json
+.prisma
+../dashboard
+../data

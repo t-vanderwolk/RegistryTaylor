@@ -263,22 +263,22 @@ export async function GET(request: NextRequest) {
       academy: {
         percentComplete,
         nextTitle: nextModule?.title ?? null,
-        href: nextModule ? `/dashboard/learn/${nextModule.slug}` : "/dashboard/learn",
+        href: nextModule ? `/dashboard/member/learn/${nextModule.slug}` : "/dashboard/member/learn",
       },
       registry: {
         itemsAdded: registryItems.length,
         goalCount: registryGoal,
-        href: "/dashboard/plan",
+        href: "/dashboard/member/registry",
       },
       reflection: {
         excerpt: reflectionExcerpt,
         updatedAt: latestReflection?.updatedAt ?? latestReflection?.createdAt ?? null,
-        href: "/dashboard/academy/workbook",
+        href: "/dashboard/member/journal",
       },
       mentor: {
         title: mentorMoment?.title ?? bookings[0]?.title ?? null,
         dateLabel: mentorMoment?.startsAt ?? bookings[0]?.startsAt ?? null,
-        href: mentorId ? `/dashboard/connect?mentor=${mentorId}` : "/dashboard/connect",
+        href: mentorId ? `/dashboard/member/events?mentor=${mentorId}` : "/dashboard/member/events",
       },
     };
 
@@ -409,7 +409,7 @@ function buildAnnouncements(
             minute: "2-digit",
           })
         : null,
-      href: "/dashboard/connect",
+      href: "/dashboard/member/events",
       ctaLabel: "RSVP",
     });
   });
@@ -424,7 +424,7 @@ function buildAnnouncements(
         month: "short",
         day: "numeric",
       }),
-      href: "/dashboard/community",
+      href: "/dashboard/member/community",
       ctaLabel: "Read post",
     });
   });
@@ -437,7 +437,7 @@ function buildAnnouncements(
       description:
         "Curated by your mentor to keep gifting beautifully coordinated. Tap through to explore details.",
       badge: "Affiliate Perk",
-      href: "/dashboard/plan",
+      href: "/dashboard/member/plan",
       ctaLabel: "View perk",
     });
   }

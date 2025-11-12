@@ -9,7 +9,7 @@
     "node": "20.x"
   },
   "scripts": {
-     "dev": "nodemon src/app.js",
+    "dev": "nodemon --watch src src/app.js",
     "build": "next build ../dashboard",
     "start": "node src/app.js",
     "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.18.3 --activate",
@@ -22,6 +22,9 @@
     "seed": "node src/db/seed.js",
     "postinstall": "prisma generate || true",
     "lint": "eslint . --ext .js,.ts --max-warnings=0"
+  },
+  "nodemonConfig": {
+    "ignore": ["../dashboard", "../data", "node_modules", ".env", ".next"]
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",

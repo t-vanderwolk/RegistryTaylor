@@ -23,7 +23,7 @@ if (!process.env.POSTCSS_CONFIG) {
   process.env.POSTCSS_CONFIG = resolveFromRoot("apps/dashboard/postcss.config.js");
 }
 
-const NEXT_API_HANDLED_PATHS = ["/api/session", "/api/member-dashboard"];
+const NEXT_API_HANDLED_PATHS = ["/api/session"];
 const isNextHandledApi = (urlPath = "") =>
   NEXT_API_HANDLED_PATHS.some((path) => urlPath === path || urlPath.startsWith(`${path}/`));
 

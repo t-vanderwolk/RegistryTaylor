@@ -13,14 +13,17 @@ type DashboardNavProps = {
 type NavItem = { label: string; href: AppRoute; tab: DashboardTab };
 
 const NAV_ITEMS = [
-  { label: "Learn", href: "/dashboard/learn/welcome", tab: "learn" },
-  { label: "Plan & Registry", href: "/dashboard/plan", tab: "plan" },
-  { label: "Connect", href: "/dashboard/connect", tab: "connect" },
-  { label: "Journal", href: "/dashboard/journal", tab: "journal" },
+  { label: "Learn", href: "/dashboard/member/learn", tab: "learn" },
+  { label: "Plan & Registry", href: "/dashboard/member/plan", tab: "plan" },
+  { label: "Community", href: "/dashboard/member/community", tab: "connect" },
+  { label: "Journal", href: "/dashboard/member/journal", tab: "journal" },
 ] satisfies ReadonlyArray<NavItem & { href: Route }>;
 
 function getCurrentTab(pathname: string): DashboardTab | null {
-  if (pathname.startsWith("/dashboard/learn")) {
+  if (
+    pathname.startsWith("/dashboard/member/learn") ||
+    pathname.startsWith("/dashboard/learn")
+  ) {
     return "learn";
   }
 
@@ -29,20 +32,40 @@ function getCurrentTab(pathname: string): DashboardTab | null {
     return direct.tab;
   }
 
-  if (pathname.startsWith("/dashboard/academy")) {
+  if (
+    pathname.startsWith("/dashboard/academy") ||
+    pathname.startsWith("/dashboard/member/learn")
+  ) {
     return "learn";
   }
 
-  if (pathname.startsWith("/dashboard/registry")) {
+  if (
+    pathname.startsWith("/dashboard/member/plan") ||
+    pathname.startsWith("/dashboard/member/registry") ||
+    pathname.startsWith("/dashboard/plan") ||
+    pathname.startsWith("/dashboard/registry")
+  ) {
     return "plan";
   }
 
-  if (pathname.startsWith("/dashboard/community")) {
+  if (
+    pathname.startsWith("/dashboard/member/community") ||
+    pathname.startsWith("/dashboard/member/events") ||
+    pathname.startsWith("/dashboard/community") ||
+    pathname.startsWith("/dashboard/connect")
+  ) {
     return "connect";
   }
 
   if (pathname.startsWith("/dashboard/concierge")) {
     return "concierge";
+  }
+
+  if (
+    pathname.startsWith("/dashboard/member/journal") ||
+    pathname.startsWith("/dashboard/journal")
+  ) {
+    return "journal";
   }
 
   return null;

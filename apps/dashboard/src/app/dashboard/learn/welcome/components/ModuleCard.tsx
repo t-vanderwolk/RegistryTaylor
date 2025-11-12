@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import ProgressRing from "@/components/ui/ProgressRing";
 import type { AcademyModule } from "@/types/academy";
 
@@ -74,7 +75,7 @@ export default function ModuleCard({ module }: ModuleCardProps) {
       </div>
 
       <Link
-        href={`/dashboard/member/learn/${module.slug}`}
+        href={`/dashboard/member/learn/${module.slug}` as Route}
         className="academy-button mt-2 w-full justify-center gap-2"
       >
         {action} →

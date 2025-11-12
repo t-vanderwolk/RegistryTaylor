@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Route } from "next";
 import type { AcademyModule } from "@/types/academy";
 
 type PDFDownloadsProps = {
@@ -56,7 +57,7 @@ export default function PDFDownloads({ modules }: PDFDownloadsProps) {
             <h4 className="font-semibold text-charcoal-600">{item.moduleTitle}</h4>
             <p className="mt-2 text-sm text-charcoal-400">{item.description}</p>
             <Link
-              href={`/dashboard/learn/${item.slug}`}
+              href={`/dashboard/member/learn/${item.slug}` as Route}
               className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-mauve-500 transition hover:text-charcoal-500"
             >
               Open module →

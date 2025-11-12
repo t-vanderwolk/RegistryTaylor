@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
@@ -255,7 +256,7 @@ export default function ModuleDetail({
             <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-start">
               {previousModule ? (
                 <Link
-                  href={`/dashboard/learn/${previousModule.slug}`}
+                  href={`/dashboard/member/learn/${previousModule.slug}` as Route}
                   className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
                 >
                   ← {previousModule.title}
@@ -265,7 +266,7 @@ export default function ModuleDetail({
               )}
               {nextModule ? (
                 <Link
-                  href={`/dashboard/learn/${nextModule.slug}`}
+                  href={`/dashboard/member/learn/${nextModule.slug}` as Route}
                   className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
                 >
                   {nextModule.title} →

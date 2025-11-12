@@ -28,7 +28,7 @@ export default function LearnSpotlight({ modules }: LearnSpotlightProps) {
             </p>
           </div>
           <Link
-            href={"/dashboard/learn/welcome" as Route}
+            href={"/dashboard/member/learn/welcome" as Route}
             className="inline-flex items-center justify-center rounded-full border border-[#C8A1B4] px-6 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
           >
             View all modules

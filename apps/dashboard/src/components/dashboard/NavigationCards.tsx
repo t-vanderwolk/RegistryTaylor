@@ -15,7 +15,7 @@ const CARDS: ReadonlyArray<NavCard> = [
   {
     title: "Learn",
     description: "Review your Academy pathway and track each trimester module.",
-    href: "/dashboard/learn/welcome",
+    href: "/dashboard/member/learn/welcome",
   },
   {
     title: "Plan",

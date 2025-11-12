@@ -20,10 +20,7 @@ const NAV_ITEMS = [
 ] satisfies ReadonlyArray<NavItem & { href: Route }>;
 
 function getCurrentTab(pathname: string): DashboardTab | null {
-  if (
-    pathname.startsWith("/dashboard/member/learn") ||
-    pathname.startsWith("/dashboard/learn")
-  ) {
+  if (pathname.startsWith("/dashboard/member/learn")) {
     return "learn";
   }
 

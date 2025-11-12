@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import type { Route } from "next";
 import { useAcademyProgress } from "@/components/academy/ProgressContext";
 import type { AcademyModule, ModuleProgress } from "@/types/academy";
 
@@ -114,7 +115,7 @@ export default function ModuleCard({ module, isActive = false }: ModuleCardProps
       </div>
 
       <Link
-        href={`/dashboard/learn/${module.slug}`}
+        href={`/dashboard/member/learn/${module.slug}` as Route}
         className="academy-button mt-2 justify-center gap-2"
       >
         {status}

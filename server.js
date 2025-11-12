@@ -48,6 +48,12 @@ const shouldPipeToBackend = (urlPath = "") => {
 let httpServer;
 
 async function bootstrap() {
+  const buildDir = resolveFromRoot("apps/dashboard/.next");
+  if (process.env.NODE_ENV === "production" && !fs.existsSync(buildDir)) {
+    console.error("⚠️ No Next build found. Run `pnpm build` before starting production mode.");
+    process.exit(1);
+  }
+
   console.log("🚧 Bootstrapping Taylor-Made unified server…");
   const backendModulePath = resolveFromRoot("apps/backend/src/app.js");
   const backendApp = (await import(pathToFileURL(backendModulePath).href)).default;

@@ -8,9 +8,10 @@
     "packages/*"
   ],
 
- "scripts": {
-  "build": "pnpm --filter tm-backend prisma:generate && pnpm --filter taylor-made-app build",
-  "start": "pnpm build && node server.js",
+"scripts": {
+ "build": "pnpm --filter tm-backend prisma:generate && pnpm --filter taylor-made-app build",
+ "start": "pnpm run build-if-needed && node server.js",
+ "build-if-needed": "node scripts/ensure-build.js",
 
     "repair-db": "bash scripts/repair-db.sh",
     "dev": "concurrently \"pnpm run dev:backend\" \"pnpm run dev:dashboard\"",

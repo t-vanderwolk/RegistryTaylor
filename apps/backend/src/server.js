@@ -1,8 +1,7 @@
 // server.js — unified, safe bootstrap for Taylor-Made Baby Co.
-
+import dotenv from "dotenv";
 import express from "express";
 import next from "next";
-import dotenv from "dotenv";
 import path from "path";
 
 dotenv.config();

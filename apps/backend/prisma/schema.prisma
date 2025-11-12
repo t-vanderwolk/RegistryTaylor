@@ -252,8 +252,25 @@ enum UserRole {
   ADMIN
 }
 
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+}
+
 enum RsvpStatus {
   GOING
   INTERESTED
   DECLINED
+}
+
+model Invite {
+  id          String       @id @default(uuid())
+  email       String
+  role        UserRole     @default(MEMBER)
+  code        String       @unique
+  permissions String[]
+  status      InviteStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }

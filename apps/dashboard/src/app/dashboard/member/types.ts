@@ -1,3 +1,5 @@
+import type { AcademyModule } from "@/types/academy";
+
 export type QuickAccessData = {
   academy: {
     percentComplete: number;
@@ -61,6 +63,10 @@ export type MessagesPanelData = {
   memberName: string;
 };
 
+export type LearnSpotlightData = {
+  modules: AcademyModule[];
+};
+
 export type MemberDashboardPayload = {
   header: {
     firstName: string;
@@ -74,4 +80,5 @@ export type MemberDashboardPayload = {
   communityHighlights: CommunityHighlightCard[];
   announcements: AnnouncementCardData[];
   messages: MessagesPanelData;
+  learn: LearnSpotlightData;
 };

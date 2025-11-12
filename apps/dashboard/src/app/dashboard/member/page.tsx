@@ -9,6 +9,7 @@ import ReflectionPanel from "@/components/dashboard/ReflectionPanel";
 import AnnouncementsFeed from "@/components/dashboard/AnnouncementsFeed";
 import MessagesPanel from "@/components/dashboard/MessagesPanel";
 import MobileFooterNav from "@/components/dashboard/MobileFooterNav";
+import LearnSpotlight from "@/components/dashboard/LearnSpotlight";
 import type { MemberDashboardPayload } from "@/app/dashboard/member/types";
 import { STORED_TOKEN_KEY } from "@/lib/sessionKeys";
 
@@ -80,7 +81,7 @@ export default function MemberDashboard() {
     );
   }
 
-  const { header, quickAccess, progress, reflections, communityHighlights, announcements, messages } = payload;
+  const { header, quickAccess, progress, reflections, communityHighlights, announcements, messages, learn } = payload;
 
   return (
     <div className="relative min-h-screen bg-[#FFF7FA]">
@@ -88,6 +89,8 @@ export default function MemberDashboard() {
         <DashboardHeader {...header} />
 
         <QuickAccessCards {...quickAccess} />
+
+        <LearnSpotlight modules={learn.modules} />
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           <div className="space-y-12">

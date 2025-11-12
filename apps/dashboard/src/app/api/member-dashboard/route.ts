@@ -282,6 +282,8 @@ export async function GET(request: NextRequest) {
       },
     };
 
+    const learnSpotlightModules = modules.slice(0, 3);
+
     const payload: MemberDashboardPayload = {
       header: {
         firstName,
@@ -308,6 +310,9 @@ export async function GET(request: NextRequest) {
         mentorId,
         mentorName,
         memberName: firstName,
+      },
+      learn: {
+        modules: learnSpotlightModules,
       },
     };
 

@@ -69,35 +69,38 @@ export default async function JournalPage() {
   await requireMember();
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       {/* Header */}
-      <section className="rounded-[2.75rem] border border-[#C8A1B4]/40 bg-white/95 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
+      <section className="rounded-[1.75rem] border border-[#C8A1B4]/40 bg-white/95 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
           Pre-Baby Journal
         </p>
-        <h1 className="mt-3 font-[var(--font-playfair)] text-3xl text-[#3E2F35] sm:text-4xl">
+        <h1 className="mt-2 text-xl font-semibold tracking-tight text-[#3E2F35]">
           Reflect, laugh, and daydream
         </h1>
-        <p className="mt-4 max-w-3xl text-sm text-[#3E2F35]/70">
+        <p className="mt-2 text-sm leading-snug text-[#3E2F35]/70">
           These little reflections are for the in-between moments — when you’re
           waiting, planning, over-googling, and feeling it all.
         </p>
+        <p className="mt-2 text-xs text-[#3E2F35]/60">
+          Academy workbook prompts stay inside each learning module—this Member Journal is your separate, personal space.
+        </p>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-[0.6fr,0.4fr]">
-        <div className="space-y-6">
+      <section className="grid gap-5 lg:grid-cols-[0.6fr,0.4fr]">
+        <div className="space-y-5">
           {/* Mood Selector */}
-          <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
+          <div className="rounded-[1.5rem] border border-[#C8A1B4]/35 bg-white/95 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+            <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
               Today’s Mood
             </p>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-3 flex flex-wrap gap-2">
               {["😊 Peaceful", "🤰 Glowing (sort of)", "😴 Sleepy", "🌀 Nesting mode", "🥺 Sentimental"].map(
                 (mood) => (
                   <button
                     key={mood}
                     type="button"
-                    className="rounded-full border border-[#C8A1B4]/40 bg-white/90 px-4 py-2 text-sm text-[#3E2F35] hover:bg-[#EAC9D1]/30 transition"
+                    className="rounded-full border border-[#C8A1B4]/40 bg-white/90 px-3 py-1.5 text-sm text-[#3E2F35] hover:bg-[#EAC9D1]/30 transition"
                   >
                     {mood}
                   </button>
@@ -107,28 +110,28 @@ export default async function JournalPage() {
           </div>
 
           {/* Prompts */}
-          <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-gradient-to-br from-[#FFFAF8] via-white to-[#EAC9D1]/30 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
+          <div className="rounded-[1.5rem] border border-[#C8A1B4]/35 bg-gradient-to-br from-[#FFFAF8] via-white to-[#EAC9D1]/30 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+            <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
               Today’s Prompts
             </p>
-            <div className="mt-4 space-y-4">
+            <div className="mt-3 space-y-3">
               {JOURNAL_PROMPTS.map((prompt) => (
                 <article
                   key={prompt.id}
-                  className="rounded-[1.75rem] bg-white/85 p-4 shadow-inner"
+                  className="rounded-[1.25rem] bg-white/85 p-4 shadow-inner"
                 >
-                  <div className="flex items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/75">
+                  <div className="flex items-center justify-between gap-3 text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/75">
                     <span>Reflection</span>
                     <span>Save draft</span>
                   </div>
-                  <h2 className="mt-3 font-[var(--font-playfair)] text-lg text-[#3E2F35]">
+                  <h2 className="mt-2 text-lg font-semibold tracking-tight text-[#3E2F35]">
                     {prompt.title}
                   </h2>
-                  <p className="mt-2 text-sm text-[#3E2F35]/70">
+                  <p className="mt-1 text-sm text-[#3E2F35]/70">
                     {prompt.prompt}
                   </p>
                   <textarea
-                    className="mt-4 h-28 w-full resize-none rounded-[1.5rem] border border-[#C8A1B4]/40 bg-white/95 p-4 text-sm text-[#3E2F35] outline-none focus:border-[#D9C48E] focus:shadow-[0_0_0_3px_rgba(217,196,142,0.25)]"
+                    className="mt-3 h-24 w-full resize-none rounded-[1rem] border border-[#C8A1B4]/40 bg-white/95 p-3 text-sm text-[#3E2F35] outline-none focus:border-[#D9C48E] focus:shadow-[0_0_0_3px_rgba(217,196,142,0.25)]"
                     placeholder="Write your thoughts, dreams, or snack cravings…"
                   />
                 </article>
@@ -136,28 +139,28 @@ export default async function JournalPage() {
             </div>
             <button
               type="button"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-tm-rose px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-tm-rose px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-tm-charcoal shadow-soft transition hover:-translate-y-0.5 hover:bg-tm-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tm-focus"
             >
               Save reflections
             </button>
           </div>
 
           {/* Highlights */}
-          <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
+          <div className="rounded-[1.5rem] border border-[#C8A1B4]/35 bg-white/95 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+            <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">
               Recent Highlights
             </p>
-            <div className="mt-4 space-y-4">
+            <div className="mt-3 space-y-3">
               {RECENT_REFLECTIONS.map((entry) => (
                 <article
                   key={entry.id}
-                  className="rounded-[1.75rem] border border-[#C8A1B4]/25 bg-white/90 p-4"
+                  className="rounded-[1.25rem] border border-[#C8A1B4]/25 bg-white/90 p-4"
                 >
-                  <div className="flex items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/75">
+                  <div className="flex items-center justify-between gap-3 text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/75">
                     <span>{entry.module}</span>
                     <span className="text-[#3E2F35]/60">{entry.timestamp}</span>
                   </div>
-                  <p className="mt-3 text-sm text-[#3E2F35]/70">
+                  <p className="mt-2 text-sm leading-snug text-[#3E2F35]/70">
                     {entry.highlight}
                   </p>
                 </article>
@@ -167,13 +170,13 @@ export default async function JournalPage() {
         </div>
 
         {/* Right Sidebar */}
-        <aside className="space-y-6">
+        <aside className="space-y-5">
           {/* Mood Tracker */}
-          <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-white/95 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
-            <h2 className="font-[var(--font-playfair)] text-lg text-[#3E2F35]">
+          <div className="rounded-[1.5rem] border border-[#C8A1B4]/35 bg-white/95 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+            <h2 className="text-lg font-semibold tracking-tight text-[#3E2F35]">
               Your Week in Vibes
             </h2>
-            <p className="mt-2 text-sm text-[#3E2F35]/70">
+            <p className="mt-2 text-sm leading-snug text-[#3E2F35]/70">
               You’ve logged 4 calm days, 2 sleepy days, and one full nesting
               rampage. Balance, right?
             </p>
@@ -190,11 +193,11 @@ export default async function JournalPage() {
           </div>
 
           {/* Actions / Voice Memo */}
-          <div className="rounded-[2.2rem] border border-[#C8A1B4]/35 bg-gradient-to-br from-[#FFFAF8] via-white to-[#EAC9D1]/40 p-6 shadow-[0_20px_50px_rgba(200,161,180,0.18)]">
-            <h2 className="font-[var(--font-playfair)] text-lg text-[#3E2F35]">
+          <div className="rounded-[1.5rem] border border-[#C8A1B4]/35 bg-gradient-to-br from-[#FFFAF8] via-white to-[#EAC9D1]/40 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+            <h2 className="text-lg font-semibold tracking-tight text-[#3E2F35]">
               Record a quick thought
             </h2>
-            <p className="mt-3 text-sm text-[#3E2F35]/70">
+            <p className="mt-2 text-sm leading-snug text-[#3E2F35]/70">
               Capture that random 3 AM thought — baby name idea or snack craving
               welcome. You’ll thank yourself later.
             </p>

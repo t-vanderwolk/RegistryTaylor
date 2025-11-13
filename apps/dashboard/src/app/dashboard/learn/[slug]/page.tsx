@@ -61,7 +61,7 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
 
   return (
     <AcademyProgressProvider initialProgress={progressMap} moduleOrder={moduleOrder}>
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 pb-16 pt-10 md:gap-12 md:px-10">
+      <div className="flex flex-col gap-6">
         <div>
           <Link
             href="/dashboard/member/learn/welcome"

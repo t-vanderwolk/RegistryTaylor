@@ -95,7 +95,7 @@ export default async function WelcomePage() {
   const modules = mergeModules(allModules, dynamicModules);
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pb-20 pt-12 md:gap-20 md:px-10">
+    <div className="flex flex-col gap-6">
       <AcademyHeader modules={modules} />
       <ModuleCarousel modules={modules} />
       <WorkbookSection modules={modules} />

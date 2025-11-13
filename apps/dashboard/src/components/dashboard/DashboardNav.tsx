@@ -67,7 +67,7 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
 
   if (orientation === "horizontal") {
     return (
-      <nav className="flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm text-charcoal-700 shadow-sm">
+      <nav className="flex snap-x snap-mandatory gap-2 overflow-x-auto rounded-full border border-mauve-100 bg-white/90 px-2 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal-500 shadow-sm">
         {NAV_ITEMS.map((item) => {
           const active = current === item.tab;
           return (
@@ -75,10 +75,8 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
               key={item.href}
               href={item.href}
               className={[
-                "rounded-full px-3 py-1 transition-colors",
-                active
-                  ? "text-mauve-700 underline decoration-2 decoration-mauve-700 underline-offset-4"
-                  : "text-charcoal-700 hover:text-mauve-700",
+                "min-w-[8rem] snap-center rounded-full px-3 py-1 text-center transition",
+                active ? "bg-mauve-500/15 text-mauve-600" : "hover:text-mauve-600",
               ].join(" ")}
             >
               {item.label}
@@ -90,7 +88,7 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
   }
 
   return (
-    <nav className="grid gap-2 text-sm font-semibold text-charcoal-700">
+    <nav className="grid gap-1 text-sm font-semibold text-charcoal-700">
       {NAV_ITEMS.map((item) => {
         const active = current === item.tab;
         return (
@@ -98,7 +96,7 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
             key={item.href}
             href={item.href}
             className={[
-              "flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 transition-colors",
+              "flex items-center justify-between rounded-2xl border border-transparent px-3 py-3 transition-colors",
               active
                 ? "border-mauve-500 bg-white text-mauve-700"
                 : "bg-white text-charcoal-700 hover:text-mauve-700",

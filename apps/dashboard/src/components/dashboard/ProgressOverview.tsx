@@ -24,9 +24,9 @@ export default function ProgressOverview({
   return (
     <section
       aria-label="Academy progress overview"
-      className="flex flex-col gap-8 rounded-2xl border border-blush-300/70 bg-ivory/95 p-8 shadow-mauve-card md:flex-row md:items-center md:justify-between md:p-10"
+      className="flex flex-col gap-6 rounded-[1.75rem] border border-blush-300/60 bg-white/95 p-5 shadow-mauve-card"
     >
-      <div className="relative flex h-48 w-48 items-center justify-center rounded-full bg-blush-200/40">
+      <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-blush-200/30">
         {[...Array(PETALS)].map((_, index) => {
           const angle = (360 / PETALS) * index;
           const isFilled = index < filledPetals;
@@ -44,38 +44,37 @@ export default function ProgressOverview({
             />
           );
         })}
-        <div className="relative flex h-24 w-24 flex-col items-center justify-center rounded-full bg-white/90 text-center shadow-mauve-card">
-          <span className="text-xs uppercase tracking-[0.28em] text-charcoal-300">Complete</span>
-          <span className="font-serif text-2xl text-charcoal-700">{percentComplete}%</span>
+        <div className="relative flex h-20 w-20 flex-col items-center justify-center rounded-full bg-white/95 text-center shadow-mauve-card">
+          <span className="text-[0.6rem] uppercase tracking-[0.32em] text-charcoal-300">Complete</span>
+          <span className="text-xl font-semibold tracking-tight text-charcoal-700">{percentComplete}%</span>
         </div>
       </div>
 
-      <div className="flex-1 space-y-6">
+      <div className="space-y-4 text-left">
         <div>
-          <h2 className="font-serif text-2xl text-charcoal-700 md:text-[2.1rem]">
+          <h2 className="text-xl font-semibold tracking-tight text-charcoal-700">
             You’re blooming beautifully
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-charcoal-400 md:text-base">
-            {completedModules} of {totalModules} concierge modules are complete. Keep the cadence gentle and steady—luxury
-            lives in consistent care.
+          <p className="mt-1 text-sm leading-relaxed text-charcoal-500">
+            {completedModules}/{totalModules} concierge chapters complete. Keep the cadence gentle.
           </p>
         </div>
 
-        <dl className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-blush-300/60 bg-white/80 p-4 text-center shadow-inner">
-            <dt className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">Modules</dt>
-            <dd className="mt-2 font-serif text-xl text-charcoal-700">
+        <dl className="grid gap-3 text-center sm:grid-cols-3">
+          <div className="rounded-2xl border border-blush-200 bg-white/90 px-3 py-3 shadow-inner">
+            <dt className="text-[0.6rem] uppercase tracking-[0.32em] text-charcoal-300">Modules</dt>
+            <dd className="mt-1 text-lg font-semibold tracking-tight text-charcoal-700">
               {completedModules}/{totalModules}
             </dd>
           </div>
-          <div className="rounded-2xl border border-blush-300/60 bg-white/80 p-4 text-center shadow-inner">
-            <dt className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">Streak</dt>
-            <dd className="mt-2 font-serif text-xl text-charcoal-700">{streakDays} days</dd>
+          <div className="rounded-2xl border border-blush-200 bg-white/90 px-3 py-3 shadow-inner">
+            <dt className="text-[0.6rem] uppercase tracking-[0.32em] text-charcoal-300">Streak</dt>
+            <dd className="mt-1 text-lg font-semibold tracking-tight text-charcoal-700">{streakDays} days</dd>
           </div>
-          <div className="rounded-2xl border border-blush-300/60 bg-white/80 p-4 text-center shadow-inner">
-            <dt className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">Focus</dt>
-            <dd className="mt-2 font-serif text-xl text-charcoal-700">
-              {percentComplete >= 100 ? "Celebration" : "Steady Glow"}
+          <div className="rounded-2xl border border-blush-200 bg-white/90 px-3 py-3 shadow-inner">
+            <dt className="text-[0.6rem] uppercase tracking-[0.32em] text-charcoal-300">Focus</dt>
+            <dd className="mt-1 text-lg font-semibold tracking-tight text-charcoal-700">
+              {percentComplete >= 100 ? "Celebration" : "Steady glow"}
             </dd>
           </div>
         </dl>

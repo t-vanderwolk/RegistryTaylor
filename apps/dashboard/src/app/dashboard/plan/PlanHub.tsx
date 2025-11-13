@@ -97,9 +97,9 @@ export default function PlanHub({ userId, userName }: PlanHubProps) {
 
   if (loading && !planData) {
     return (
-      <div className="grid gap-8 lg:grid-cols-[0.5fr,0.5fr]">
-        <div className="h-[28rem] animate-pulse rounded-[2.75rem] bg-[#EAC9D1]/20" />
-        <div className="h-[28rem] animate-pulse rounded-[2.75rem] bg-[#EAC9D1]/20" />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="min-h-[12rem] animate-pulse rounded-[1.5rem] bg-[#EAC9D1]/20" />
+        <div className="min-h-[12rem] animate-pulse rounded-[1.5rem] bg-[#EAC9D1]/20" />
       </div>
     );
   }
@@ -117,7 +117,7 @@ export default function PlanHub({ userId, userName }: PlanHubProps) {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[0.48fr,0.52fr]">
+    <div className="grid gap-6 lg:grid-cols-[0.48fr,0.52fr]">
       <PlanningSection items={planData.owned} catalog={planData.catalog} onItemsChange={handleItemsChange} onRefresh={refresh} />
 
       <RegistrySection

@@ -41,8 +41,8 @@ export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryI
   };
 
   return (
-    <article className="flex flex-col rounded-[2.2rem] border border-[#C8A1B4]/30 bg-[#FFFAF8] p-6 shadow-[0_18px_40px_rgba(200,161,180,0.18)] transition hover:-translate-y-1 hover:shadow-[0_26px_60px_rgba(200,161,180,0.24)]">
-      <div className="relative overflow-hidden rounded-[1.8rem] border border-[#C8A1B4]/25 bg-white">
+    <article className="flex flex-col rounded-[1.5rem] border border-[#C8A1B4]/30 bg-[#FFFAF8] p-4 shadow-[0_18px_40px_rgba(200,161,180,0.18)] transition hover:-translate-y-1 hover:shadow-[0_26px_60px_rgba(200,161,180,0.24)]">
+      <div className="relative overflow-hidden rounded-[1.25rem] border border-[#C8A1B4]/25 bg-white">
         <div
           className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold text-[#3E2F35]"
           style={{ borderColor: badgeColor, backgroundColor: "#FFFAF8" }}
@@ -56,31 +56,33 @@ export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryI
         >
           {item.category}
         </div>
-        {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.name}
-            width={560}
-            height={320}
-            className="h-48 w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-48 w-full items-center justify-center bg-[#FFFAF8] text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
-            Concierge preview
-          </div>
-        )}
+        <div className="aspect-[4/3] w-full">
+          {item.image ? (
+            <Image
+              src={item.image}
+              alt={item.name}
+              width={560}
+              height={320}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-[#FFFAF8] text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]">
+              Concierge preview
+            </div>
+          )}
+        </div>
       </div>
 
-      <header className="mt-5 space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60">{item.brand}</p>
-        <h3 className="font-[var(--font-playfair)] text-xl text-[#3E2F35]">{item.name}</h3>
+      <header className="mt-4 space-y-2">
+        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60">{item.brand}</p>
+        <h3 className="text-lg font-semibold tracking-tight text-[#3E2F35] line-clamp-2">{item.name}</h3>
       </header>
 
       {item.description ? (
-        <p className="mt-3 text-sm leading-relaxed text-[#3E2F35]/70">{item.description}</p>
+        <p className="mt-2 text-sm leading-snug text-[#3E2F35]/70 line-clamp-3">{item.description}</p>
       ) : null}
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-[#3E2F35]/75">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-sm text-[#3E2F35]/75">
         <span className="font-semibold text-[#3E2F35]">{formatPrice(item.price)}</span>
         {item.mentorNote ? (
           <span
@@ -92,7 +94,7 @@ export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryI
         ) : null}
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-4 flex flex-wrap gap-2">
         {affiliateLink ? (
           <a
             href={affiliateLink}
@@ -106,7 +108,7 @@ export default function RegistryItemCard({ item, onSaveNote, saving }: RegistryI
         <button
           type="button"
           onClick={() => setOpenNotes((prev) => !prev)}
-          className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
+          className="inline-flex items-center gap-2 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 hover:border-[#D9C48E]"
         >
           {openNotes ? "Hide Note" : item.mentorNote ? "Edit Note" : "Add Note"}
         </button>

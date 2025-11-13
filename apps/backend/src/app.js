@@ -42,6 +42,7 @@ const envAllowedOrigins =
 
 const baseAllowedOrigins = new Set([
   "http://localhost:5050",
+  "http://localhost:3000",
   "https://www.taylormadebabyco.com",
   "https://taylormadebabyco.com",
   "https://taylor-made.herokuapp.com",

@@ -17,26 +17,25 @@ export default function MobileFooterNav() {
   const pathname = usePathname() ?? "";
 
   return (
-    <nav
-      className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%-2.5rem)] max-w-xl -translate-x-1/2 gap-2 overflow-x-auto rounded-3xl border border-blush-300/70 bg-white/95 px-3 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal-400 shadow-mauve-glow backdrop-blur md:hidden"
-      aria-label="Primary navigation"
-    >
-      {NAV_ITEMS.map((item) => {
-        const active = pathname?.startsWith(item.href);
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`flex min-w-[5rem] flex-col items-center gap-1 rounded-full px-2 py-1 transition duration-200 ease-bloom ${
-              active ? "bg-blush-200/70 text-charcoal-700 shadow-blush-pill" : "hover:text-charcoal-500"
-            }`}
-            aria-current={active ? "page" : undefined}
-          >
-            <span aria-hidden>{item.icon}</span>
-            <span>{item.label}</span>
-          </Link>
-        );
-      })}
+    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-blush-300/60 bg-white/95 py-2 shadow-[0_-12px_25px_rgba(200,161,180,0.18)] md:hidden">
+      <div className="mx-auto flex max-w-[420px] gap-2 overflow-x-auto px-4 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-charcoal-400">
+        {NAV_ITEMS.map((item) => {
+          const active = pathname?.startsWith(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex min-w-[4.25rem] flex-1 flex-col items-center gap-0.5 rounded-full px-2 py-1 transition ${
+                active ? "bg-blush-200/70 text-charcoal-700" : "hover:text-charcoal-600"
+              }`}
+              aria-current={active ? "page" : undefined}
+            >
+              <span aria-hidden>{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

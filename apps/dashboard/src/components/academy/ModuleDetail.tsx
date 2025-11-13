@@ -187,8 +187,8 @@ export default function ModuleDetail({
     />
   );
 
-  return (
-    <div className="space-y-12">
+return (
+  <div className="space-y-8 md:space-y-12">
       <ScrollProgress onProgressChange={setScrollPercent} />
 
       <header className="space-y-6 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-8 shadow-blush-lift">

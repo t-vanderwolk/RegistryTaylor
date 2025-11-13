@@ -35,66 +35,65 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
   );
 
   return (
-    <section className="rounded-2xl border border-blush-300/70 bg-ivory/95 p-8 shadow-mauve-card md:p-10">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-charcoal-300">
-            Reflection & Community
-          </p>
-          <h2 className="mt-2 font-serif text-2xl text-charcoal-700 md:text-[2.1rem]">
-            Gentle check-ins, shared softly
+    <section className="rounded-[1.75rem] border border-blush-300/70 bg-ivory/95 p-5 shadow-mauve-card">
+      <div className="space-y-2">
+        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-charcoal-300">
+          Reflections
+        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="text-xl font-semibold tracking-tight text-charcoal-700">
+            Gentle check-ins
           </h2>
+          <div className="flex items-center gap-1 rounded-full border border-blush-300/60 bg-white/80 p-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-charcoal-400">
+            <button
+              type="button"
+              onClick={() => setActiveTab("mine")}
+              className={`rounded-full px-2.5 py-1 transition ${
+                activeTab === "mine" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
+              }`}
+              aria-pressed={activeTab === "mine"}
+            >
+              Mine
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("community")}
+              className={`rounded-full px-2.5 py-1 transition ${
+                activeTab === "community" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
+              }`}
+              aria-pressed={activeTab === "community"}
+            >
+              Community
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-2 rounded-full border border-blush-300/60 bg-white/70 p-1 text-xs font-semibold uppercase tracking-[0.28em] text-charcoal-300">
-          <button
-            type="button"
-            onClick={() => setActiveTab("mine")}
-            className={`rounded-full px-4 py-1 transition duration-200 ease-bloom ${
-              activeTab === "mine" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
-            }`}
-            aria-pressed={activeTab === "mine"}
-          >
-            My Reflections
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("community")}
-            className={`rounded-full px-4 py-1 transition duration-200 ease-bloom ${
-              activeTab === "community" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
-            }`}
-            aria-pressed={activeTab === "community"}
-          >
-            Community Highlights
-          </button>
-        </div>
+        <p className="text-sm leading-snug text-charcoal-500">
+          Capture two-line snippets and decide if they stay private or join the village.
+        </p>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm leading-relaxed text-charcoal-400 md:text-base">
-          Capture how this season feels and choose how we share it. Every reflection fuels concierge support and community empathy.
-        </p>
-        <div className="flex items-center gap-2 rounded-full border border-blush-300/60 bg-white/80 p-1 text-xs font-semibold uppercase tracking-[0.28em] text-charcoal-300">
-          <button
-            type="button"
-            onClick={() => setShareMode("named")}
-            className={`rounded-full px-3 py-1 transition duration-200 ease-bloom ${
-              shareMode === "named" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
-            }`}
-            aria-pressed={shareMode === "named"}
-          >
-            Share w/ name
-          </button>
-          <button
-            type="button"
-            onClick={() => setShareMode("anonymous")}
-            className={`rounded-full px-3 py-1 transition duration-200 ease-bloom ${
-              shareMode === "anonymous" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
-            }`}
-            aria-pressed={shareMode === "anonymous"}
-          >
-            Share anonymously
-          </button>
-        </div>
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-charcoal-400">
+        <span>Share mode</span>
+        <button
+          type="button"
+          onClick={() => setShareMode("named")}
+          className={`rounded-full border px-2 py-1 ${
+            shareMode === "named" ? "border-mauve-500 text-mauve-600" : "border-transparent"
+          }`}
+          aria-pressed={shareMode === "named"}
+        >
+          Named
+        </button>
+        <button
+          type="button"
+          onClick={() => setShareMode("anonymous")}
+          className={`rounded-full border px-2 py-1 ${
+            shareMode === "anonymous" ? "border-mauve-500 text-mauve-600" : "border-transparent"
+          }`}
+          aria-pressed={shareMode === "anonymous"}
+        >
+          Anonymous
+        </button>
       </div>
 
       <AnimatePresence mode="wait">
@@ -104,10 +103,10 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="mt-6 grid gap-4 md:grid-cols-2"
+          className="mt-4 grid gap-3"
         >
           {displayList.length === 0 ? (
-            <div className="notebook-surface rounded-2xl border border-dashed border-blush-300/70 p-6 text-sm leading-relaxed text-charcoal-400 md:col-span-2">
+            <div className="rounded-[1.5rem] border border-dashed border-blush-300/70 bg-white/80 p-4 text-sm leading-relaxed text-charcoal-400">
               {activeTab === "mine"
                 ? "You haven’t captured a reflection yet. Open the journal to jot down today’s thought or feeling."
                 : "Community highlights will appear here once members choose to share. Check back soon for tender snippets."}
@@ -116,13 +115,13 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
             displayList.map((entry) => (
               <article
                 key={entry.id}
-                className="flex h-full flex-col gap-3 rounded-2xl border border-blush-300/70 bg-white/90 p-6 shadow-mauve-card"
+                className="flex flex-col gap-2 rounded-[1.5rem] border border-blush-300/70 bg-white/90 p-4 shadow-mauve-card"
               >
-                <blockquote className="flex-1 space-y-2 text-charcoal-500">
-                  <p className="font-serif text-lg leading-relaxed text-charcoal-700">“{entry.title}”</p>
-                  <p className="text-sm leading-relaxed text-charcoal-400">{entry.excerpt}</p>
+                <blockquote className="flex-1 space-y-1 text-charcoal-500">
+                  <p className="text-lg font-semibold tracking-tight text-charcoal-700 line-clamp-2">“{entry.title}”</p>
+                  <p className="text-sm leading-snug text-charcoal-400 line-clamp-2">{entry.excerpt}</p>
                 </blockquote>
-                <div className="flex items-center justify-between text-xs uppercase tracking-[0.28em] text-charcoal-300">
+                <div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.28em] text-charcoal-300">
                   <span>
                     {new Date(entry.createdAt).toLocaleDateString(undefined, {
                       month: "short",
@@ -143,14 +142,14 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
         </motion.div>
       </AnimatePresence>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/dashboard/member/journal"
           className="academy-button justify-center gap-2 bg-mauve-500/90 text-white"
         >
           Open Reflection Studio
         </Link>
-        <p className="text-xs leading-relaxed text-charcoal-300">
+        <p className="text-xs leading-snug text-charcoal-400">
           Sharing mode set to {shareMode === "anonymous" ? "Anonymous" : "Named"} · switch anytime inside the journal.
         </p>
       </div>

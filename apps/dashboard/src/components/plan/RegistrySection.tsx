@@ -140,21 +140,18 @@ export default function RegistrySection({
   };
 
   return (
-    <section className="space-y-8 rounded-[2.5rem] border border-[#C8A1B4]/35 bg-white/95 p-8 shadow-[0_24px_55px_rgba(200,161,180,0.18)]">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[#C8A1B4]/30 pb-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Registry</p>
-          <h2 className="mt-2 font-[var(--font-playfair)] text-3xl text-[#3E2F35]">My Registry</h2>
-          <p className="mt-1 text-sm text-[#3E2F35]/70">
-            {greetingName}, your concierge-curated picks update as you complete modules, connect feeds, and add mentor
-            notes.
-          </p>
-        </div>
+    <section className="space-y-5 rounded-[1.5rem] border border-[#C8A1B4]/35 bg-white/95 p-5 shadow-[0_18px_45px_rgba(200,161,180,0.18)]">
+      <header className="space-y-2 border-b border-[#C8A1B4]/30 pb-4">
+        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-[#C8A1B4]/80">Registry</p>
+        <h2 className="text-xl font-semibold tracking-tight text-[#3E2F35]">My registry</h2>
+        <p className="text-sm leading-snug text-[#3E2F35]/70">
+          {greetingName}, your concierge-curated picks update as you complete modules and add mentor notes.
+        </p>
         <Link
           href="/dashboard/member"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#C8A1B4] hover:text-[#B98BA5]"
+          className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#C8A1B4]"
         >
-          ← Dashboard Home
+          ← Home
         </Link>
       </header>
 
@@ -174,14 +171,14 @@ export default function RegistrySection({
 
       <SilverCrossBannerSet />
 
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="space-y-3">
         <CategoryFilter
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
           babylistActive={babylistOnlyActive}
           onToggleBabylist={handleBabylistShortcut}
         />
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto pb-1">
           {DEFAULT_SOURCES.map((source) => {
             const isActive = activeSources.includes(source);
             const meta = getRegistrySourceMeta(source);
@@ -190,7 +187,7 @@ export default function RegistrySection({
                 key={source}
                 type="button"
                 onClick={() => handleSourceToggle(source)}
-                className={`inline-flex items-center gap-1 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition ${
+                className={`inline-flex min-w-[6.5rem] snap-center items-center gap-1 rounded-full border px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] transition ${
                   isActive ? "border-[#3E2F35] bg-[#3E2F35] text-[#FFFAF8]" : "border-[#C8A1B4] text-[#3E2F35]"
                 }`}
               >
@@ -203,7 +200,7 @@ export default function RegistrySection({
             type="button"
             onClick={resetSources}
             disabled={allSourcesActive}
-            className="inline-flex items-center gap-1 rounded-full border border-[#C8A1B4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center gap-1 rounded-full border border-[#C8A1B4] px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-[#3E2F35] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Reset Sources
           </button>
@@ -211,30 +208,30 @@ export default function RegistrySection({
       </div>
 
       {status ? (
-        <div className="rounded-3xl border border-[#C8A1B4]/40 bg-[#FFFAF8] p-4 text-sm text-[#3E2F35] shadow-sm">
+        <div className="rounded-2xl border border-[#C8A1B4]/40 bg-[#FFFAF8] p-3 text-sm text-[#3E2F35] shadow-sm">
           {status}
         </div>
       ) : null}
 
       {error ? (
-        <div className="rounded-3xl border border-[#D97373]/40 bg-[#FFF5F4] p-4 text-sm text-[#5C2E2E] shadow-sm">
+        <div className="rounded-2xl border border-[#D97373]/40 bg-[#FFF5F4] p-3 text-sm text-[#5C2E2E] shadow-sm">
           {error}
         </div>
       ) : null}
 
       {loading ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, index) => (
-            <div key={`skeleton-${index}`} className="h-64 animate-pulse rounded-[2.2rem] bg-[#EAC9D1]/20" />
+            <div key={`skeleton-${index}`} className="h-56 animate-pulse rounded-[1.5rem] bg-[#EAC9D1]/20" />
           ))}
         </div>
       ) : displayedItems.length === 0 ? (
-        <div className="rounded-[2.5rem] border border-dashed border-[#C8A1B4]/60 bg-[#FFFAF8] p-10 text-center text-sm text-[#3E2F35]/70 shadow-sm">
+        <div className="rounded-[1.5rem] border border-dashed border-[#C8A1B4]/60 bg-[#FFFAF8] p-6 text-center text-sm text-[#3E2F35]/70 shadow-sm">
           No registry items yet in <strong>{activeCategory ?? "any"}</strong>. Complete an academy module or ask your
           mentor for fresh recommendations.
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {displayedItems.map((item) => (
             <RegistryItemCard
               key={item.id}

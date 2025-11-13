@@ -38,27 +38,25 @@ export default function ModuleCarousel({ modules }: ModuleCarouselProps) {
   const totalModules = modules.length;
 
   return (
-    <section className="space-y-8">
-      <header className="space-y-4 text-center md:text-left">
-        <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
+    <section className="space-y-5">
+      <header className="space-y-3 text-center md:text-left">
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
           Explore the academy
         </p>
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-serif text-3xl leading-tight text-charcoal-700 md:text-[2.4rem]">
+        <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <h2 className="text-2xl font-semibold tracking-tight text-charcoal-700 md:text-[2.4rem]">
             Choose the journey that meets you now
           </h2>
-          <span className="text-xs uppercase tracking-[0.3em] text-charcoal-300">
+          <span className="text-[0.65rem] uppercase tracking-[0.3em] text-charcoal-300">
             {filteredModules.length} of {totalModules} modules
           </span>
         </div>
-        <p className="mx-auto max-w-3xl text-sm leading-relaxed text-charcoal-500 md:mx-0">
-          Switch between Nursery, Gear, and Postpartum to see curated modules, or keep it on All to browse the full
-          cadence. Your mentor sees every reflection you capture along the way.
+        <p className="text-sm leading-snug text-charcoal-500">
+          Swipe filters to jump between Nursery, Gear, and Postpartum, or keep it on All to browse the full cadence.
         </p>
-        <div className="academy-gradient-divider" />
       </header>
 
-      <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+      <div className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto pb-1">
         {journeys.map((journey) => {
           const active = selectedJourney === journey.id;
           return (
@@ -67,7 +65,7 @@ export default function ModuleCarousel({ modules }: ModuleCarouselProps) {
               type="button"
               onClick={() => setSelectedJourney(journey.id)}
               className={[
-                "rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.28em] transition duration-200 ease-bloom",
+                "min-w-[8rem] snap-center rounded-full border px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.28em] transition duration-200 ease-bloom",
                 active
                   ? "border-mauve-500 bg-mauve-500 text-white shadow-blush-soft"
                   : "border-blush-300 bg-white text-charcoal-500 hover:border-mauve-500 hover:text-mauve-500",

@@ -17,7 +17,7 @@ export default function MobileFooterNav() {
   const pathname = usePathname() ?? "";
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-blush-300/60 bg-white/95 py-2 shadow-[0_-12px_25px_rgba(200,161,180,0.18)] md:hidden">
+    <nav className="md:hidden max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:z-50 border-t border-blush-300/60 bg-white/95 py-2 shadow-[0_-12px_25px_rgba(200,161,180,0.18)]">
       <div className="mx-auto flex max-w-[420px] gap-2 overflow-x-auto px-4 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-charcoal-400">
         {NAV_ITEMS.map((item) => {
           const active = pathname?.startsWith(item.href);

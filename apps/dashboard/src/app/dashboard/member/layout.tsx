@@ -8,7 +8,7 @@ export const revalidate = 0;
 
 export default function MemberSectionLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-screen bg-[#FFF7FA] pb-20 scroll-smooth">
+    <div className="relative min-h-screen bg-[#FFF7FA] pb-20 md:scroll-smooth">
       <Suspense fallback={<MemberDashboardLoading />}>
         <MobileContainer>{children}</MobileContainer>
       </Suspense>

@@ -33,7 +33,7 @@ export default function ModuleCard({ module }: ModuleCardProps) {
   const registryFocus = module.registryFocus ?? "Taylor-Made Focus";
 
   return (
-    <article className="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-academy-xl border border-blush-300/60 bg-ivory/95 p-4 shadow-mauve-card transition duration-200 ease-bloom hover:-translate-y-1 hover:shadow-blush-lift md:gap-6 md:p-6">
+    <article className="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-academy-xl border border-blush-300/60 bg-ivory/95 p-4 shadow-mauve-card transition duration-200 ease-bloom hover:-translate-y-1 hover:shadow-blush-lift md:gap-6 md:p-7">
       <div className="space-y-4 md:space-y-6">
         <div className="relative overflow-hidden rounded-academy border border-blush-300/60 bg-academy-card">
           <Image

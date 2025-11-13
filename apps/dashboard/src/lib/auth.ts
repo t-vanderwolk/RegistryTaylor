@@ -264,7 +264,10 @@ async function fetchUserByToken(token: string | null): Promise<AuthenticatedUser
       throw new Error("Invalid session response.");
     }
 
-    const data = payload as { id: string; email: string; role: UserRole };
+    const data =
+      "user" in payload && payload.user && typeof payload.user === "object"
+        ? (payload.user as { id: string; email: string; role: UserRole })
+        : (payload as { id: string; email: string; role: UserRole });
 
     return {
       id: data.id,

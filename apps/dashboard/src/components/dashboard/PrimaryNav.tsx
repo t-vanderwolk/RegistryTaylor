@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
@@ -13,6 +13,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { createPortal } from "react-dom";
 import LogoutButton from "@/components/LogoutButton";
 
 type NavItem = {
@@ -98,8 +99,7 @@ export default function PrimaryNav({
 }: PrimaryNavProps) {
   const pathname = usePathname() ?? "";
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const mobilePanelRef = useRef<HTMLDivElement | null>(null);
-  const mobileToggleRef = useRef<HTMLButtonElement | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   const computedNavItems = useMemo(() => {
     if (navItems) {
@@ -135,10 +135,17 @@ export default function PrimaryNav({
   }, [pathname]);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (!mobileNavOpen) {
       document.body.style.overflow = "";
       return;
     }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -147,27 +154,72 @@ export default function PrimaryNav({
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (
-        mobilePanelRef.current &&
-        !mobilePanelRef.current.contains(target) &&
-        mobileToggleRef.current &&
-        !mobileToggleRef.current.contains(target)
-      ) {
-        setMobileNavOpen(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("click", handleClickOutside);
       document.body.style.overflow = previousOverflow;
     };
   }, [mobileNavOpen]);
+
+  const mobileMenu =
+    isMounted && mobileNavOpen
+      ? createPortal(
+          <div className="md:hidden">
+            <div
+              className="max-md:fixed max-md:inset-0 max-md:z-[60] max-md:bg-white max-md:overflow-y-auto"
+              aria-label="Mobile navigation"
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="px-5 pb-16 pt-24">
+                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal/50">Navigate</p>
+                {profileMenu ? <div className="mt-3">{profileMenu}</div> : null}
+                <ul className="mt-4 space-y-2">
+                  {computedNavItems.map(({ label, href, isActive }) => {
+                    const active = isActive ? isActive(pathname) : pathname === href;
+                    return (
+                      <li key={href}>
+                        <Link
+                          href={href}
+                          onClick={closeMobileNav}
+                          className={[
+                            "flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.25em] transition",
+                            active
+                              ? "bg-mauve-500 text-white shadow-mauve-card"
+                              : "bg-white text-charcoal hover:bg-blush-200/70",
+                          ].join(" ")}
+                        >
+                          <span>{label}</span>
+                          <span aria-hidden>→</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="mt-5 space-y-2">
+                  {showAuthControls ? (
+                    <LogoutButton className="w-full rounded-full border border-mauve-500/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal transition hover:bg-blush-200/70">
+                      Logout
+                    </LogoutButton>
+                  ) : ctaLink ? (
+                    <Link
+                      href={ctaLink.href}
+                      onClick={closeMobileNav}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-mauve-500 px-5 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-white shadow-mauve-card transition hover:bg-mauve-400"
+                    >
+                      {ctaLink.label}
+                    </Link>
+                  ) : null}
+                  <p className="text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-charcoal/50">
+                    Crafted for calm journeys
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
 
   return (
     <>
@@ -214,7 +266,7 @@ export default function PrimaryNav({
 
       {showMobileNav ? (
         <>
-          <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b border-mauve-500/10 bg-ivory/95 px-4 py-3 shadow-sm shadow-mauve-500/10 backdrop-blur md:hidden">
+          <nav className="md:hidden max-md:fixed max-md:top-0 max-md:left-0 max-md:right-0 max-md:z-40 flex items-center justify-between border-b border-mauve-500/10 bg-ivory/95 px-4 py-3 pr-20 shadow-sm shadow-mauve-500/10 backdrop-blur">
             <Link href={brandHref} className="flex items-center gap-2" aria-label="Taylor-Made Baby Co. home">
               <span className="font-script text-2xl text-mauve-500 tracking-tight">Taylor-Made</span>
               <span className="text-[0.6rem] font-[var(--font-playfair-sc)] font-semibold uppercase tracking-[0.35em] text-charcoal">
@@ -224,11 +276,11 @@ export default function PrimaryNav({
             <button
               type="button"
               onClick={toggleMobileNav}
-              ref={mobileToggleRef}
               aria-expanded={mobileNavOpen}
               aria-label="Toggle navigation menu"
               className={[
-                "inline-flex items-center gap-2 rounded-full border border-mauve-500/30 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition",
+                "inline-flex items-center gap-2 rounded-full border border-mauve-500/30 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition md:hidden",
+                "max-md:fixed max-md:top-4 max-md:right-4 max-md:z-[70]",
                 mobileNavOpen ? "bg-mauve-500 text-white" : "text-charcoal hover:bg-blush-200/50",
               ].join(" ")}
             >
@@ -261,65 +313,7 @@ export default function PrimaryNav({
               </span>
             </button>
           </nav>
-          {mobileNavOpen ? (
-            <>
-              <button
-                type="button"
-                aria-label="Close navigation menu"
-                className="fixed inset-0 z-30 bg-[rgba(17,8,10,0.45)] backdrop-blur-sm md:hidden"
-                onClick={closeMobileNav}
-              />
-              <div className="absolute inset-x-0 top-[3.75rem] z-40 px-4 md:hidden" aria-label="Mobile navigation">
-                <div
-                  ref={mobilePanelRef}
-                  className="rounded-3xl border border-mauve-500/20 bg-ivory px-5 pb-6 pt-5 shadow-[0_25px_60px_rgba(33,12,21,0.25)]"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-charcoal/50">Navigate</p>
-                  {profileMenu ? <div className="mt-3">{profileMenu}</div> : null}
-                  <ul className="mt-4 space-y-2">
-                    {computedNavItems.map(({ label, href, isActive }) => {
-                      const active = isActive ? isActive(pathname) : pathname === href;
-                      return (
-                        <li key={href}>
-                          <Link
-                            href={href}
-                            onClick={closeMobileNav}
-                            className={[
-                              "flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.25em] transition",
-                              active
-                                ? "bg-mauve-500 text-white shadow-mauve-card"
-                                : "bg-white text-charcoal hover:bg-blush-200/70",
-                            ].join(" ")}
-                          >
-                            <span>{label}</span>
-                            <span aria-hidden>→</span>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <div className="mt-4 space-y-2">
-                    {showAuthControls ? (
-                      <LogoutButton className="w-full rounded-full border border-mauve-500/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal transition hover:bg-blush-200/70">
-                        Logout
-                      </LogoutButton>
-                    ) : ctaLink ? (
-                      <Link
-                        href={ctaLink.href}
-                        onClick={closeMobileNav}
-                        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-mauve-500 px-5 py-3 text-xs font-semibold uppercase tracking-[0.32em] text-white shadow-mauve-card transition hover:bg-mauve-400"
-                      >
-                        {ctaLink.label}
-                      </Link>
-                    ) : null}
-                    <p className="text-center text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-charcoal/50">
-                      Crafted for calm journeys
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : null}
+          {mobileMenu}
         </>
       ) : null}
     </>

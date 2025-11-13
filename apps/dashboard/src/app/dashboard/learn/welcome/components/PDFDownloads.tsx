@@ -36,7 +36,7 @@ export default function PDFDownloads({ modules }: PDFDownloadsProps) {
   }
 
   return (
-    <section className="academy-card space-y-4 px-5 py-5 md:px-12 md:py-10">
+    <section className="academy-card space-y-4 px-5 py-5 md:space-y-6 md:rounded-[2rem] md:px-12 md:py-10">
       <header className="space-y-2 text-center md:text-left">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-mauve-500/80">Printable support</p>
         <h3 className="text-xl font-semibold tracking-tight text-charcoal-700 md:font-serif md:text-[2rem]">

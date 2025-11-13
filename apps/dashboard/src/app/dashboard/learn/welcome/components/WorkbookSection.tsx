@@ -35,7 +35,7 @@ export default function WorkbookSection({ modules }: WorkbookSectionProps) {
     : "/dashboard/member/learn/welcome";
 
   return (
-    <section className="academy-card grid gap-5 p-5 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:p-10">
+    <section className="academy-card grid gap-5 p-5 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:gap-10 md:rounded-[2rem] md:p-10">
       <div className="space-y-3">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
           Workbook in motion

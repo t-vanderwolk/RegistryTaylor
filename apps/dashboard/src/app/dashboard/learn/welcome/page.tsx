@@ -8,6 +8,7 @@ import AcademyHeader from "./components/AcademyHeader";
 import ModuleCarousel from "./components/ModuleCarousel";
 import WorkbookSection from "./components/WorkbookSection";
 import PDFDownloads from "./components/PDFDownloads";
+import ModuleSidebar from "@/components/academy/ModuleSidebar";
 
 export const dynamic = "force-dynamic";
 
@@ -95,11 +96,14 @@ export default async function WelcomePage() {
   const modules = mergeModules(allModules, dynamicModules);
 
   return (
-    <div className="flex flex-col gap-6">
-      <AcademyHeader modules={modules} />
-      <ModuleCarousel modules={modules} />
-      <WorkbookSection modules={modules} />
-      <PDFDownloads modules={modules} />
+    <div className="flex flex-col gap-6 md:mx-auto md:max-w-6xl md:flex-row md:items-start md:gap-10 md:py-6">
+      <ModuleSidebar modules={modules} title="Your journeys" />
+      <div className="flex-1 space-y-6 md:space-y-10">
+        <AcademyHeader modules={modules} />
+        <ModuleCarousel modules={modules} />
+        <WorkbookSection modules={modules} />
+        <PDFDownloads modules={modules} />
+      </div>
     </div>
   );
 }

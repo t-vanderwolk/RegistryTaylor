@@ -1,10 +1,9 @@
 import bcrypt from 'bcryptjs';
 import express from 'express';
-import jwt from 'jsonwebtoken';
-
 import config from '../config.js';
 import prisma from '../db/prismaClient.js';
-import { requireAuth } from '../middleware/auth.js';
+import { getTokenFromRequest, requireAuth } from '../middleware/auth.js';
+import { signAuthToken, verifyAuthToken } from '../utils/jwt.js';
 
 const router = express.Router();
 
@@ -16,9 +15,6 @@ const roleDashboardMap = {
   MENTOR: '/dashboard/mentor',
   MEMBER: '/dashboard/member',
 };
-
-const buildToken = (user) =>
-  jwt.sign({ id: user.id, role: user.role }, config.jwtSecret, { expiresIn: '7d' });
 
 const validRoles = new Set(['ADMIN', 'MENTOR', 'MEMBER']);
 
@@ -48,6 +44,15 @@ const resolveRole = (role) => {
   return validRoles.has(normalized) ? normalized : 'MEMBER';
 };
 
+const sanitizeUser = (user) =>
+  user
+    ? {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      }
+    : null;
+
 const respondWithUser = async (userId, res) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -58,7 +63,7 @@ const respondWithUser = async (userId, res) => {
     return res.status(404).json({ message: 'User not found' });
   }
 
-  return res.json(user);
+  return res.json({ user: sanitizeUser(user) });
 };
 
 router.post(
@@ -89,7 +94,7 @@ router.post(
       return res.status(401).json({ message: 'Invalid credentials.' });
     }
 
-    const token = buildToken(user);
+    const token = signAuthToken(user);
     if (!token) {
       return res.status(500).json({ message: 'Unable to generate session token.' });
     }
@@ -99,11 +104,7 @@ router.post(
     res.cookie('token', token, tokenCookieOptions).json({
       token,
       redirectTo,
-      user: {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      },
+      user: sanitizeUser(user),
     });
   }),
 );
@@ -139,17 +140,14 @@ router.post(
       select: authSelect,
     });
 
-    const token = buildToken(createdUser);
+    const token = signAuthToken(createdUser);
     const redirectTo = roleDashboardMap[createdUser.role] || '/dashboard/member';
 
-    res
-      .status(201)
-      .cookie('token', token, tokenCookieOptions)
-      .json({
-        token,
-        redirectTo,
-        user: createdUser,
-      });
+    res.status(201).cookie('token', token, tokenCookieOptions).json({
+      token,
+      redirectTo,
+      user: sanitizeUser(createdUser),
+    });
   }),
 );
 
@@ -161,34 +159,20 @@ router.get(
   }),
 );
 
-const extractToken = (req) => {
-  if (req.cookies?.token) {
-    return req.cookies.token;
-  }
-  const bearer = req.headers.authorization;
-  if (bearer && bearer.startsWith('Bearer ')) {
-    return bearer.split(' ')[1];
-  }
-  return null;
-};
-
 router.get(
   '/session',
   asyncHandler(async (req, res) => {
-    const token = extractToken(req);
+    const token = getTokenFromRequest(req);
     if (!token) {
       return res.status(401).json({ message: 'Missing session token.' });
     }
 
-    try {
-      const payload = jwt.verify(token, config.jwtSecret);
-      if (!payload?.id) {
-        return res.status(401).json({ message: 'Invalid session token.' });
-      }
-      await respondWithUser(payload.id, res);
-    } catch {
+    const payload = verifyAuthToken(token);
+    if (!payload?.id) {
       return res.status(401).json({ message: 'Invalid session token.' });
     }
+
+    await respondWithUser(payload.id, res);
   }),
 );
 
@@ -197,7 +181,7 @@ router.delete(
   requireAuth,
   asyncHandler(async (req, res) => {
     res.clearCookie('token', baseCookieOptions);
-    res.status(204).json({ message: 'Session cleared' });
+    res.status(204).end();
   }),
 );
 
@@ -205,7 +189,7 @@ router.post(
   '/logout',
   asyncHandler(async (_req, res) => {
     res.clearCookie('token', baseCookieOptions);
-    res.status(204).json({ message: 'Logged out' });
+    res.status(204).end();
   }),
 );
 

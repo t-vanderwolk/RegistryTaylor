@@ -4,11 +4,12 @@
   "engines": {
     "node": "20.x"
   },
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",      
-  "start": "next start"
-},
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@prisma/client": "6.18.0",
     "axios": "^1.12.2",

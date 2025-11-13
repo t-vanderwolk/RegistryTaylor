@@ -76,21 +76,21 @@ export default function LectureContent({ module }: LectureContentProps) {
   }, [module.content.apply, module.content.sections, module.title]);
 
   return (
-    <motion.section
+    <motion.div
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="space-y-6 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-8 text-charcoal-500 shadow-mauve-card"
+      className="space-y-8 text-charcoal-500"
     >
-      <div className="space-y-2">
+      <div className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">Concierge lecture</p>
-        <h2 className="text-[2.2rem] font-serif leading-tight text-charcoal-700 md:text-[2.4rem]">{module.title}</h2>
+        <h2 className="text-[2.2rem] font-serif leading-tight text-charcoal-700 md:text-[2.6rem]">{module.title}</h2>
         {module.subtitle ? (
-          <p className="text-sm text-charcoal-400">{module.subtitle}</p>
+          <p className="text-base text-charcoal-400 md:text-lg md:leading-relaxed">{module.subtitle}</p>
         ) : null}
       </div>
 
-      <div className="space-y-6 text-[1.05rem] leading-[1.7] text-charcoal-500">
+      <div className="space-y-6 text-[1.05rem] leading-[1.7] text-charcoal-500 md:space-y-8 md:text-lg md:leading-[1.9]">
         {paragraphs.map((paragraph, index) => (
           <motion.p
             key={`paragraph-${index}`}
@@ -126,9 +126,9 @@ export default function LectureContent({ module }: LectureContentProps) {
       </div>
 
       {takeaways.length ? (
-        <div className="space-y-3 rounded-academy border border-blush-300/70 bg-white/90 p-6 shadow-blush-soft">
+        <div className="space-y-3 rounded-academy border border-blush-300/70 bg-white/90 p-6 shadow-blush-soft md:p-8">
           <p className="text-xs uppercase tracking-[0.32em] text-mauve-500">Key takeaways</p>
-          <ul className="space-y-2 text-sm text-charcoal-500">
+          <ul className="space-y-2 text-sm text-charcoal-500 md:space-y-3">
             {takeaways.map((item) => (
               <li key={item} className="flex items-start gap-3">
                 <span className="mt-[6px] inline-flex h-2 w-2 rounded-full bg-mauve-500/80" />
@@ -138,6 +138,6 @@ export default function LectureContent({ module }: LectureContentProps) {
           </ul>
         </div>
       ) : null}
-    </motion.section>
+    </motion.div>
   );
 }

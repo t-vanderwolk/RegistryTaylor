@@ -24,7 +24,7 @@ export default function AnnouncementsFeed({ announcements }: AnnouncementsFeedPr
   }
 
   return (
-    <section className="space-y-3">
+    <section className="space-y-3 md:space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-charcoal-300">
@@ -42,14 +42,14 @@ export default function AnnouncementsFeed({ announcements }: AnnouncementsFeedPr
         </Link>
       </div>
 
-      <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+      <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible">
         {announcements.map((item, index) => (
           <motion.article
             key={item.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.05 }}
-            className="min-w-[280px] max-w-[320px] snap-center rounded-[1.5rem] border border-blush-300/60 bg-ivory/95 p-4 shadow-mauve-card"
+            className="min-w-[280px] max-w-[320px] snap-center rounded-[1.5rem] border border-blush-300/60 bg-ivory/95 p-4 shadow-mauve-card md:min-w-0 md:max-w-none"
           >
             <div className="flex items-center justify-between text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-charcoal-300">
               <span className="truncate">{item.badge}</span>

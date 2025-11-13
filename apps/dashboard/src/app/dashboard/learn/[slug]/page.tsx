@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import type { Metadata } from "next";
+import type { Metadata, Route } from "next";
 import { requireMember } from "@/lib/auth";
 import { getAcademyModule, getAcademyModules } from "@/lib/academy";
 import { AcademyProgressProvider } from "@/components/academy/ProgressContext";
@@ -8,6 +8,8 @@ import ModuleDetail from "@/components/academy/ModuleDetail";
 import LectureContent from "@/components/academy/LectureContent";
 import InteractiveSection from "@/components/academy/InteractiveSection";
 import type { ModuleProgress } from "@/types/academy";
+import ModuleSidebar from "@/components/academy/ModuleSidebar";
+import ModuleToolsSidebar from "@/components/academy/ModuleToolsSidebar";
 
 export const dynamic = "force-dynamic";
 
@@ -59,58 +61,76 @@ export default async function AcademyModulePage({ params }: ModulePageParams) {
 
   const moduleOrder = modules.map((module) => module.slug);
 
+  const workbookAnchor = `/dashboard/member/learn/${moduleEntry.slug}#workbook` as Route;
+  const anchors = [
+    { id: "overview", label: "Overview" },
+    { id: "lecture", label: "Lecture" },
+    { id: "interactive", label: "Interactive" },
+    { id: "workbook", label: "Workbook" },
+  ];
+
   return (
     <AcademyProgressProvider initialProgress={progressMap} moduleOrder={moduleOrder}>
-      <div className="flex flex-col gap-6">
-        <div>
-          <Link
-            href="/dashboard/member/learn/welcome"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60 transition hover:text-[#3E2F35]"
-          >
-            ← Back to all modules
-          </Link>
-        </div>
-        <ModuleDetail
-          module={moduleEntry}
-          previousModule={
-            previousModule ? { slug: previousModule.slug, title: previousModule.title } : null
-          }
-          nextModule={nextModule ? { slug: nextModule.slug, title: nextModule.title } : null}
-        >
-          <LectureContent module={moduleEntry} />
-          <InteractiveSection moduleSlug={moduleEntry.slug} moduleTitle={moduleEntry.title} />
-        </ModuleDetail>
+      <div className="flex flex-col gap-6 md:mx-auto md:max-w-6xl md:flex-row md:items-start md:gap-8 md:py-6 lg:gap-10">
+        <ModuleSidebar modules={modules} activeSlug={moduleEntry.slug} sectionAnchors={anchors} />
 
-        {modules.length > 1 ? (
-          <section className="space-y-5 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-6 shadow-mauve-card">
-            <div className="space-y-3 text-center md:text-left">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
-                Continue the journey
-              </p>
-              <h2 className="font-serif text-2xl text-charcoal-700 md:text-[2rem]">Other chapters you may love</h2>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {modules
-                .filter((candidate) => candidate.slug !== moduleEntry.slug)
-                .slice(0, 4)
-                .map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/dashboard/member/learn/${item.slug}`}
-                    className="flex flex-col gap-2 rounded-academy border border-blush-300/60 bg-white/90 px-5 py-4 transition duration-200 ease-bloom hover:-translate-y-1 hover:shadow-blush-soft"
-                  >
-                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">
-                      {item.category ?? item.journey ?? "Module"}
-                    </span>
-                    <span className="font-serif text-lg text-charcoal-700">{item.title}</span>
-                    {item.subtitle ? (
-                      <span className="text-sm text-charcoal-400">{item.subtitle}</span>
-                    ) : null}
-                  </Link>
-                ))}
-            </div>
-          </section>
-        ) : null}
+        <div className="flex-1 space-y-6 md:space-y-10">
+          <div>
+            <Link
+              href="/dashboard/member/learn/welcome"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#3E2F35]/60 transition hover:text-[#3E2F35]"
+            >
+              ← Back to all modules
+            </Link>
+          </div>
+          <ModuleDetail
+            module={moduleEntry}
+            previousModule={
+              previousModule ? { slug: previousModule.slug, title: previousModule.title } : null
+            }
+            nextModule={nextModule ? { slug: nextModule.slug, title: nextModule.title } : null}
+          >
+            <LectureContent module={moduleEntry} />
+            <InteractiveSection moduleSlug={moduleEntry.slug} moduleTitle={moduleEntry.title} />
+          </ModuleDetail>
+
+          {modules.length > 1 ? (
+            <section className="space-y-5 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-6 shadow-mauve-card md:rounded-[2rem] md:p-8">
+              <div className="space-y-3 text-center md:text-left">
+                <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
+                  Continue the journey
+                </p>
+                <h2 className="font-serif text-2xl text-charcoal-700 md:text-[2rem]">Other chapters you may love</h2>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                {modules
+                  .filter((candidate) => candidate.slug !== moduleEntry.slug)
+                  .slice(0, 4)
+                  .map((item) => (
+                    <Link
+                      key={item.slug}
+                      href={`/dashboard/member/learn/${item.slug}`}
+                      className="flex flex-col gap-2 rounded-academy border border-blush-300/60 bg-white/90 px-5 py-4 transition duration-200 ease-bloom hover:-translate-y-1 hover:shadow-blush-soft"
+                    >
+                      <span className="text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-300">
+                        {item.category ?? item.journey ?? "Module"}
+                      </span>
+                      <span className="font-serif text-lg text-charcoal-700">{item.title}</span>
+                      {item.subtitle ? (
+                        <span className="text-sm text-charcoal-400">{item.subtitle}</span>
+                      ) : null}
+                    </Link>
+                  ))}
+              </div>
+            </section>
+          ) : null}
+        </div>
+
+        <ModuleToolsSidebar
+          module={moduleEntry}
+          workbookHref={workbookAnchor}
+          reflectionHref={`/dashboard/member/learn/${moduleEntry.slug}#interactive` as Route}
+        />
       </div>
     </AcademyProgressProvider>
   );

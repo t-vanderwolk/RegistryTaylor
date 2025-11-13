@@ -38,8 +38,8 @@ export default function ModuleCarousel({ modules }: ModuleCarouselProps) {
   const totalModules = modules.length;
 
   return (
-    <section className="space-y-5">
-      <header className="space-y-3 text-center md:text-left">
+    <section className="space-y-5 md:space-y-8">
+      <header className="space-y-3 text-center md:space-y-4 md:text-left">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
           Explore the academy
         </p>
@@ -56,7 +56,7 @@ export default function ModuleCarousel({ modules }: ModuleCarouselProps) {
         </p>
       </header>
 
-      <div className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto pb-1">
+      <div className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto pb-1 md:justify-start">
         {journeys.map((journey) => {
           const active = selectedJourney === journey.id;
           return (

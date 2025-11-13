@@ -24,9 +24,9 @@ export default function ProgressOverview({
   return (
     <section
       aria-label="Academy progress overview"
-      className="flex flex-col gap-6 rounded-[1.75rem] border border-blush-300/60 bg-white/95 p-5 shadow-mauve-card"
+      className="flex flex-col gap-6 rounded-[1.75rem] border border-blush-300/60 bg-white/95 p-5 shadow-mauve-card md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:gap-8 md:rounded-[2rem] md:p-8"
     >
-      <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-blush-200/30">
+      <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-blush-200/30 md:mx-0 md:h-48 md:w-48">
         {[...Array(PETALS)].map((_, index) => {
           const angle = (360 / PETALS) * index;
           const isFilled = index < filledPetals;
@@ -50,12 +50,12 @@ export default function ProgressOverview({
         </div>
       </div>
 
-      <div className="space-y-4 text-left">
+      <div className="space-y-4 text-left md:space-y-6">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight text-charcoal-700">
+          <h2 className="text-xl font-semibold tracking-tight text-charcoal-700 md:text-2xl">
             You’re blooming beautifully
           </h2>
-          <p className="mt-1 text-sm leading-relaxed text-charcoal-500">
+          <p className="mt-1 text-sm leading-relaxed text-charcoal-500 md:text-base">
             {completedModules}/{totalModules} concierge chapters complete. Keep the cadence gentle.
           </p>
         </div>

@@ -72,6 +72,8 @@ async function bootstrap() {
 
   server.use((req, res, nextFn) => {
     if (shouldPipeToBackend(req.path)) {
+      req.headers.cookie = req.headers.cookie || "";
+      req.headers.authorization = req.headers.authorization || "";
       return backendApp(req, res, nextFn);
     }
     return nextFn();

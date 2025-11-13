@@ -31,21 +31,21 @@ export default function AcademyHeader({ modules }: AcademyHeaderProps) {
     : "/dashboard/member/learn/welcome";
 
   return (
-    <section className="relative overflow-hidden rounded-academy-xl border border-blush-300/70 bg-ivory px-5 py-6 shadow-blush-lift md:px-14 md:py-16">
+    <section className="relative overflow-hidden rounded-academy-xl border border-blush-300/70 bg-ivory px-5 py-6 shadow-blush-lift md:rounded-[2.5rem] md:px-14 md:py-16">
       <div className="pointer-events-none absolute inset-0 bg-academy-card opacity-80" aria-hidden />
-      <div className="relative space-y-6 md:grid md:gap-12 md:grid-cols-[minmax(0,1.75fr)_minmax(0,1fr)] md:items-center">
-        <div className="space-y-4 md:space-y-6">
+      <div className="relative space-y-6 md:grid md:grid-cols-[minmax(0,1.9fr)_minmax(0,1fr)] md:items-center md:gap-14">
+        <div className="space-y-4 md:space-y-8">
           <span className="academy-pill bg-blush-200/70 text-charcoal-500">
             Taylor-Made Baby Academy
           </span>
           <div className="space-y-4">
-            <h1 className="font-serif text-2xl leading-tight text-charcoal-700 md:text-[3rem]">
+            <h1 className="font-serif text-2xl leading-tight text-charcoal-700 md:text-[3.2rem] md:leading-tight">
               Welcome to your guided studio
             </h1>
             <h2 className="text-xl font-semibold leading-tight text-mauve-500 md:font-serif md:text-[2.4rem]">
               Calm, tactile lessons curated for your Taylor-Made journey
             </h2>
-            <p className="text-sm leading-snug text-charcoal-500 md:text-base md:leading-relaxed">
+            <p className="text-sm leading-snug text-charcoal-500 md:text-lg md:leading-relaxed">
               Explore {total} concierge-crafted modules weaving storytelling, registry prompts, and workbook reflections.
               Each journey—Nursery, Gear, Postpartum—syncs with mentor notes and your concierge team in real time.
             </p>
@@ -59,7 +59,7 @@ export default function AcademyHeader({ modules }: AcademyHeaderProps) {
               ))}
             </div>
           ) : null}
-          <div className="space-y-1 text-xs uppercase tracking-[0.32em] text-charcoal-300">
+          <div className="space-y-1 text-xs uppercase tracking-[0.32em] text-charcoal-300 md:text-sm">
             <div className="flex flex-wrap gap-3">
               <span>{completed} modules celebrated</span>
               <span aria-hidden>•</span>

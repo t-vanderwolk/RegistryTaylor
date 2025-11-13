@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { Children, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { createPortal } from "react-dom";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import LectureRenderer from "@/components/academy/LectureRenderer";
 import WorkbookPanel from "@/components/academy/WorkbookPanel";
@@ -179,19 +181,26 @@ export default function ModuleDetail({
     }
   }, [module.slug]);
 
-  const lectureContent = children ?? (
+  const childArray = Children.toArray(children);
+  const lectureChild = childArray[0] ?? null;
+  const interactiveChild = childArray[1] ?? null;
+
+  const lectureContent = lectureChild ?? (
     <LectureRenderer
       blocks={lessonBlocks}
       mentorNote={module.content.mentorNote ?? null}
       onReflectionSave={handleReflectionSave}
     />
   );
+  const interactiveContent = interactiveChild;
+
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
 return (
   <div className="space-y-8 md:space-y-12">
       <ScrollProgress onProgressChange={setScrollPercent} />
 
-      <header className="space-y-6 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-8 shadow-blush-lift">
+      <header id="overview" className="space-y-6 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-6 shadow-blush-lift md:rounded-[2.5rem] md:p-10">
         <div className="flex flex-wrap items-start justify-between gap-8">
           <div className="space-y-4">
             <span className="academy-pill bg-white/80 text-charcoal-500">
@@ -219,13 +228,36 @@ return (
             />
           </div>
         </div>
+        {module.heroImage ? (
+          <button
+            type="button"
+            onClick={() => setLightboxSrc(module.heroImage!)}
+            className="relative mt-4 overflow-hidden rounded-3xl border border-blush-300/70 bg-ivory/80"
+          >
+            <Image
+              src={module.heroImage}
+              alt={module.title}
+              width={1280}
+              height={720}
+              sizes="100vw"
+              className="h-60 w-full object-cover md:h-72"
+              priority
+            />
+            <span className="absolute bottom-4 right-4 rounded-full bg-white/90 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-charcoal-400">
+              Expand
+            </span>
+          </button>
+        ) : null}
       </header>
 
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <div className="space-y-12">
+      <div className="space-y-12" id="lecture">
+        <div className="space-y-8 rounded-academy-xl border border-blush-300/70 bg-ivory/95 p-5 text-charcoal-500 shadow-mauve-card md:rounded-[2rem] md:p-8 md:prose md:prose-lg md:prose-headings:font-serif md:prose-p:leading-relaxed md:prose-blockquote:border-mauve-200 md:prose-li:marker:text-mauve-400">
           {lectureContent}
+        </div>
 
-          <div className="space-y-4 rounded-academy border border-blush-300/70 bg-white/90 px-6 py-5 text-sm text-charcoal-500 shadow-mauve-card">
+        <div id="interactive">{interactiveContent}</div>
+
+        <div className="space-y-4 rounded-academy border border-blush-300/70 bg-white/90 px-6 py-5 text-sm text-charcoal-500 shadow-mauve-card">
             <p className="text-sm font-semibold uppercase tracking-[0.32em] text-mauve-500/80">
               Wrap this chapter
             </p>
@@ -243,53 +275,49 @@ return (
             </button>
           </div>
 
-          {error ? (
-            <div className="rounded-3xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
-          ) : null}
+        {error ? (
+          <div className="rounded-3xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+        ) : null}
 
-          <motion.nav
-            className="flex flex-col gap-3 rounded-academy border border-blush-300/70 bg-ivory/95 px-6 py-4 text-sm text-charcoal-500 shadow-mauve-card md:flex-row md:items-center md:justify-between"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-start">
-              {previousModule ? (
-                <Link
-                  href={`/dashboard/member/learn/${previousModule.slug}` as Route}
-                  className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
-                >
-                  ← {previousModule.title}
-                </Link>
-              ) : (
-                <span className="text-sm text-charcoal-300">Start of journey</span>
-              )}
-              {nextModule ? (
-                <Link
-                  href={`/dashboard/member/learn/${nextModule.slug}` as Route}
-                  className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
-                >
-                  {nextModule.title} →
-                </Link>
-              ) : (
-                <span className="text-sm text-charcoal-300">You’ve reached the finale</span>
-              )}
+        <motion.nav
+          className="flex flex-col gap-3 rounded-academy border border-blush-300/70 bg-ivory/95 px-6 py-4 text-sm text-charcoal-500 shadow-mauve-card md:flex-row md:items-center md:justify-between"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-start">
+            {previousModule ? (
+              <Link
+                href={`/dashboard/member/learn/${previousModule.slug}` as Route}
+                className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
+              >
+                ← {previousModule.title}
+              </Link>
+            ) : (
+              <span className="text-sm text-charcoal-300">Start of journey</span>
+            )}
+            {nextModule ? (
+              <Link
+                href={`/dashboard/member/learn/${nextModule.slug}` as Route}
+                className="inline-flex items-center gap-2 font-semibold text-charcoal-600 transition hover:text-mauve-500"
+              >
+                {nextModule.title} →
+              </Link>
+            ) : (
+              <span className="text-sm text-charcoal-300">You’ve reached the finale</span>
+            )}
+          </div>
+          {localProgress.completed ? (
+            <div className="inline-flex items-center gap-2 text-sm font-semibold text-charcoal-600">
+              <CheckCircle2 className="h-4 w-4 text-mauve-500" aria-hidden />
+              <span>Lesson celebrated</span>
             </div>
-            {localProgress.completed ? (
-              <div className="inline-flex items-center gap-2 text-sm font-semibold text-charcoal-600">
-                <CheckCircle2 className="h-4 w-4 text-mauve-500" aria-hidden />
-                <span>Lesson celebrated</span>
-              </div>
-            ) : null}
-          </motion.nav>
-        </div>
-
-        <div className="hidden lg:block">
-          <WorkbookPanel moduleSlug={module.slug} moduleTitle={module.title} sections={workbookSections} />
-        </div>
+          ) : null}
+        </motion.nav>
       </div>
 
-      <div className="lg:hidden">
+      <div id="workbook" className="block h-0" aria-hidden />
+      <div className="md:hidden">
         <WorkbookPanel moduleSlug={module.slug} moduleTitle={module.title} sections={workbookSections} />
       </div>
 
@@ -306,6 +334,34 @@ return (
           </motion.div>
         ) : null}
       </AnimatePresence>
+
+      {nextModule ? (
+        <Link
+          href={`/dashboard/member/learn/${nextModule.slug}` as Route}
+          className="hidden md:inline-flex fixed bottom-6 right-8 items-center gap-3 rounded-full border border-mauve-500/40 bg-white/95 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-charcoal-600 shadow-lg transition hover:bg-mauve-500 hover:text-white"
+        >
+          Next module →
+        </Link>
+      ) : null}
+
+      {lightboxSrc
+        ? createPortal(
+            <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[rgba(10,4,6,0.8)] p-6">
+              <button
+                type="button"
+                aria-label="Close image"
+                onClick={() => setLightboxSrc(null)}
+                className="absolute right-6 top-6 rounded-full border border-white/40 p-2 text-white transition hover:bg-white/10"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <div className="relative h-full w-full max-w-5xl">
+                <Image src={lightboxSrc} alt={module.title} fill className="object-contain" />
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

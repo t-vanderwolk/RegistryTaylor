@@ -8,10 +8,19 @@ const next = require("next");
 
 const resolveFromRoot = (...segments) => path.join(__dirname, ...segments);
 
-const rootEnvPath = resolveFromRoot(".env");
-if (fs.existsSync(rootEnvPath)) {
-  dotenv.config({ path: rootEnvPath });
-} else {
+const loadEnvFile = (filename, override = false) => {
+  const envPath = resolveFromRoot(filename);
+  if (!fs.existsSync(envPath)) {
+    return false;
+  }
+  dotenv.config({ path: envPath, override });
+  return true;
+};
+
+const loadedBaseEnv = loadEnvFile(".env");
+const loadedLocalEnv = loadEnvFile(".env.local", true);
+
+if (!loadedBaseEnv && !loadedLocalEnv) {
   dotenv.config();
 }
 
@@ -185,7 +194,7 @@ async function bootstrap() {
 
   server.all("*", (req, res) => handle(req, res));
 
-  const port = Number.parseInt(process.env.PORT || "3000", 10);
+  const port = Number.parseInt(process.env.PORT || "5050", 10);
   httpServer = http.createServer(server);
   httpServer.on("error", (error) => {
     console.error("❌ Failed to start unified server", error);

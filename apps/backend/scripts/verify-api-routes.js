@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base = "https://taylor-made.herokuapp.com/api";
+const base = "https://www.taylormadebabyco.com/api";
 const endpoints = ["/health", "/auth/login", "/academy"];
 
 (async () => {

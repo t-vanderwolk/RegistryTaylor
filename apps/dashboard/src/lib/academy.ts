@@ -2,6 +2,7 @@ import axios from "axios";
 import { addModuleFocusToRegistry } from "@/lib/registry";
 import { API_URL, apiFetch } from "@/lib/apiClient";
 import { getMemberToken, getSession } from "@/lib/auth";
+import staticModules from "@/data/academyModules.json";
 import type {
   AcademyModule,
   ModuleContentBlock,
@@ -91,9 +92,11 @@ async function fetchAcademyApi<T>(endpoint: string): Promise<T> {
     throw new Error("Not authenticated");
   }
 
+  const token = session.token;
   const response = await axios.get<T>(`${API_URL}/api/academy${endpoint}`, {
     headers: {
-      Authorization: `Bearer ${session.token}`,
+      Authorization: `Bearer ${token}`,
+      Cookie: `token=${token}`,
     },
     withCredentials: true,
   });
@@ -581,9 +584,36 @@ function mapRecordToBackend(record: ModuleRecord): BackendModule {
   };
 }
 
+function mapStaticModuleToRecord(
+  module: (typeof staticModules)[number],
+  index: number,
+): ModuleRecord {
+  const moduleAny = module as Record<string, any>;
+  const content = (moduleAny.content as Record<string, any>) ?? {};
+  return {
+    id: moduleAny.id ?? `static-${index}`,
+    slug: moduleAny.slug,
+    title: moduleAny.title,
+    summary: moduleAny.subtitle ?? moduleAny.summary ?? moduleAny.title,
+    category: moduleAny.category ?? moduleAny.journey ?? "Academy",
+    lecture: typeof content.lecture === "string" ? content.lecture : "",
+    workbookPrompt: typeof content.journalPrompt === "string" ? content.journalPrompt : "",
+    order: typeof moduleAny.order === "number" ? moduleAny.order : index,
+    content: moduleAny.content ?? {},
+    progress: [],
+  };
+}
+
 async function fetchModuleRecords(): Promise<BackendModule[]> {
-  const data = await fetchAcademyApi<{ modules: ModuleRecord[] }>("/modules");
-  return data.modules.map((record) => mapRecordToBackend(record));
+  try {
+    const data = await fetchAcademyApi<{ modules: ModuleRecord[] }>("/modules");
+    return data.modules.map((record) => mapRecordToBackend(record));
+  } catch (error) {
+    console.warn("fetchModuleRecords failed; using static module dataset.", error);
+    return staticModules.map((module, index) =>
+      mapRecordToBackend(mapStaticModuleToRecord(module, index)),
+    );
+  }
 }
 
 async function fetchModuleRecordBySlug(slug: string): Promise<BackendModule | undefined> {
@@ -594,7 +624,12 @@ async function fetchModuleRecordBySlug(slug: string): Promise<BackendModule | un
     if (axios.isAxiosError(error) && error.response?.status === 404) {
       return undefined;
     }
-    throw error;
+    console.warn(`fetchModuleRecordBySlug fallback for ${slug}`, error);
+    const moduleIndex = staticModules.findIndex((item) => item.slug === slug);
+    if (moduleIndex === -1) {
+      return undefined;
+    }
+    return mapRecordToBackend(mapStaticModuleToRecord(staticModules[moduleIndex], moduleIndex));
   }
 }
 

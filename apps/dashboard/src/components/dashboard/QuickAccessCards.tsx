@@ -74,20 +74,22 @@ export default function QuickAccessCards({
   const mentorDate = formatDateLabel(mentor.dateLabel);
 
   return (
-    <section aria-label="Quick access" className="space-y-3">
+    <section aria-label="Quick access" className="space-y-3 md:space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold tracking-tight text-charcoal-700">Quick access</h2>
-        <span className="text-xs uppercase tracking-[0.32em] text-charcoal-300">Swipe →</span>
+        <h2 className="font-[var(--font-playfair)] text-2xl text-charcoal-700">Quick access</h2>
+        <span className="text-xs uppercase tracking-[0.32em] text-charcoal-300 md:hidden">Swipe →</span>
       </div>
-      <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-2 md:gap-6 md:snap-none md:overflow-visible xl:grid-cols-4">
         <motion.article
-        {...cardMotion}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-        className="group flex min-w-[290px] max-w-[320px] snap-center flex-col gap-3 rounded-[1.5rem] border border-blush-300/60 bg-ivory/90 p-4 shadow-mauve-card backdrop-blur-sm"
-      >
+          {...cardMotion}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="group flex min-w-[220px] max-w-[240px] snap-center flex-col gap-3 rounded-2xl border border-mauve-200/60 bg-gradient-to-br from-ivory via-white to-blush-100 p-4 text-charcoal-600 shadow-mauve-card transition hover:-translate-y-1 hover:shadow-blush-soft md:min-w-0 md:max-w-none"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-lg">🍼</span>
-            <span className="dashboard-pill border-mauve-500/20 bg-white/70 text-[0.55rem] shadow-none">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/80 text-xl" aria-hidden>
+              🍼
+            </span>
+            <span className="dashboard-pill border-mauve-500/20 bg-white/70 text-[0.55rem] text-mauve-600 shadow-none">
               Academy
             </span>
           </div>
@@ -107,20 +109,22 @@ export default function QuickAccessCards({
           </div>
           <Link
             href={academy.href as Route}
-            className="academy-button mt-1 justify-center gap-2 bg-mauve-500/90 text-white"
+            className="mt-1 inline-flex items-center justify-center rounded-full bg-mauve-500/90 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-soft transition hover:bg-mauve-600"
           >
             Continue
           </Link>
         </motion.article>
 
         <motion.article
-        {...cardMotion}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="group flex min-w-[290px] max-w-[320px] snap-center flex-col gap-3 rounded-[1.5rem] border border-blush-300/60 bg-white/90 p-4 shadow-blush-soft backdrop-blur-sm"
-      >
+          {...cardMotion}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="group flex min-w-[220px] max-w-[240px] snap-center flex-col gap-3 rounded-2xl border border-mauve-200/60 bg-white/95 p-4 text-charcoal-600 shadow-mauve-card transition hover:-translate-y-1 hover:shadow-blush-soft md:min-w-0 md:max-w-none"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-lg">🎯</span>
-            <span className="dashboard-pill border-mauve-500/20 bg-white/80 text-[0.55rem] shadow-none">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-blush-100 text-xl" aria-hidden>
+              🎯
+            </span>
+            <span className="dashboard-pill border-mauve-500/20 bg-white/80 text-[0.55rem] text-mauve-600 shadow-none">
               Registry
             </span>
           </div>
@@ -138,20 +142,22 @@ export default function QuickAccessCards({
           </div>
           <Link
             href={registry.href as Route}
-            className="academy-outline-button mt-1 justify-center gap-2"
+            className="mt-1 inline-flex items-center justify-center rounded-full border border-mauve-500/30 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-600 transition hover:border-mauve-500 hover:text-mauve-600"
           >
             Open registry
           </Link>
         </motion.article>
 
         <motion.article
-        {...cardMotion}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="group flex min-w-[290px] max-w-[320px] snap-center flex-col gap-3 rounded-[1.5rem] border border-blush-300/70 bg-ivory p-4 shadow-mauve-card"
-      >
+          {...cardMotion}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="group flex min-w-[220px] max-w-[240px] snap-center flex-col gap-3 rounded-2xl border border-mauve-200/60 bg-ivory p-4 text-charcoal-600 shadow-mauve-card transition hover:-translate-y-1 hover:shadow-blush-soft md:min-w-0 md:max-w-none"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-lg">🫶</span>
-            <span className="dashboard-pill border-mauve-500/30 bg-white/70 text-[0.55rem] shadow-none">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/80 text-xl" aria-hidden>
+              🫶
+            </span>
+            <span className="dashboard-pill border-mauve-500/30 bg-white/70 text-[0.55rem] text-mauve-600 shadow-none">
               Reflection
             </span>
           </div>
@@ -166,20 +172,22 @@ export default function QuickAccessCards({
           </p>
           <Link
             href={reflection.href as Route}
-            className="academy-outline-button mt-1 justify-center gap-2"
+            className="mt-1 inline-flex items-center justify-center rounded-full border border-mauve-500/30 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-600 transition hover:border-mauve-500 hover:text-mauve-600"
           >
             Open journal
           </Link>
         </motion.article>
 
         <motion.article
-        {...cardMotion}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="group flex min-w-[290px] max-w-[320px] snap-center flex-col gap-3 rounded-[1.5rem] border border-blush-300/70 bg-ivory p-4 shadow-mauve-card"
-      >
+          {...cardMotion}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="group flex min-w-[220px] max-w-[240px] snap-center flex-col gap-3 rounded-2xl border border-mauve-200/60 bg-gradient-to-br from-white to-blush-100 p-4 text-charcoal-600 shadow-mauve-card transition hover:-translate-y-1 hover:shadow-blush-soft md:min-w-0 md:max-w-none"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-lg">🎓</span>
-            <span className="dashboard-pill border-mauve-500/30 bg-white/70 text-[0.55rem] shadow-none">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/80 text-xl" aria-hidden>
+              🎓
+            </span>
+            <span className="dashboard-pill border-mauve-500/30 bg-white/70 text-[0.55rem] text-mauve-600 shadow-none">
               Mentor
             </span>
           </div>
@@ -194,7 +202,7 @@ export default function QuickAccessCards({
           </p>
           <Link
             href={mentor.href as Route}
-            className="academy-button mt-1 justify-center gap-2 bg-mauve-500/90 text-white"
+            className="mt-1 inline-flex items-center justify-center rounded-full bg-mauve-500/90 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-soft transition hover:bg-mauve-600"
           >
             View details
           </Link>

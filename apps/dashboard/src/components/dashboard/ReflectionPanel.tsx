@@ -35,22 +35,23 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
   );
 
   return (
-    <section className="rounded-[1.75rem] border border-blush-300/70 bg-ivory/95 p-5 shadow-mauve-card md:grid md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:gap-8 md:rounded-[2rem] md:p-8">
+    <section className="rounded-2xl border border-mauve-200/60 bg-ivory/95 p-5 shadow-mauve-card md:grid md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:gap-8 md:rounded-[2rem] md:p-8">
       <div className="space-y-4">
-        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-charcoal-300">
+        <p className="text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-mauve-600">
           Reflections
         </p>
-        <div className="flex flex-wrap items-center gap-2">
-          <h2 className="text-xl font-semibold tracking-tight text-charcoal-700">
+        <div className="flex flex-wrap items-center gap-3">
+          <h2 className="font-[var(--font-playfair)] text-2xl text-charcoal-700">
             Gentle check-ins
           </h2>
-          <div className="flex items-center gap-1 rounded-full border border-blush-300/60 bg-white/80 p-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-charcoal-400">
+          <div className="flex items-center gap-1 rounded-full border border-mauve-200/70 bg-white/80 p-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-charcoal-400">
             <button
               type="button"
               onClick={() => setActiveTab("mine")}
-              className={`rounded-full px-2.5 py-1 transition ${
-                activeTab === "mine" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
-              }`}
+              className={[
+                "rounded-full px-3 py-1.5 transition",
+                activeTab === "mine" ? "bg-mauve-500 text-white shadow-blush-pill" : "",
+              ].join(" ")}
               aria-pressed={activeTab === "mine"}
             >
               Mine
@@ -58,9 +59,10 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
             <button
               type="button"
               onClick={() => setActiveTab("community")}
-              className={`rounded-full px-2.5 py-1 transition ${
-                activeTab === "community" ? "bg-mauve-500 text-white shadow-blush-pill" : ""
-              }`}
+              className={[
+                "rounded-full px-3 py-1.5 transition",
+                activeTab === "community" ? "bg-mauve-500 text-white shadow-blush-pill" : "",
+              ].join(" ")}
               aria-pressed={activeTab === "community"}
             >
               Community
@@ -78,7 +80,7 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
           <button
             type="button"
             onClick={() => setShareMode("named")}
-            className={`rounded-full border px-2 py-1 ${
+            className={`rounded-full border px-3 py-1.5 transition ${
               shareMode === "named" ? "border-mauve-500 text-mauve-600" : "border-transparent"
             }`}
             aria-pressed={shareMode === "named"}
@@ -88,7 +90,7 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
           <button
             type="button"
             onClick={() => setShareMode("anonymous")}
-            className={`rounded-full border px-2 py-1 ${
+            className={`rounded-full border px-3 py-1.5 transition ${
               shareMode === "anonymous" ? "border-mauve-500 text-mauve-600" : "border-transparent"
             }`}
             aria-pressed={shareMode === "anonymous"}
@@ -107,7 +109,7 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
             className="grid gap-3"
           >
             {displayList.length === 0 ? (
-              <div className="rounded-[1.5rem] border border-dashed border-blush-300/70 bg-white/80 p-4 text-sm leading-relaxed text-charcoal-400">
+              <div className="rounded-[1.5rem] border border-dashed border-mauve-200/70 bg-white/80 p-4 text-sm leading-relaxed text-charcoal-400">
                 {activeTab === "mine"
                   ? "You haven’t captured a reflection yet. Open the journal to jot down today’s thought or feeling."
                   : "Community highlights will appear here once members choose to share. Check back soon for tender snippets."}
@@ -116,7 +118,7 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
               displayList.map((entry) => (
                 <article
                   key={entry.id}
-                  className="flex flex-col gap-2 rounded-[1.5rem] border border-blush-300/70 bg-white/90 p-4 shadow-mauve-card"
+                  className="flex flex-col gap-2 rounded-[1.5rem] border border-mauve-200/70 bg-white/90 p-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-mauve-card"
                 >
                   <blockquote className="flex-1 space-y-1 text-charcoal-500">
                     <p className="text-lg font-semibold tracking-tight text-charcoal-700 line-clamp-2">“{entry.title}”</p>
@@ -147,7 +149,7 @@ export default function ReflectionPanel({ reflections, communityHighlights }: Re
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 md:flex-col md:items-stretch md:justify-start md:gap-4">
         <Link
           href="/dashboard/member/journal"
-          className="academy-button justify-center gap-2 bg-mauve-500/90 text-white"
+          className="inline-flex items-center justify-center rounded-full bg-mauve-500/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-mauve-600"
         >
           Open Reflection Studio
         </Link>

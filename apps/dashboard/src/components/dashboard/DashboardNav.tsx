@@ -67,7 +67,10 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
 
   if (orientation === "horizontal") {
     return (
-      <nav className="flex snap-x snap-mandatory gap-2 overflow-x-auto rounded-full border border-mauve-100 bg-white/90 px-2 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-charcoal-500 shadow-sm">
+      <nav
+        aria-label="Dashboard sections"
+        className="flex snap-x snap-mandatory gap-2 overflow-x-auto rounded-full border border-mauve-200/60 bg-ivory/90 px-2 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-charcoal-500 shadow-mauve-card backdrop-blur"
+      >
         {NAV_ITEMS.map((item) => {
           const active = current === item.tab;
           return (
@@ -75,8 +78,8 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
               key={item.href}
               href={item.href}
               className={[
-                "min-w-[8rem] snap-center rounded-full px-3 py-1 text-center transition",
-                active ? "bg-mauve-500/15 text-mauve-600" : "hover:text-mauve-600",
+                "min-w-[8rem] snap-center rounded-full px-3 py-2 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-500/40",
+                active ? "bg-mauve-500/15 text-mauve-600 shadow-inner" : "hover:text-mauve-600",
               ].join(" ")}
             >
               {item.label}
@@ -88,7 +91,10 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
   }
 
   return (
-    <nav className="grid gap-1 text-sm font-semibold text-charcoal-700">
+    <nav
+      aria-label="Dashboard sections"
+      className="grid gap-2 rounded-3xl border border-mauve-200/70 bg-white/90 p-4 text-sm font-semibold text-charcoal-700 shadow-mauve-card"
+    >
       {NAV_ITEMS.map((item) => {
         const active = current === item.tab;
         return (
@@ -96,10 +102,10 @@ export default function DashboardNav({ orientation = "vertical" }: DashboardNavP
             key={item.href}
             href={item.href}
             className={[
-              "flex items-center justify-between rounded-2xl border border-transparent px-3 py-3 transition-colors",
+              "flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-500/30",
               active
-                ? "border-mauve-500 bg-white text-mauve-700"
-                : "bg-white text-charcoal-700 hover:text-mauve-700",
+                ? "border-mauve-500/40 bg-mauve-100/40 text-mauve-700 shadow-soft"
+                : "bg-ivory text-charcoal-700 hover:border-mauve-500/40 hover:text-mauve-700",
             ].join(" ")}
           >
             <span>{item.label}</span>

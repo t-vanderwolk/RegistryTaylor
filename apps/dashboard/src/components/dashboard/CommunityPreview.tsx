@@ -62,7 +62,7 @@ export default function CommunityPreview({ posts }: CommunityPreviewProps) {
           posts.map((post) => (
             <Link
               key={post.id}
-              href="/dashboard/connect"
+              href="/dashboard/member/community"
               className="group flex items-start gap-4 rounded-[1.9rem] border border-[#EAD6DE] bg-white/90 px-5 py-6 shadow-[0_16px_40px_rgba(200,161,180,0.16)] transition hover:-translate-y-1 hover:bg-gradient-to-br hover:from-[#FFFAF8] hover:via-[#F6E7ED] hover:to-[#EAC9D1]/45"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#EAC9D1] to-[#C8A1B4] text-sm font-semibold text-white shadow-[0_10px_20px_rgba(200,161,180,0.3)]">
@@ -85,7 +85,7 @@ export default function CommunityPreview({ posts }: CommunityPreviewProps) {
       </div>
 
       <Link
-        href="/dashboard/connect"
+        href="/dashboard/member/community"
         className="mt-6 inline-flex items-center justify-center rounded-full border border-[#D9C48E] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.32em] text-[#3E2F35] shadow-[0_18px_40px_rgba(200,161,180,0.18)] transition hover:-translate-y-0.5 hover:bg-white"
       >
         Open Connect Hub

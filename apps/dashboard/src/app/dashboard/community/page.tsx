@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function LegacyCommunityPage() {
-  redirect("/dashboard/connect");
+  redirect("/dashboard/member/community");
 }

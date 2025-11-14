@@ -23,9 +23,113 @@ if (!process.env.POSTCSS_CONFIG) {
   process.env.POSTCSS_CONFIG = resolveFromRoot("apps/dashboard/postcss.config.js");
 }
 
-const NEXT_API_HANDLED_PATHS = ["/api/session", "/api/member-dashboard"];
-const isNextHandledApi = (urlPath = "") =>
-  NEXT_API_HANDLED_PATHS.some((path) => urlPath === path || urlPath.startsWith(`${path}/`));
+const NEXT_APP_DIR = resolveFromRoot("apps/dashboard");
+const NEXT_API_ROOT = path.join(NEXT_APP_DIR, "src/app/api");
+
+const ROUTE_FILE_PATTERN = /^route\.(t|j)sx?$/i;
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildRouteRegex(routePath) {
+  const normalized = routePath.startsWith("/") ? routePath : `/${routePath}`;
+  const segments = normalized.split("/").filter(Boolean);
+  if (segments.length === 0) {
+    return /^\/$/;
+  }
+
+  let pattern = "^";
+  for (const segment of segments) {
+    if (/^\[\[\.\.\.(.+)\]\]$/.test(segment)) {
+      // Optional catch-all
+      pattern += "(?:/.*)?";
+      continue;
+    }
+
+    if (/^\[\.\.\.(.+)\]$/.test(segment)) {
+      // Catch-all
+      pattern += "/.+";
+      continue;
+    }
+
+    if (/^\[(.+)\]$/.test(segment)) {
+      // Dynamic
+      pattern += "/[^/]+";
+      continue;
+    }
+
+    pattern += `/${escapeRegex(segment)}`;
+  }
+
+  pattern += "/?$";
+  return new RegExp(pattern);
+}
+
+function discoverNextApiRoutes(rootDir) {
+  const discovered = new Set();
+
+  function walk(currentRelativePath) {
+    const directory = path.join(rootDir, currentRelativePath);
+    let entries;
+    try {
+      entries = fs.readdirSync(directory, { withFileTypes: true });
+    } catch {
+      return;
+    }
+
+    for (const entry of entries) {
+      const nextRelativePath = currentRelativePath ? path.join(currentRelativePath, entry.name) : entry.name;
+      if (entry.isDirectory()) {
+        walk(nextRelativePath);
+        continue;
+      }
+
+      if (entry.isFile() && ROUTE_FILE_PATTERN.test(entry.name)) {
+        const segments = currentRelativePath.split(path.sep).filter(Boolean);
+        if (segments.length === 0) {
+          continue;
+        }
+        const routePath = `/api/${segments.join("/")}`;
+        discovered.add(routePath);
+      }
+    }
+  }
+
+  walk("");
+  return Array.from(discovered);
+}
+
+const FALLBACK_NEXT_APIS = ["/api/session", "/api/member-dashboard"];
+const NEXT_API_HANDLED_PATHS = (() => {
+  const discovered = discoverNextApiRoutes(NEXT_API_ROOT);
+  const combined = new Set([...discovered, ...FALLBACK_NEXT_APIS]);
+  return Array.from(combined);
+})();
+
+const NEXT_API_ROUTE_MATCHERS = NEXT_API_HANDLED_PATHS.map((routePath) => ({
+  routePath,
+  matcher: buildRouteRegex(routePath),
+}));
+
+const FORCED_NEXT_PREFIXES = [
+  "/api/member-dashboard",
+  "/api/academy",
+  "/api/registry",
+  "/api/registry-items",
+  "/api/registryNotes",
+  "/api/catalog-items",
+];
+
+const isNextHandledApi = (urlPath = "") => {
+  if (!urlPath) {
+    return false;
+  }
+  if (FORCED_NEXT_PREFIXES.some((prefix) => urlPath === prefix || urlPath.startsWith(`${prefix}/`))) {
+    return true;
+  }
+  return NEXT_API_ROUTE_MATCHERS.some(({ matcher }) => matcher.test(urlPath));
+};
 
 const shouldPipeToBackend = (urlPath = "") => {
   if (isNextHandledApi(urlPath)) {

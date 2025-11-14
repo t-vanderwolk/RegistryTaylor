@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,27 +16,64 @@ const NAV_ITEMS = [
 
 export default function MobileFooterNav() {
   const pathname = usePathname() ?? "";
+  const [expanded, setExpanded] = useState(true);
+
+  const toggle = useCallback(() => {
+    setExpanded((prev) => !prev);
+  }, []);
+
+  useEffect(() => {
+    setExpanded(true);
+  }, [pathname]);
 
   return (
-    <nav className="md:hidden max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:z-50 border-t border-blush-300/60 bg-white/95 py-2 shadow-[0_-12px_25px_rgba(200,161,180,0.18)]">
-      <div className="mx-auto flex max-w-[420px] gap-2 overflow-x-auto px-4 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-charcoal-400">
-        {NAV_ITEMS.map((item) => {
-          const active = pathname?.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex min-w-[4.25rem] flex-1 flex-col items-center gap-0.5 rounded-full px-2 py-1 transition ${
-                active ? "bg-blush-200/70 text-charcoal-700" : "hover:text-charcoal-600"
-              }`}
-              aria-current={active ? "page" : undefined}
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 md:hidden">
+      <div
+        className={[
+          "pointer-events-auto px-4 transition-transform duration-300 ease-out",
+          expanded ? "translate-y-0" : "translate-y-[calc(100%-4.5rem)]",
+        ].join(" ")}
+      >
+        <nav
+          aria-label="Primary mobile navigation"
+          className="rounded-[2rem] border border-mauve-200/70 bg-ivory/95 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-mauve-card backdrop-blur"
+        >
+          <div className="flex items-center justify-center">
+            <button
+              type="button"
+              onClick={toggle}
+              aria-expanded={expanded}
+              aria-label="Toggle footer navigation"
+              className="mt-2 inline-flex items-center gap-2 rounded-full border border-mauve-200/70 bg-white px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-charcoal-500 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-500/40"
             >
-              <span aria-hidden>{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
+              <span>{expanded ? "Close" : "Open"}</span>
+              <span aria-hidden>{expanded ? "▾" : "▴"}</span>
+            </button>
+          </div>
+
+          <div className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-charcoal-500">
+            {NAV_ITEMS.map((item) => {
+              const active = pathname?.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={[
+                    "flex min-w-[4.5rem] flex-col items-center gap-1 rounded-2xl px-3 py-3 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mauve-500/40",
+                    active ? "bg-mauve-500/20 text-charcoal-700 shadow-soft" : "bg-white/60 hover:text-mauve-600",
+                  ].join(" ")}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <span aria-hidden className="text-lg">
+                    {item.icon}
+                  </span>
+                  <span className={expanded ? "block" : "sr-only"}>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
       </div>
-    </nav>
+    </div>
   );
 }

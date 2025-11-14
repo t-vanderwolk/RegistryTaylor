@@ -96,7 +96,7 @@ export default async function WelcomePage() {
   const modules = mergeModules(allModules, dynamicModules);
 
   return (
-    <div className="flex flex-col gap-6 md:mx-auto md:max-w-6xl md:flex-row md:items-start md:gap-10 md:py-6">
+    <div className="flex flex-col gap-6 text-charcoal-700 md:mx-auto md:max-w-6xl md:flex-row md:items-start md:gap-10 md:py-8">
       <ModuleSidebar modules={modules} title="Your journeys" />
       <div className="flex-1 space-y-6 md:space-y-10">
         <AcademyHeader modules={modules} />

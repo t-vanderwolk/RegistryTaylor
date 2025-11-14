@@ -36,6 +36,16 @@ function decodeToken(token: string, secret: string): SessionUser | null {
   }
 }
 
+function resolveJwtSecret(): string | null {
+  const secret =
+    process.env.JWT_SECRET ??
+    process.env.NEXT_PUBLIC_JWT_SECRET ??
+    process.env.API_JWT_SECRET ??
+    process.env.SECRET_KEY ??
+    null;
+  return secret ?? "tmbc_secret_key";
+}
+
 export async function GET() {
   const cookieStore = cookies();
   const token = cookieStore.get(TOKEN_COOKIE)?.value;
@@ -44,7 +54,7 @@ export async function GET() {
     return unauthenticatedResponse;
   }
 
-  const secret = process.env.JWT_SECRET;
+  const secret = resolveJwtSecret();
   if (!secret) {
     console.error("GET /api/session missing JWT_SECRET");
     return NextResponse.json(

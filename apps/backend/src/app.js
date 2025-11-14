@@ -19,6 +19,7 @@ import profilesRoutes from "./routes/profiles.js";
 import registryRoutes from "./routes/registry.js";
 import workbookRoutes from "./routes/workbook.js";
 import adminInvitesRoutes from "./routes/admin/invites.js";
+import myRegistryRoutes from "./routes/myRegistryRoutes.js";
 import { logError } from "./utils/logger.js";
 
 const app = express();
@@ -135,6 +136,7 @@ app.use("/api/messages", messagesRoutes);
 app.use("/api/registry", registryRoutes);
 app.use("/api/workbook", workbookRoutes);
 app.use("/api/admin/invites", adminInvitesRoutes);
+app.use("/api/myregistry", myRegistryRoutes);
 
 /* -------------------- 🚫 404 Handler -------------------- */
 app.use((req, res) => {

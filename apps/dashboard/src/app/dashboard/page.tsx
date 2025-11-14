@@ -1,19 +1,14 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import type { Route } from "next";
-import type { AuthenticatedUser } from "@/lib/auth";
-
-const STORAGE_KEY = "tm_user";
+import { fetchAuthenticatedUser } from "@/lib/auth";
 
 type DashboardRoute = Extract<
   Route,
   "/login" | "/dashboard/member" | "/dashboard/mentor" | "/dashboard/admin"
 >;
 
-function getDashboardPath(user: AuthenticatedUser | null): DashboardRoute {
-  switch (user?.role) {
+function getDashboardPath(role?: string | null): DashboardRoute {
+  switch (role) {
     case "ADMIN":
       return "/dashboard/admin";
     case "MENTOR":
@@ -25,27 +20,14 @@ function getDashboardPath(user: AuthenticatedUser | null): DashboardRoute {
   }
 }
 
-export default function DashboardIndexPage() {
-  const router = useRouter();
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-  useEffect(() => {
-    const stored =
-      typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
+export default async function DashboardIndexPage() {
+  const user = await fetchAuthenticatedUser();
+  if (!user) {
+    redirect("/login");
+  }
 
-    try {
-      const user = stored ? (JSON.parse(stored) as AuthenticatedUser) : null;
-      router.replace(getDashboardPath(user));
-    } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
-      router.replace("/login");
-    }
-  }, [router]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-tm-ivory text-tm-charcoal">
-      <p className="text-sm font-semibold uppercase tracking-[0.35em] text-tm-mauve/70">
-        Redirecting…
-      </p>
-    </div>
-  );
+  redirect(getDashboardPath(user.role));
 }
